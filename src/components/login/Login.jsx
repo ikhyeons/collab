@@ -1,6 +1,8 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
 
+
+//로그인 창 div
 const Sdiv = styled.div`
     min-width : 130px;
     width : 20%;
@@ -8,15 +10,12 @@ const Sdiv = styled.div`
     height : 100vh;
     display : flex;
 `
-
-const Sform1 = styled.form`
+//로그인 창 form
+const Sform = styled.form`
     width : 93%;
 `
 
-const Sform2 = styled.form`
-    width : 93%;
-`
-
+//로그인 창 input
 const Sinput = styled.input`
     width : 93%;
     height : 10px;
@@ -26,6 +25,7 @@ const Sinput = styled.input`
     font-size : 25px;
 `
 
+//로그인 창 button
 const Sbutton = styled.button`
     min-width : 105px;
     width : 41%;
@@ -40,19 +40,22 @@ const Sbutton = styled.button`
 `
 
 const Login = () => {
+
+    //로그인창 ←→ 회원가입 창 왔다갔다 할때 사용되는 변수
     const [join, setJoin] = useState(0);
+
+    //input데이터
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [nickname, setNickname] = useState('');
 
+    //input데이터 value 설정
     const inputEmail = (e)=>{
         setEmail(e.target.value);
     }
-
     const inputPassword = (e)=>{
         setPassword(e.target.value);
     }
-    
     const inputNickname = (e)=>{
         setNickname(e.target.value);
     }
@@ -61,7 +64,7 @@ const Login = () => {
     <Sdiv>
         {
             join===0 && 
-            <Sform1 action="">
+            <Sform action="">
                 <h2>로그인</h2>
                 <p>이메일</p>
                 <Sinput type="email" placeholder="email"
@@ -84,11 +87,11 @@ const Login = () => {
                     e.preventDefault()
                     setJoin(1);
                 }}>회원가입</Sbutton>
-            </Sform1>
+            </Sform>
         }
         {
             join===1 && 
-            <Sform2 action="">
+            <Sform action="">
                 <h2>회원가입</h2>
                 <p>이메일</p>
                 <Sinput type="email" placeholder="email"
@@ -117,11 +120,8 @@ const Login = () => {
                 <Sbutton onClick={(e)=>{
                     setJoin(0);
                 }}>이전</Sbutton>
-            </Sform2>
+            </Sform>
         }
-        
-
-        
     </Sdiv>
   )
 }

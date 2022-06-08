@@ -1,13 +1,11 @@
 import React, {useState} from "react";
 import styled from 'styled-components';
 import DetailProject from './DetailProject'
-import Modal from './Modal'
 import ModalName from "./NameModal";
-import { ScrollMenu } from "react-horizontal-scrolling-menu";
 
 //화면 상단 로고 부분 div
 const Logodiv = styled.div`
-    height: 50vh;
+    height: 34vh;
     width: 95vw;
     display:flex;
     justify-content:space-between;
@@ -23,7 +21,7 @@ const Logoname = styled.h1`
 const Namediv = styled.div`
     border-bottom:1px solid grey;
     width: 130px;
-    margin-left:37px;
+    margin-left:70px;
 `;
 
 //화면하단 프로젝트  div
@@ -31,8 +29,9 @@ const Projectdiv = styled.div`
     margin-bottom: 10px;
     width: 95vw;
     overflow:scroll;
+    text-align:center;
     background : white;
-    height : 40vh;
+    height : 55vh;
     overflow-y:hidden;
     ::-webkit-scrollbar {
         height: 5px;
@@ -71,48 +70,33 @@ const Username = styled.button`
     border: 1px solid white;
 `;
 
-
+const ScrollMenu = styled.div`
+    display:flex;
+    justify-content:center;
+`;
 //  react-horizontal-scrolling-menu 동작을 위한 onWheel 함수
-function onWheel(apiObj, ev) {
-    const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15;
+// function onWheel(apiObj, ev) {
+//     const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15;
   
-    if (isThouchpad) {
-      ev.stopPropagation();
-      return;
-    }
+//     if (isThouchpad) {
+//       ev.stopPropagation();
+//       return;
+//     }
   
-    if (ev.deltaY < 0) {
-      apiObj.scrollNext();
-    } else if (ev.deltaY > 0) {
-      apiObj.scrollPrev();
-    }
-  }
+//     if (ev.deltaY < 0) {
+//       apiObj.scrollNext();
+//     } else if (ev.deltaY > 0) {
+//       apiObj.scrollPrev();
+//     }
+//   }
 
 const SelectProjects = () =>{
     //프로젝트 추가 생성을 위한 변수
     const [project, setProject] = useState([0]);
     // 팝업창 띄우기위해 사용되는 변수
-    const [modalOpen, setModalOpen] = useState(false);
     const [modalnameOpen, setModalNameOpen] = useState(false);
     // 사용자 이름 변수
     const [name] = useState('이름');
-
-    // 팝업창 켜지는 여부에 따른 함수
-    const openNameModal = ()=>{
-        setModalNameOpen(true);
-    }
-
-    const closeNameModal = () =>{
-        setModalNameOpen(false);
-    }
-
-    const openModal = () => {
-        setModalOpen(true);
-    }
-
-    const closeModal = () =>{
-        setModalOpen(false);
-    }
 
     //프로젝트 추가 함수
     const addProject = () => {
@@ -121,26 +105,24 @@ const SelectProjects = () =>{
         counter+=1;
         countProject.push(counter);
         setProject(countProject);
-        closeModal();
     };
 
     return (
         <>
-        <ModalName open={modalnameOpen} close={closeNameModal}></ModalName>
+        <ModalName open={modalnameOpen} close={setModalNameOpen}></ModalName>
         <Logodiv>
             <Logoname>로고 자리</Logoname>
-            <Username onClick={openNameModal}>{name}</Username>
+            <Username onClick={setModalNameOpen}>
+                {name}
+            </Username>
         </Logodiv>
         <Namediv>
             <Name>프로젝트 목록</Name>
-            <Addbutton onClick={openModal}>
+            <Addbutton onClick={addProject}>
                 +
             </Addbutton>
-        </Namediv>
-            <Modal open={modalOpen} close={closeModal} addProject={addProject}></Modal>
-            
+        </Namediv>            
         <ScrollMenu // 작동을 안함
-            onWheel={onWheel}
         >
             <Projectdiv>
                 <br/>

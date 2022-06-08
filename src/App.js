@@ -1,4 +1,4 @@
-import SelectProjects from './projects/SelectProjects'
+import SelectProjects from './components/projects/SelectProjects'
 import {createGlobalStyle} from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`

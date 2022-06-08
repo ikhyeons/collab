@@ -8,7 +8,6 @@ const Detaildiv = styled.div`
     margin-left: 20px;
     margin-right:20px;
     display:flex;
-    text-align:center;
 `;
 
 // 프로젝트 바깥 div
@@ -19,17 +18,25 @@ const InnerProject = styled.div`
 // 프로젝트 div
 const DisplayProject = styled.div`
     height:90%;
-    width:200px;
+    width:250px;
     border-radius:5%;
     background-color:lightgrey;
+    align-items:flex-end;
+    display:flex;
 `;
 
+const Projectname = styled.span`
+    height: 20px;
+`;  
 const DetailProject = (props) => {
+    
     return(
             <Detaildiv>
                 {props.project && props.project.map((item, i)=>(
                     <InnerProject key={i}>
-                        <DisplayProject/>
+                        <DisplayProject>
+                            <Projectname>&nbsp;프로젝트{i+1}</Projectname>
+                        </DisplayProject>
                     </InnerProject>
                 ))}
             </Detaildiv>

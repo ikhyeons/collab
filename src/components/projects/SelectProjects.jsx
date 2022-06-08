@@ -74,21 +74,6 @@ const ScrollMenu = styled.div`
     display:flex;
     justify-content:center;
 `;
-//  react-horizontal-scrolling-menu 동작을 위한 onWheel 함수
-// function onWheel(apiObj, ev) {
-//     const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15;
-  
-//     if (isThouchpad) {
-//       ev.stopPropagation();
-//       return;
-//     }
-  
-//     if (ev.deltaY < 0) {
-//       apiObj.scrollNext();
-//     } else if (ev.deltaY > 0) {
-//       apiObj.scrollPrev();
-//     }
-//   }
 
 const SelectProjects = () =>{
     //프로젝트 추가 생성을 위한 변수
@@ -122,8 +107,7 @@ const SelectProjects = () =>{
                 +
             </Addbutton>
         </Namediv>            
-        <ScrollMenu // 작동을 안함
-        >
+        <ScrollMenu>
             <Projectdiv>
                 <br/>
                 <DetailProject project={project} />

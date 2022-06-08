@@ -36,10 +36,11 @@ const SidebarMain = () => {
   return (
     <Snav>
         <navmain>
-            <Sspace>뒤로가기</Sspace>
+            
             <Sspace>메인</Sspace>
             <Sspace><SidebarWorkSpace /></Sspace>
             <Sspace><SidebarChat /></Sspace>
+            <Sspace>프로젝트</Sspace>
         </navmain>
         <Sarrowbar top = {top}>
             ←

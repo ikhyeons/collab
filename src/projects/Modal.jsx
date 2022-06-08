@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
+// 프로젝트 추가 팝업 div
 const Modaldiv = styled.div`
     width: 360px;
     position: absolute;
@@ -9,12 +10,14 @@ const Modaldiv = styled.div`
     text-align:center;
 `;
 
+// 프로젝트 추가 팝업 section
 const Modalsection = styled.section`
     display:flex;
     justify-content:space-between;
 
 `;
 
+// 프로젝트 추가 버튼
 const Modalbutton = styled.button`
     width: 50px;
     height: 20px;

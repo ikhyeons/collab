@@ -1,23 +1,31 @@
 import React from "react";
 import styled from "styled-components";
 
+// 로그아웃 팝업 div
 const Modalnamediv = styled.div`
-    width: 300px;
+    width: 180px;
     position:absolute;
     z-index: 99;
     text-align:center;
-    transform:translate(400px, 60px);
+    transform:translate(40vw, 60px);
 `;
 
+// 로그아웃 팝업 section
 const Modalnamesection = styled.section`
     display:flex;
-    justify-content:space-between;
+    flex-direction:column;
 `;
 
+// 로그아웃 팝업 버튼
 const Modalnamebutton = styled.button`
     width: 50px;
     height: 20px;
-    margin-left:5px;
+`;
+
+// 로그아웃 팝업 내 버튼 들어가는 footer
+const Modalnamefooter = styled.footer`
+    display:flex;
+    justify-content:space-around;
 `;
 
 const ModalName = (props) =>{
@@ -30,14 +38,15 @@ const ModalName = (props) =>{
                 <header>
                     로그아웃 하시겠습니까?
                 </header>
-                <footer>
+                <br/>
+                <Modalnamefooter>
                     <Modalnamebutton className="check" onClick={close}>
                         yes
                     </Modalnamebutton>
                     <Modalnamebutton className="close" onClick={close}>
                         close
                     </Modalnamebutton>
-                </footer>
+                </Modalnamefooter>
             </Modalnamesection>
             ) : null}
         </Modalnamediv>

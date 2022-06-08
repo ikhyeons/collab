@@ -1,5 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
+
+// 프로젝트 들어가는 div
 const Detaildiv = styled.div`
     height: 90%;
     width: height;
@@ -8,10 +10,13 @@ const Detaildiv = styled.div`
     display:flex;
     text-align:center;
 `;
+
+// 프로젝트 바깥 div
 const InnerProject = styled.div`
     margin-left: 20px;    
 `;
 
+// 프로젝트 div
 const DisplayProject = styled.div`
     height:90%;
     width:200px;

@@ -8,7 +8,7 @@ import { ScrollMenu } from "react-horizontal-scrolling-menu";
 //화면 상단 로고 부분 div
 const Logodiv = styled.div`
     height: 50vh;
-    width: 90vw;
+    width: 95vw;
     display:flex;
     justify-content:space-between;
 `;
@@ -29,7 +29,7 @@ const Namediv = styled.div`
 //화면하단 프로젝트  div
 const Projectdiv = styled.div`
     margin-bottom: 10px;
-    width: 90vw;
+    width: 95vw;
     overflow:scroll;
     background : white;
     height : 40vh;
@@ -67,7 +67,8 @@ const Username = styled.button`
     margin-top:20px;
     height: 30px;
     font-size:20px;
-    background-color:none;
+    background-color:white;
+    border: 1px solid white;
 `;
 
 

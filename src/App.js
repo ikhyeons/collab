@@ -1,5 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-import LoginMain from "./components/login/LoginMain";
+import SidebarMain from "./components/sidebar/SidebarMain"
 
 const GlobalStyle = createGlobalStyle`
   *{
@@ -16,7 +16,7 @@ function App() {
   return (
     <div className="App">
       <GlobalStyle />
-       <LoginMain />
+       <SidebarMain />
     </div>
   );
 }

@@ -21,9 +21,11 @@ const SaddEventBtn = styled.button`
     padding : 3px 9px;
     margin : 7px;
     cursor : pointer;
+    border : 2px solid rgb(200, 200, 200);
+    border-radius : 10px;
     :hover{
-        background : darkblue;
-        color : lightgray;
+        background : rgb(150, 150, 200);
+        color : skyblue;
     }
 `
 
@@ -107,8 +109,8 @@ const CalendarMain = () => {
         eventClick={()=>{setModalview(true)}} // 이벤트를 클릭했을 경우 실행되는 함수
         ></FullCalendar>
         <SaddEventBtn onClick={()=>{setModalAdd(true)}}>이벤트 추가</SaddEventBtn>
-        {modaladd&&<CalendarAddModal view={setModalAdd} />}
-        {modalview&&<CalendarViewModal view={setModalview} />}
+        {modaladd&&<CalendarAddModal view={setModalAdd} />} {/* 이벤트 추가창을 엶 */}
+        {modalview&&<CalendarViewModal view={setModalview} />} {/* 이벤트 정보창을 엶 */}
     </FullCalendarWrap>
   )
 }

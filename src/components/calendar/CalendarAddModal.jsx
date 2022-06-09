@@ -51,7 +51,7 @@ const SeventContent = styled.textarea`
     padding : 10px;
     font-size : 25px;
     border : none;
-    background : none;
+    background : rgb(239, 239, 239);
     border-radius : 5px;
     resize: none;
     :hover{
@@ -78,6 +78,7 @@ const Sinput = styled.input`
     height: 20px;
 `
 
+
 const CalendarAddModal = (prop) => {
 
     const onlyWrap = useRef()
@@ -91,6 +92,7 @@ const CalendarAddModal = (prop) => {
         <Smodal> {/* 모달창 내부 */}
             <SeventTime>2022.11.23 ~ 2022.11.23</SeventTime>
             <SeventTitle type={'text'} placeholder={'제목을 입력하세요'}/>
+            
             <SeventContent type={'text'}/>
             <SBtnLine>
                 <SeventBtn onClick={(e)=>{

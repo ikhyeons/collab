@@ -1,5 +1,6 @@
-import SelectProjects from './components/projects/SelectProjects'
-import {createGlobalStyle} from 'styled-components';
+import { createGlobalStyle } from "styled-components";
+import { BrowserRouter } from "react-router-dom";
+import SidebarMain from "./components/sidebar/SidebarMain"
 
 const GlobalStyle = createGlobalStyle`
   *{
@@ -15,8 +16,10 @@ const GlobalStyle = createGlobalStyle`
 function App() {
   return (
     <div className="App">
-       <GlobalStyle />
-       <SelectProjects />
+      <BrowserRouter>
+        <GlobalStyle />
+        <SidebarMain />
+      </BrowserRouter>
     </div>
   );
 }

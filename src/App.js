@@ -18,12 +18,15 @@ const GlobalStyle = createGlobalStyle`
 function App() {
   return (
     <div className="App">
+      ㅎㅇ
+      {/*
       <SelectProject />
       <LoginMain />
       <BrowserRouter>
         <GlobalStyle />
         <SidebarMain />
       </BrowserRouter>
+      */}
     </div>
   );
 }

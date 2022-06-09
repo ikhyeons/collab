@@ -1,7 +1,8 @@
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from "@fullcalendar/interaction"
-import CalendarModal from './CalendarModal'
+import CalendarViewModal from './CalendarViewModal'
+import CalendarAddModal from './CalendarAddModal'
 
 import styled from 'styled-components'
 import { useState, useEffect } from 'react'
@@ -14,12 +15,29 @@ const FullCalendarWrap = styled.div`
     position : relative;
 `
 
+const SaddEventBtn = styled.button`
+    background : skyblue;
+    font-size : 25px;
+    padding : 3px 9px;
+    margin : 7px;
+    cursor : pointer;
+    :hover{
+        background : darkblue;
+        color : lightgray;
+    }
+`
+
 const CalendarMain = () => {
     //선택한 날자 데이터
     const [selectedDate, setSelectedDate] = useState({start : null, end : null})
+    //이벤트 들
+    const [events, setEvents] = useState([{title : 'event1', start : '2022-06-22', end : '2022-06-25', color : 'gray'},{title : 'event2', start : '2022-06-22', end : '2022-06-27'}]);
+    //이벤트 정보 모달창 온오프
+    const [modalview, setModalview] = useState(false);
+    //이벤트 추가 모달창 온오프
+    const [modaladd, setModalAdd] = useState(false);
+    //마우스 위치 이벤트 추가 버튼
 
-    const [events, setEvents] = useState([{title : 'event1', start : '2022-06-22', end : '2022-06-25'},{title : 'event2', start : '2022-06-22', end : '2022-06-27'}]);
-    
     useEffect(()=>{ //날자가 선택될 때 마다 실행, 시작일이 끝일보다 뒤일 경우 둘의 자리를 바꿈
         if (selectedDate.start - selectedDate.end>0 && selectedDate.end!=null){
             setSelectedDate({start : selectedDate.end, end : selectedDate.start})
@@ -65,8 +83,7 @@ const CalendarMain = () => {
                     end : makedData
                 }
                 return dateSet;
-            });
-            
+            })
         }
 
         if(e.target.classList[0] == 'fc-daygrid-day-events') {
@@ -78,19 +95,20 @@ const CalendarMain = () => {
                     end : makedData
                 }
                 return dateSet;
-            });
-        }
+            })
+        } 
     }}
     >
         <FullCalendar 
         plugins={[dayGridPlugin, interactionPlugin]}
         selectable = "true" // 클릭 및 드래그 허용
-        editable="true" // 이벤트 위치변경, 모양 변경 허용
         locale="ko" // 한국어 설정
         events={events} // 들어가 있는 이벤트들
-        eventClick={()=>{console.log('gd')}} // 이벤트를 클릭했을 경우 실행되는 함수
+        eventClick={()=>{setModalview(true)}} // 이벤트를 클릭했을 경우 실행되는 함수
         ></FullCalendar>
-        {/*<CalendarModal />*/}
+        <SaddEventBtn onClick={()=>{setModalAdd(true)}}>이벤트 추가</SaddEventBtn>
+        {modaladd&&<CalendarAddModal view={setModalAdd} />}
+        {modalview&&<CalendarViewModal view={setModalview} />}
     </FullCalendarWrap>
   )
 }

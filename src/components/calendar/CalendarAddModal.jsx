@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import styled from 'styled-components'
 
 const SmodalWrap = styled.div`
@@ -27,15 +27,39 @@ const Smodal = styled.form`
 
 const SeventTime = styled.div`
     font-size : 25px;
+    margin-bottom : 10px;
 `
-const SeventTitle = styled.div`
+const SeventTitle = styled.input`
     font-size : 35px;
-    padding : 20px 0;
-    margin-bottom : 20px;
+    padding : 20px 10px;
+    margin-bottom : 10px;
     border-bottom : 1px solid black;
+    border : none;
+    background : none;
+    border-radius : 5px;
+    width : 100%;
+    :hover{
+        background : rgb(230, 230, 230);
+    }
+    :focus{
+        background : lightgray;
+    }
 `
-const SeventContent = styled.div`
+const SeventContent = styled.textarea`
+    width : 100%;
+    height : 370px;
+    padding : 10px;
     font-size : 25px;
+    border : none;
+    background : none;
+    border-radius : 5px;
+    resize: none;
+    :hover{
+        background : rgb(230, 230, 230);
+    }
+    :focus{
+        background : lightgray;
+    }
 `
 const SBtnLine = styled.div`
     position : absolute;
@@ -54,20 +78,27 @@ const Sinput = styled.input`
     height: 20px;
 `
 
-const CalendarModal = () => {
+const CalendarAddModal = (prop) => {
+
+    const onlyWrap = useRef()
 
   return (
-    <SmodalWrap>
-        <Smodal>
+    <SmodalWrap ref={onlyWrap} onClick={(e)=>{ //클릭 되었을 때
+        if(onlyWrap.current == e.target){ //현재 클릭된 놈이 모달의 외부창일 경우
+            prop.view(false); //모달 창을 닫음
+        }
+    }}> {/* 모달창 외부 */}
+        <Smodal> {/* 모달창 내부 */}
             <SeventTime>2022.11.23 ~ 2022.11.23</SeventTime>
-            <SeventTitle>성익현 생일</SeventTitle>
-            <SeventContent>성익현 생일입니다.</SeventContent>
+            <SeventTitle type={'text'} placeholder={'제목을 입력하세요'}/>
+            <SeventContent type={'text'}/>
             <SBtnLine>
                 <SeventBtn onClick={(e)=>{
                     e.preventDefault()
                 }}>등록</SeventBtn>
                 <SeventBtn onClick={(e)=>{
                     e.preventDefault()
+                    prop.view(false); //모달 창을 닫음
                 }}>취소</SeventBtn> <Sinput id='hidden' type={'checkbox'} /> <label htmlFor='hidden'>비공개</label>
             </SBtnLine>
         </Smodal>
@@ -75,4 +106,4 @@ const CalendarModal = () => {
   )
 }
 
-export default CalendarModal
+export default CalendarAddModal

@@ -1,5 +1,6 @@
 import React,{useState} from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const Stitle = styled.div`
   padding-left : 10px;
@@ -13,6 +14,7 @@ const Sul = styled.ul`
   list-style : none;
   margin-left : 30px;
   font-size : 23px;
+  display : ${prop => prop.hidden == 1? 'none':'block'}
 `
 const Sli = styled.li`
   width : 100%;
@@ -31,6 +33,7 @@ const SaddBtn = styled.li`
 
 const SidebarWorkSpace = () => {
 
+  const [hidden, setHidden] = useState(0);
   const [workSpaceList, setWorkSpaceList] = useState([
     {
       num : 1,
@@ -65,10 +68,13 @@ const SidebarWorkSpace = () => {
 
   return (
     <div>
-        <Stitle>워크스페이스</Stitle>
-        <Sul>
+        <Stitle onClick={()=>{
+          if (hidden ==0) setHidden(1)
+          else setHidden(0)
+        }}>워크스페이스</Stitle>
+        <Sul hidden = {hidden}>
           {workSpaceList.map((data , i )=>{
-            return <Sli key = {i}>{data.name}</Sli>
+            return <Link to={`/workspace/${i}`} key = {i} style={{ textDecoration: 'none', color : 'black'}}><Sli>{data.name}</Sli></Link>
           })}
           <SaddBtn onClick={()=>{addWorkSpaceList()}}>+</SaddBtn>
         </Sul>

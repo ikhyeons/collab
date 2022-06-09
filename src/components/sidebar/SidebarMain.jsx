@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import SidebarChat from './SidebarChat'
 import SidebarWorkSpace from './SidebarWorkSpace'
 import styled from 'styled-components'
+import { Routes, Link } from 'react-router-dom'
 
 const Snav = styled.nav`
     background : lightyellow;
@@ -61,12 +62,12 @@ const SidebarMain = () => {
   return (
     <Snav>
         <Snavmain>
-            <Sspace><SidebarGoMain>메인</SidebarGoMain></Sspace>
+            <Sspace><Link to='/main' style={{ textDecoration: 'none', color : 'black'}}><SidebarGoMain>메인</SidebarGoMain></Link></Sspace>
             <Sspace><SidebarWorkSpace /></Sspace>
             <Sspace><SidebarChat /></Sspace>
             <SidebarBottom>
-                <SidebarSetting>세팅</SidebarSetting>
-                <SidebarGoSelectProject>프로젝트</SidebarGoSelectProject>
+                    <Link to='/setting' style={{ textDecoration: 'none', color : 'black'}}><SidebarSetting>세팅</SidebarSetting></Link>
+                    <Link to='/project' style={{ textDecoration: 'none', color : 'black'}}><SidebarGoSelectProject>프로젝트</SidebarGoSelectProject></Link>
             </SidebarBottom>
             
         </Snavmain>

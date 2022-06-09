@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const Stitle = styled.div`
   
@@ -14,6 +15,7 @@ const Sul = styled.ul`
   list-style : none;  
   margin-left : 30px;
   font-size : 23px;
+  display : ${prop => prop.hidden == 1? 'none':'block'}
 `
 const Sli = styled.li`
   width : 100%;
@@ -32,7 +34,7 @@ const SaddBtn = styled.li`
 `
 
 const SidebarChat = () => {
-
+  const [hidden, setHidden] = useState(0);
   const [chatList, setChatList] = useState([
     {
       num : 1,
@@ -59,10 +61,13 @@ const SidebarChat = () => {
 
   return (
     <div>
-        <Stitle>채팅</Stitle>
-        <Sul>
+        <Stitle onClick={()=>{
+          if (hidden ==0) setHidden(1)
+          else setHidden(0)
+        }}>채팅</Stitle>
+        <Sul hidden = {hidden}>
         {chatList.map((data , i )=>{
-            return <Sli key = {i}>{data.name}</Sli>
+            return <Link to={`/chat/${i}`}  key = {i} style={{ textDecoration: 'none', color : 'black'}}><Sli>{data.name}</Sli></Link>
           })}
           <SaddBtn onClick={()=>{addChat()}}>+</SaddBtn>
         </Sul>

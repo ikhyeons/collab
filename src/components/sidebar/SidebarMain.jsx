@@ -12,39 +12,64 @@ const Snav = styled.nav`
     justify-content : space-between;
 `
 
-const Sspace = styled.p`
+const Sspace = styled.li`
     background : lightyellow;
-    font-size : 25px;
-    padding-left : 10px;
-    :hover{
-        background : yellow;
-        cursor : pointer;
-    }
-`
-
-const Sarrowbar = styled.div`
-    position : relative;
-    right : 0px;
-    transition : top 4s;
-    top : ${prop => prop.top}px;
+    font-size : 27px;
+    margin-bottom : 20px;
     
 `
+const SidebarGoMain = styled.div`
+padding-left : 10px;
+:hover{
+    background : yellow;
+    cursor : pointer;
+  }
+`
+
+const SidebarBottom = styled.div`
+position : absolute;
+bottom : 45px;
+width : 100%;
+`
+
+const SidebarGoSelectProject = styled.div`
+width : 100%;
+font-size : 27px;
+:hover{
+    background : yellow;
+    cursor : pointer;
+  }
+`
+
+const SidebarSetting = styled.div`
+width : 100%;
+font-size : 27px;
+:hover{
+    background : yellow;
+    cursor : pointer;
+  }
+`
+
+const Snavmain = styled.ul`
+    position : relative;
+    width : 100%;
+`
+
 
 const SidebarMain = () => {
-    const [top, setTop] = useState(0);
 
   return (
     <Snav>
-        <navmain>
-            
-            <Sspace>메인</Sspace>
+        <Snavmain>
+            <Sspace><SidebarGoMain>메인</SidebarGoMain></Sspace>
             <Sspace><SidebarWorkSpace /></Sspace>
             <Sspace><SidebarChat /></Sspace>
-            <Sspace>프로젝트</Sspace>
-        </navmain>
-        <Sarrowbar top = {top}>
-            ←
-        </Sarrowbar>
+            <SidebarBottom>
+                <SidebarSetting>세팅</SidebarSetting>
+                <SidebarGoSelectProject>프로젝트</SidebarGoSelectProject>
+            </SidebarBottom>
+            
+        </Snavmain>
     </Snav>
   )
 }

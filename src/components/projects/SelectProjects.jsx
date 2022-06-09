@@ -88,11 +88,17 @@ const SelectProjects = () =>{
 
     //프로젝트 추가 함수
     const addProject = () => {
-        let countProject = [...project];
-        count +=1 ;
-        let counter = {name:`새 프로젝트${count}`, pic:''};
-        countProject.push(counter);
-        setProject(countProject);
+        count+=1;
+        setProject((prev)=>{
+            let newProject = [
+                ...prev,
+                {
+                    name: `새 프로젝트${count}`,
+                    pic:''
+                },
+            ]
+            return newProject;
+        })
     };
 
     return (

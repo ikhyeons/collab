@@ -3,6 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import SidebarMain from "./components/sidebar/SidebarMain"
 import LoginMain from './components/login/LoginMain'
 import SelectProject from './components/projects/SelectProjects'
+import CalendarMain from "./components/calendar/CalendarMain";
 
 const GlobalStyle = createGlobalStyle`
   *{
@@ -29,7 +30,7 @@ function App() {
       <BrowserRouter>
         <Inproject>
           <SidebarMain />
-          
+          <CalendarMain></CalendarMain>
         </Inproject>
       </BrowserRouter>
       }

@@ -18,7 +18,7 @@ const CalendarMain = () => {
     //선택한 날자 데이터
     const [selectedDate, setSelectedDate] = useState({start : null, end : null})
 
-    const [events, setEvents] = useState([{title : 'ti', start : '2022-06-22', end : '2022-06-25'},{title : 'ti', start : '2022-06-22', end : '2022-06-27'}]);
+    const [events, setEvents] = useState([{title : 'event1', start : '2022-06-22', end : '2022-06-25'},{title : 'event2', start : '2022-06-22', end : '2022-06-27'}]);
     
     useEffect(()=>{ //날자가 선택될 때 마다 실행, 시작일이 끝일보다 뒤일 경우 둘의 자리를 바꿈
         if (selectedDate.start - selectedDate.end>0 && selectedDate.end!=null){
@@ -27,7 +27,6 @@ const CalendarMain = () => {
         console.log(selectedDate);
     }, [selectedDate])
 
-    
   return (
     <FullCalendarWrap 
     onMouseDown={(e)=>{ // 날자에서 마우스가 내려갔을 경우 실행됨
@@ -91,7 +90,7 @@ const CalendarMain = () => {
         events={events} // 들어가 있는 이벤트들
         eventClick={()=>{console.log('gd')}} // 이벤트를 클릭했을 경우 실행되는 함수
         ></FullCalendar>
-        <CalendarModal />
+        {/*<CalendarModal />*/}
     </FullCalendarWrap>
   )
 }

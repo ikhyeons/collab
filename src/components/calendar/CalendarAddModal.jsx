@@ -82,6 +82,7 @@ const Sinput = styled.input`
 const CalendarAddModal = (prop) => {
 
     const onlyWrapPart = useRef()
+    console.log(prop.selectedDate)
 
   return (
     <SmodalWrap ref={onlyWrapPart} onClick={(e)=>{ //클릭 되었을 때
@@ -90,7 +91,7 @@ const CalendarAddModal = (prop) => {
         }
     }}> {/* 모달창 외부 */}
         <Smodal> {/* 모달창 내부 */}
-            <SeventTime>2022.11.23 ~ 2022.11.23</SeventTime>
+            <SeventTime>{prop.selectedDate.rawstart +' ~ '+ prop.selectedDate.rawend}</SeventTime>
             <SeventTitle type={'text'} placeholder={'제목을 입력하세요'}/>
             
             <SeventContent type={'text'}/>

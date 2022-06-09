@@ -31,7 +31,7 @@ const SaddEventBtn = styled.button`
 
 const CalendarMain = () => {
     //선택한 날자 데이터
-    const [selectedDate, setSelectedDate] = useState({start : null, end : null})
+    const [selectedDate, setSelectedDate] = useState({start : null, end : null, rawstart : null, rawend : null})
     //이벤트 들
     const [events, setEvents] = useState([{title : 'event1', start : '2022-06-22', end : '2022-06-25', color : 'gray'},{title : 'event2', start : '2022-06-22', end : '2022-06-27'}]);
     //이벤트 정보 모달창 온오프
@@ -40,12 +40,21 @@ const CalendarMain = () => {
     const [modaladd, setModalAdd] = useState(false);
     //마우스 위치 이벤트 추가 버튼
 
-    useEffect(()=>{ //날자가 선택될 때 마다 실행, 시작일이 끝일보다 뒤일 경우 둘의 자리를 바꿈
-        if (selectedDate.start - selectedDate.end>0 && selectedDate.end!=null){
-            setSelectedDate({start : selectedDate.end, end : selectedDate.start})
+    useEffect(()=>{ //날자가 선택될 때 마다 실행, 시작날자가 끝날자보다 뒤일 경우 둘의 자리를 바꿈
+        if (selectedDate.start - selectedDate.end>0 && selectedDate.end!=null && selectedDate.start!==null){
+            setSelectedDate(prev => {
+                let newData = {
+                    start : prev.end, 
+                    end : prev.start,
+                    rawstart : prev.rawend, 
+                    rawend : prev.rawstart,
+                }
+                return newData;
+            }
+            )
         }
         console.log(selectedDate);
-    }, [selectedDate])
+    }, [selectedDate.end])
 
   return (
     <FullCalendarWrap 
@@ -53,10 +62,12 @@ const CalendarMain = () => {
         if(e.target.classList[0] == 'fc-daygrid-day-frame') { //div가 섞여 있어서 -frame의 div를 클릭했을 때 이벤트 발생
             let rawDate = e.target.children[0].children[0].getAttribute('aria-label') // 해당 날자의 데이터 스트링을 얻음
             let makedData = new Date(rawDate.slice(0, 4), rawDate.slice(6, 7)+1, rawDate.slice(9, -1)); // 얻은 날자 데이터를 사용 가능하게 가공
+            let makedrawData = `${rawDate.slice(0, 4)}-${rawDate.slice(6, 7)}-${rawDate.slice(9, -1)}`; // 얻은 날자 데이터를 사용 가능하게 가공
             setSelectedDate(prev => { // state에 업데이트 함
                 let dateSet = {
                     ...prev,
-                    start : makedData
+                    start : makedData,
+                    rawstart : makedrawData,
                 }
                 return dateSet;
             });
@@ -65,10 +76,12 @@ const CalendarMain = () => {
         if(e.target.classList[0] == 'fc-daygrid-day-events') { //div가 섞여 있어서 -events의 div를 클릭했을 경우 발생
             let rawDate = e.target.parentNode.children[0].children[0].getAttribute('aria-label') // 해당 날자의 데이터 스트링을 얻음
             let makedData = new Date(rawDate.slice(0, 4), rawDate.slice(6, 7)-1, rawDate.slice(9, -1)); // 얻은 날자 데이터를 사용 가능하게 가공
+            let makedrawData = `${rawDate.slice(0, 4)}-${rawDate.slice(6, 7)}-${rawDate.slice(9, -1)}`; // 얻은 날자 데이터를 사용 가능하게 가공
             setSelectedDate(prev => { // state에 업데이트 함
                 let dateSet = {
                     ...prev,
-                    start : makedData
+                    start : makedData,
+                    rawstart : makedrawData,
                 }
                 return dateSet;
             });
@@ -79,10 +92,12 @@ const CalendarMain = () => {
         if(e.target.classList[0] == 'fc-daygrid-day-frame') { 
             let rawDate = e.target.children[0].children[0].getAttribute('aria-label')
             let makedData = new Date(rawDate.slice(0, 4), rawDate.slice(6, 7)-1, rawDate.slice(9, -1));
+            let makedrawData = `${rawDate.slice(0, 4)}-${rawDate.slice(6, 7)}-${rawDate.slice(9, -1)}`;
             setSelectedDate(prev => {
                 let dateSet = {
                     ...prev,
-                    end : makedData
+                    end : makedData,
+                    rawend : makedrawData,
                 }
                 return dateSet;
             })
@@ -91,10 +106,12 @@ const CalendarMain = () => {
         if(e.target.classList[0] == 'fc-daygrid-day-events') {
             let rawDate = e.target.parentNode.children[0].children[0].getAttribute('aria-label')
             let makedData = new Date(rawDate.slice(0, 4), rawDate.slice(6, 7)-1, rawDate.slice(9, -1));
+            let makedrawData = `${rawDate.slice(0, 4)}-${rawDate.slice(6, 7)}-${rawDate.slice(9, -1)}`;
             setSelectedDate(prev => {
                 let dateSet = {
                     ...prev,
-                    end : makedData
+                    end : makedData,
+                    rawend : makedrawData,
                 }
                 return dateSet;
             })
@@ -108,9 +125,16 @@ const CalendarMain = () => {
         events={events} // 들어가 있는 이벤트들
         eventClick={()=>{setModalview(true)}} // 이벤트를 클릭했을 경우 실행되는 함수
         ></FullCalendar>
-        <SaddEventBtn onClick={()=>{setModalAdd(true)}}>이벤트 추가</SaddEventBtn>
-        {modaladd&&<CalendarAddModal view={setModalAdd} />} {/* 이벤트 추가창을 엶 */}
-        {modalview&&<CalendarViewModal view={setModalview} />} {/* 이벤트 정보창을 엶 */}
+        <SaddEventBtn onClick={()=>{
+            if(selectedDate.start==null){
+                alert('날자를 선택해 주세요');
+            } else {
+                setModalAdd(true)};
+            }
+            
+            }>이벤트 추가</SaddEventBtn>
+        {modaladd&&<CalendarAddModal view={setModalAdd} selectedDate={selectedDate}/>} {/* 이벤트 추가창을 엶 */}
+        {modalview&&<CalendarViewModal view={setModalview} selectedDate={selectedDate}/>} {/* 이벤트 정보창을 엶 */}
     </FullCalendarWrap>
   )
 }

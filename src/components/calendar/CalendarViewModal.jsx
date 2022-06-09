@@ -26,12 +26,12 @@ const CalendarViewModal = (prop) => {
     })
 
   return (
-    <SmodalWrap ref={onlyWrap} onClick={(e)=>{ //클릭 되었을 때
+    <SmodalWrap ref={onlyWrap} onClick={(e)=>{ {/* 모달창 외부 */}
         if(onlyWrap.current == e.target){ //현재 클릭된 놈이 모달의 외부창일 경우
             prop.view(false); //모달 창을 닫음
             setModify(false);
         }
-    }}> {/* 모달창 외부 */}
+    }}> 
         {
             modify == false? 
             <CalendarEventInfo modalInfo={modalInfo} setModify={setModify} view = {prop.view}/> 

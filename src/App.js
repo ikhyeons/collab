@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import { BrowserRouter } from "react-router-dom";
 import SidebarMain from "./components/sidebar/SidebarMain"
 import LoginMain from './components/login/LoginMain'
@@ -15,18 +15,24 @@ const GlobalStyle = createGlobalStyle`
   }
   `
 
+const Inproject = styled.div`
+  display : flex;
+`
+
 function App() {
   return (
     <div className="App">
-      ㅎㅇ
-      {/*
-      <SelectProject />
-      <LoginMain />
+      <GlobalStyle />
+      {
+      //<SelectProject />
+      //<LoginMain />
       <BrowserRouter>
-        <GlobalStyle />
-        <SidebarMain />
+        <Inproject>
+          <SidebarMain />
+          
+        </Inproject>
       </BrowserRouter>
-      */}
+      }
     </div>
   );
 }

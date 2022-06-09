@@ -1,5 +1,5 @@
-import { createGlobalStyle } from "styled-components";
-import LoginMain from "./components/login/LoginMain";
+import SelectProjects from './components/projects/SelectProjects'
+import {createGlobalStyle} from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   *{
@@ -15,8 +15,8 @@ const GlobalStyle = createGlobalStyle`
 function App() {
   return (
     <div className="App">
-      <GlobalStyle />
-       <LoginMain />
+       <GlobalStyle />
+       <SelectProjects />
     </div>
   );
 }

@@ -65,7 +65,7 @@ const SidebarMain = () => {
             <Sspace><Link to='/main' style={{ textDecoration: 'none', color : 'black'}}><SidebarGoMain>메인</SidebarGoMain></Link></Sspace>
             <Sspace><SidebarWorkSpace /></Sspace>
             <Sspace><SidebarChat /></Sspace>
-            <SidebarBottom>
+            <SidebarBottom> {/* 아래부분 */}
                     <Link to='/setting' style={{ textDecoration: 'none', color : 'black'}}><SidebarSetting>세팅</SidebarSetting></Link>
                     <Link to='/project' style={{ textDecoration: 'none', color : 'black'}}><SidebarGoSelectProject>프로젝트</SidebarGoSelectProject></Link>
             </SidebarBottom>

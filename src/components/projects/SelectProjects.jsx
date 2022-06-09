@@ -75,9 +75,12 @@ const ScrollMenu = styled.div`
     justify-content:center;
 `;
 
+let count = 1;
+
 const SelectProjects = () =>{
     //프로젝트 추가 생성을 위한 변수
-    const [project, setProject] = useState([0]);
+    const [project, setProject] = useState([{name:'새 프로젝트1', pic:''}]);
+    
     // 팝업창 띄우기위해 사용되는 변수
     const [modalnameOpen, setModalNameOpen] = useState(false);
     // 사용자 이름 변수
@@ -86,8 +89,8 @@ const SelectProjects = () =>{
     //프로젝트 추가 함수
     const addProject = () => {
         let countProject = [...project];
-        let counter = countProject.slice(-1)[0];
-        counter+=1;
+        count +=1 ;
+        let counter = {name:`새 프로젝트${count}`, pic:''};
         countProject.push(counter);
         setProject(countProject);
     };
@@ -110,7 +113,7 @@ const SelectProjects = () =>{
         <ScrollMenu>
             <Projectdiv>
                 <br/>
-                <DetailProject project={project} />
+                <DetailProject project={project}/>
             </Projectdiv>
         </ScrollMenu>
         </>

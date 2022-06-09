@@ -28,14 +28,19 @@ const DisplayProject = styled.div`
 const Projectname = styled.span`
     height: 20px;
 `;  
+
 const DetailProject = (props) => {
-    
+    const { project } = props;
+    console.log('생성됨');
+    console.log(project);
     return(
             <Detaildiv>
                 {props.project && props.project.map((item, i)=>(
                     <InnerProject key={i}>
                         <DisplayProject>
-                            <Projectname>&nbsp;프로젝트{i+1}</Projectname>
+                            <Projectname>
+                                &nbsp;새 프로젝트{i+1}
+                            </Projectname>
                         </DisplayProject>
                     </InnerProject>
                 ))}

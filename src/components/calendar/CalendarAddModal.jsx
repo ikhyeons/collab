@@ -81,11 +81,11 @@ const Sinput = styled.input`
 
 const CalendarAddModal = (prop) => {
 
-    const onlyWrap = useRef()
+    const onlyWrapPart = useRef()
 
   return (
-    <SmodalWrap ref={onlyWrap} onClick={(e)=>{ //클릭 되었을 때
-        if(onlyWrap.current == e.target){ //현재 클릭된 놈이 모달의 외부창일 경우
+    <SmodalWrap ref={onlyWrapPart} onClick={(e)=>{ //클릭 되었을 때
+        if(onlyWrapPart.current == e.target){ //현재 클릭된 놈이 모달의 외부창일 경우
             prop.view(false); //모달 창을 닫음
         }
     }}> {/* 모달창 외부 */}

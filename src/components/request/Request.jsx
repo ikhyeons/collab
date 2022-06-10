@@ -66,6 +66,11 @@ const ResBtn = styled.button`
     height: 70px;
 `;
 
+const ResText = styled.textarea`
+    width: 100%;
+    height: 200px;
+`
+
 const initialState = {
     tableData:[
         ['시간', '일', '월', '화', '수', '목', '금', '토'],
@@ -110,6 +115,11 @@ const Request = () =>{
     const [state, dispatch] = useReducer(reducer, initialState);
     const {tableData, recentCell} = state;
     const [response, setResponse] = useState(0);
+    const [resMemo, setResMemo] = useState('');
+    
+    const inputResMemo = (e)=>{
+        setResMemo(e.target.value);
+    }
 
     const onClickTable = useCallback(()=>{
         dispatch({type: CLICK_CELL})
@@ -168,6 +178,9 @@ const Request = () =>{
                         <option value="4">4</option>
                         <option value="5">5</option>
                     </RSelWeek>
+                    <ResText type="text" placeholder="내용을 입력하세요." value={resMemo} onChange={(e)=>{
+                        inputResMemo(e);
+                    }}/>
                     <RBtn type="submit" onClick={(e)=>{
                         e.preventDefault()
                         setRequest(0);

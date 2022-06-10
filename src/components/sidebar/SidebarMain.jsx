@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import SidebarChat from './SidebarChat'
 import SidebarWorkSpace from './SidebarWorkSpace'
 import styled from 'styled-components'
-import { Routes, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const Snav = styled.nav`
     background : lightyellow;

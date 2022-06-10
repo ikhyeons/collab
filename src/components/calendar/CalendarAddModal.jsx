@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import styled from 'styled-components'
 
 const SmodalWrap = styled.div`
@@ -112,10 +112,6 @@ const CalendarAddModal = (prop) => {
                         ]
                             return newData;
                         });
-                        // prop.setEventsBox(prev=>{
-                        //     let newData = prop.events;
-                        //     return newData;
-                        // });
                         console.log(prop.eventsBox);
                         prop.view(false);
                     } else {

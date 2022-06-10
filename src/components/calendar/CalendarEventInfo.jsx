@@ -1,16 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const SmodalWrap = styled.div`
-    position : fixed;
-    left: 0;
-    top : 0;
-    background : rgba(100, 100, 100, 0.3);
-    height : 100vh;
-    width : 100vw;
-    z-index : 5;
-`
-
 const Smodal = styled.form`
     background : rgba(250, 250, 250, 0.9);
     position : absolute;

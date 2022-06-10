@@ -5,7 +5,7 @@ import CalendarViewModal from './CalendarViewModal'
 import CalendarAddModal from './CalendarAddModal'
 
 import styled from 'styled-components'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 
 //풀캘린더의 크기는 상위 태그의 크기에 맞춰서 변경됨

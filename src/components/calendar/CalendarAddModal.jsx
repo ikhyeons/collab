@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import styled from 'styled-components'
 
 const SmodalWrap = styled.div`
@@ -80,7 +80,7 @@ const Sinput = styled.input`
 
 
 const CalendarAddModal = (prop) => {
-
+    const [title, setTitle] = useState('');
     const onlyWrapPart = useRef()
     console.log(prop.selectedDate)
 
@@ -92,12 +92,35 @@ const CalendarAddModal = (prop) => {
     }}> {/* 모달창 외부 */}
         <Smodal> {/* 모달창 내부 */}
             <SeventTime>{prop.selectedDate.cleanStart +' ~ '+ prop.selectedDate.cleanEnd}</SeventTime>
-            <SeventTitle type={'text'} placeholder={'제목을 입력하세요'}/>
+            <SeventTitle onChange={(e)=>{
+                setTitle(e.target.value)}
+            } value={title} type={'text'} placeholder={'제목을 입력하세요'}/>
             
             <SeventContent type={'text'}/>
             <SBtnLine>
                 <SeventBtn onClick={(e)=>{
-                    e.preventDefault()
+                    e.preventDefault();
+                    if(title!=""){
+                    prop.setEvents((prev)=>{
+                        let newData = [
+                            ...prev, 
+                            {
+                                title : title, 
+                                start : prop.selectedDate.cleanStart, 
+                                end : prop.selectedDate.cleanEnd
+                            },
+                        ]
+                            return newData;
+                        });
+                        // prop.setEventsBox(prev=>{
+                        //     let newData = prop.events;
+                        //     return newData;
+                        // });
+                        console.log(prop.eventsBox);
+                        prop.view(false);
+                    } else {
+                        alert('제목을 입력해 주세요');
+                    }
                 }}>등록</SeventBtn>
                 <SeventBtn onClick={(e)=>{
                     e.preventDefault()

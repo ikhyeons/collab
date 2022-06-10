@@ -91,7 +91,7 @@ const CalendarAddModal = (prop) => {
         }
     }}> {/* 모달창 외부 */}
         <Smodal> {/* 모달창 내부 */}
-            <SeventTime>{prop.selectedDate.rawstart +' ~ '+ prop.selectedDate.rawend}</SeventTime>
+            <SeventTime>{prop.selectedDate.cleanStart +' ~ '+ prop.selectedDate.cleanEnd}</SeventTime>
             <SeventTitle type={'text'} placeholder={'제목을 입력하세요'}/>
             
             <SeventContent type={'text'}/>

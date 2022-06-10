@@ -6,11 +6,12 @@ import { Routes, Link } from 'react-router-dom'
 
 const Snav = styled.nav`
     background : lightyellow;
-    width : 12%;
+    width : 10%;
     min-width : 200px;
     height : 100vh;
     display : flex;
     justify-content : space-between;
+    margin-right : 25px;
 `
 
 const Sspace = styled.li`

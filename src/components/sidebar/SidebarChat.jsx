@@ -69,7 +69,7 @@ const SidebarChat = () => {
         }}>채팅</Stitle>
         <Sul hidden = {hidden}>
         {chatList.map((data , i )=>{
-            return <Link to={`/chat/${i}`}  key = {i} style={{ textDecoration: 'none', color : 'black'}}><Sli>{data.name}</Sli></Link>//${i}에서 i는 채팅 번호
+            return <Link to={`/main/chat/${i}`}  key = {i} style={{ textDecoration: 'none', color : 'black'}}><Sli>{data.name}</Sli></Link>//${i}에서 i는 채팅 번호
           })}
           <SaddBtn onClick={()=>{addChat()}}>+</SaddBtn>
         </Sul>

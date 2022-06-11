@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
+import {Link} from 'react-router-dom'
 
 
 //로그인 창 div
@@ -80,7 +81,8 @@ const Login = () => {
                 }}
                 />
                 <Sbutton type='submit' onClick={(e)=>{
-                    e.preventDefault()
+                    e.preventDefault();
+                    window.location.replace("/main/calendar")
                 }}>로그인</Sbutton>
                 
                 <Sbutton onClick={(e)=>{

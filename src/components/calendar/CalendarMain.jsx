@@ -63,6 +63,11 @@ const CalendarMain = () => {
             console.log(changeStart, changeEnd);
         }}
 
+        eventResize = {(info)=>{ //이벤트 기간 확장 및 축소 리사이징
+            let changeEnd = changeEventDate(info.oldEvent._instance.range.end, info.endDelta.days);
+            console.log(changeEnd);
+        }}
+
         ></FullCalendar>
     {eventSet !== 0? <CalendarEventWrap selectedDate={selectedDate} setEvent={setEvent} eventSet = {eventSet} setEventSet = {setEventSet} /> : null} {/*이벤트셋이 1이아니면 생성*/}
     </FullCalendarWrap>

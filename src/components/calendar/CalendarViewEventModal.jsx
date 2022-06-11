@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const UpdateEventModal = styled.div`
+const EventViewModal = styled.div`
   width : 35vw;
   min-width : 520px;
   height : 60vh;
@@ -20,7 +20,7 @@ const SselectedDate = styled.div`
   width : 100%;
   height : 10%;
 `
-const Stitle = styled.input`
+const Stitle = styled.div`
   border-radius : 10px;
   font-size : 30px;
   width : 100%;
@@ -38,7 +38,7 @@ const Stitle = styled.input`
   }
 `
 
-const Scontent = styled.textarea`
+const Scontent = styled.div`
   border-radius : 10px;
   font-size : 27px;
   width : 100%;
@@ -77,19 +77,28 @@ const Sline = styled.div`
   border : 1px solid black;
 `
 
-function CalendarUpdateEventModal(prop) {
+function CalendarViewEventModal(prop) {
   return (
-    <UpdateEventModal>
-        <SselectedDate>2022-06-01 ~ 2022-06-10</SselectedDate>
-      <Stitle placeholder='제목을 입력하세요' type="text" />
+    <EventViewModal>
+      <SselectedDate>2022-06-01 ~ 2022-06-10</SselectedDate>
+      <Stitle>이벤트 제목이랍니다.</Stitle>
       <Sline/>
-      <Scontent name="" id="" cols="30" rows="10"></Scontent>
-      <Sbutton onClick={()=>{prop.setEventSet(0)}}>수정 완료</Sbutton>
-      <Sbutton onClick={()=>{prop.setEventSet(0)}}>취소</Sbutton>
+      <Scontent>이벤트 내용입니다.</Scontent>
+      <Sbutton
+        onClick={()=>{prop.setEventSet(3)}} // 수정 페이지로 넘어감
+      >수정</Sbutton>
+
+      <Sbutton
+        onClick={()=>{prop.setEventSet(0)}} // 아이디 값을 받아서 삭제
+      >삭제</Sbutton>
+
+      <Sbutton
+        onClick={()=>{prop.setEventSet(0)}}
+      >취소</Sbutton>
 
 
-    </UpdateEventModal>
+    </EventViewModal>
   )
 }
 
-export default CalendarUpdateEventModal
+export default CalendarViewEventModal

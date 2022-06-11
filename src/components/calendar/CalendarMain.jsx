@@ -1,6 +1,7 @@
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from "@fullcalendar/interaction"
+import CalendarEventWrap from './CalendarEventWrap'
 
 
 import styled from 'styled-components'
@@ -33,6 +34,10 @@ const CalendarMain = () => {
     const [event, setEvent] = useState([{id : 1, title : 'hi', start : '2022-06-04', end : '2022-06-10'}]); //이벤트들
     const [selectedDate, setSelectedDate] = useState({start : '', end : ''});
 
+    const [eventSet, setEventSet] = useState(0); // 0 : 기본 / 1 : 추가 / 2 : 보기 / 3 : 수정
+
+
+
     useEffect(()=>{
         console.log(selectedDate);
     }, [selectedDate])
@@ -46,15 +51,16 @@ const CalendarMain = () => {
         locale = 'ko' // 한국어 설정
 
         dateClick={(info)=>{
-
-        }}  
+            setEventSet(1);
+        }}
 
         select = {(info)=>{ //날자 드래그 이벤트 핸들러
             setSelectedDate({start : info.startStr, end : info.endStr})
+            setEventSet(1);
         }}
 
         eventClick = {(info)=>{ //이벤트 클릭 핸들러
-            console.log(info)
+            setEventSet(2);
         }}
 
         eventDragStart = {(info)=>{ // 이벤트 드래그 시작 핸들러
@@ -69,8 +75,7 @@ const CalendarMain = () => {
         events = {event}
 
         ></FullCalendar>
-        <SaddEventBtn>이벤트 추가</SaddEventBtn>
-
+    {eventSet !== 0? <CalendarEventWrap selectedDate={selectedDate} setEvent={setEvent} eventSet = {eventSet} setEventSet = {setEventSet} /> : null}
     </FullCalendarWrap>
   )
 }

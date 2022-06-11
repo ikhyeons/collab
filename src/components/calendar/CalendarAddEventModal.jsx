@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const UpdateEventModal = styled.div`
+const AddEventModal = styled.div`
   width : 35vw;
   min-width : 520px;
   height : 60vh;
@@ -77,19 +77,40 @@ const Sline = styled.div`
   border : 1px solid black;
 `
 
-function CalendarUpdateEventModal(prop) {
+function CalendarAddEventModal(prop) {
   return (
-    <UpdateEventModal>
-        <SselectedDate>2022-06-01 ~ 2022-06-10</SselectedDate>
+    <AddEventModal>
+      <SselectedDate>{prop.selectedDate.start} ~ {prop.selectedDate.end}</SselectedDate>
       <Stitle placeholder='제목을 입력하세요' type="text" />
       <Sline/>
       <Scontent name="" id="" cols="30" rows="10"></Scontent>
-      <Sbutton onClick={()=>{prop.setEventSet(0)}}>수정 완료</Sbutton>
-      <Sbutton onClick={()=>{prop.setEventSet(0)}}>취소</Sbutton>
+      <Sbutton
+        onClick={()=>{
+          prop.setEvent((prev)=>{
+            let newEvent = [
+              ...prev,
+              {
+                id : '2',
+                title : '입력받은 제목',
+                content : '입력받은 내용',
+                start : prop.selectedDate.start,
+                end : prop.selectedDate.end,
+              }
+            ]
+            return newEvent
+          })
+          prop.setEventSet(0)
+        }}
+      >추가</Sbutton>
 
 
-    </UpdateEventModal>
+      <Sbutton
+        onClick={()=>{prop.setEventSet(0)}}
+      >취소</Sbutton>
+
+
+    </AddEventModal>
   )
 }
 
-export default CalendarUpdateEventModal
+export default CalendarAddEventModal

@@ -15,7 +15,7 @@ const Sul = styled.ul`
   list-style : none;  
   margin-left : 30px;
   font-size : 23px;
-  display : ${prop => prop.hidden == 1? 'none':'block'}
+  display : ${prop => prop.hidden === 1? 'none':'block'}
 `
 const Sli = styled.li`
   width : 100%;
@@ -64,7 +64,7 @@ const SidebarChat = () => {
   return (
     <div>
         <Stitle onClick={()=>{ // 클릭했을 경우 숨겨져있으면 보이게, 보이고 있으면 숨기기.
-          if (hidden ==0) setHidden(1)
+          if (hidden === 0) setHidden(1)
           else setHidden(0)
         }}>채팅</Stitle>
         <Sul hidden = {hidden}>

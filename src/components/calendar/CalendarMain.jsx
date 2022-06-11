@@ -15,28 +15,21 @@ const FullCalendarWrap = styled.div`
     position : relative;
 `
 
-const SaddEventBtn = styled.button`
-    background : skyblue;
-    font-size : 25px;
-    padding : 3px 9px;
-    margin : 7px;
-    cursor : pointer;
-    border : 2px solid rgb(200, 200, 200);
-    border-radius : 10px;
-    :hover{
-        background : rgb(150, 150, 200);
-        color : skyblue;
-    }
-`
-
 const CalendarMain = () => {
 
+    const [selectedDate, setSelectedDate] = useState({start : '', end : ''}); //선택된 날짜
     const [event, setEvent] = useState([{id : 1, title : 'hi', start : '2022-06-04', end : '2022-06-10'}]); //이벤트들
-    const [selectedDate, setSelectedDate] = useState({start : '', end : ''});
+    const [eventSet, setEventSet] = useState(0); // 현재 달력 상태 0 : 기본 / 1 : 이벤트 추가 / 2 : 이벤트 보기 / 3 : 이벤트 수정
 
-    const [eventSet, setEventSet] = useState(0); // 0 : 기본 / 1 : 추가 / 2 : 보기 / 3 : 수정
-
-
+    const changeEventDate = (inputDate, addedDate) =>{ // input : 표준시 상태의 입력, 추가할 날자(정수) / output : YYYY-MM-DD
+        let date = new Date(inputDate)
+        date = new Date(date.setDate(date.getDate() + addedDate));
+        let year = date.getFullYear();
+        let month = ("0" + (1 + date.getMonth())).slice(-2);
+        let day = ("0" + date.getDate()).slice(-2);
+    
+        return year + "-" + month + "-" + day;
+    }
 
     useEffect(()=>{
         console.log(selectedDate);
@@ -49,8 +42,9 @@ const CalendarMain = () => {
         editable ='true' // 이벤트 수정 허용
         selectable = 'true' // 클릭 및 드래그 허용
         locale = 'ko' // 한국어 설정
+        events = {event} // 이벤트들
 
-        dateClick={(info)=>{
+        dateClick={()=>{
             setEventSet(1);
         }}
 
@@ -63,19 +57,14 @@ const CalendarMain = () => {
             setEventSet(2);
         }}
 
-        eventDragStart = {(info)=>{ // 이벤트 드래그 시작 핸들러
-            console.log(info);
+        eventDrop = {(info)=>{ // 이벤트 드래그 핸들러, 이벤트가 끝났을 때 변경 날자만큼 데이터를 이동시킴.
+            let changeStart = changeEventDate(info.oldEvent._instance.range.start, info.delta.days);
+            let changeEnd = changeEventDate(info.oldEvent._instance.range.end, info.delta.days);
+            console.log(changeStart, changeEnd);
         }}
-
-        eventDragStop = {(info)=>{ // 이벤트 드래그 종료 핸들러
-            console.log(info);
-        }}
-
-        
-        events = {event}
 
         ></FullCalendar>
-    {eventSet !== 0? <CalendarEventWrap selectedDate={selectedDate} setEvent={setEvent} eventSet = {eventSet} setEventSet = {setEventSet} /> : null}
+    {eventSet !== 0? <CalendarEventWrap selectedDate={selectedDate} setEvent={setEvent} eventSet = {eventSet} setEventSet = {setEventSet} /> : null} {/*이벤트셋이 1이아니면 생성*/}
     </FullCalendarWrap>
   )
 }

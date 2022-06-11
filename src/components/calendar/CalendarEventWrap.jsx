@@ -14,16 +14,16 @@ const AddEventWrap = styled.div`
   z-index : 1;
 `
 
-
 function CalendarEventWrap(prop) {
 
-    const Wrap = useRef();
+    const Wrap = useRef(); //클릭된 컴포넌트
 
   return (
     <AddEventWrap
         ref={Wrap}
-        onClick={(e)=>{ if (e.target==Wrap.current) prop.setEventSet(0)}}
-    >
+        onClick={(e)=>{ if (e.target === Wrap.current) prop.setEventSet(0)}}
+    >   
+      {/*각 상태마다 다른 모달을 렌더링*/}
       {prop.eventSet === 1 ? <CalendarAddEventModal selectedDate={prop.selectedDate} setEvent={prop.setEvent} setEventSet={prop.setEventSet}/> : null}
       {prop.eventSet === 2 ? <CalendarViewEventModal selectedDate={prop.selectedDate} setEvent={prop.setEvent} setEventSet={prop.setEventSet}/> : null}
       {prop.eventSet === 3 ? <CalendarUpdateEventModal selectedDate={prop.selectedDate} setEvent={prop.setEvent} setEventSet={prop.setEventSet}/> : null}

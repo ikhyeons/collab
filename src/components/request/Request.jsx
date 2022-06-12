@@ -1,4 +1,4 @@
-import React, { useState, createContext, useCallback, useEffect} from "react";
+import React, { useState, useRef, useCallback, useEffect} from "react";
 import { useReducer } from "react";
 import styled from "styled-components";
 import Table from "./Table";
@@ -24,17 +24,13 @@ display:flex;
 flex-direction:column;
 flex-wrap:nonewrap;
 align-content:flex-start;
-`
-const Rul = styled.ul`
-    list-style:none;
 `;
 
 const RBtn = styled.button`
     height: 25px;
-    border: 1px solid rgb(0, 200, 255);
+    border: 1px solid rgb(0, 230, 255);
     background-color: rgb(0, 200, 255);
     color: white;
-    border-radius:15%;
 `;
 
 const RSelMon = styled.select`
@@ -47,7 +43,7 @@ const RSelMon = styled.select`
         background-color:grey;
         cursor: pointer;
     }
-`
+`;
 
 const RSelWeek = styled.select`
     width: 40px;
@@ -59,17 +55,17 @@ const RSelWeek = styled.select`
         background-color:grey;
         cursor: pointer;
     }
-`
-
-const ResBtn = styled.button`
-    width: 100%;
-    height: 70px;
 `;
 
 const ResText = styled.textarea`
     width: 100%;
     height: 200px;
-`
+`;
+
+const Receive = styled.div`
+    background-color:${ (props) => props.clicked == 1 ? 'green': 'red'};
+    width: 100%;
+`;
 
 const initialState = {
     tableData:[
@@ -87,6 +83,7 @@ const initialState = {
     clicked:'O',
     recentCell:[-1,-1],
 };
+
 
 export const CLICK_CELL = 'CLICK_CELL'
 
@@ -116,6 +113,8 @@ const Request = () =>{
     const {tableData, recentCell} = state;
     const [response, setResponse] = useState(0);
     const [resMemo, setResMemo] = useState('');
+    const [resData, setResData] = useState([]);
+    const [clicked, setClicked] = useState(0);
     
     const inputResMemo = (e)=>{
         setResMemo(e.target.value);
@@ -125,25 +124,52 @@ const Request = () =>{
         dispatch({type: CLICK_CELL})
     }, [])
 
+    const nextId = useRef(1);
+
+    const remove = id=>{
+        setResData(resData.filter(resData => resData.id !== id));
+        nextId.current --;
+    }
     useEffect(()=>{
         const [row, cell] = recentCell;
-        if(row<0){
+        if(row<1 || cell <1){
             return;
+        }else{
+        setResData((prev)=>{
+            let a = tableData[0][cell] ;
+            let b = tableData[row][0] ;
+            let newRes = [
+                ...prev,
+                {
+                    day: a,
+                    time: b,
+                    id: nextId.current,
+                },
+            ]
+            nextId.current ++;
+            return newRes;
+        }) 
+        console.log(resData);
         }
-        console.log(row, cell, tableData);
     }, [recentCell])
 
     return(
-        <RequestDiv>
+        <RequestDiv>    
             {
                 request===0 && response === 0 &&
                 <Rdiv>
                     <b>받은 요청</b>
-                    <ResBtn onClick={(e)=>{
+                    <Receive clicked ={clicked} onClick={(e)=>{
                         e.preventDefault();
                         setResponse(1);
-
-                    }}>요청 왔습니다</ResBtn>
+                        setClicked(1);
+                    }}>
+                        <div>
+                            6월 3째주 비는 시간 보내주세요
+                            <br/>
+                            @강도경
+                        </div>
+                    </Receive>
                     <RBtn type="submit" onClick={(e)=>{
                         e.preventDefault()
                         setRequest(1);
@@ -178,7 +204,8 @@ const Request = () =>{
                         <option value="4">4</option>
                         <option value="5">5</option>
                     </RSelWeek>
-                    <ResText type="text" placeholder="내용을 입력하세요." value={resMemo} onChange={(e)=>{
+                    <ResText type="text" placeholder="내용을 입력하세요." 
+                    value={resMemo} onChange={(e)=>{
                         inputResMemo(e);
                     }}/>
                     <RBtn type="submit" onClick={(e)=>{
@@ -186,13 +213,19 @@ const Request = () =>{
                         setRequest(0);
                     }}
                     >요청하기</RBtn>
+                    <RBtn type="submit" onClick={(e)=>{
+                        e.preventDefault()
+                        setRequest(0);
+                    }}
+                    >취소</RBtn>
                 </Rdiv>
             }
             {
                 request === 0 && response === 1 &&
                 <Resdiv>
                     <b>날짜입력</b>
-                    <Table onClick={onClickTable} tableData={tableData} dispatch={dispatch} style={{width: '100%', marginLeft:'10px'}}/>
+                    <Table onClick={onClickTable} tableData={tableData} dispatch={dispatch} 
+                    style={{width: '100%', marginLeft:'10px'}}/>
                     <button onClick={(e)=>{
                         e.preventDefault();
                         setResponse(0);

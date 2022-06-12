@@ -2,10 +2,8 @@ import React, { memo } from "react";
 import { CLICK_CELL } from "./Request";
 
 const Td = memo(({rowIndex, cellIndex, dispatch, cellData })=>{
-    console.log('td rendered');
 
     const onClickTd = ()=>{
-        console.log(rowIndex, cellIndex);
         dispatch({ type: CLICK_CELL, row: rowIndex, cell: cellIndex})
     }
 

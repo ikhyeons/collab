@@ -117,10 +117,11 @@ const SelectProjects = () =>{
             </Addbutton>
         </Namediv>            
         <ScrollMenu>
-            <Projectdiv>
-                <br/>
-                <DetailProject project={project}/>
-            </Projectdiv>
+            
+                <Projectdiv>
+                    <br/>
+                    <DetailProject project={project}/>
+                </Projectdiv>
         </ScrollMenu>
         </>
     );

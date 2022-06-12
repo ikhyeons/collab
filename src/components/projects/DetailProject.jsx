@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom';
 
 // 프로젝트 들어가는 div
 const Detaildiv = styled.div`
@@ -34,17 +35,22 @@ const DetailProject = (props) => {
     console.log('생성됨');
     console.log(project);
     return(
-            <Detaildiv>
-                {props.project && props.project.map((item, i)=>(
+        <Detaildiv>
+            {props.project && props.project.map((item, i)=>(
+                
                     <InnerProject key={i}>
+                        <Link style={{ textDecoration: 'none', color : 'black' }} to="/main/calendar">
                         <DisplayProject>
-                            <Projectname>
-                                &nbsp;새 프로젝트{i+1}
-                            </Projectname>
+                                <Projectname>
+                                    &nbsp;새 프로젝트{i+1}
+                                </Projectname>
                         </DisplayProject>
+                        </Link>
                     </InnerProject>
-                ))}
-            </Detaildiv>
+                
+            ))}
+        </Detaildiv>
+        
     )
 
 };

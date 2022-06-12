@@ -23,20 +23,6 @@ const Inproject = styled.div`
   display : flex;
 `
 
-const SRightWrap = styled.div`
-width : 100%;
-`
-
-const SrightHead = styled.div`
-  height : 20px;
-  font-size : 20px;
-`
-const SRightMain = styled.div`
-  display : flex;
-  margin-top : 30px;
-  width : 100%;
-`
-
 function App() {
   return (
     <div className="App">
@@ -47,7 +33,6 @@ function App() {
       <BrowserRouter>
         <Inproject>
 
-          
           <Routes>
             <Route path="/" element={<LoginMain />} />
           </Routes>
@@ -55,23 +40,16 @@ function App() {
           <Routes>
             <Route path="/main/*" element={<SidebarMain />} />
           </Routes>
-
           
-          
+          <Routes>
+            <Route path="/main/calendar" element={<CalendarPage />} />
+          </Routes>
 
-          <SRightWrap>
-            <Routes>
-              <Route path="/main/*" element={<SrightHead>내용</SrightHead>} />
-            </Routes>
-
-            <SRightMain>
-              <Routes>
-                <Route path="/main/calendar" element={<CalendarPage />} />
-              </Routes>
-            </SRightMain>
-
-          </SRightWrap>
         </Inproject>
+
+        <Routes>
+            <Route path="/project" element={<SelectProject />} />
+        </Routes>
       </BrowserRouter>
       }
     </div>

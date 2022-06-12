@@ -68,7 +68,7 @@ const SidebarMain = () => {
             <Sspace><SidebarChat /></Sspace>
             <SidebarBottom> {/* 아래부분 */}
                     <Link to='/main/setting' style={{ textDecoration: 'none', color : 'black'}}><SidebarSetting>세팅</SidebarSetting></Link>
-                    <Link to='/main/project' style={{ textDecoration: 'none', color : 'black'}}><SidebarGoSelectProject>프로젝트</SidebarGoSelectProject></Link>
+                    <Link to='/project' style={{ textDecoration: 'none', color : 'black'}}><SidebarGoSelectProject>프로젝트</SidebarGoSelectProject></Link>
             </SidebarBottom>
             
         </Snavmain>

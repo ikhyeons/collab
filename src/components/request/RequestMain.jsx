@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Request from './Request'
 
 const RequestContainer = styled.div`
-    width : 30vw;
+    width : 25vw;
     height : 100vh;
     justify-content:center;
     align-items:center;

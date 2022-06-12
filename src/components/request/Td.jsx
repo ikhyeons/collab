@@ -1,15 +1,44 @@
-import React, { memo } from "react";
-import { CLICK_CELL } from "./Request";
+import React, { useState } from "react";
+import styled from "styled-components";
 
-const Td = memo(({rowIndex, cellIndex, dispatch, cellData })=>{
-
+const Std = styled.td`
+    background-color : ${ (props) => props.checked == 1 ? 'lightgreen': null};
+    border: 1px solid black;
+    width: 20px;
+    text-align:center;
+    height: 31px;
+`
+const Td = ({rowIndex, cellIndex, setSelectedDate})=>{
+    const [checked, setChecked] = useState(0);
     const onClickTd = ()=>{
-        dispatch({ type: CLICK_CELL, row: rowIndex, cell: cellIndex})
+        setChecked(()=>{
+            if (checked == 0) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+       setSelectedDate((prev)=>{
+        if (checked == 0) {
+            const selDate = [
+                ...prev,
+                {
+                row: rowIndex,
+                cell: cellIndex,
+            }]
+            return selDate;
+        } else {
+            let selDate = [...prev];
+            selDate = selDate.filter((e)=>(e.row != rowIndex || e.cell != cellIndex));
+            return selDate;
+        }
+       })
+       
+       console.log(rowIndex, cellIndex);
     }
-
     return(
-        <td onClick={onClickTd} style={{border: '1px solid black', width: '20px', textAlign:'center', height: '20px'}}>{cellData}</td>
+        <Std checked ={checked}onClick={onClickTd} />
     )
-})
+}
 
 export default Td;

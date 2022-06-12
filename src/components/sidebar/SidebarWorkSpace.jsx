@@ -14,7 +14,7 @@ const Sul = styled.ul`
   list-style : none;
   margin-left : 30px;
   font-size : 23px;
-  display : ${prop => prop.hidden == 1? 'none':'block'}
+  display : ${prop => prop.hidden === 1? 'none':'block'}
 `
 const Sli = styled.li`
   width : 100%;
@@ -73,12 +73,12 @@ const SidebarWorkSpace = () => {
   return (
     <div>
         <Stitle onClick={()=>{ //클릭했을 경우 숨겨져 있으면 보이게하고, 보이는 상태이면 숨기게함.
-          if (hidden ==0) setHidden(1)
+          if (hidden === 0 ) setHidden(1)
           else setHidden(0)
         }}>워크스페이스</Stitle>
         <Sul hidden = {hidden}>
           {workSpaceList.map((data , i )=>{
-            return <Link to={`/workspace/${i}`} key = {i} style={{ textDecoration: 'none', color : 'black'}}><Sli>{data.name}</Sli></Link>//${i}에서 i는 워크스페이스 번호
+            return <Link to={`/main/workspace/${i}`} key = {i} style={{ textDecoration: 'none', color : 'black'}}><Sli>{data.name}</Sli></Link>//${i}에서 i는 워크스페이스 번호
           })}
           <SaddBtn onClick={()=>{addWorkSpaceList()}}>+</SaddBtn>
         </Sul>

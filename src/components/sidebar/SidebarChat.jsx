@@ -15,7 +15,7 @@ const Sul = styled.ul`
   list-style : none;  
   margin-left : 30px;
   font-size : 23px;
-  display : ${prop => prop.hidden == 1? 'none':'block'}
+  display : ${prop => prop.hidden === 1? 'none':'block'}
 `
 const Sli = styled.li`
   width : 100%;
@@ -64,12 +64,12 @@ const SidebarChat = () => {
   return (
     <div>
         <Stitle onClick={()=>{ // 클릭했을 경우 숨겨져있으면 보이게, 보이고 있으면 숨기기.
-          if (hidden ==0) setHidden(1)
+          if (hidden === 0) setHidden(1)
           else setHidden(0)
         }}>채팅</Stitle>
         <Sul hidden = {hidden}>
         {chatList.map((data , i )=>{
-            return <Link to={`/chat/${i}`}  key = {i} style={{ textDecoration: 'none', color : 'black'}}><Sli>{data.name}</Sli></Link>//${i}에서 i는 채팅 번호
+            return <Link to={`/main/chat/${i}`}  key = {i} style={{ textDecoration: 'none', color : 'black'}}><Sli>{data.name}</Sli></Link>//${i}에서 i는 채팅 번호
           })}
           <SaddBtn onClick={()=>{addChat()}}>+</SaddBtn>
         </Sul>

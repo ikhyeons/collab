@@ -10,7 +10,7 @@ import { useState, useEffect } from 'react'
 
 //풀캘린더의 크기는 상위 태그의 크기에 맞춰서 변경됨
 const FullCalendarWrap = styled.div`
-    width : 55%;
+    width : 65%;
     min-width : 750px;
     position : relative;
 `

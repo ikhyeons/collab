@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 const Std = styled.td`
-    background-color : ${ (props) => props.checked == 1 ? 'lightgreen': null};
+    background-color : ${ (props) => props.checked === 1 ? 'lightgreen': null};
     border: 1px solid black;
     width: 20px;
     text-align:center;
@@ -12,14 +12,14 @@ const Td = ({rowIndex, cellIndex, setSelectedDate})=>{
     const [checked, setChecked] = useState(0);
     const onClickTd = ()=>{
         setChecked(()=>{
-            if (checked == 0) {
+            if (checked === 0) {
                 return 1;
             } else {
                 return 0;
             }
         });
        setSelectedDate((prev)=>{
-        if (checked == 0) {
+        if (checked === 0) {
             const selDate = [
                 ...prev,
                 {
@@ -29,7 +29,7 @@ const Td = ({rowIndex, cellIndex, setSelectedDate})=>{
             return selDate;
         } else {
             let selDate = [...prev];
-            selDate = selDate.filter((e)=>(e.row != rowIndex || e.cell != cellIndex));
+            selDate = selDate.filter((e)=>(e.row !== rowIndex || e.cell !== cellIndex));
             return selDate;
         }
        })

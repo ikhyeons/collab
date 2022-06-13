@@ -69,8 +69,8 @@ const ResText = styled.textarea`
 `;
 
 const Receive = styled.div`
-    background-color:${ (props) => props.alres == 1 ? 'lightgreen': 'red'};
-    color:${ (props) => props.alres == 1 ? 'black': 'white'};
+    background-color:${ (props) => props.alres === 1 ? 'lightgreen': 'red'};
+    color:${ (props) => props.alres === 1 ? 'black': 'white'};
     width: 100%;
     border-radius: 10px;
     margin-bottom:10px;
@@ -104,7 +104,7 @@ const Request = () =>{
     return(
         <RequestDiv>    
             {
-                request===0 && response === 0 &&
+                request === 0 && response === 0 &&
                 <Rdiv>
                     <Sb>받은 요청</Sb>
                     <Receive alres ={alres} onClick={(e)=>{
@@ -126,7 +126,7 @@ const Request = () =>{
                 </Rdiv>
             }
             {
-                request===1 && response === 0 &&
+                request === 1 && response === 0 &&
                 <Rdiv>
                     <Sb>요청하기</Sb>
                     <b>월 선택</b>

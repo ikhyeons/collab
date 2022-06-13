@@ -34,21 +34,19 @@ function App() {
         <Inproject>
 
           <Routes>
-            <Route path="/" element={<LoginMain />} />
+            <Route path="/main/*" element={<SidebarMain />} />
           </Routes>
 
           <Routes>
-            <Route path="/main/*" element={<SidebarMain />} />
-          </Routes>
-          
-          <Routes>
+            <Route path="/" element={<LoginMain />} />
+            <Route path="/project" element={<SelectProject />} />
             <Route path="/main/calendar" element={<CalendarPage />} />
           </Routes>
 
         </Inproject>
 
         <Routes>
-            <Route path="/project" element={<SelectProject />} />
+            
         </Routes>
       </BrowserRouter>
       }

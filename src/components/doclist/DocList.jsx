@@ -1,6 +1,9 @@
-import React from 'react'
-import styled from 'styled-components'
+import React, {useState ,useCallback} from 'react'
+import styled, { keyframes } from 'styled-components'
 import { Link } from 'react-router-dom'
+import { FaSpinner } from 'react-icons/fa'
+
+
 
 const Sli = styled.li`
     list-style : none;
@@ -22,7 +25,7 @@ const Snum = styled.span`
 
 const Stitle = styled.span`
     position : absolute;
-    width : 45%;
+    width : 44%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -35,7 +38,7 @@ const Stitle = styled.span`
 const Swriterwrap = styled.span`
     position : absolute;
     right : 105px;
-    width : 22%;
+    width : 23%;
     text-align : center;
 `
 
@@ -47,7 +50,6 @@ const Swriter = styled.span`
     color : white;
     cursor : pointer;
     font-size : 15px;
-    text-overflow : ellipsis; 
     :hover{
         background : rgb(235, 0, 235);
     }
@@ -77,21 +79,74 @@ const Sul = styled.ul`
     }
 `
 
+const SloadBox = styled.div`
+    height : 80px;
+    text-align : center;
+`
+const rotation = keyframes`
+  from{
+    transform: rotate(0deg)
+  }
+  to{
+    transform: rotate(360deg)
+  }
+
+`;
+
+const opacity = keyframes`
+  0%{
+    opacity : 1;
+  }
+  50%{
+    opacity : 0;
+  }
+  100%{
+    opacity : 1;
+  }
+`;
+
+const SloadingSpin = styled.span`
+    display : inline-block;
+    transform-origin: 50% 70%; 
+    width : 50px;
+    height : 50px;
+    animation: ${rotation} 1.5s linear infinite;
+`
+
+const SloadingOpacity = styled.span`
+    animation: ${opacity} 2s linear infinite;
+`
+
+
+
 function DocList(prop) {
+    
+    const [isBottom, setIsBottom] = useState(0);
+
     return (
-        <Sul>
+        <Sul
+            onScroll={
+                useCallback((e)=>{
+                    if(e.target.scrollTop + e.target.offsetHeight + 1 == e.currentTarget.scrollHeight){
+                        setIsBottom(1);
+                    }
+                })
+            }
+        >
             {
                 prop.data.map((data)=>{
-                    return (<Sli key={data.num}>
-                            <Snum>{data.num}</Snum>
-                            <Link to = {`./${data.num}`}><Stitle num={data.num}>{data.title}</Stitle></Link>
-                            <Swriterwrap><Swriter>{data.writer}</Swriter></Swriterwrap>
-                            <Sdate>{data.makeDate}</Sdate>
-                        </Sli>)
+                    return (
+                            <Sli key={data.num}>
+                                <Snum>{data.num}</Snum>
+                                <Link to = {`./${data.num}`}><Stitle num={data.num}>{data.title}</Stitle></Link>
+                                <Swriterwrap><Swriter>{data.writer}</Swriter></Swriterwrap>
+                                <Sdate>{data.makeDate}</Sdate>
+                            </Sli>
+                        )
                     }
                 )
             }
-            loading...
+            <SloadBox>{isBottom ==1? <SloadingOpacity><SloadingSpin><FaSpinner style={{fontSize : '40px', marginTop : '15px' }}/></SloadingSpin></SloadingOpacity> : null}</SloadBox>
         </Sul>
     )
 }

@@ -1,0 +1,95 @@
+import React, {useState} from 'react'
+import styled from 'styled-components'
+import DocList from './DocList'
+import DocSearchBar from './DocSearchBar'
+
+const SdocWrap = styled.div`
+    height : 94%;
+`
+
+const Snum = styled.span`
+    width : 12%;
+    text-align : center;
+    display : inline-block;
+`
+
+const Stitle = styled.span`
+    position : absolute;
+    width : 35%;
+    text-align : center;
+`
+
+const Swriter = styled.span`
+    position : absolute;
+    right : 104px;
+    width : 21%;
+    text-align : center;
+    border-radius : 5px;
+`
+
+const Sdate = styled.span`
+    position : absolute;
+    right : 0px;
+    width : 21%;
+    max-width : 100px;
+    text-align : center;
+`
+
+const Slitag = styled.li`
+    list-style : none;
+    height : 3%;
+    font-size : 17px;
+    position : relative;
+    width : 100%;
+    border : 1px solid rgb(200, 200, 100);
+`
+
+
+const SdocListMain = styled.div`
+    height : 100vh;
+    background : lightyellow;
+    width : 40%;
+    min-width : 500px;
+    min-height : 410px;
+`
+
+function DocListMain() {
+
+    const [docList, setDocList] = useState([
+        {
+            num : 1,
+            makeDate:'2022-06-16',
+            title : '첫번째글제목첫번째글제sdf목',
+            writer : '일곱글자닉네임',
+        },
+        {
+            num : 2,
+            makeDate:'2022-07-13',
+            title : '두번째 글 제목',
+            writer : '강도경',
+        },
+        {
+            num : 3,
+            makeDate:'2022-07-14',
+            title : '세번째 글 제목',
+            writer : '성익현',
+        },
+    ])
+
+  return (
+    <SdocListMain>
+        <DocSearchBar></DocSearchBar>
+        <SdocWrap>
+            <Slitag>
+                <Snum>글번호</Snum>
+                <Stitle>제목</Stitle>
+                <Swriter>작성자</Swriter>
+                <Sdate>작성날자</Sdate>
+            </Slitag>
+            <DocList data = {docList.reverse()} />
+        </SdocWrap>
+    </SdocListMain>
+  )
+}
+
+export default DocListMain

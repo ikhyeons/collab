@@ -4,9 +4,11 @@ import SidebarMain from "./components/sidebar/SidebarMain"
 import LoginMain from './components/login/LoginMain'
 import SelectProject from './components/projects/SelectProjects'
 import CalendarPage from './page/CalendarPage'
+import DocListMain from "./components/doclist/DocListMain";
 
 const GlobalStyle = createGlobalStyle`
   *{
+    scroll-behavior:smooth;
     margin : 0px;
     padding : 0px;
     box-sizing : border-box;
@@ -43,6 +45,10 @@ function App() {
           
           <Routes>
             <Route path="/main/calendar" element={<CalendarPage />} />
+          </Routes>
+
+          <Routes>
+            <Route path="/main/workspace/0" element={<DocListMain />} />
           </Routes>
 
         </Inproject>

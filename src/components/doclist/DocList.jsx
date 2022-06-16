@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const Sli = styled.li`
     list-style : none;
@@ -25,6 +26,10 @@ const Stitle = styled.span`
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    color : black;
+    :hover{
+        text-decoration : underline;
+    }
 `
 
 const Swriterwrap = styled.span`
@@ -72,7 +77,6 @@ const Sul = styled.ul`
     }
 `
 
-
 function DocList(prop) {
     return (
         <Sul>
@@ -80,7 +84,7 @@ function DocList(prop) {
                 prop.data.map((data)=>{
                     return (<Sli key={data.num}>
                             <Snum>{data.num}</Snum>
-                            <Stitle num={data.num}>{data.title}</Stitle>
+                            <Link to = {`./${data.num}`}><Stitle num={data.num}>{data.title}</Stitle></Link>
                             <Swriterwrap><Swriter>{data.writer}</Swriter></Swriterwrap>
                             <Sdate>{data.makeDate}</Sdate>
                         </Sli>)

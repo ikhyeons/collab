@@ -83,6 +83,8 @@ const SloadBox = styled.div`
     height : 80px;
     text-align : center;
 `
+
+//회전 애니메이션
 const rotation = keyframes`
   from{
     transform: rotate(0deg)
@@ -91,8 +93,9 @@ const rotation = keyframes`
     transform: rotate(360deg)
   }
 
-`;
+`
 
+//투명도 애니메이션
 const opacity = keyframes`
   0%{
     opacity : 1;
@@ -105,6 +108,7 @@ const opacity = keyframes`
   }
 `;
 
+//회전 div
 const SloadingSpin = styled.span`
     display : inline-block;
     transform-origin: 50% 70%; 
@@ -112,7 +116,7 @@ const SloadingSpin = styled.span`
     height : 50px;
     animation: ${rotation} 1.5s linear infinite;
 `
-
+//투명도 div
 const SloadingOpacity = styled.span`
     animation: ${opacity} 2s linear infinite;
 `
@@ -120,21 +124,25 @@ const SloadingOpacity = styled.span`
 
 
 function DocList(prop) {
-    
+    //현재 스크롤량을 확인하여 맨 밑까지 스크롤 되었는지를 확인하는 스테이트
     const [isBottom, setIsBottom] = useState(0);
+
+    //백에서 받아온 데이터가 모두 로드되었을 때 더이상 스크롤 이벤트가 생기는 것을 멈추기 위한 스테이트
+    const [isEnd, setIsEnd] = useState(0);
 
     return (
         <Sul
             onScroll={
-                useCallback((e)=>{
+                useCallback((e)=>{ //스크롤 되었을 경우에
                     if(e.target.scrollTop + e.target.offsetHeight + 1 == e.currentTarget.scrollHeight){
-                        setIsBottom(1);
+                        //만약 스크롤된 량 + 화면의 높이가 해당 div의 전체 높이일때(맨 아래까지 스크롤 되었을 경우) 
+                        setIsBottom(1); //isBottom을 1로 변경함.
                     }
                 })
             }
         >
             {
-                prop.data.map((data)=>{
+                prop.data.map((data)=>{{/* 부모에서 받은 글 리스트를 렌더함. */}
                     return (
                             <Sli key={data.num}>
                                 <Snum>{data.num}</Snum>
@@ -146,6 +154,7 @@ function DocList(prop) {
                     }
                 )
             }
+            {/* 만약 스크롤이 맨 아래까지 되었다면 로딩창을 띄움. */}
             <SloadBox>{isBottom ==1? <SloadingOpacity><SloadingSpin><FaSpinner style={{fontSize : '40px', marginTop : '15px' }}/></SloadingSpin></SloadingOpacity> : null}</SloadBox>
         </Sul>
     )

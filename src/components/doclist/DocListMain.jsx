@@ -38,6 +38,7 @@ const Sdate = styled.span`
 const Slitag = styled.li`
     list-style : none;
     height : 3%;
+    min-height : 27px;
     font-size : 17px;
     position : relative;
     width : 100%;

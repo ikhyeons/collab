@@ -23,6 +23,7 @@ const GlobalStyle = createGlobalStyle`
 
 const Inproject = styled.div`
   display : flex;
+  overflow : hidden;
 `
 
 function App() {
@@ -48,7 +49,11 @@ function App() {
           </Routes>
 
           <Routes>
-            <Route path="/main/workspace/0" element={<DocListMain />} />
+            <Route path="/main/workspace/li/*" element={<DocListMain />} />
+          </Routes>
+
+          <Routes>
+            <Route path="/main/workspace/board/*" element={<DocListMain />} />
           </Routes>
 
         </Inproject>

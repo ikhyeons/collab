@@ -80,7 +80,7 @@ const Sul = styled.ul`
 `
 
 const SloadBox = styled.div`
-    height : 80px;
+    height : 70px;
     text-align : center;
 `
 

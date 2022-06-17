@@ -8,6 +8,7 @@ const SdocSearchBar = styled.div`
     display : flex;
     height : 6%;
     position : relative;
+    min-height : 57px;
 `
 
 const SinputWrap = styled.div`

@@ -5,6 +5,7 @@ import LoginMain from './components/login/LoginMain'
 import SelectProject from './components/projects/SelectProjects'
 import CalendarPage from './page/CalendarPage'
 import DocListMain from "./components/doclist/DocListMain";
+import DocTemplateMain from "./components/doctemplate/DocTemplateMain";
 
 const GlobalStyle = createGlobalStyle`
   *{
@@ -51,7 +52,11 @@ function App() {
           </Routes>
 
           <Routes>
-            <Route path="/main/workspace/board/*" element={<DocListMain />} />
+            <Route path="/main/workspace/li/*" element={<DocTemplateMain />} />
+          </Routes>
+
+          <Routes>
+            <Route path="/main/workspace/board/*" element={null} />
           </Routes>
 
         </Inproject>

@@ -40,18 +40,22 @@ const SidebarWorkSpace = () => {
   const [workSpaceList, setWorkSpaceList] = useState([
     {
       num : 1,
+      type : 'li',
       name : '회의록',
     },
     {
       num : 2,
+      type : 'li',
       name : '문서',
     },
     {
       num : 3,
+      type : 'li',
       name : '작업목록',
     },
     {
       num : 4,
+      type : 'board',
       name : '추가된페이지',
     },
   ])
@@ -63,6 +67,7 @@ const SidebarWorkSpace = () => {
         ...prev, 
         {
           num : prev.length,
+          type : 'li',
           name : `새로운 공간`,
         },
       ]
@@ -78,7 +83,7 @@ const SidebarWorkSpace = () => {
         }}>워크스페이스</Stitle>
         <Sul hidden = {hidden}>
           {workSpaceList.map((data , i )=>{
-            return <Link to={`/main/workspace/${i}`} key = {i} style={{ textDecoration: 'none', color : 'black'}}><Sli>{data.name}</Sli></Link>//${i}에서 i는 워크스페이스 번호
+            return <Link to={`/main/workspace/${data.type}/${i}`} key = {i} style={{ textDecoration: 'none', color : 'black'}}><Sli>{data.name}</Sli></Link>//${i}에서 i는 워크스페이스 번호
           })}
           <SaddBtn onClick={()=>{addWorkSpaceList()}}>+</SaddBtn>
         </Sul>

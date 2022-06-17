@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
 const Snav = styled.nav`
+position : relative;
     background : lightyellow;
     width : 10%;
     min-width : 200px;
@@ -29,9 +30,12 @@ padding-left : 10px;
 `
 
 const SidebarBottom = styled.div`
-position : absolute;
-bottom : 45px;
-width : 100%;
+  box-shadow : 0 -5px 8px -6px rgb(200, 200, 120);
+  position : absolute;
+  bottom : 0px;
+  height : 120px;
+  width : 100%;
+  background : rgb(250, 250, 150);
 `
 
 const SidebarGoSelectProject = styled.div`
@@ -50,13 +54,13 @@ font-size : 27px;
     background : yellow;
     cursor : pointer;
   }
+  margin : 15px 0 15px 0;
 `
 
 const Snavmain = styled.ul`
     position : relative;
     width : 100%;
 `
-
 
 const SidebarMain = () => {
 

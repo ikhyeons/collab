@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styled from 'styled-components';
+import BoardList from "./BoardList";
+import InnerList from "./InnerList";
 
 
 const Wnav = styled.nav`
@@ -14,11 +16,6 @@ const Wlogo = styled.h2`
 const SworkList = styled.div`
     width: 100%;
     height: 70vh;
-`
-
-const Wtitle = styled.div`
-    padding-left: 12px;
-    border-bottom: 1px solid grey;
 `;
 
 const Sboard = styled.div`
@@ -39,10 +36,7 @@ const Slist = styled.div`
     display:flex;
 `
 
-const Slistbody = styled.div`
-    display:flex;
-    overflow:auto;
-`
+
 const WorkList = ()=>{
     const [boardClicked, setBoardClicked] = useState(0);
     const [boardName, setBoardName] = useState('');
@@ -60,42 +54,38 @@ const WorkList = ()=>{
             bname: '완료',
         },
     ])
-    const [list, setList] = useState([]);
-    const [listName, setListName] = useState('');
+    const [list, setList] = useState([
+        [],
+        [],
+        [],
+    ]);
     const addBoard = () =>{
         setBoard((prev) =>{
             let newBoard = [
                 ...prev,
                 {
-                    bnum: prev.length,
+                    bnum: prev.length+1,
                     bname: boardName,
-                }
+                },
             ]
+            console.log(newBoard);
             return newBoard;
         })
-        setBoardClicked(0);
-        setBoardName('');
-    }
-    const addList= ()=>{
         setList((prev)=>{
             let newList = [
                 ...prev,
-                [
-                    listName
-                ],
+                [],
             ]
             return newList;
         })
-        setListName('');
-    }
+        setBoardClicked(0);
+        setBoardName('');
+    };
+
     const inputBoard= (e)=>{
         setBoardName(e.target.value)
     };
 
-    const inputList = (e)=>{
-        setListName(e.target.value)
-    };
-    
     return(
         <Wnav>
             <Wlogo>작업 목록</Wlogo>
@@ -104,9 +94,7 @@ const WorkList = ()=>{
                     <SboardName>
                         {board.map((data, i) =>{
                             return (
-                            <div style={{minWidth: '150px', marginRight:'5px'}}>
-                                <Wtitle key={i}>{data.bname}</Wtitle>
-                            </div>
+                                <BoardList data={data} i={i} key={i}/>
                             )
                         })}
                         <button onClick={()=>{setBoardClicked(1)}}>보드 추가+</button>
@@ -122,26 +110,7 @@ const WorkList = ()=>{
                     </Saddiv>
                 </Sboard>
                 <Slist>
-                    <Slistbody>
-                        {board.map((data, i)=>{
-                            return(
-                                <div style={{minWidth: '150px', marginRight: '5px'}} key={i}>
-                                    {list.map((data, i)=>{
-                                        return(
-                                            <div>{list[i]}</div>
-                                        )
-                                    })}
-                                    <input type="text" placeholder="내용 추가"
-                                    value={listName}
-                                    onChange={(e)=>{
-                                        inputList(e);
-                                    }}
-                                    />
-                                    <button type="submit" onClick={()=>{addList()}}>+</button>
-                                </div>
-                            )
-                        })}
-                    </Slistbody>
+                    <InnerList board={board} list={list} setList={setList}/>
                 </Slist>
             </SworkList>
         </Wnav>

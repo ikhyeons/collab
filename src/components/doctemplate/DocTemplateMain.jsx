@@ -38,9 +38,9 @@ const Stitle = styled.div`
 const SsetMain = styled.div`
     width : 100%;
     font-size : 19px;
-    margin : 0 0 10px 10px;
+    margin : 0 0 0px 10px;
     background : none;
-    padding : 10px;
+    padding : 10px 10px 0 10px;
 `
 
 const Sname = styled.span`

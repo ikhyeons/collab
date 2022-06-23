@@ -12,7 +12,7 @@ position : relative;
     height : 100vh;
     display : flex;
     justify-content : space-between;
-    margin-right : 25px;
+    margin-right : 5px;
 `
 
 const Sspace = styled.li`

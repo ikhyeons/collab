@@ -49,7 +49,7 @@ const Slitag = styled.li`
 const SdocListMain = styled.div`
     height : 100vh;
     background : lightyellow;
-    width : 40%;
+    width : 43%;
     min-width : 500px;
     min-height : 410px;
 `

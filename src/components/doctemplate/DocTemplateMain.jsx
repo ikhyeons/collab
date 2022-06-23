@@ -6,10 +6,24 @@ import Participant from './Participant'
 import Licenser from './Licenser'
 
 const STemplateMain = styled.div`
-    width : 50%;
+    width : 47%;
     background : rgb(245, 245, 230);
     border : 4px solid rgb(240, 240, 220);
-    padding : 0px 20px;
+    height : 100vh;
+    overflow-Y : auto;
+    overflow-X : hidden;
+
+    &::-webkit-scrollbar{
+        width: 7px;
+        background : rgba(240,240,150,1);
+    }
+
+    &::-webkit-scrollbar-thumb{
+        height: 17%;
+        background-color: rgba(255,255,170,1);
+        border : 1px solid yellow;
+        border-radius: 5px;    
+    }
 `
 
 const Stitle = styled.div`
@@ -18,6 +32,7 @@ const Stitle = styled.div`
     font-weight : bold;
     margin-bottom : 10px;
     border-bottom : 2px solid black;
+    padding : 10px;
 `
 
 const SsetMain = styled.div`
@@ -25,6 +40,7 @@ const SsetMain = styled.div`
     font-size : 19px;
     margin : 0 0 10px 10px;
     background : none;
+    padding : 10px;
 `
 
 const Sname = styled.span`

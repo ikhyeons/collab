@@ -60,12 +60,12 @@ const SImageBox = styled.div`
 
   &::-webkit-scrollbar{
     height : 8px;
-    background : rgba(240,240,150,1);
+    background : rgba(240,240,150,0.3);
   }
 
   &::-webkit-scrollbar-thumb{
     height: 4%;
-    background-color: rgba(255,255,170,1);
+    background-color: rgba(215,215,150,1);
     border : 1px solid yellow;
     border-radius: 5px;    
   }
@@ -95,7 +95,7 @@ function ParagraphImg(prop) {
           <SImageBox 
             onClick={(e)=>{prop.setOnImg(1)}}
             onMouseLeave={(e)=>{prop.setOnImg(0)}}
-            onWheel={(e)=>{if(prop.onImg===1 && e.deltaY>0)e.currentTarget.scrollLeft+=300; else if(prop.onImg===1 && e.deltaY<0) e.currentTarget.scrollLeft-=300;}}
+            onWheel={(e)=>{if(prop.onImg===1 && e.deltaY>0)e.currentTarget.scrollLeft+=600; else if(prop.onImg===1 && e.deltaY<0) e.currentTarget.scrollLeft-=600;setTimeout(()=>{ }, 1500)}}
           >
               <SImage src="http://www.fintechpost.co.kr/news/photo/201907/46375_27128_0925.jpg" />
               <SImage src="https://cdn.topstarnews.net/news/photo/201908/653630_355016_3125.jpg" />

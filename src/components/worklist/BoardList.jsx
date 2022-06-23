@@ -4,6 +4,7 @@ import styled from "styled-components";
 const Wtitle = styled.div`
     padding-left: 12px;
     border-bottom: 1px solid grey;
+    min-height: 21px;
 `;
 
 

@@ -10,14 +10,13 @@ const Wtitle = styled.div`
 
 
 const BoardList = (props) =>{
-    const { i, data, list, setList } = props;
-    const key = i;
+    const { i,index, data, list, setList } = props;
     return(
         <div>
-            <div style={{minWidth: '150px', marginRight:'5px'}} key={key}>
+            <div style={{minWidth: '150px', marginRight:'5px'}} key={i}>
                 <Wtitle key={i}>{data.bname}</Wtitle>
             </div>
-            <InnerList  list={list} setList={setList} index={key}/>
+            <InnerList  list={list} setList={setList} index={index}/>
         </div>
     )
 }

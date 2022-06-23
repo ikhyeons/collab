@@ -53,6 +53,7 @@ const WorkList = ()=>{
         [],
         [],
         [],
+        [],
     ]);
     const addBoard = () =>{
         setBoard((prev) =>{
@@ -89,7 +90,7 @@ const WorkList = ()=>{
                     <SboardName>
                         {board.map((data, i) =>{
                             return (
-                                <BoardList data={data} key={i} i={i} index={board.bnum} list={list} setList={setList}/>
+                                <BoardList data={data} key={i} i={i} index={data.bnum} list={list} setList={setList}/>
                             )
                         })}
                         <button style={{minWidth:'70px', height:'20px'}} onClick={()=>{setBoardClicked(1)}}>보드 추가+</button>

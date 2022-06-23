@@ -10,6 +10,7 @@ const Slistbody = styled.div`
 const InnerList = memo((props) =>{
     const { index, list, setList } = props;
     const [listName, setListName] = useState('');
+    const [addButton, setAddButton] = useState(0);
     
     const addList= (i)=>{
         setList((prev)=>{
@@ -17,6 +18,7 @@ const InnerList = memo((props) =>{
                 ...prev,
             ]
             if(listName){
+                console.log(newList, i, listName);
                 newList[i].push(listName)
             }else{
                 return newList;
@@ -24,6 +26,7 @@ const InnerList = memo((props) =>{
             return newList;
         });
         setListName('');
+        setAddButton(0);
     };
 
     const inputList = (e)=>{
@@ -37,13 +40,21 @@ const InnerList = memo((props) =>{
                     <div key={index} style={{maxWidth:'150px',overflow:'auto'}}>{data}</div>
                 )
             })}
-            <input type="text" placeholder="내용 추가"
-            style={{width: '130px'}}
+            {addButton === 1 && <input type="text" placeholder="내용 추가"
+            style={{width: '150px'}}
+            value={listName}
             onChange={(e)=>{
                 inputList(e);
             }}
-            />
-            <button style={{width:'20px'}} type="submit" onClick={()=>{addList(index)}}>+</button>
+            onKeyPress={(e)=>{
+                if(e.key === 'Enter'){
+                    addList(index)
+                }
+            }}
+            autoFocus
+            />}
+            {addButton === 0 &&
+            <button style={{width:'150px'}} type="submit" onClick={()=>{setAddButton(1)}}>+</button>}
         </div>
     )
 })

@@ -23,7 +23,7 @@ const Sspace = styled.li`
 `
 const SidebarGoMain = styled.div`
 padding-left : 10px;
-:hover{
+  :hover{
     background : yellow;
     cursor : pointer;
   }

@@ -8,7 +8,7 @@ const Slistbody = styled.div`
 `
 
 const InnerList = memo((props) =>{
-    const { board, list, setList } = props;
+    const { index, list, setList } = props;
     const [listName, setListName] = useState('');
     
     const addList= (i)=>{
@@ -31,26 +31,20 @@ const InnerList = memo((props) =>{
     }
 
     return(
-        <Slistbody>
-            {list.map((data, i)=>{
+        <div style={{minWidth: '150px', marginRight: '5px'}}>
+            {list[index] && list[index].map((data, index)=>{
                 return(
-                    <div style={{minWidth: '150px', marginRight: '5px'}} key={i}>
-                        {list[i].map((data, index)=>{
-                            return(
-                                <div key={index} style={{maxWidth:'150px',overflow:'auto'}}>{data}</div>
-                            )
-                        })}
-                        <input type="text" placeholder="내용 추가"
-                        style={{width: '130px'}}
-                        onChange={(e)=>{
-                            inputList(e);
-                        }}
-                        />
-                        <button style={{width:'20px'}} type="submit" onClick={()=>{addList(i)}}>+</button>
-                    </div>
+                    <div key={index} style={{maxWidth:'150px',overflow:'auto'}}>{data}</div>
                 )
             })}
-        </Slistbody>
+            <input type="text" placeholder="내용 추가"
+            style={{width: '130px'}}
+            onChange={(e)=>{
+                inputList(e);
+            }}
+            />
+            <button style={{width:'20px'}} type="submit" onClick={()=>{addList(index)}}>+</button>
+        </div>
     )
 })
 

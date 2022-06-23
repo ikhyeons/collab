@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from 'styled-components';
 import BoardList from "./BoardList";
-import InnerList from "./InnerList";
 
 
 const Wnav = styled.nav`
@@ -19,7 +18,7 @@ const SworkList = styled.div`
 `;
 
 const Sboard = styled.div`
-    display: flex;
+    overflow:auto;
 `;
 
 const SboardName = styled.div`
@@ -30,10 +29,6 @@ const SboardName = styled.div`
 const Saddiv = styled.div`
     display: ${props => props.boardClicked === 1 ? 'contents' : 'none'};
     width: 100%;
-`
-
-const Slist = styled.div`
-    display:flex;
 `
 
 
@@ -94,24 +89,23 @@ const WorkList = ()=>{
                     <SboardName>
                         {board.map((data, i) =>{
                             return (
-                                <BoardList data={data} i={i} key={i}/>
+                                <BoardList data={data} key={i} i={i} index={board.bnum} list={list} setList={setList}/>
                             )
                         })}
-                        <button onClick={()=>{setBoardClicked(1)}}>보드 추가+</button>
+                        <button style={{minWidth:'70px', height:'20px'}} onClick={()=>{setBoardClicked(1)}}>보드 추가+</button>
+                        <Saddiv boardClicked ={boardClicked}>
+                            <input type="text" placeholder="제목 입력"
+                                style={{maxHeight:'20px', minHeight:'20px'}}
+                                value={boardName}
+                                onChange={(e)=>{
+                                inputBoard(e);
+                                }}
+                            />
+                            <button style={{maxHeight:'20px', minWidth:'20px'}} type="submit" onClick={()=>{addBoard()}}>+</button>
+                        </Saddiv>
+                        
                     </SboardName>
-                    <Saddiv boardClicked ={boardClicked}>
-                        <input type="text" placeholder="제목 입력"
-                            value={boardName}
-                            onChange={(e)=>{
-                            inputBoard(e);
-                            }}
-                        />
-                        <button type="submit" onClick={()=>{addBoard()}}>+</button>
-                    </Saddiv>
                 </Sboard>
-                <Slist>
-                    <InnerList board={board} list={list} setList={setList}/>
-                </Slist>
             </SworkList>
         </Wnav>
     )

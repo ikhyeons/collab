@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import InnerList from "./InnerList";
 
 const Wtitle = styled.div`
     padding-left: 12px;
@@ -9,10 +10,14 @@ const Wtitle = styled.div`
 
 
 const BoardList = (props) =>{
-    const { i, data } = props;
+    const { i, data, list, setList } = props;
+    const key = i;
     return(
-        <div style={{minWidth: '150px', marginRight:'5px'}} key={i}>
-            <Wtitle key={i}>{data.bname}</Wtitle>
+        <div>
+            <div style={{minWidth: '150px', marginRight:'5px'}} key={key}>
+                <Wtitle key={i}>{data.bname}</Wtitle>
+            </div>
+            <InnerList  list={list} setList={setList} index={key}/>
         </div>
     )
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components'
 import ParagraphList from './ParagraphList'
 import ReplyList from './ReplyList'
@@ -10,7 +10,7 @@ const STemplateMain = styled.div`
     background : rgb(245, 245, 230);
     border : 4px solid rgb(240, 240, 220);
     height : 100vh;
-    overflow-Y : auto;
+    overflow-Y : ${prop=>prop.onImg === 1? 'hidden' : 'auto'};
     overflow-X : hidden;
 
     &::-webkit-scrollbar{
@@ -63,9 +63,11 @@ const Ssets = styled.div`
 `
 
 function DocTemplateMain() {
+
+    const [onImg, setOnImg] = useState(0);
     
   return (
-    <STemplateMain>
+    <STemplateMain onImg={onImg} >
         <Stitle>    {/* 제목 */}
             세번째 글 제목
         </Stitle> 
@@ -79,7 +81,7 @@ function DocTemplateMain() {
             <Licenser />    {/* 허가자 */}
         </SsetMain>
         
-        <ParagraphList />   {/* 문단들 */}
+        <ParagraphList onImg={onImg} setOnImg={setOnImg} />   {/* 문단들 */}
 
         <ReplyList />   {/* 댓글 */}
 

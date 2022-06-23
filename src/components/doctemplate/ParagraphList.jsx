@@ -11,7 +11,7 @@ const SParagraphList = styled.ul`
   width : 100%;
 `
 
-function ParagraphList() {
+function ParagraphList(prop) {
 
   const [paragraphs, setParagraphs] = useState([
     {
@@ -69,10 +69,10 @@ function ParagraphList() {
   return (
     <SParagraphList>
         {paragraphs.map((data, i)=>{
-          if (data.type === 'text') return <ParagraphText data={data} />
-          else if (data.type === 'image') return <ParagraphImg data={data} />
-          else if (data.type === 'video') return <ParagraphVideo data={data} />
-          else if (data.type === 'link') return <ParagraphLink data={data} />
+          if (data.type === 'text') return <ParagraphText key={i} data={data} />
+          else if (data.type === 'image') return <ParagraphImg onImg={prop.onImg} setOnImg={prop.setOnImg} key={i} data={data} />
+          else if (data.type === 'video') return <ParagraphVideo key={i} data={data} />
+          else if (data.type === 'link') return <ParagraphLink key={i} data={data} />
         })}
     </SParagraphList>
   )

@@ -31,7 +31,19 @@ const Saddiv = styled.div`
     width: 100%;
 `
 
+const SboardButton = styled.button`
+    height:20px;
+    min-width:70px;
+`
 
+const Sinput = styled.input`
+    height:20px;
+`
+
+const Sbutton = styled.button`
+    max-height:20px;
+    min-width:20px;
+`
 const WorkList = ()=>{
     const [boardClicked, setBoardClicked] = useState(0);
     const [boardName, setBoardName] = useState('');
@@ -93,16 +105,15 @@ const WorkList = ()=>{
                                 <BoardList data={data} key={i} i={i} index={data.bnum} list={list} setList={setList}/>
                             )
                         })}
-                        <button style={{minWidth:'70px', height:'20px'}} onClick={()=>{setBoardClicked(1)}}>보드 추가+</button>
+                        <SboardButton onClick={()=>{setBoardClicked(1)}}>보드 추가+</SboardButton>
                         <Saddiv boardClicked ={boardClicked}>
-                            <input type="text" placeholder="제목 입력"
-                                style={{maxHeight:'20px', minHeight:'20px'}}
+                            <Sinput type="text" placeholder="제목 입력"
                                 value={boardName}
                                 onChange={(e)=>{
                                 inputBoard(e);
                                 }}
                             />
-                            <button style={{maxHeight:'20px', minWidth:'20px'}} type="submit" onClick={()=>{addBoard()}}>+</button>
+                            <Sbutton type="submit" onClick={()=>{addBoard()}}>+</Sbutton>
                         </Saddiv>
                         
                     </SboardName>

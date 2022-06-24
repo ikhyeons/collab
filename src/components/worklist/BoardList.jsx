@@ -7,17 +7,22 @@ const Wtitle = styled.div`
     border-bottom: 1px solid grey;
     min-height: 21px;
 `;
+const Sboard = styled.div`
+    min-width:150px;
+    margin-right:5px;
+`
 
-
+const Scontainor = styled.div`
+`
 const BoardList = (props) =>{
     const { i,index, data, list, setList } = props;
     return(
-        <div>
-            <div style={{minWidth: '150px', marginRight:'5px'}} key={i}>
+        <Scontainor>
+            <Sboard key={i}>
                 <Wtitle key={i}>{data.bname}</Wtitle>
-            </div>
+            </Sboard>
             <InnerList  list={list} setList={setList} index={index}/>
-        </div>
+        </Scontainor>
     )
 }
 

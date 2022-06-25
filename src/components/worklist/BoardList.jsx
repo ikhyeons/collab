@@ -6,6 +6,10 @@ const Wtitle = styled.div`
     padding-left: 12px;
     border-bottom: 1px solid grey;
     min-height: 21px;
+    max-width:300px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
 `;
 const Sboard = styled.div`
     min-width:150px;

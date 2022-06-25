@@ -10,7 +10,7 @@ const STemplateMain = styled.div`
     background : rgb(245, 245, 230);
     border : 4px solid rgb(240, 240, 220);
     height : 100vh;
-    overflow-Y : ${prop=>prop.onImg === 1? 'hidden' : 'auto'};
+    overflow-Y : ${prop=>prop.mouseOnImg === 1? 'hidden' : 'auto'};
     overflow-X : hidden;
 
     &::-webkit-scrollbar{
@@ -64,10 +64,10 @@ const Ssets = styled.div`
 
 function DocTemplateMain() {
 
-    const [onImg, setOnImg] = useState(0);
+    const [mouseOnImg, setMouseOnImg] = useState(0);
     
   return (
-    <STemplateMain onImg={onImg} >
+    <STemplateMain mouseOnImg={mouseOnImg} >
         <Stitle>    {/* 제목 */}
             세번째 글 제목
         </Stitle> 
@@ -76,12 +76,12 @@ function DocTemplateMain() {
             <Ssets>작성일 : 2022-07-14</Ssets> {/* 작성일 */}
             <Ssets>수정일 : 2022-07-14</Ssets> {/* 수정일 */}
             <Ssets>작성자 : <Sname>@성익현</Sname></Ssets> {/* 작성자 */}
-
+            
             <Participant /> {/* 참여자 */}
             <Licenser />    {/* 허가자 */}
         </SsetMain>
         
-        <ParagraphList onImg={onImg} setOnImg={setOnImg} />   {/* 문단들 */}
+        <ParagraphList mouseOnImg={mouseOnImg} setMouseOnImg={setMouseOnImg} />   {/* 문단들 */}
 
         <ReplyList />   {/* 댓글 */}
 

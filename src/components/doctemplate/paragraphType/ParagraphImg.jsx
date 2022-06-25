@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { BsThreeDotsVertical,  } from 'react-icons/bs'
-import {MdOutlineCancel} from 'react-icons/md'
+import {MdOutlineCancel, MdOutlineEditNote} from 'react-icons/md'
 import { getIsRtlScrollbarOnLeft } from '@fullcalendar/core'
 import { useState } from 'react'
 
@@ -72,8 +72,8 @@ const SImageBox = styled.div`
 `
 
 const SImage = styled.img`
-  max-height : 600px;
-  min-height : 600px;
+  max-height : 400px;
+  min-height : 400px;
   margin-right : 7px;
 `
 
@@ -86,16 +86,33 @@ function ParagraphImg(prop) {
             <BsThreeDotsVertical />
           </SimoDiv1>
 
-          <SimoDiv2>
+          <SimoDiv1>
+            <MdOutlineEditNote />
+          </SimoDiv1>
+
+          <SimoDiv2
+            onClick={()=>{
+              prop.setParagraphs((prev)=>{
+                let arrayData = [
+                  ...prev,
+                ]
+                arrayData = arrayData.filter((list)=>{
+                  return list.id !== prop.data.id;
+                });
+                
+                console.log(arrayData);
+                return arrayData;
+              })}}
+          >
             <MdOutlineCancel />
           </SimoDiv2>
         </SSettingLine>
 
         <SInnerDataV >
           <SImageBox 
-            onClick={(e)=>{prop.setOnImg(1)}}
-            onMouseLeave={(e)=>{prop.setOnImg(0)}}
-            onWheel={(e)=>{if(prop.onImg===1 && e.deltaY>0)e.currentTarget.scrollLeft+=600; else if(prop.onImg===1 && e.deltaY<0) e.currentTarget.scrollLeft-=600;setTimeout(()=>{ }, 1500)}}
+            onClick={(e)=>{prop.setMouseOnImg(1)}}
+            onMouseLeave={(e)=>{prop.setMouseOnImg(0)}}
+            onWheel={(e)=>{if(prop.mouseOnImg===1 && e.deltaY>0)e.currentTarget.scrollLeft+=600; else if(prop.mouseOnImg===1 && e.deltaY<0) e.currentTarget.scrollLeft-=600;setTimeout(()=>{ }, 1500)}}
           >
               <SImage src="http://www.fintechpost.co.kr/news/photo/201907/46375_27128_0925.jpg" />
               <SImage src="https://cdn.topstarnews.net/news/photo/201908/653630_355016_3125.jpg" />

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { BsThreeDotsVertical,  } from 'react-icons/bs'
-import {MdOutlineCancel} from 'react-icons/md'
+import {MdOutlineCancel, MdOutlineEditNote} from 'react-icons/md'
 
 const SInnerDataV = styled.div`
   padding-left : 25px;
@@ -59,13 +59,30 @@ function ParagraphText(prop) {
             <BsThreeDotsVertical />
           </SimoDiv1>
 
-          <SimoDiv2>
+          <SimoDiv1>
+            <MdOutlineEditNote />
+          </SimoDiv1>
+          
+          <SimoDiv2
+            onClick={()=>{
+              prop.setParagraphs((prev)=>{
+                let arrayData = [
+                  ...prev,
+                ]
+                arrayData = arrayData.filter((list)=>{
+                  return list.id !== prop.data.id;
+                });
+                
+                console.log(arrayData);
+                return arrayData;
+              })}}
+          >
             <MdOutlineCancel />
           </SimoDiv2>
         </SSettingLine>
 
         <SInnerDataV >
-          {prop.data.data}
+          {prop.data.data}  
         </SInnerDataV>
         
     </SParagraphText>

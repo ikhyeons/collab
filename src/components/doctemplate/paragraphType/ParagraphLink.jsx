@@ -1,10 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 import { BsThreeDotsVertical,  } from 'react-icons/bs'
-import {MdOutlineCancel} from 'react-icons/md'
+import {MdOutlineCancel, MdOutlineEditNote} from 'react-icons/md'
 
 const SInnerDataV = styled.div`
   padding-left : 25px;
+  display : flex;
+  width : 100%;
+  :hover{
+    background : rgba(255, 255, 200, 0.3);
+  }
 `
 
 const SimoDiv1 = styled.span`
@@ -46,6 +51,43 @@ const SSettingLine = styled.div`
   transform: translateY(-50%);
 `
 
+const SLinkLeft = styled.div`
+  display : flex;
+  background : none;
+  width : 20%;
+  border : 1px solid gray;
+  border-radius : 15px;
+`
+
+const SLinkRight = styled.div`
+  background : none;
+  width : 80%;
+`
+
+const SLinkimg = styled.img`
+  width : 100%;
+  border-radius : 15px;
+  :hover {
+    cursor : pointer;
+  }
+`
+
+const SLinkLine = styled.div`
+  padding : 7px;
+  width : 100%;
+  
+  :hover {
+    cursor : pointer;
+    text-decoration : underline;
+  }
+`
+
+const SLinkContent = styled.div`
+  padding : 7px;
+  :hover{
+    cursor : pointer;
+  }
+`
 function ParagraphLink(prop) {
   return (
     <SParagraphLink>
@@ -54,13 +96,36 @@ function ParagraphLink(prop) {
             <BsThreeDotsVertical />
           </SimoDiv1>
 
-          <SimoDiv2>
+          <SimoDiv1>
+            <MdOutlineEditNote />
+          </SimoDiv1>
+
+          <SimoDiv2
+            onClick={()=>{
+              prop.setParagraphs((prev)=>{
+                let arrayData = [
+                  ...prev,
+                ]
+                arrayData = arrayData.filter((list)=>{
+                  return list.id !== prop.data.id;
+                });
+                
+                console.log(arrayData);
+                return arrayData;
+              })}}
+          >
             <MdOutlineCancel />
           </SimoDiv2>
         </SSettingLine>
 
         <SInnerDataV >
-          {prop.data.data}
+          <SLinkLeft>
+            <SLinkimg src='https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjAzMDZfMTAz%2FMDAxNjQ2NDk1MTQ1MDcy.CD4dxBXYd_Z8c7ukEUhg-5MZXQw45KxYYw1T4RxhRIcg.j-W-C2tFZ9bS9RwDxMTeH0UkffMN7AfLguaIbvTvKBYg.PNG.ggsone0805%2FCreamCam20220227172215.png&type=a340' />
+          </SLinkLeft>
+          <SLinkRight>
+            <SLinkLine>{prop.data.data}</SLinkLine>
+            <SLinkContent>프롭스로 받아온 세부내용 표시</SLinkContent>
+          </SLinkRight>
         </SInnerDataV>
         
     </SParagraphLink>

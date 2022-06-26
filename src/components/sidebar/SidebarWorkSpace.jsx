@@ -50,12 +50,12 @@ const SidebarWorkSpace = () => {
     },
     {
       num : 3,
-      type : 'li',
+      type : 'board',
       name : '작업목록',
     },
     {
       num : 4,
-      type : 'board',
+      type : 'li',
       name : '추가된페이지',
     },
   ])

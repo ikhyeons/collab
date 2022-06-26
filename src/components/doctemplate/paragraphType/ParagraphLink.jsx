@@ -38,7 +38,7 @@ const SParagraphLink = styled.div`
   padding : 10px;
   display : flex;
   position : relative;
-  min-height : 80px;
+  min-height : 100px;
   margin : 5px 0;
 `
 

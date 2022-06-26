@@ -75,12 +75,14 @@ const SidebarWorkSpace = () => {
     })
   }
 
+  const accordion = ()=>{ //클릭했을 경우 숨겨져 있으면 보이게하고, 보이는 상태이면 숨기게함.
+    if (hidden === 0 ) setHidden(1)
+    else setHidden(0)
+  }
+
   return (
     <div>
-        <Stitle onClick={()=>{ //클릭했을 경우 숨겨져 있으면 보이게하고, 보이는 상태이면 숨기게함.
-          if (hidden === 0 ) setHidden(1)
-          else setHidden(0)
-        }}>워크스페이스</Stitle>
+        <Stitle onClick={()=>{accordion()}}>워크스페이스</Stitle>
         <Sul hidden = {hidden}>
           {workSpaceList.map((data , i )=>{
             return <Link to={`/main/workspace/${data.type}/${i}`} key = {i} style={{ textDecoration: 'none', color : 'black'}}><Sli>{data.name}</Sli></Link>//${i}에서 i는 워크스페이스 번호

@@ -130,17 +130,15 @@ function DocList(prop) {
     //백에서 받아온 데이터가 모두 로드되었을 때 더이상 스크롤 이벤트가 생기는 것을 멈추기 위한 스테이트
     const [isEnd, setIsEnd] = useState(0);
 
+    const scrollBottom = useCallback((e)=>{ //스크롤 되었을 경우에
+        if(e.target.scrollTop + e.target.offsetHeight + 1 == e.currentTarget.scrollHeight){
+            //만약 스크롤된 량 + 화면의 높이가 해당 div의 전체 높이일때(맨 아래까지 스크롤 되었을 경우) 
+            setIsBottom(1); //isBottom을 1로 변경함.
+        }
+    })
+
     return (
-        <Sul
-            onScroll={
-                useCallback((e)=>{ //스크롤 되었을 경우에
-                    if(e.target.scrollTop + e.target.offsetHeight + 1 == e.currentTarget.scrollHeight){
-                        //만약 스크롤된 량 + 화면의 높이가 해당 div의 전체 높이일때(맨 아래까지 스크롤 되었을 경우) 
-                        setIsBottom(1); //isBottom을 1로 변경함.
-                    }
-                })
-            }
-        >
+        <Sul onScroll={()=>{scrollBottom()}}>
             {
                 prop.data.map((data)=>{{/* 부모에서 받은 글 리스트를 렌더함. */}
                     return (

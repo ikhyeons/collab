@@ -51,20 +51,20 @@ function Licenser() {
   const lineRef = useRef(null);
   useEffect(()=>{console.log(mentionList)},[mentionList])
 
+  const onLicenserModal = (e)=>{
+    console.log(lineRef.current, e.target)
+    if(lineRef.current === e.target){
+        setIsAdd((prev)=>{
+            return prev ==1 ? 0:1
+        })
+        setInputValue('');
+    }
+    }
+
   return (
     <div>
-        <Licensers
-            ref={lineRef}
-            onClick={(e)=>{
-                console.log(lineRef.current, e.target)
-                if(lineRef.current === e.target){
-                    setIsAdd((prev)=>{
-                        return prev ==1 ? 0:1
-                    })
-                    setInputValue('');
-                }
-            }}
-        >허가자 : {mentionList.map((data, i)=>{
+        <Licensers ref={lineRef} onClick={(e)=>{onLicenserModal(e)}}>
+            허가자 : {mentionList.map((data, i)=>{
             return <Sname key={i}>@{data} <Sx
             onClick={()=>{
                 setMentionList((prev)=>{
@@ -74,8 +74,8 @@ function Licenser() {
                 
             }}
             >X</Sx></Sname>
-            
         })}</Licensers>
+        
         {isAdd == 1 && <MentionsInput 
             placeholder='다시눌러 닫기, @이름입력'
             style={defaultStyle}

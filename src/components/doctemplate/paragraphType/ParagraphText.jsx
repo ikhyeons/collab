@@ -1,4 +1,4 @@
-import React, {useRef, useState, useCallback} from 'react'
+import React, {useRef, useState, useCallback, useEffect} from 'react'
 import styled from 'styled-components'
 import { BsThreeDotsVertical,  } from 'react-icons/bs'
 import {MdOutlineCancel, MdOutlineEditNote} from 'react-icons/md'
@@ -58,6 +58,19 @@ const SSettingLine = styled.div`
 
 function ParagraphText(prop) {
 
+  const delParagraph = ()=>{
+    prop.setParagraphs((prev)=>{
+      let arrayData = [
+        ...prev,
+      ]
+      arrayData = arrayData.filter((list)=>{
+        return list.id !== prop.data.id;
+      });
+      
+      console.log(arrayData);
+      return arrayData;
+    })}
+
   const textRef = useRef();
   const [inputValue, setInputValue] = useState('');
 
@@ -74,12 +87,16 @@ function ParagraphText(prop) {
 
           <SimoDiv1
             onClick={()=>{
+              console.log(prop.data);
+              console.log(prop.data.data);
               setInputValue(prop.data.data);
               prop.setParagraphs((prev)=>{
                 let newList = [
                   ...prev
                 ]
-                newList[prop.data.id].modify = 1;
+                console.log(newList);
+                // 클릭된 놈이랑 아이디가 같은 객체의 수정을 1로 만들어야 됨.
+                newList = newList.map((data)=>(data.id===prop.data.id? {...data, modify : 1} : {...data, modify : 0}));
                 console.log(newList);
                 return newList;
               })
@@ -88,20 +105,7 @@ function ParagraphText(prop) {
             <MdOutlineEditNote />
           </SimoDiv1>
 
-          <SimoDiv2
-            onClick={()=>{
-              prop.setParagraphs((prev)=>{
-                let arrayData = [
-                  ...prev,
-                ]
-                arrayData = arrayData.filter((list)=>{
-                  return list.id !== prop.data.id;
-                });
-                
-                console.log(arrayData);
-                return arrayData;
-              })}}
-          >
+          <SimoDiv2 onClick={()=>{delParagraph()}}>
             <MdOutlineCancel />
           </SimoDiv2>
         </SSettingLine>
@@ -117,19 +121,30 @@ function ParagraphText(prop) {
         onInput={handleResizeHeight}
         onChange={(e)=>{setInputValue(e.target.value)}}
         onKeyDown={(e)=>{
-          
           if(e.key === 'Enter' && !e.shiftKey){
             prop.setParagraphs((prev)=>{
               let newList = [
                 ...prev
               ]
-              newList[prop.data.id].data = inputValue;
-              newList[prop.data.id].modify = 0;
+              newList = newList.map((data)=>(data.id===prop.data.id? {...data, data : inputValue}:{...data}));
+              newList = newList.map((data)=>(data.id===prop.data.id? {...data, modify : 0} : {...data})); 
               console.log(newList);
               return newList;
             })
             setInputValue('');
           }
+        }}
+        onBlur = {(e)=>{
+          prop.setParagraphs((prev)=>{
+            let newList = [
+              ...prev
+            ]
+            newList[prop.data.id].data = inputValue;
+            newList[prop.data.id].modify = 0;
+            console.log(newList);
+            return newList;
+          })
+          setInputValue('');
         }}
         />
         }

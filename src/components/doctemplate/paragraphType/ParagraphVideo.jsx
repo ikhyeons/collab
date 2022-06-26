@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import styled from 'styled-components'
 import { BsThreeDotsVertical,  } from 'react-icons/bs'
 import {MdOutlineCancel, MdOutlineEditNote} from 'react-icons/md'
@@ -50,8 +50,23 @@ const SSettingLine = styled.div`
 const SVideoTitle = styled.div`
   
 `
-
 function ParagraphVideo(prop) {
+
+ 
+
+  const delParagraph = ()=>{
+    prop.setParagraphs((prev)=>{
+      let arrayData = [
+        ...prev,
+      ]
+      arrayData = arrayData.filter((list)=>{
+        return list.id !== prop.data.id;
+      });
+      
+      console.log(arrayData);
+      return arrayData;
+    })}
+
   return (
     <SParagraphVideo>
         <SSettingLine>
@@ -63,20 +78,7 @@ function ParagraphVideo(prop) {
             <MdOutlineEditNote />
           </SimoDiv1>
 
-          <SimoDiv2
-            onClick={()=>{
-              prop.setParagraphs((prev)=>{
-                let arrayData = [
-                  ...prev,
-                ]
-                arrayData = arrayData.filter((list)=>{
-                  return list.id !== prop.data.id;
-                });
-                
-                console.log(arrayData);
-                return arrayData;
-              })}}
-          >
+          <SimoDiv2 onClick={()=>{delParagraph()}}>
             <MdOutlineCancel />
           </SimoDiv2>
         </SSettingLine>

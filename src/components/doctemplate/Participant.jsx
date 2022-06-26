@@ -43,37 +43,35 @@ function Participant() {
             display : '@강도경',
         },
     ])
-    const [mentionList, setMentionList] = useState([
-
-    ])
+    const [mentionList, setMentionList] = useState([])
     const lineRef = useRef(null);
-    useEffect(()=>{console.log(mentionList)},[mentionList])
+    
+    const onParticipantMention = (e)=>{
+        console.log(lineRef.current, e.target)
+        if(lineRef.current === e.target){
+            setIsAdd((prev)=>{
+                return prev ==1 ? 0:1
+            })
+            setInputValue('');
+        }
+    }
 
   return (
     <div>
-        <Participants
-            ref={lineRef}
-            onClick={(e)=>{
-                console.log(lineRef.current, e.target)
-                if(lineRef.current === e.target){
-                    setIsAdd((prev)=>{
-                        return prev ==1 ? 0:1
+        <Participants ref={lineRef} onClick={(e)=>{onParticipantMention(e)}}>
+        참여자 : 
+        {
+            mentionList.map((data, i)=>{
+                return <Sname key={i}>@{data} <Sx
+                onClick={()=>{
+                    setMentionList((prev)=>{
+                        let newData = prev.filter((fdata)=>!(fdata==data))
+                        return newData
                     })
-                    setInputValue('');
-                }
-            }}
-        >참여자 : {mentionList.map((data, i)=>{
-            return <Sname key={i}>@{data} <Sx
-            onClick={()=>{
-                setMentionList((prev)=>{
-                    let newData = prev.filter((fdata)=>!(fdata==data))
-                    return newData
-                })
-                
-            }}
-            >X</Sx></Sname>
+                }}
+                >X</Sx></Sname>
+            })}</Participants>
             
-        })}</Participants>
         {isAdd == 1 && <MentionsInput 
             placeholder='다시눌러 닫기, @이름입력'
             style={defaultStyle}

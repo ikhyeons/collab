@@ -78,37 +78,32 @@ const Sline = styled.div`
 `
 
 function CalendarAddEventModal(prop) {
+
+  const addEvent = ()=>{
+    prop.setEvent((prev)=>{
+      let newEvent = [
+        ...prev,
+        {
+          id : '2',
+          title : '입력받은 제목',
+          content : '입력받은 내용',
+          start : prop.selectedDate.start,
+          end : prop.selectedDate.end,
+        }
+      ]
+      return newEvent
+    })
+    prop.setEventSet(0)
+  }
+
   return (
     <AddEventModal>
       <SselectedDate>{prop.selectedDate.start} ~ {prop.selectedDate.end}</SselectedDate>
       <Stitle placeholder='제목을 입력하세요' type="text" />
       <Sline/>
       <Scontent name="" id="" cols="30" rows="10"></Scontent>
-      <Sbutton
-        onClick={()=>{
-          prop.setEvent((prev)=>{
-            let newEvent = [
-              ...prev,
-              {
-                id : '2',
-                title : '입력받은 제목',
-                content : '입력받은 내용',
-                start : prop.selectedDate.start,
-                end : prop.selectedDate.end,
-              }
-            ]
-            return newEvent
-          })
-          prop.setEventSet(0)
-        }}
-      >추가</Sbutton>
-
-
-      <Sbutton
-        onClick={()=>{prop.setEventSet(0)}}
-      >취소</Sbutton>
-
-
+      <Sbutton onClick={()=>{addEvent()}}>추가</Sbutton>
+      <Sbutton onClick={()=>{prop.setEventSet(0)}}>취소</Sbutton>
     </AddEventModal>
   )
 }

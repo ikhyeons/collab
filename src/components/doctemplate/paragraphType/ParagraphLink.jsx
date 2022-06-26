@@ -89,6 +89,20 @@ const SLinkContent = styled.div`
   }
 `
 function ParagraphLink(prop) {
+
+  const delParagraph = ()=>{
+    prop.setParagraphs((prev)=>{
+      let arrayData = [
+        ...prev,
+      ]
+      arrayData = arrayData.filter((list)=>{
+        return list.id !== prop.data.id;
+      });
+      
+      console.log(arrayData);
+      return arrayData;
+    })}
+
   return (
     <SParagraphLink>
         <SSettingLine>
@@ -100,20 +114,7 @@ function ParagraphLink(prop) {
             <MdOutlineEditNote />
           </SimoDiv1>
 
-          <SimoDiv2
-            onClick={()=>{
-              prop.setParagraphs((prev)=>{
-                let arrayData = [
-                  ...prev,
-                ]
-                arrayData = arrayData.filter((list)=>{
-                  return list.id !== prop.data.id;
-                });
-                
-                console.log(arrayData);
-                return arrayData;
-              })}}
-          >
+          <SimoDiv2 onClick={()=>{delParagraph()}}>
             <MdOutlineCancel />
           </SimoDiv2>
         </SSettingLine>

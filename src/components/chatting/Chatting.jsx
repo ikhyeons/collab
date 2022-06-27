@@ -10,12 +10,12 @@ const Scontainor = styled.div`
 `;
 
 const Schatcon = styled.div`
-    width: 80%;
+    width: 85%;
     border: 1px solid grey;
 `;
 
 const Sparticipant = styled.div`
-    width: 20%;
+    width: 15%;
     border: 1px solid grey;
 `;
 
@@ -38,7 +38,7 @@ const Sinnerchat = styled.div`
     margin: 30px;
     padding: 20px;
     width:200px;
-    height:60px;
+    min-height:60px;
     color: #FFF;
     border-radius: 10px;
     background-color: grey;

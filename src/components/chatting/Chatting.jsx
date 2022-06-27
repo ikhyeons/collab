@@ -33,7 +33,7 @@ const Schatting = styled.div`
     flex-direction:column;
 `;
 
-const Sinnerchat = styled.div`
+const Smychat = styled.div`
     position:relative;
     margin: 30px;
     padding: 20px;
@@ -48,6 +48,27 @@ const Sinnerchat = styled.div`
         top:21px;
         right:-30px;
         border-left:30px solid grey;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+    }
+`
+
+const Snmychat = styled.div`
+    position:relative;
+    margin: 30px;
+    padding: 20px;
+    width:200px;
+    min-height:60px;
+    color: #FFF;
+    border-radius: 10px;
+    background-color: grey;
+    transform:translateX(-300%);
+    :after{
+        content:"";
+        position:absolute;
+        top:21px;
+        right:200px;
+        border-right:30px solid grey;
         border-top: 10px solid transparent;
         border-bottom: 10px solid transparent;
     }
@@ -70,7 +91,12 @@ const Sbutton = styled.button`
     margin-bottom:3px;
 `;
 const Chatting = ()=>{
-    const [myChat, setMychat] = useState([]);
+    const [myChat, setMychat] = useState([
+        {
+            my:0,
+            contents:'뭐해',
+        },
+    ]);
     const [chat, setChat] = useState('');
     const scrollRef = useRef();
 
@@ -78,7 +104,10 @@ const Chatting = ()=>{
         setMychat((prev)=>{
             let newchat = [
                 ...prev,
-                chat,
+                {
+                    my:1,
+                    contents:chat,
+                }
             ]
             return newchat;        
         })
@@ -100,9 +129,11 @@ const Chatting = ()=>{
                 <Stitle>채팅/전체 채팅</Stitle>
                 <Schatting>
                     {myChat.map((data, i)=>{
-                        return(
-                        <Sinnerchat key={i}>{data}</Sinnerchat>
-                        )
+                        if(data.my === 1){
+                            return <Smychat key={i}>{data.contents}</Smychat>;
+                        } else if (data.my === 0){
+                            return <Snmychat key={i}>{data.contents}</Snmychat>;
+                        }
                     })}
                     <div ref={scrollRef} />
                 </Schatting>

@@ -5,12 +5,13 @@ import {MdOutlineCancel, MdOutlineEditNote} from 'react-icons/md'
 
 const SInnerDataV = styled.div`
   padding-left : 25px;
+  width : 100%;
 `
 
 const SInnerDataI = styled.textarea`
   margin-left : 25px;
   width : 100%;
-  background : ${(prop)=>prop.modify==0?'none' : 'rgba(255, 255, 200, 0.7)'};
+  background : ${(prop)=>prop.modify===0?'none' : 'rgba(255, 255, 200, 0.7)'};
   font-size : 16px;
   border : none;
   overflow : hidden;
@@ -51,9 +52,6 @@ const SSettingLine = styled.div`
   display : flex;
   flex-direction: column;
   margin-right : 5px;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
 `
 
 function ParagraphText(prop) {
@@ -112,7 +110,7 @@ function ParagraphText(prop) {
 
         {
         prop.data.modify === 0?
-        <SInnerDataV >
+        <SInnerDataV>
           {prop.data.data}  
         </SInnerDataV>
         :

@@ -2,8 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { BsThreeDotsVertical,  } from 'react-icons/bs'
 import {MdOutlineCancel, MdOutlineEditNote} from 'react-icons/md'
-import { getIsRtlScrollbarOnLeft } from '@fullcalendar/core'
-import { useState } from 'react'
 
 const SInnerDataV = styled.div`
   padding-left : 25px;
@@ -47,9 +45,6 @@ const SSettingLine = styled.div`
   display : flex;
   flex-direction: column;
   margin-right : 5px;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
 `
 
 const SImageBox = styled.div`
@@ -76,6 +71,18 @@ const SImage = styled.img`
   min-height : 400px;
   margin-right : 7px;
 `
+
+const SImageWrap = styled.div`
+  position : relative;
+  z-index : 2;
+`
+
+const xStyle = {
+  position : 'absolute', 
+  top : '5px', 
+  left : '0',
+  cursor : 'pointer'
+}
 
 function ParagraphImg(prop) {
 
@@ -114,7 +121,7 @@ function ParagraphImg(prop) {
             onMouseLeave={(e)=>{prop.setMouseOnImg(0)}}
             onWheel={(e)=>{if(prop.mouseOnImg===1 && e.deltaY>0)e.currentTarget.scrollLeft+=600; else if(prop.mouseOnImg===1 && e.deltaY<0) e.currentTarget.scrollLeft-=600;setTimeout(()=>{ }, 1500)}}
           >
-              {prop.data.imgs.map((data, i)=>(<SImage key={i} src={data} />))}
+              {prop.data.imgs.map((data, i)=>(<SImageWrap key={i}><SImage  src={data} /><MdOutlineCancel style={xStyle}/></SImageWrap>))}
 
           </SImageBox>
           

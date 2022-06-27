@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { BsThreeDotsVertical,  } from 'react-icons/bs'
 import {MdOutlineCancel, MdOutlineEditNote} from 'react-icons/md'
@@ -42,9 +42,6 @@ const SSettingLine = styled.div`
   display : flex;
   flex-direction: column;
   margin-right : 5px;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
 `
 
 const SVideoTitle = styled.div`

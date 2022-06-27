@@ -46,9 +46,6 @@ const SSettingLine = styled.div`
   display : flex;
   flex-direction: column;
   margin-right : 5px;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
 `
 
 const SLinkLeft = styled.div`

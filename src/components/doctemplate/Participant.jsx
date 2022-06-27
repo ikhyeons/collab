@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React, {useState, useRef} from 'react'
 import {Mention, MentionsInput} from 'react-mentions'
 import defaultStyle from './defaultStyle.js'
 import styled from 'styled-components';
@@ -50,7 +50,7 @@ function Participant() {
         console.log(lineRef.current, e.target)
         if(lineRef.current === e.target){
             setIsAdd((prev)=>{
-                return prev ==1 ? 0:1
+                return prev === 1 ? 0:1
             })
             setInputValue('');
         }
@@ -65,14 +65,14 @@ function Participant() {
                 return <Sname key={i}>@{data} <Sx
                 onClick={()=>{
                     setMentionList((prev)=>{
-                        let newData = prev.filter((fdata)=>!(fdata==data))
+                        let newData = prev.filter((fdata)=>!(fdata===data))
                         return newData
                     })
                 }}
                 >X</Sx></Sname>
             })}</Participants>
             
-        {isAdd == 1 && <MentionsInput 
+        {isAdd === 1 && <MentionsInput 
             placeholder='다시눌러 닫기, @이름입력'
             style={defaultStyle}
             value={inputValue}

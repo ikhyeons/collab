@@ -85,16 +85,12 @@ function CalendarViewEventModal(prop) {
       <Sline/>
       <Scontent>이벤트 내용입니다.</Scontent>
       <Sbutton
-        onClick={()=>{prop.setEventSet(3)}} // 수정 페이지로 넘어감
-      >수정</Sbutton>
+        onClick={()=>{prop.setEventSet(3)}}>수정</Sbutton> {/*수정 페이지로 넘어감*/}
 
       <Sbutton
-        onClick={()=>{prop.setEventSet(0)}} // 아이디 값을 받아서 삭제
-      >삭제</Sbutton>
+        onClick={()=>{prop.setEventSet(0)}}>삭제</Sbutton> {/*아이디 값을 받아서 삭제*/}
 
-      <Sbutton
-        onClick={()=>{prop.setEventSet(0)}}
-      >취소</Sbutton>
+      <Sbutton onClick={()=>{prop.setEventSet(0)}}>취소</Sbutton> {/*모달을 닫음*/}
 
 
     </EventViewModal>

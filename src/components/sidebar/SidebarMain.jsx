@@ -12,7 +12,7 @@ position : relative;
     height : 100vh;
     display : flex;
     justify-content : space-between;
-    margin-right : 25px;
+    margin-right : 5px;
 `
 
 const Sspace = styled.li`
@@ -23,7 +23,7 @@ const Sspace = styled.li`
 `
 const SidebarGoMain = styled.div`
 padding-left : 10px;
-:hover{
+  :hover{
     background : yellow;
     cursor : pointer;
   }

@@ -61,12 +61,14 @@ const SidebarChat = () => {
     })
   }
 
+  const accordion = ()=>{ //클릭했을 경우 숨겨져 있으면 보이게하고, 보이는 상태이면 숨기게함.
+    if (hidden === 0 ) setHidden(1)
+    else setHidden(0)
+  }
+
   return (
     <div>
-        <Stitle onClick={()=>{ // 클릭했을 경우 숨겨져있으면 보이게, 보이고 있으면 숨기기.
-          if (hidden === 0) setHidden(1)
-          else setHidden(0)
-        }}>채팅</Stitle>
+        <Stitle onClick={()=>{accordion()}}>채팅</Stitle>
         <Sul hidden = {hidden}>
         {chatList.map((data , i )=>{
             return <Link to={`/main/chat/${i}`}  key = {i} style={{ textDecoration: 'none', color : 'black'}}><Sli>{data.name}</Sli></Link>//${i}에서 i는 채팅 번호

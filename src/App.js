@@ -6,6 +6,7 @@ import SelectProject from './components/projects/SelectProjects'
 import CalendarPage from './page/CalendarPage'
 import DocListMain from "./components/doclist/DocListMain";
 import WorkList from "./components/worklist/WorkList";
+import DocTemplateMain from "./components/doctemplate/DocTemplateMain";
 
 const GlobalStyle = createGlobalStyle`
   *{
@@ -53,6 +54,7 @@ function App() {
 
           <Routes>
             <Route path="/main/workspace/board/*" element={<WorkList />} />
+            <Route path="/main/workspace/li/*" element={<DocTemplateMain />} />
           </Routes>
 
           

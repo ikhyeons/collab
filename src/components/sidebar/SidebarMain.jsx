@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
 const Snav = styled.nav`
-position : relative;
+  position : relative;
     background : lightyellow;
     width : 10%;
     min-width : 200px;

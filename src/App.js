@@ -7,6 +7,7 @@ import CalendarPage from './page/CalendarPage'
 import DocListMain from "./components/doclist/DocListMain";
 import WorkList from "./components/worklist/WorkList";
 import DocTemplateMain from "./components/doctemplate/DocTemplateMain";
+import Setting from "./components/setting/Setting";
 
 const GlobalStyle = createGlobalStyle`
   *{
@@ -23,9 +24,36 @@ const GlobalStyle = createGlobalStyle`
   }
   `
 
+  const SAllWrap = styled.div`
+  overflow-X : scroll;
+  &::-webkit-scrollbar{
+    height : 5px;
+    background : rgba(240,240,150,1);
+  }
+
+  &::-webkit-scrollbar-thumb{
+      height: 17%;
+      background-color: rgba(255,255,170,1);
+      border : 1px solid yellow;
+      border-radius: 5px;    
+  }
+  `
+
 const Inproject = styled.div`
   display : flex;
   overflow : hidden;
+  overflow-X : scroll;
+  &::-webkit-scrollbar{
+    height : 5px;
+    background : rgba(240,240,150,1);
+  }
+
+  &::-webkit-scrollbar-thumb{
+      height: 17%;
+      background-color: rgba(255,255,170,1);
+      border : 1px solid yellow;
+      border-radius: 5px;    
+  }
 `
 
 function App() {
@@ -55,6 +83,10 @@ function App() {
           <Routes>
             <Route path="/main/workspace/board/*" element={<WorkList />} />
             <Route path="/main/workspace/li/*" element={<DocTemplateMain />} />
+          </Routes>
+
+          <Routes>
+            <Route path="/main/setting" element={<Setting />} />
           </Routes>
 
           

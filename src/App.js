@@ -7,6 +7,7 @@ import CalendarPage from './page/CalendarPage'
 import DocListMain from "./components/doclist/DocListMain";
 import WorkList from "./components/worklist/WorkList";
 import DocTemplateMain from "./components/doctemplate/DocTemplateMain";
+import NewSpace from "./components/newspace/NewSpace";
 
 const GlobalStyle = createGlobalStyle`
   *{
@@ -55,6 +56,7 @@ function App() {
           <Routes>
             <Route path="/main/workspace/board/*" element={<WorkList />} />
             <Route path="/main/workspace/li/*" element={<DocTemplateMain />} />
+            <Route path="/main/workspace/new/*" element={<NewSpace />} />
           </Routes>
 
           

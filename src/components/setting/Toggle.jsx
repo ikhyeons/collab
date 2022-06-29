@@ -48,7 +48,7 @@ const SCheckBox = styled.input`
     
         ::after {
             content : '';
-            left : 38px;
+            left : 36px;
         }
 
       }

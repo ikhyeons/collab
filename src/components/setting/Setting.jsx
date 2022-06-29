@@ -95,7 +95,7 @@ function Setting() {
           {participant.map((data, i)=><Sli key={i}>{data.name}</Sli>)}
         </Sul>
         <Sspan>다크모드</Sspan> <Toggle />
-
+        
         <br />
         <SLeaveBtn>팀 이탈하기</SLeaveBtn> 
         <br />

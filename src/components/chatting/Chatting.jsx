@@ -31,10 +31,12 @@ const Schatting = styled.div`
     align-items:flex-end;
     display:flex;
     flex-direction:column;
+    position:relative;
 `;
 
 const Smychat = styled.div`
-    position:relative;
+    position:absolute;
+    right:0;
     margin: 30px;
     padding: 20px;
     width:200px;
@@ -42,6 +44,7 @@ const Smychat = styled.div`
     color: #FFF;
     border-radius: 10px;
     background-color: grey;
+    word-wrap:break-word;
     :after{
         content:"";
         position:absolute;
@@ -54,7 +57,8 @@ const Smychat = styled.div`
 `
 
 const Snmychat = styled.div`
-    position:relative;
+    position:absolute;
+    left:0;
     margin: 30px;
     padding: 20px;
     width:200px;
@@ -62,7 +66,7 @@ const Snmychat = styled.div`
     color: #FFF;
     border-radius: 10px;
     background-color: grey;
-    transform:translateX(-300%);
+    word-wrap:break-word;
     :after{
         content:"";
         position:absolute;
@@ -90,6 +94,14 @@ const Sbutton = styled.button`
     height:20px;
     margin-bottom:3px;
 `;
+
+const Scell = styled.div`
+    position:relative;
+    width:100%;
+    min-height:62px;
+    margin-bottom:20px;
+`
+
 const Chatting = ()=>{
     const [myChat, setMychat] = useState([
         {
@@ -130,12 +142,12 @@ const Chatting = ()=>{
                 <Schatting>
                     {myChat.map((data, i)=>{
                         if(data.my === 1){
-                            return <Smychat key={i}>{data.contents}</Smychat>;
+                            return <Scell key={i+1}><Smychat key={i}>{data.contents}</Smychat></Scell>;
                         } else if (data.my === 0){
-                            return <Snmychat key={i}>{data.contents}</Snmychat>;
+                            return <Scell key={i+1}><Snmychat key={i}>{data.contents}</Snmychat></Scell>;
                         }
                     })}
-                    <div ref={scrollRef} />
+                    <div ref={scrollRef} style={{height:'1px'}}/>
                 </Schatting>
                 <Schatdiv>
                     <Sinput

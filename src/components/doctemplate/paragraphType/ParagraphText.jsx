@@ -46,6 +46,7 @@ const SParagraphText = styled.div`
   position : relative;
   min-height : 100px;
   margin : 5px 0;
+  min-width : 380px;
 `
 
 const SSettingLine = styled.div`

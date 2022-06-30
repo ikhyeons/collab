@@ -6,12 +6,14 @@ import Participant from './Participant'
 import Licenser from './Licenser'
 
 const STemplateMain = styled.div`
+    
     width : 47%;
     background : rgb(245, 245, 230);
     border : 4px solid rgb(240, 240, 220);
     height : 100vh;
     overflow-Y : ${prop=>prop.mouseOnImg === 1? 'hidden' : 'auto'};
     overflow-X : hidden;
+    min-width : 600px;
 
     &::-webkit-scrollbar{
         width: 7px;

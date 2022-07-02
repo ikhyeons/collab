@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import ParagraphList from './ParagraphList'
-import ReplyList from './ReplyList'
+import DocReplyMain from './DocReplyMain'
 import Participant from './Participant'
 import Licenser from './Licenser'
 
@@ -85,7 +85,7 @@ function DocTemplateMain() {
         
         <ParagraphList mouseOnImg={mouseOnImg} setMouseOnImg={setMouseOnImg} />   {/* 문단들 */}
 
-        <ReplyList />   {/* 댓글 */}
+        <DocReplyMain />   {/* 댓글 */}
 
     </STemplateMain>
   )

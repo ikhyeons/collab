@@ -7,7 +7,7 @@ import Licenser from './Licenser'
 
 const STemplateMain = styled.div`
     
-    width : 47%;
+    width : 50%;
     background : rgb(245, 245, 230);
     border : 4px solid rgb(240, 240, 220);
     height : 100vh;

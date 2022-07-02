@@ -25,7 +25,6 @@ const GlobalStyle = createGlobalStyle`
   `
 
   const SAllWrap = styled.div`
-  overflow-X : scroll;
   &::-webkit-scrollbar{
     height : 5px;
     background : rgba(240,240,150,1);
@@ -42,7 +41,6 @@ const GlobalStyle = createGlobalStyle`
 const Inproject = styled.div`
   display : flex;
   overflow : hidden;
-  overflow-X : scroll;
   &::-webkit-scrollbar{
     height : 5px;
     background : rgba(240,240,150,1);
@@ -53,6 +51,9 @@ const Inproject = styled.div`
       background-color: rgba(255,255,170,1);
       border : 1px solid yellow;
       border-radius: 5px;    
+  }
+  @media screen and (max-width : 1250px){
+    overflow-x : scroll;
   }
 `
 

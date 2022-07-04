@@ -1,13 +1,13 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import ParagraphList from './ParagraphList'
-import ReplyList from './ReplyList'
+import DocReplyMain from './DocReplyMain'
 import Participant from './Participant'
 import Licenser from './Licenser'
 
 const STemplateMain = styled.div`
     
-    width : 47%;
+    width : 50%;
     background : rgb(245, 245, 230);
     border : 4px solid rgb(240, 240, 220);
     height : 100vh;
@@ -85,7 +85,7 @@ function DocTemplateMain() {
         
         <ParagraphList mouseOnImg={mouseOnImg} setMouseOnImg={setMouseOnImg} />   {/* 문단들 */}
 
-        <ReplyList />   {/* 댓글 */}
+        <DocReplyMain />   {/* 댓글 */}
 
     </STemplateMain>
   )

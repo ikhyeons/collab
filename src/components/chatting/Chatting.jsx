@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
 import styled from "styled-components";
+import ChatUser from './ChatUser'
 
 const Scontainor = styled.div`
     width: 80%;
@@ -81,19 +82,26 @@ const Snmychat = styled.div`
 
 const Schatdiv = styled.div`
     border-top: 1px solid grey;
+    position : relative;
 `;
 
-const Sinput = styled.input`
+const Sinput = styled.textarea`
     border: none;
+    font-size : 20px;
     width: 90%;
     margin-left: 10px;
     margin-top: 8px;
+    background : lightyellow;
+    padding : 7px;
+    resize : none;
 `;
 
 const Sbutton = styled.button`
-    width:70px;
-    height:20px;
+    width:60px;
+    height:60px;
     margin-bottom:3px;
+    position : absolute;
+    top : 5px;
 `;
 
 const Scell = styled.div`
@@ -129,14 +137,17 @@ const Chatting = ()=>{
         setChat('');
     }
 
-    const inputchat = (e)=>{
-        setChat(e.target.value);
-    }
-
     useEffect(()=>{
         console.log('ㅎㅇ');
         scrollRef.current.scrollIntoView({behavior:'smooth', block:'end'});
     }, [myChat])
+
+    useEffect(()=>{
+        if(chat==='\n'){
+            setChat('');
+        }
+        scrollRef.current.scrollIntoView({behavior:'smooth', block:'end'});
+    }, [chat])
 
     return (
         <Scontainor>
@@ -152,24 +163,25 @@ const Chatting = ()=>{
                 <Schatdiv>
                     <Sinput
                         placeholder="내용을 입력해주세요"
-                        onChange={(e)=>{inputchat(e)}}
+                        onChange={(e)=>{
+                            if(e.key !== 'Enter'){
+                                setChat(e.target.value);
+                            } else {
+                                e.preventDefault();
+                            }
+                        }}
                         value={chat}
                         onKeyPress={(e)=>{
-                            if(e.key === 'Enter'){
+                            if(e.key === 'Enter' && chat !== ''){
                                 addChat();
                             }
                         }}
                     />
-                    <Sbutton onClick={()=>{addChat()}}>입력</Sbutton>
+                    <Sbutton onClick={()=>{if(chat !== ''){addChat()}}}>입력</Sbutton>
                 </Schatdiv>
              </Schatcon>
-             <Sparticipant>
-                <SuserTitle>참여자 목록</SuserTitle>
-                <Suser>
-                    @강도경
-                    @성익현
-                </Suser>
-             </Sparticipant>
+             
+             <ChatUser />
         </Scontainor>
     )
 }

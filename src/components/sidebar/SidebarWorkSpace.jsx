@@ -67,7 +67,7 @@ const SidebarWorkSpace = () => {
         ...prev, 
         {
           num : prev.length,
-          type : 'li',
+          type : 'new',
           name : `새로운 공간`,
         },
       ]

@@ -164,6 +164,7 @@ const Chatting = ()=>{
                     <Sinput
                         placeholder="내용을 입력해주세요"
                         onChange={(e)=>{
+                            console.log(chat);
                             if(e.key !== 'Enter'){
                                 setChat(e.target.value);
                             } else {
@@ -172,7 +173,10 @@ const Chatting = ()=>{
                         }}
                         value={chat}
                         onKeyPress={(e)=>{
-                            if(e.key === 'Enter' && chat !== ''){
+                            if(e.shiftKey && e.key === 'Enter'){
+                                setChat(e.target.value);
+                            }
+                            else if(e.key === 'Enter' && chat !== ''){
                                 addChat();
                             }
                         }}

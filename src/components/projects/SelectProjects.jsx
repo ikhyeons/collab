@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import DetailProject from './DetailProject'
 import ModalName from "./NameModal";
 
+const SMain = styled.div`
+    display : block;
+`;
+
 //화면 상단 로고 부분 div
 const Logodiv = styled.div`
     height: 34vh;
@@ -102,7 +106,7 @@ const SelectProjects = () =>{
     };
 
     return (
-        <>
+        <SMain>
         <ModalName open={modalnameOpen} close={setModalNameOpen}></ModalName>
         <Logodiv>
             <Logoname>로고 자리</Logoname>
@@ -117,13 +121,14 @@ const SelectProjects = () =>{
             </Addbutton>
         </Namediv>            
         <ScrollMenu>
-            
-                <Projectdiv>
+                <Projectdiv
+                    onWheel={(e)=>{if(e.deltaY>0)e.currentTarget.scrollLeft+=400; else if(e.deltaY<0) e.currentTarget.scrollLeft-=400;}}
+                >
                     <br/>
                     <DetailProject project={project}/>
                 </Projectdiv>
         </ScrollMenu>
-        </>
+        </SMain>
     );
 };
 

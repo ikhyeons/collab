@@ -82,7 +82,7 @@ const Login = () => {
                 />
                 <Sbutton type='submit' onClick={(e)=>{
                     e.preventDefault();
-                    window.location.replace("/main/calendar")
+                    window.location.replace("/project")
                 }}>로그인</Sbutton>
                 
                 <Sbutton onClick={(e)=>{

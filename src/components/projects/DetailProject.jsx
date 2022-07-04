@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 // 프로젝트 들어가는 div
 const Detaildiv = styled.div`
     height: 90%;
-    width: height;
+    
     margin-left: 20px;
     margin-right:20px;
     display:flex;
@@ -18,8 +18,8 @@ const InnerProject = styled.div`
 
 // 프로젝트 div
 const DisplayProject = styled.div`
-    height:90%;
-    width:250px;
+    height:100%;
+    width:300px;
     border-radius:5%;
     background-color:lightgrey;
     align-items:flex-end;
@@ -35,9 +35,8 @@ const DetailProject = (props) => {
     console.log('생성됨');
     console.log(project);
     return(
-        <Detaildiv>
+        <Detaildiv className='gd'>
             {props.project && props.project.map((item, i)=>(
-                
                     <InnerProject key={i}>
                         <Link style={{ textDecoration: 'none', color : 'black' }} to="/main/calendar">
                         <DisplayProject>
@@ -47,7 +46,6 @@ const DetailProject = (props) => {
                         </DisplayProject>
                         </Link>
                     </InnerProject>
-                
             ))}
         </Detaildiv>
         

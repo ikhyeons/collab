@@ -9,6 +9,7 @@ import WorkList from "./components/worklist/WorkList";
 import DocTemplateMain from "./components/doctemplate/DocTemplateMain";
 import Setting from "./components/setting/Setting";
 import NewSpace from "./components/newspace/NewSpace";
+import Chatting from "./components/chatting/Chatting";
 
 const GlobalStyle = createGlobalStyle`
   *{
@@ -79,6 +80,7 @@ function App() {
 
           <Routes>
             <Route path="/main/workspace/li/*" element={<DocListMain />} />
+            
           </Routes>
 
           <Routes>
@@ -89,13 +91,14 @@ function App() {
 
           <Routes>
             <Route path="/main/setting" element={<Setting />} />
+            <Route path="/main/chat/*" element={<Chatting />} />
           </Routes>
 
           
         </Inproject>
 
         <Routes>
-            
+
         </Routes>
       </BrowserRouter>
       }

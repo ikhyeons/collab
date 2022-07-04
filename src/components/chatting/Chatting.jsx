@@ -28,18 +28,17 @@ const Stitle = styled.h3``;
 const Schatting = styled.div`
     height: 85%;
     overflow:auto;
-    align-items:flex-end;
-    display:flex;
-    flex-direction:column;
     position:relative;
 `;
 
 const Smychat = styled.div`
-    position:absolute;
-    right:0;
-    margin: 30px;
-    padding: 20px;
-    width:200px;
+    position:relative;
+    margin-right: ${ props => props.my == 1 ? '30px' : null };
+    margin-left: ${ props => props.my == 0 ? '30px' : null };
+    right:${ props => props.my == 1 ? '0px' : null };
+    left: ${ props => props.my == 0 ? '0px' : null };
+    padding: 10px;
+    width:300px;
     min-height:60px;
     color: #FFF;
     border-radius: 10px;
@@ -49,24 +48,26 @@ const Smychat = styled.div`
         content:"";
         position:absolute;
         top:21px;
-        right:-30px;
-        border-left:30px solid grey;
+        right:${props => props.my == 1 ? '-30px' : '300px'};
+        border-left:${props => props.my == 1 ? '30px solid grey' : null};
+        border-right:${props => props.my == 0 ? '30px solid grey' : null};
         border-top: 10px solid transparent;
         border-bottom: 10px solid transparent;
     }
 `
 
 const Snmychat = styled.div`
-    position:absolute;
+    position:relative;
     left:0;
-    margin: 30px;
-    padding: 20px;
-    width:200px;
+    margin-left: 30px;
+    padding: 10px;
+    width:300px;
     min-height:60px;
     color: #FFF;
     border-radius: 10px;
     background-color: grey;
     word-wrap:break-word;
+    
     :after{
         content:"";
         position:absolute;
@@ -96,11 +97,13 @@ const Sbutton = styled.button`
 `;
 
 const Scell = styled.div`
-    position:relative;
-    width:100%;
+    display : flex;
+    position : relative;
     min-height:62px;
     margin-bottom:20px;
-`
+    width : 100%;
+    justify-content : ${ props => props.my == 1 ? 'flex-end' : null};
+`;
 
 const Chatting = ()=>{
     const [myChat, setMychat] = useState([
@@ -141,11 +144,8 @@ const Chatting = ()=>{
                 <Stitle>채팅/전체 채팅</Stitle>
                 <Schatting>
                     {myChat.map((data, i)=>{
-                        if(data.my === 1){
-                            return <Scell key={i+1}><Smychat key={i}>{data.contents}</Smychat></Scell>;
-                        } else if (data.my === 0){
-                            return <Scell key={i+1}><Snmychat key={i}>{data.contents}</Snmychat></Scell>;
-                        }
+                        return <Scell my={data.my} key={i+1}><Smychat key={i} my={data.my}>{data.contents}</Smychat></Scell>;
+                        
                     })}
                     <div ref={scrollRef} style={{height:'1px'}}/>
                 </Schatting>

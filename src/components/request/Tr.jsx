@@ -12,7 +12,7 @@ const Tr = memo((props) =>{
         <tr style={{border: '1px solid black'}}>
             <Std>{9+props.rowIndex}~{10+props.rowIndex}</Std>
             {Array(7).fill().map((tr, i) =>(
-                <Td key={i}  rowIndex={props.rowIndex} cellIndex={i} setSelectedDate={props.setSelectedDate} />
+                <Td key={i}  rowIndex={props.rowIndex} cellIndex={i} setSelectedDate={props.setSelectedDate} isMouseDown={props.isMouseDown}/>
             ))}
         </tr>
     )

@@ -8,7 +8,7 @@ const Std = styled.td`
     text-align:center;
     height: 50px;
 `
-const Td = ({rowIndex, cellIndex, setSelectedDate})=>{
+const Td = ({rowIndex, cellIndex, setSelectedDate, isMouseDown})=>{
     const [checked, setChecked] = useState(0);
     const onClickTd = ()=>{
         setChecked(()=>{
@@ -36,8 +36,37 @@ const Td = ({rowIndex, cellIndex, setSelectedDate})=>{
        
        console.log(rowIndex, cellIndex);
     }
+
+    const onMousOverTd= ()=>{
+        if (isMouseDown === 1){
+            setChecked(()=>{
+                if (checked === 0) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            });
+           setSelectedDate((prev)=>{
+            if (checked === 0) {
+                const selDate = [
+                    ...prev,
+                    {
+                    row: rowIndex,
+                    cell: cellIndex,
+                }]
+                return selDate;
+            } else {
+                let selDate = [...prev];
+                selDate = selDate.filter((e)=>(e.row !== rowIndex || e.cell !== cellIndex));
+                return selDate;
+            }
+           })
+           
+           console.log(rowIndex, cellIndex);
+        }
+    }
     return(
-        <Std checked ={checked}onClick={onClickTd} />
+        <Std checked ={checked}onClick={onClickTd} onMouseOver={onMousOverTd}/>
     )
 }
 

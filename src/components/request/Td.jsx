@@ -65,8 +65,10 @@ const Td = ({rowIndex, cellIndex, setSelectedDate, isMouseDown})=>{
            console.log(rowIndex, cellIndex);
         }
     }
+
+
     return(
-        <Std checked ={checked}onClick={onClickTd} onMouseOver={onMousOverTd}/>
+        <Std checked ={checked}onClick={onClickTd} onMouseOver={onMousOverTd} onMouseDown={onClickTd}/>
     )
 }
 

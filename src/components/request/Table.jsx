@@ -13,16 +13,20 @@ const Std = styled.td`
 const Stable = styled.table`
     border-collapse: collapse;
     border: 1px solid black;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
 `
 
 const Table = () => {
     const [selectedDate, setSelectedDate] = useState([]);
-
+    const [isMouseDown, setIsMouseDown] = useState(0);
     useEffect(()=>{
         console.log(selectedDate);
     },[selectedDate])
     return(
-        <Stable>
+        <Stable onMouseDown={()=>{setIsMouseDown(1);}} onMouseUp={()=>{setIsMouseDown(0);}}>
             <tbody>
                 <tr>
                     <Std>시간</Std>
@@ -35,7 +39,7 @@ const Table = () => {
                     <Std>토</Std>
                 </tr>
                 {Array(15).fill().map((tr,i)=>(
-                        <Tr key={i} rowIndex={i} setSelectedDate={setSelectedDate}/>
+                        <Tr key={i} rowIndex={i} setSelectedDate={setSelectedDate} isMouseDown={isMouseDown}/>
                 ))
                 }
             </tbody>

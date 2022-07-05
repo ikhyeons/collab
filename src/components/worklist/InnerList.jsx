@@ -6,25 +6,49 @@ import styled from "styled-components";
 
 const Sinput = styled.input`
     width:300px;
+    background : lightyellow;
+    margin : 4px;
+    padding : 5px;
+    border : 1px solid black;
+    border-radius : 5px;
+    font-size : 16px;
 `
 const SlistContainor = styled.div`
     min-width:300px;
     margin-right:5px;
 `
 const Slist = styled.div`
-    max-height:21px;
+    max-height:35px;
     max-width:300px;
     overflow:hidden;
     text-overflow:ellipsis;
     white-space:nowrap;
+    background : lightyellow;
+    margin : 4px;
+    padding : 5px;
+    border : 1px solid black;
+    border-radius : 5px;
+    cursor : pointer;
+    :hover{
+        background : rgb(245, 245, 180)
+    }
 `
 const Sbutton = styled.button`
     width:300px;
+    background : lightyellow;
+    margin : 4px;
+    padding : 5px;
+    border : 1px solid black;
+    border-radius : 5px;
+    cursor : pointer;
+    :hover{
+        background : rgb(245, 245, 180)
+    }
 `
 
 const InnerList = memo((props) =>{
     const { index, list, setList } = props;
-    const [listName, setListName] = useState('');
+    const [listName, setListName] = useState("");
     const [addButton, setAddButton] = useState(0);
     
     const addList= (i)=>{
@@ -58,9 +82,25 @@ const InnerList = memo((props) =>{
         };
     });
 
-    const clickInputOutside = event =>{
-        if (addButton && !inputRef.current.contains(event.target)){
+    const clickInputOutside = e =>{
+        if (addButton && !inputRef.current.contains(e.target)){
             setAddButton(0);
+            if(listName===''){
+                setList((prev)=>{
+                    console.log('gd');
+                    let newList = [...prev];
+                    newList[index].push('디폴트');
+                    return newList;
+                });
+            } else {
+                setList((prev)=>{
+                    console.log('gd');
+                    let newList = [...prev];
+                    newList[index].push(listName);
+                    return newList;
+                });
+            }
+            
             setListName('');
         }
     }
@@ -80,13 +120,17 @@ const InnerList = memo((props) =>{
             }}
             onKeyPress={(e)=>{
                 if(e.key === 'Enter'){
-                    addList(index)
+                    addList(index);
                 }
             }}
             autoFocus
             />}
             {addButton === 0 &&
-            <Sbutton type="submit" onClick={()=>{setAddButton(1)}}>+</Sbutton>}
+            
+            <Sbutton type="submit" onClick={()=>{
+                setAddButton(1)
+            }}>+</Sbutton>}
+
         </SlistContainor>
     )
 })

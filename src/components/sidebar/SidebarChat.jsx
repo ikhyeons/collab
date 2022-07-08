@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilState } from 'recoil'
 
 import {sidebarChat} from '../../Atoms/atom'
 import SidebarChatLi from './SidebarChatLi'
@@ -20,13 +19,6 @@ const Sul = styled.ul`
   margin-left : 30px;
   font-size : 23px;
   display : ${prop => prop.hidden === 1? 'none':'block'}
-`
-const Sli = styled.li`
-  width : 100%;
-  :hover{
-    background : yellow;
-    cursor : pointer;
-  }
 `
 
 const SaddBtn = styled.li`

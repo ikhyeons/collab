@@ -15,7 +15,7 @@ function LoginMain() {
         {/*로그인 왼쪽 사진 슬라이드*/}
         <Loginpic/>
         {/*로그인 창*/}
-        <Login/>
+        <Login />
     </SloginMain>
   )
 }

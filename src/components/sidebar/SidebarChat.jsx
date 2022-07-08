@@ -1,6 +1,10 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { useRecoilState, useRecoilValue } from 'recoil'
+
+import {sidebarChat} from '../../Atoms/atom'
+import SidebarChatLi from './SidebarChatLi'
 
 const Stitle = styled.div`
   
@@ -37,28 +41,10 @@ const SidebarChat = () => {
   //숨김처리를 위한 변수
   const [hidden, setHidden] = useState(0);
   //채팅 리스트
-  const [chatList, setChatList] = useState([
-    {
-      num : 1,
-      name : '전체채팅',
-    },
-    {
-      num : 2,
-      name : '누구와의채팅',
-    },
-  ])
+  const [chatList, setChatList] = useRecoilState(sidebarChat)
 
   const addChat = () => { //채팅 리스트 추가하는 함수
-    setChatList((prev)=>{
-      let newList = [
-        ...prev, 
-        {
-          num : prev.length,
-          name : `새로운 채팅`,
-        },
-      ]
-      return newList;
-    })
+    setChatList((prev)=>{let newList = [...prev, prev.length,]; return newList;})
   }
 
   const accordion = ()=>{ //클릭했을 경우 숨겨져 있으면 보이게하고, 보이는 상태이면 숨기게함.
@@ -70,8 +56,8 @@ const SidebarChat = () => {
     <div>
         <Stitle onClick={()=>{accordion()}}>채팅</Stitle>
         <Sul hidden = {hidden}>
-        {chatList.map((data , i )=>{
-            return <Link to={`/main/chat/${i}`}  key = {i} style={{ textDecoration: 'none', color : 'black'}}><Sli>{data.name}</Sli></Link>//${i}에서 i는 채팅 번호
+        {chatList.map((data, i)=>{
+            return <SidebarChatLi key={i} num={data} />
           })}
           <SaddBtn onClick={()=>{addChat()}}>+</SaddBtn>
         </Sul>

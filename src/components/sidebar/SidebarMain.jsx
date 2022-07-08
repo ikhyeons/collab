@@ -74,7 +74,6 @@ const SidebarMain = () => {
                     <Link to='/main/setting' style={{ textDecoration: 'none', color : 'black'}}><SidebarSetting>세팅</SidebarSetting></Link>
                     <Link to='/project' style={{ textDecoration: 'none', color : 'black'}}><SidebarGoSelectProject>프로젝트</SidebarGoSelectProject></Link>
             </SidebarBottom>
-            
         </Snavmain>
     </Snav>
   )

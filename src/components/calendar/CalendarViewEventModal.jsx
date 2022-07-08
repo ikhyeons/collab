@@ -1,9 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { calendarEventData, calendarModalState } from '../../Atoms/atom'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import { useEffect } from 'react'
+
 const EventViewModal = styled.div`
   width : 35vw;
-  min-width : 520px;
+  min-width : 530px;
   height : 60vh;
   min-height : 400px;
   background : rgba(250, 250, 250, 0.95);
@@ -77,20 +81,31 @@ const Sline = styled.div`
   border : 1px solid black;
 `
 
-function CalendarViewEventModal(prop) {
+function CalendarViewEventModal() {
+  
+  const [eventData, setEventData] = useRecoilState(calendarEventData);
+  const [eventSet, setEventSet] = useRecoilState(calendarModalState); // 현재 달력 상태 0 : 기본 / 1 : 이벤트 추가 / 2 : 이벤트 보기 / 3 : 이벤트 수정
+
+  useEffect(()=>{
+    setEventData((prev)=>{
+      let newData = {...prev, title : '이벤트 제목입니다', content : '이벤트 내용입니다.', start : '2022-07-04', end : '2022-07-07'}
+      return newData
+    })
+  }, [])
+
   return (
     <EventViewModal>
-      <SselectedDate>2022-06-01 ~ 2022-06-10</SselectedDate>
-      <Stitle>이벤트 제목이랍니다.</Stitle>
+      <SselectedDate>{eventData.start} ~ {eventData.end}</SselectedDate>
+      <Stitle>{eventData.title}</Stitle>
       <Sline/>
-      <Scontent>이벤트 내용입니다.</Scontent>
+      <Scontent>{eventData.content}</Scontent>
       <Sbutton
-        onClick={()=>{prop.setEventSet(3)}}>수정</Sbutton> {/*수정 페이지로 넘어감*/}
+        onClick={()=>{setEventSet(3)}}>수정</Sbutton> {/*수정 페이지로 넘어감*/}
 
       <Sbutton
-        onClick={()=>{prop.setEventSet(0)}}>삭제</Sbutton> {/*아이디 값을 받아서 삭제*/}
+        onClick={()=>{setEventSet(0)}}>삭제</Sbutton> {/*아이디 값을 받아서 삭제*/}
 
-      <Sbutton onClick={()=>{prop.setEventSet(0)}}>취소</Sbutton> {/*모달을 닫음*/}
+      <Sbutton onClick={()=>{setEventSet(0)}}>취소</Sbutton> {/*모달을 닫음*/}
 
 
     </EventViewModal>

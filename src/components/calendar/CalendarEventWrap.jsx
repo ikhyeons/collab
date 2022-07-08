@@ -3,6 +3,9 @@ import styled from 'styled-components'
 import CalendarAddEventModal from './CalendarAddEventModal'
 import CalendarViewEventModal from './CalendarViewEventModal'
 import CalendarUpdateEventModal from './CalendarUpdateEventModal'
+import { useRecoilState } from 'recoil'
+import {calendarModalState} from '../../Atoms/atom'
+
 
 const AddEventWrap = styled.div`
   width : 100vw;
@@ -14,17 +17,18 @@ const AddEventWrap = styled.div`
   z-index : 1;
 `
 
-function CalendarEventWrap(prop) {
+function CalendarEventWrap() {
 
     const Wrap = useRef(); //클릭된 컴포넌트
-    const closeModal = (e)=>{ if (e.target === Wrap.current) prop.setEventSet(0)}; //모달창 닫는 함수
+    const closeModal = (e)=>{ if (e.target === Wrap.current) setEventSet(0)}; //모달창 닫는 함수
+    const [eventSet, setEventSet] = useRecoilState(calendarModalState);
 
   return (
-    <AddEventWrap ref={Wrap} onClick={()=>{closeModal()}}>   
+    <AddEventWrap ref={Wrap} onClick={(e)=>{closeModal(e)}}>   
       {/*각 상태마다 다른 모달을 렌더링*/}
-      {prop.eventSet === 1 ? <CalendarAddEventModal selectedDate={prop.selectedDate} setEvent={prop.setEvent} setEventSet={prop.setEventSet}/> : null}
-      {prop.eventSet === 2 ? <CalendarViewEventModal selectedDate={prop.selectedDate} setEvent={prop.setEvent} setEventSet={prop.setEventSet}/> : null}
-      {prop.eventSet === 3 ? <CalendarUpdateEventModal selectedDate={prop.selectedDate} setEvent={prop.setEvent} setEventSet={prop.setEventSet}/> : null}
+      {eventSet === 1 ? <CalendarAddEventModal /> : null}
+      {eventSet === 2 ? <CalendarViewEventModal /> : null}
+      {eventSet === 3 ? <CalendarUpdateEventModal /> : null}
     </AddEventWrap>
   )
 }

@@ -2,10 +2,13 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from "@fullcalendar/interaction"
 import CalendarEventWrap from './CalendarEventWrap'
+import { calendarModalState, calendarSelectedDate, calendarEvents } from '../../Atoms/atom'
+import { useRecoilState } from 'recoil'
+
 
 
 import styled from 'styled-components'
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 
 
 //풀캘린더의 크기는 상위 태그의 크기에 맞춰서 변경됨
@@ -17,9 +20,9 @@ const FullCalendarWrap = styled.div`
 
 const CalendarMain = () => {
 
-    const [selectedDate, setSelectedDate] = useState({start : '', end : ''}); //선택된 날짜
-    const [event, setEvent] = useState([{id : 1, title : 'hi', start : '2022-06-04', end : '2022-06-10'}]); //이벤트들
-    const [eventSet, setEventSet] = useState(0); // 현재 달력 상태 0 : 기본 / 1 : 이벤트 추가 / 2 : 이벤트 보기 / 3 : 이벤트 수정
+    const [selectedDate, setSelectedDate] = useRecoilState(calendarSelectedDate); //선택된 날짜
+    const [event, setEvent] = useRecoilState(calendarEvents); //이벤트들
+    const [eventSet, setEventSet] = useRecoilState(calendarModalState); // 현재 달력 상태 0 : 기본 / 1 : 이벤트 추가 / 2 : 이벤트 보기 / 3 : 이벤트 수정
 
     const changeEventDate = (inputDate, addedDate) =>{ // input : 표준시 상태의 입력, 추가할 날자(정수) / output : YYYY-MM-DD
         let date = new Date(inputDate)
@@ -54,6 +57,7 @@ const CalendarMain = () => {
         }}
 
         eventClick = {(info)=>{ //이벤트 클릭 핸들러
+            console.log(info);
             setEventSet(2);
         }}
 
@@ -69,7 +73,7 @@ const CalendarMain = () => {
         }}
 
         ></FullCalendar>
-    {eventSet !== 0? <CalendarEventWrap selectedDate={selectedDate} setEvent={setEvent} eventSet = {eventSet} setEventSet = {setEventSet} /> : null} {/*이벤트셋이 1이아니면 생성*/}
+    {eventSet !== 0? <CalendarEventWrap setEventSet = {setEventSet} /> : null} {/*이벤트셋이 1이아니면 생성*/}
     </FullCalendarWrap>
   )
 }

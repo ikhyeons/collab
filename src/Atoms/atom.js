@@ -6,7 +6,7 @@ import {
   } from 'recoil';
 
 //
-
+//------------------------사이드바
 export const sidebarWorkSpace = atom({
   key : 'sidebar/sidebarWorkSpace',
   default : [1, 2, 3, 4],
@@ -35,6 +35,27 @@ export const sidebarChatLi = atomFamily({
     }
   )
 })
+//------------------------달력
+export const calendarModalState = atom({
+  key : 'calendar/calendarModalState',
+  default : 0,
+})
+
+export const calendarSelectedDate = atom({
+  key : 'calendar/calendarSelectedDate',
+  default : {start : '', end : ''},
+})
+
+export const calendarEvents = atom({
+  key : 'calendar/calendarEvents',
+  default : [{id : 1, title : 'hi', start : '2022-07-04', end : '2022-07-07'}],
+})
+
+export const calendarEventData = atom({
+  key : 'calendar/calendarEventData',
+  default : {id : 1, title : '', content : '', start : '', end : ''},
+})
+
 
 //위로는 성익현
 //밑에는 강도경

@@ -1,9 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
+import { calendarSelectedDate, calendarEvents, calendarModalState } from '../../Atoms/atom'
+import { useRecoilValue, useRecoilState } from 'recoil'
 
 const AddEventModal = styled.div`
   width : 35vw;
-  min-width : 520px;
+  min-width : 530px;
   height : 60vh;
   min-height : 400px;
   background : rgba(250, 250, 250, 0.95);
@@ -77,33 +79,37 @@ const Sline = styled.div`
   border : 1px solid black;
 `
 
-function CalendarAddEventModal(prop) {
+function CalendarAddEventModal() {
+
+  const selectedDate = useRecoilValue(calendarSelectedDate);
+  const [event, setEvent] = useRecoilState(calendarEvents);
+  const [eventSet, setEventSet] = useRecoilState(calendarModalState);
 
   const addEvent = ()=>{
-    prop.setEvent((prev)=>{
+    setEvent((prev)=>{
       let newEvent = [
         ...prev,
         {
           id : '2',
           title : '입력받은 제목',
           content : '입력받은 내용',
-          start : prop.selectedDate.start,
-          end : prop.selectedDate.end,
+          start : selectedDate.start,
+          end : selectedDate.end,
         }
       ]
       return newEvent
     })
-    prop.setEventSet(0)
+    setEventSet(0)
   }
 
   return (
     <AddEventModal>
-      <SselectedDate>{prop.selectedDate.start} ~ {prop.selectedDate.end}</SselectedDate>
+      <SselectedDate>{selectedDate.start} ~ {selectedDate.end}</SselectedDate>
       <Stitle placeholder='제목을 입력하세요' type="text" />
       <Sline/>
       <Scontent name="" id="" cols="30" rows="10"></Scontent>
       <Sbutton onClick={()=>{addEvent()}}>추가</Sbutton>
-      <Sbutton onClick={()=>{prop.setEventSet(0)}}>취소</Sbutton>
+      <Sbutton onClick={()=>{setEventSet(0)}}>취소</Sbutton>
     </AddEventModal>
   )
 }

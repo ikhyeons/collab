@@ -1,9 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
+import { calendarSelectedDate, calendarModalState } from '../../Atoms/atom'
+import { useRecoilValue, useRecoilState } from 'recoil'
 
 const UpdateEventModal = styled.div`
   width : 35vw;
-  min-width : 520px;
+  min-width : 530px;
   height : 60vh;
   min-height : 400px;
   background : rgba(250, 250, 250, 0.95);
@@ -77,15 +79,18 @@ const Sline = styled.div`
   border : 1px solid black;
 `
 
-function CalendarUpdateEventModal(prop) {
+function CalendarUpdateEventModal() {
+
+  const [eventSet, setEventSet] = useRecoilState(calendarModalState); // 현재 달력 상태 0 : 기본 / 1 : 이벤트 추가 / 2 : 이벤트 보기 / 3 : 이벤트 수정
+  
   return (
     <UpdateEventModal>
         <SselectedDate>2022-06-01 ~ 2022-06-10</SselectedDate>
       <Stitle placeholder='제목을 입력하세요' type="text" />
       <Sline/>
       <Scontent name="" id="" cols="30" rows="10"></Scontent>
-      <Sbutton onClick={()=>{prop.setEventSet(0)}}>수정 완료</Sbutton>
-      <Sbutton onClick={()=>{prop.setEventSet(0)}}>취소</Sbutton>
+      <Sbutton onClick={()=>{setEventSet(0)}}>수정 완료</Sbutton>
+      <Sbutton onClick={()=>{setEventSet(0)}}>취소</Sbutton>
 
 
     </UpdateEventModal>

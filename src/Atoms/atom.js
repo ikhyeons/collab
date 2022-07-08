@@ -48,7 +48,7 @@ export const calendarSelectedDate = atom({
 
 export const calendarEvents = atom({
   key : 'calendar/calendarEvents',
-  default : [{id : 1, title : 'hi', start : '2022-07-04', end : '2022-07-07'}],
+  default : [],
 })
 
 export const calendarEventData = atom({

@@ -2,6 +2,8 @@ import React, {useState, useRef} from 'react'
 import {Mention, MentionsInput} from 'react-mentions'
 import defaultStyle from './defaultStyle.js'
 import styled from 'styled-components';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { templateMainData, userNamePool } from '../../Atoms/atom.js';
 
 const Participants = styled.div`
     margin-bottom : 3px;
@@ -27,23 +29,17 @@ const Sname = styled.span`
 `
 
 const Sx = styled.span`
-
 `
 
 function Participant() {
+    
+    const namePool = useRecoilValue(userNamePool);
+    const [templateData, setTemplateData] = useRecoilState(templateMainData);
+
     const [inputValue, setInputValue] = useState('');
     const [isAdd, setIsAdd] = useState(0);
-    const [namePool, setNamePool] = useState([
-        {
-            id : '성익현',
-            display : '@성익현',
-        },
-        {
-            id : '강도경',
-            display : '@강도경',
-        },
-    ])
-    const [mentionList, setMentionList] = useState([])
+
+
     const lineRef = useRef(null);
     
     const onParticipantMention = (e)=>{
@@ -61,11 +57,12 @@ function Participant() {
         <Participants ref={lineRef} onClick={(e)=>{onParticipantMention(e)}}>
         참여자 : 
         {
-            mentionList.map((data, i)=>{
+            templateData.participant.map((data, i)=>{
                 return <Sname key={i}>@{data} <Sx
                 onClick={()=>{
-                    setMentionList((prev)=>{
-                        let newData = prev.filter((fdata)=>!(fdata===data))
+                    setTemplateData((prev)=>{
+                        let newData = {...prev};
+                        newData.participant = newData.participant.filter((fdata)=>!(fdata===data))
                         return newData
                     })
                 }}
@@ -86,12 +83,11 @@ function Participant() {
             style={{ backgroundColor: '#cee4e5' }} 
             data={namePool} 
             onAdd = {(id, display)=>{
-                setMentionList((prev)=>{
-                    if(mentionList.includes(id)) return prev;
-                    return [
-                        ...prev,
-                        id,
-                    ]
+                setTemplateData((prev)=>{
+                    if(templateData.participant.includes(id)) return prev;
+                    let newData = {...prev};
+                    newData.participant = [...newData.participant, id];
+                    return newData;
                 })
             }}
             />

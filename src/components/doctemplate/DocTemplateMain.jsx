@@ -4,6 +4,8 @@ import ParagraphList from './ParagraphList'
 import DocReplyMain from './DocReplyMain'
 import Participant from './Participant'
 import Licenser from './Licenser'
+import { useRecoilState } from 'recoil'
+import { templateMainData } from '../../Atoms/atom'
 
 const STemplateMain = styled.div`
     
@@ -40,7 +42,7 @@ const Stitle = styled.div`
 const SsetMain = styled.div`
     width : 100%;
     font-size : 19px;
-    margin : 0 0 0px 10px;
+    margin : 0 0 0 10px;
     background : none;
     padding : 10px 10px 0 10px;
 `
@@ -65,19 +67,19 @@ const Ssets = styled.div`
 `
 
 function DocTemplateMain() {
-
+    const [templateData, setTemplateData] = useRecoilState(templateMainData);
     const [mouseOnImg, setMouseOnImg] = useState(0);
     
   return (
     <STemplateMain mouseOnImg={mouseOnImg} >
         <Stitle>    {/* 제목 */}
-            세번째 글 제목
+            {'세번째 글 제목'}
         </Stitle> 
 
         <SsetMain>
-            <Ssets>작성일 : 2022-07-14</Ssets> {/* 작성일 */}
-            <Ssets>수정일 : 2022-07-14</Ssets> {/* 수정일 */}
-            <Ssets>작성자 : <Sname>@성익현</Sname></Ssets> {/* 작성자 */}
+            <Ssets>작성일 : {templateData.makeDate}</Ssets> {/* 작성일 */}
+            <Ssets>수정일 : {templateData.modifyDate}</Ssets> {/* 수정일 */}
+            <Ssets>작성자 : <Sname>{templateData.maker}</Sname></Ssets> {/* 작성자 */}
             
             <Participant /> {/* 참여자 */}
             <Licenser />    {/* 허가자 */}

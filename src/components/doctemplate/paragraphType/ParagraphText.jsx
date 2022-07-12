@@ -2,6 +2,8 @@ import React, {useRef, useState, useCallback, useEffect} from 'react'
 import styled from 'styled-components'
 import { BsThreeDotsVertical,  } from 'react-icons/bs'
 import {MdOutlineCancel, MdOutlineEditNote} from 'react-icons/md'
+import { useRecoilState } from 'recoil'
+import { templateParagraph } from '../../../Atoms/atom'
 
 const SInnerDataV = styled.div`
   padding-left : 25px;
@@ -57,8 +59,10 @@ const SSettingLine = styled.div`
 
 function ParagraphText(prop) {
 
+  const [paragraphs, setParagraphs] = useRecoilState(templateParagraph)
+
   const delParagraph = ()=>{
-    prop.setParagraphs((prev)=>{
+    setParagraphs((prev)=>{
       let arrayData = [
         ...prev,
       ]
@@ -89,7 +93,7 @@ function ParagraphText(prop) {
               console.log(prop.data);
               console.log(prop.data.data);
               setInputValue(prop.data.data);
-              prop.setParagraphs((prev)=>{
+              setParagraphs((prev)=>{
                 let newList = [
                   ...prev
                 ]
@@ -121,7 +125,7 @@ function ParagraphText(prop) {
         onChange={(e)=>{setInputValue(e.target.value)}}
         onKeyDown={(e)=>{
           if(e.key === 'Enter' && !e.shiftKey){
-            prop.setParagraphs((prev)=>{
+            setParagraphs((prev)=>{
               let newList = [
                 ...prev
               ]
@@ -134,13 +138,13 @@ function ParagraphText(prop) {
           }
         }}
         onBlur = {(e)=>{
-          prop.setParagraphs((prev)=>{
+          setParagraphs((prev)=>{
             let newList = [
               ...prev
             ]
-            newList[prop.data.id].data = inputValue;
-            newList[prop.data.id].modify = 0;
-            console.log(newList);
+            console.log(newList[prop.data.id]);
+            newList = newList.map((data)=>(data.id===prop.data.id? {...data, data : inputValue}:{...data}));
+            newList = newList.map((data)=>(data.id===prop.data.id? {...data, modify : 0} : {...data})); 
             return newList;
           })
           setInputValue('');

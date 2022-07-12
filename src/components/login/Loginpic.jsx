@@ -77,11 +77,10 @@ const Loginpic = () => {
         <Simg src={picList[slideNum]} alt="배경그림" />
         <Sslidebar>
             {picList.map((data, i)=>{
-                console.log(slideNum, i);
                 /*각 동그라미를 렌더링 할 때 '현재 슬라이드 인덱스 번호'와 '해당 사진의 인덱스 번호'가 동일하면 nowpic = 1 (동그라미에 노란배경)*/
-                if (slideNum === i) return <Sslidebarcircle nowpic = {1}></Sslidebarcircle>; 
+                if (slideNum === i) return <Sslidebarcircle key={i} nowpic = {1}></Sslidebarcircle>; 
                 /*아닐경우 null*/
-                else return <Sslidebarcircle nowpic = {0}></Sslidebarcircle>;
+                else return <Sslidebarcircle key={i} nowpic = {0}></Sslidebarcircle>;
             })}
         </Sslidebar>
     </>

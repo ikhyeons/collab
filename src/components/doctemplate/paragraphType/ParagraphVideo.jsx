@@ -4,7 +4,7 @@ import { BsThreeDotsVertical,  } from 'react-icons/bs'
 import {MdOutlineCancel, MdOutlineEditNote} from 'react-icons/md'
 import ReactPlayer from 'react-player'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import {templateParagraphId, templateParagraphF} from '../../../Atoms/atom'
+import {templateParagraphId, templateParagraph} from '../../../Atoms/atom'
 
 const SInnerDataV = styled.div`
   padding-left : 25px;
@@ -52,7 +52,7 @@ const SVideoTitle = styled.div`
 function ParagraphVideo(prop) {
 
   const setParagraphId = useSetRecoilState(templateParagraphId)
-  const [paragraphs, setParagraphs] = useRecoilState(templateParagraphF(prop.data))
+  const [paragraphs, setParagraphs] = useRecoilState(templateParagraph(prop.data))
 
   const delParagraph = ()=>{
     setParagraphId((prev)=>{

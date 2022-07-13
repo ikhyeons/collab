@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { BsThreeDotsVertical,  } from 'react-icons/bs'
 import {MdOutlineCancel, MdOutlineEditNote} from 'react-icons/md'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { templateParagraphF, templateParagraphId } from '../../../Atoms/atom'
+import { templateParagraph, templateParagraphId } from '../../../Atoms/atom'
 
 const SInnerDataV = styled.div`
   padding-left : 25px;
@@ -60,15 +60,7 @@ const SSettingLine = styled.div`
 function ParagraphText(prop) {
 
   const setParagraphId = useSetRecoilState(templateParagraphId)
-  const [paragraphs, setParagraphs] = useRecoilState(templateParagraphF(prop.data))
-
-  useEffect(()=>{
-    setParagraphs((prev)=>{
-      return ({...prev , data : `${prop.data.id+'123'}`})
-    })
-  }, [])
-
-
+  const [paragraphs, setParagraphs] = useRecoilState(templateParagraph(prop.data))
 
   const delParagraph = ()=>{
     setParagraphId((prev)=>{

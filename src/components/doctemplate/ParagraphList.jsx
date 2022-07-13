@@ -5,7 +5,7 @@ import ParagraphImg from './paragraphType/ParagraphImg';
 import ParagraphVideo from './paragraphType/ParagraphVideo';
 import ParagraphLink from './paragraphType/ParagraphLink';
 import { useRecoilState } from 'recoil';
-import { templateParagraphId, templateParagraphF } from '../../Atoms/atom';
+import { templateParagraphId, templateParagraph } from '../../Atoms/atom';
 
 const SParagraphList = styled.ul`
   border-radius : 5px;
@@ -47,12 +47,18 @@ function ParagraphList(prop) {
           id : data.id+1,
          })
       })
+      return newArray;
+    })
+    setParagraphId((prev)=>{
+      let newArray = [
+        ...prev
+      ]
       newArray.unshift({
         id : 0,
         type : 'text',
-       })
-       console.log(newArray);
-      return newArray;
+      })
+     console.log(newArray);
+     return newArray;
     })
   }
 

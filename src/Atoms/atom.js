@@ -97,7 +97,7 @@ export const templateParagraphId = atom({
   ]
 })
 
-export const templateParagraphF = atomFamily({
+export const templateParagraph = atomFamily({
   key : 'template/templateParagraphF',
   default : ({id, type})=>{
     if(type === 'text') return({

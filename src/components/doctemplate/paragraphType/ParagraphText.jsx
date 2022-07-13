@@ -62,6 +62,14 @@ function ParagraphText(prop) {
   const setParagraphId = useSetRecoilState(templateParagraphId)
   const [paragraphs, setParagraphs] = useRecoilState(templateParagraphF(prop.data))
 
+  useEffect(()=>{
+    setParagraphs((prev)=>{
+      return ({...prev , data : `${prop.data.id+'123'}`})
+    })
+  }, [])
+
+
+
   const delParagraph = ()=>{
     setParagraphId((prev)=>{
       let arrayData = [
@@ -123,13 +131,12 @@ function ParagraphText(prop) {
         onKeyDown={(e)=>{
           if(e.key === 'Enter' && !e.shiftKey){
             setParagraphs((prev)=>{
-              let newList = [
+              let newData = {
                 ...prev
-              ]
-              newList = newList.map((data)=>(data.id===paragraphs.id? {...data, data : inputValue}:{...data}));
-              newList = newList.map((data)=>(data.id===paragraphs.id? {...data, modify : 0} : {...data})); 
-              console.log(newList);
-              return newList;
+              }
+              // 클릭된 놈이랑 아이디가 같은 객체의 수정을 1로 만들어야 됨.
+              newData = {...newData, data : inputValue, modify : 0}
+              return newData;
             })
             setInputValue('');
           }

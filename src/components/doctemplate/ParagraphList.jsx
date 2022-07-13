@@ -5,7 +5,7 @@ import ParagraphImg from './paragraphType/ParagraphImg';
 import ParagraphVideo from './paragraphType/ParagraphVideo';
 import ParagraphLink from './paragraphType/ParagraphLink';
 import { useRecoilState } from 'recoil';
-import { templateParagraph, templateParagraphId } from '../../Atoms/atom';
+import { templateParagraphId, templateParagraphF } from '../../Atoms/atom';
 
 const SParagraphList = styled.ul`
   border-radius : 5px;
@@ -35,10 +35,9 @@ const SAddParagraph = styled.button`
 function ParagraphList(prop) {
 
   const [paragraphId, setParagraphId] = useRecoilState(templateParagraphId);
-  const [paragraphs, setParagraphs] = useRecoilState(templateParagraph);
 
   const addParagraphs = ()=>{ //아이디를 추가하는걸로 바꿈 (타입은 text기본)
-    setParagraphs((prev)=>{
+    setParagraphId((prev)=>{
       let newArray = [
         ...prev
       ]
@@ -51,9 +50,8 @@ function ParagraphList(prop) {
       newArray.unshift({
         id : 0,
         type : 'text',
-        data : '',
-        modify : 1,
        })
+       console.log(newArray);
       return newArray;
     })
   }

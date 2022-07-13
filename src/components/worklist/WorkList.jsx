@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styled from 'styled-components';
+import { boardState } from "../../Atoms/atom";
+import { useRecoilState } from "recoil";
 import BoardList from "./BoardList";
 
 
@@ -47,20 +49,7 @@ const Sbutton = styled.button`
 const WorkList = ()=>{
     const [boardClicked, setBoardClicked] = useState(0);
     const [boardName, setBoardName] = useState('');
-    const [board, setBoard] = useState([
-        {
-            bnum: 1,
-            bname: '할 일',
-        },
-        {
-            bnum: 2,
-            bname: '진행 중',
-        },
-        {
-            bnum: 3,
-            bname: '완료',
-        },
-    ])
+    const [board, setBoard] = useRecoilState(boardState)
     const [list, setList] = useState([
         [],
         [],

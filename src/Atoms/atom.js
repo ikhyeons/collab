@@ -21,7 +21,7 @@ export const projectState = atom({
   ],
 });
 
-export const boardState = atomFamily({
+export const boardState = atom({
   key: 'boardState',
   default: [
     {
@@ -38,5 +38,6 @@ export const boardState = atomFamily({
     },
   ]
 });
+
 
 //

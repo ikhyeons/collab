@@ -3,6 +3,9 @@ import styled from 'styled-components'
 import { BsThreeDotsVertical,  } from 'react-icons/bs'
 import {MdOutlineCancel, MdOutlineEditNote} from 'react-icons/md'
 
+import { useRecoilState, useSetRecoilState } from 'recoil'
+import { templateParagraphF, templateParagraphId } from '../../../Atoms/atom'
+
 const SInnerDataV = styled.div`
   padding-left : 25px;
   width : 100%;
@@ -85,9 +88,11 @@ const xStyle = {
 }
 
 function ParagraphImg(prop) {
+  const setParagraphId = useSetRecoilState(templateParagraphId)
+  const [paragraphs, setParagraphs] = useRecoilState(templateParagraphF(prop.data))
 
   const delParagraph = ()=>{
-    prop.setParagraphs((prev)=>{
+    setParagraphId((prev)=>{
       let arrayData = [
         ...prev,
       ]
@@ -121,7 +126,7 @@ function ParagraphImg(prop) {
             onMouseLeave={(e)=>{prop.setMouseOnImg(0)}}
             onWheel={(e)=>{if(prop.mouseOnImg===1 && e.deltaY>0)e.currentTarget.scrollLeft+=600; else if(prop.mouseOnImg===1 && e.deltaY<0) e.currentTarget.scrollLeft-=600;setTimeout(()=>{ }, 1500)}}
           >
-              {prop.data.imgs.map((data, i)=>(<SImageWrap key={i}><SImage  src={data} /><MdOutlineCancel style={xStyle}/></SImageWrap>))}
+              {paragraphs.imgs.map((data, i)=>(<SImageWrap key={i}><SImage  src={data} /><MdOutlineCancel style={xStyle}/></SImageWrap>))}
 
           </SImageBox>
           

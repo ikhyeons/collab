@@ -61,11 +61,11 @@ function ParagraphList(prop) {
   return (
     <SParagraphList>
         <SAddParagraph onClick={()=>{addParagraphs()}}>+ 문단추가</SAddParagraph>
-        {paragraphs.map((data, i)=>{
-          if (data.type === 'text') return <ParagraphText key={i} setParagraphs={setParagraphs} data={data}/>
-          else if (data.type === 'image') return <ParagraphImg  mouseOnImg={prop.mouseOnImg} setMouseOnImg={prop.setMouseOnImg} key={i} setParagraphs={setParagraphs} data={data} />
-          else if (data.type === 'video') return <ParagraphVideo key={i} setParagraphs={setParagraphs} data={data} />
-          else if (data.type === 'link') return <ParagraphLink key={i} setParagraphs={setParagraphs} data={data} />
+        {paragraphId.map((data, i)=>{
+          if (data.type === 'text') return <ParagraphText key={i} data={data}/>
+          else if (data.type === 'image') return <ParagraphImg  mouseOnImg={prop.mouseOnImg} setMouseOnImg={prop.setMouseOnImg} key={i} data={data} />
+          else if (data.type === 'video') return <ParagraphVideo key={i} data={data} />
+          else if (data.type === 'link') return <ParagraphLink key={i} data={data} />
         })}
     </SParagraphList>
   )

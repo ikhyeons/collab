@@ -2,8 +2,8 @@ import React, {useRef, useState, useCallback, useEffect} from 'react'
 import styled from 'styled-components'
 import { BsThreeDotsVertical,  } from 'react-icons/bs'
 import {MdOutlineCancel, MdOutlineEditNote} from 'react-icons/md'
-import { useRecoilState } from 'recoil'
-import { templateParagraph } from '../../../Atoms/atom'
+import { useRecoilState, useSetRecoilState } from 'recoil'
+import { templateParagraphF, templateParagraphId } from '../../../Atoms/atom'
 
 const SInnerDataV = styled.div`
   padding-left : 25px;
@@ -59,10 +59,11 @@ const SSettingLine = styled.div`
 
 function ParagraphText(prop) {
 
-  const [paragraphs, setParagraphs] = useRecoilState(templateParagraph)
+  const setParagraphId = useSetRecoilState(templateParagraphId)
+  const [paragraphs, setParagraphs] = useRecoilState(templateParagraphF(prop.data))
 
   const delParagraph = ()=>{
-    setParagraphs((prev)=>{
+    setParagraphId((prev)=>{
       let arrayData = [
         ...prev,
       ]
@@ -90,18 +91,14 @@ function ParagraphText(prop) {
 
           <SimoDiv1
             onClick={()=>{
-              console.log(prop.data);
-              console.log(prop.data.data);
-              setInputValue(prop.data.data);
+              setInputValue(paragraphs.data);
               setParagraphs((prev)=>{
-                let newList = [
+                let newData = {
                   ...prev
-                ]
-                console.log(newList);
+                }
                 // 클릭된 놈이랑 아이디가 같은 객체의 수정을 1로 만들어야 됨.
-                newList = newList.map((data)=>(data.id===prop.data.id? {...data, modify : 1} : {...data, modify : 0}));
-                console.log(newList);
-                return newList;
+                newData = {...newData, modify : 1}
+                return newData;
               })
             }}
           >
@@ -114,12 +111,12 @@ function ParagraphText(prop) {
         </SSettingLine>
 
         {
-        prop.data.modify === 0?
+        paragraphs.modify === 0?
         <SInnerDataV>
-          {prop.data.data}  
+          {paragraphs.data}  
         </SInnerDataV>
         :
-        <SInnerDataI modify = {prop.data.modify} value={inputValue} 
+        <SInnerDataI modify = {paragraphs.modify} value={inputValue} 
         ref={textRef}
         onInput={handleResizeHeight}
         onChange={(e)=>{setInputValue(e.target.value)}}
@@ -129,8 +126,8 @@ function ParagraphText(prop) {
               let newList = [
                 ...prev
               ]
-              newList = newList.map((data)=>(data.id===prop.data.id? {...data, data : inputValue}:{...data}));
-              newList = newList.map((data)=>(data.id===prop.data.id? {...data, modify : 0} : {...data})); 
+              newList = newList.map((data)=>(data.id===paragraphs.id? {...data, data : inputValue}:{...data}));
+              newList = newList.map((data)=>(data.id===paragraphs.id? {...data, modify : 0} : {...data})); 
               console.log(newList);
               return newList;
             })
@@ -139,13 +136,12 @@ function ParagraphText(prop) {
         }}
         onBlur = {(e)=>{
           setParagraphs((prev)=>{
-            let newList = [
+            let newData = {
               ...prev
-            ]
-            console.log(newList[prop.data.id]);
-            newList = newList.map((data)=>(data.id===prop.data.id? {...data, data : inputValue}:{...data}));
-            newList = newList.map((data)=>(data.id===prop.data.id? {...data, modify : 0} : {...data})); 
-            return newList;
+            }
+            // 클릭된 놈이랑 아이디가 같은 객체의 수정을 1로 만들어야 됨.
+            newData = {...newData, data : inputValue, modify : 0}
+            return newData;
           })
           setInputValue('');
         }}

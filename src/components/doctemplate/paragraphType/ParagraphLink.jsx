@@ -2,6 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { BsThreeDotsVertical,  } from 'react-icons/bs'
 import {MdOutlineCancel, MdOutlineEditNote} from 'react-icons/md'
+import { useRecoilState, useSetRecoilState } from 'recoil'
+import {templateParagraphF, templateParagraphId} from '../../../Atoms/atom'
 
 const SInnerDataV = styled.div`
   padding-left : 25px;
@@ -87,8 +89,11 @@ const SLinkContent = styled.div`
 `
 function ParagraphLink(prop) {
 
+  const setParagraphId = useSetRecoilState(templateParagraphId)
+  const [paragraphs, setParagraphs] = useRecoilState(templateParagraphF(prop.data))
+
   const delParagraph = ()=>{
-    prop.setParagraphs((prev)=>{
+    setParagraphId((prev)=>{
       let arrayData = [
         ...prev,
       ]
@@ -121,7 +126,7 @@ function ParagraphLink(prop) {
             <SLinkimg src='https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjAzMDZfMTAz%2FMDAxNjQ2NDk1MTQ1MDcy.CD4dxBXYd_Z8c7ukEUhg-5MZXQw45KxYYw1T4RxhRIcg.j-W-C2tFZ9bS9RwDxMTeH0UkffMN7AfLguaIbvTvKBYg.PNG.ggsone0805%2FCreamCam20220227172215.png&type=a340' />
           </SLinkLeft>
           <SLinkRight>
-            <SLinkLine target="_blank" href = {prop.data.data}>{prop.data.data}</SLinkLine>
+            <SLinkLine target="_blank" href = {paragraphs.data}>{paragraphs.data}</SLinkLine>
             <SLinkContent>프롭스로 받아온 세부내용 표시</SLinkContent>
           </SLinkRight>
         </SInnerDataV>

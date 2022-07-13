@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import { BsThreeDotsVertical,  } from 'react-icons/bs'
 import {MdOutlineCancel, MdOutlineEditNote} from 'react-icons/md'
 import ReactPlayer from 'react-player'
+import { useRecoilState, useSetRecoilState } from 'recoil'
+import {templateParagraphId, templateParagraphF} from '../../../Atoms/atom'
 
 const SInnerDataV = styled.div`
   padding-left : 25px;
@@ -49,10 +51,11 @@ const SVideoTitle = styled.div`
 `
 function ParagraphVideo(prop) {
 
- 
+  const setParagraphId = useSetRecoilState(templateParagraphId)
+  const [paragraphs, setParagraphs] = useRecoilState(templateParagraphF(prop.data))
 
   const delParagraph = ()=>{
-    prop.setParagraphs((prev)=>{
+    setParagraphId((prev)=>{
       let arrayData = [
         ...prev,
       ]
@@ -81,10 +84,10 @@ function ParagraphVideo(prop) {
         </SSettingLine>
 
         <SInnerDataV >
-          <SVideoTitle>{prop.data.data}</SVideoTitle>
+          <SVideoTitle>{paragraphs.data}</SVideoTitle>
           <ReactPlayer
                     className='react-player'
-                    url={'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'}    // 플레이어 url
+                    url={paragraphs.url}    // 플레이어 url
                     width='450px'         // 플레이어 크기 (가로)
                     height='300px'        // 플레이어 크기 (세로)
                     playing={false}        // 자동 재생 on

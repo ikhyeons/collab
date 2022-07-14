@@ -3,6 +3,8 @@ import styled, { keyframes } from 'styled-components'
 import { Link } from 'react-router-dom'
 import { FaSpinner } from 'react-icons/fa'
 
+import { useRecoilValue } from 'recoil'
+import { docList } from '../../Atoms/atom'
 
 
 const Sli = styled.li`
@@ -123,7 +125,10 @@ const SloadingOpacity = styled.span`
 
 
 
-function DocList(prop) {
+function DocList() {
+
+    const doclist = useRecoilValue(docList);
+
     //현재 스크롤량을 확인하여 맨 밑까지 스크롤 되었는지를 확인하는 스테이트
     const [isBottom, setIsBottom] = useState(0);
 
@@ -137,7 +142,7 @@ function DocList(prop) {
     return (
         <Sul onScroll={(e)=>{scrollBottom(e)}}>
             {
-                prop.data.map((data)=>{{/* 부모에서 받은 글 리스트를 렌더함. */}
+                doclist.map((data)=>{{/* 부모에서 받은 글 리스트를 렌더함. */}
                     return (
                             <Sli key={data.num}>
                                 <Snum>{data.num}</Snum>

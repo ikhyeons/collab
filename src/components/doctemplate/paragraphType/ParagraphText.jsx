@@ -2,7 +2,7 @@ import React, {useRef, useState, useCallback, useEffect} from 'react'
 import styled from 'styled-components'
 import { BsThreeDotsVertical,  } from 'react-icons/bs'
 import {MdOutlineCancel, MdOutlineEditNote} from 'react-icons/md'
-import { useRecoilState, useSetRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState, useResetRecoilState } from 'recoil'
 import { templateParagraph, templateParagraphId } from '../../../Atoms/atom'
 
 const SInnerDataV = styled.div`
@@ -61,7 +61,7 @@ function ParagraphText(prop) {
 
   const setParagraphId = useSetRecoilState(templateParagraphId)
   const [paragraphs, setParagraphs] = useRecoilState(templateParagraph(prop.data))
-
+  const resetParagraph = useResetRecoilState(templateParagraph(prop.data));
   const delParagraph = ()=>{
     setParagraphId((prev)=>{
       let arrayData = [
@@ -81,6 +81,10 @@ function ParagraphText(prop) {
   const handleResizeHeight = useCallback(() => {
     textRef.current.style.height = textRef.current.scrollHeight + "px";
   }, []);
+
+   useEffect(()=>{
+     return ()=>{resetParagraph()}
+   }, [])
 
   return (
     <SParagraphText>

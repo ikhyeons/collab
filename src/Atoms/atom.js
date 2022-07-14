@@ -304,6 +304,30 @@ export const docList = atom({
 ]
 })
 
+export const replyList = atom({
+  key : 'reply/replyList',
+  default : [
+    {
+      num : 0,
+      type : 'text',
+      writer : '성익현',
+      data : '첫 번째 댓글입니다.',
+    },
+    {
+      num : 1,
+      type : 'text',
+      writer : '강도경',
+      data : '두 번째 댓글입니다.',
+    },
+    {
+      num : 2,
+      type : 'text',
+      writer : '홍길동',
+      data : '세 번째 댓글입니다.',
+    },
+  ]
+})
+
 
 //위로는 성익현
 //밑에는 강도경

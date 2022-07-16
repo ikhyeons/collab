@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from 'styled-components';
-import { boardState } from "../../Atoms/atom";
+import { boardState, listState } from "../../Atoms/atom";
 import { useRecoilState } from "recoil";
 import BoardList from "./BoardList";
 
@@ -50,12 +50,7 @@ const WorkList = ()=>{
     const [boardClicked, setBoardClicked] = useState(0);
     const [boardName, setBoardName] = useState('');
     const [board, setBoard] = useRecoilState(boardState)
-    const [list, setList] = useState([
-        [],
-        [],
-        [],
-        [],
-    ]);
+    const [list, setList] = useRecoilState(listState);
     const addBoard = () =>{
         setBoard((prev) =>{
             let newBoard = [

@@ -39,5 +39,14 @@ export const boardState = atom({
   ]
 });
 
+export const listState = atom({
+  key: 'listState',
+  default: (data)=>[
+    {
+      id: data.id,
+      contents: data.contents,
+    },
+  ],
+})
 
 //

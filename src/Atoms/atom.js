@@ -328,6 +328,20 @@ export const replyList = atom({
   ]
 })
 
+export const chatList = atom({
+  key : 'chatting/chatList',
+  default : [
+    {
+      my:0,
+      contents:'뭐해',
+  },
+  ]
+})
+
+export const chatParticipant = atom({
+  key : 'chatting/chatParticipant',
+  default : ['성익현','강도경']
+})
 
 //위로는 성익현
 //밑에는 강도경

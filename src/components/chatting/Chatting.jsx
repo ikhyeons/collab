@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { chatList } from "../../Atoms/atom";
 import ChatUser from './ChatUser'
 
 const Scontainor = styled.div`
@@ -15,15 +17,6 @@ const Schatcon = styled.div`
     border: 1px solid grey;
 `;
 
-const Sparticipant = styled.div`
-    width: 15%;
-    border: 1px solid grey;
-`;
-
-const Suser = styled.div``;
-const SuserTitle = styled.h4`
-
-`
 const Stitle = styled.h3``;
 
 const Schatting = styled.div`
@@ -34,10 +27,10 @@ const Schatting = styled.div`
 
 const Smychat = styled.div`
     position:relative;
-    margin-right: ${ props => props.my == 1 ? '30px' : null };
-    margin-left: ${ props => props.my == 0 ? '30px' : null };
-    right:${ props => props.my == 1 ? '0px' : null };
-    left: ${ props => props.my == 0 ? '0px' : null };
+    margin-right: ${ props => props.my === 1 ? '30px' : null };
+    margin-left: ${ props => props.my === 0 ? '30px' : null };
+    right:${ props => props.my === 1 ? '0px' : null };
+    left: ${ props => props.my === 0 ? '0px' : null };
     padding: 10px;
     width:300px;
     min-height:60px;
@@ -49,32 +42,9 @@ const Smychat = styled.div`
         content:"";
         position:absolute;
         top:21px;
-        right:${props => props.my == 1 ? '-30px' : '300px'};
-        border-left:${props => props.my == 1 ? '30px solid grey' : null};
-        border-right:${props => props.my == 0 ? '30px solid grey' : null};
-        border-top: 10px solid transparent;
-        border-bottom: 10px solid transparent;
-    }
-`
-
-const Snmychat = styled.div`
-    position:relative;
-    left:0;
-    margin-left: 30px;
-    padding: 10px;
-    width:300px;
-    min-height:60px;
-    color: #FFF;
-    border-radius: 10px;
-    background-color: grey;
-    word-wrap:break-word;
-    
-    :after{
-        content:"";
-        position:absolute;
-        top:21px;
-        right:200px;
-        border-right:30px solid grey;
+        right:${props => props.my === 1 ? '-30px' : '300px'};
+        border-left:${props => props.my === 1 ? '30px solid grey' : null};
+        border-right:${props => props.my === 0 ? '30px solid grey' : null};
         border-top: 10px solid transparent;
         border-bottom: 10px solid transparent;
     }
@@ -110,21 +80,16 @@ const Scell = styled.div`
     min-height:62px;
     margin-bottom:20px;
     width : 100%;
-    justify-content : ${ props => props.my == 1 ? 'flex-end' : null};
+    justify-content : ${ props => props.my === 1 ? 'flex-end' : null};
 `;
 
 const Chatting = ()=>{
-    const [myChat, setMychat] = useState([
-        {
-            my:0,
-            contents:'뭐해',
-        },
-    ]);
+    const [allChat, setAllchat] = useRecoilState(chatList);
     const [chat, setChat] = useState('');
     const scrollRef = useRef();
 
     const addChat = () =>{
-        setMychat((prev)=>{
+        setAllchat((prev)=>{
             let newchat = [
                 ...prev,
                 {
@@ -140,7 +105,7 @@ const Chatting = ()=>{
     useEffect(()=>{
         console.log('ㅎㅇ');
         scrollRef.current.scrollIntoView({behavior:'smooth', block:'end'});
-    }, [myChat])
+    }, [allChat])
 
     useEffect(()=>{
         if(chat==='\n'){
@@ -154,7 +119,7 @@ const Chatting = ()=>{
             <Schatcon>
                 <Stitle>채팅/전체 채팅</Stitle>
                 <Schatting>
-                    {myChat.map((data, i)=>{
+                    {allChat.map((data, i)=>{
                         return <Scell my={data.my} key={i+1}><Smychat key={i} my={data.my}>{data.contents}</Smychat></Scell>;
                         
                     })}

@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { useEffect } from "react";
 import { useState, memo } from "react";
 import { useRecoilState } from "recoil";
-import { boardState, listState } from "../../Atoms/atom";
+import { boardState, listState, listStateId } from "../../Atoms/atom";
 import styled from "styled-components";
 
 const Sinput = styled.input`
@@ -52,7 +52,7 @@ const InnerList = memo((props) =>{
     const { index } = props;
     const [listName, setListName] = useState("");
     const [addButton, setAddButton] = useState(0);
-    const [list, setList] = useRecoilState(listState);
+    const [list, setList] = useRecoilState(listStateId);
 
     const addList= (i)=>{
         setList((prev)=>{

@@ -110,9 +110,9 @@ const InnerList = memo((props) =>{
 
     return(
         <SlistContainor>
-            {list[index] && list[index].map((data, index)=>{
+            {list && list.map((data, i)=>{
                 return(
-                    <Slist key={index} >{data}</Slist>
+                    <Slist key={i} >{data.contents}</Slist>
                 )
             })}
             {addButton === 1 && <Sinput type="text" placeholder="내용 추가"

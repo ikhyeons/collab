@@ -50,7 +50,11 @@ const WorkList = ()=>{
     const [boardClicked, setBoardClicked] = useState(0);
     const [boardName, setBoardName] = useState('');
     const [board, setBoard] = useRecoilState(boardState)
-    const [list, setList] = useRecoilState(listState);
+   
+    const inputBoard= (e)=>{
+        setBoardName(e.target.value)
+    };
+
     const addBoard = () =>{
         setBoard((prev) =>{
             let newBoard = [
@@ -63,21 +67,8 @@ const WorkList = ()=>{
             console.log(newBoard);
             return newBoard;
         })
-        setList((prev)=>{
-            let newList = [
-                ...prev,
-                [],
-            ]
-            return newList;
-        })
-        setBoardClicked(0);
-        setBoardName('');
     };
-
-    const inputBoard= (e)=>{
-        setBoardName(e.target.value)
-    };
-
+    
     return(
         <Wnav>
             <Wlogo>작업 목록</Wlogo>
@@ -86,7 +77,7 @@ const WorkList = ()=>{
                     <SboardName>
                         {board.map((data, i) =>{
                             return (
-                                <BoardList data={data} key={i} i={i} index={data.bnum} list={list} setList={setList}/>
+                                <BoardList data={data} key={i} i={i} index={data.bnum} />
                             )
                         })}
                         <SboardButton onClick={()=>{setBoardClicked(1)}}>보드 추가+</SboardButton>

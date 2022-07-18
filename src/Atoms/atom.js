@@ -12,7 +12,7 @@ import {
 //밑에는 강도경
 
 export const projectState = atom({
-  key: 'projectState',
+  key: 'projects/projectState',
   default: [
     {
       name:'새 프로젝트1',
@@ -22,7 +22,7 @@ export const projectState = atom({
 });
 
 export const boardState = atom({
-  key: 'boardState',
+  key: 'worklist/boardState',
   default: [
     {
         bnum: 1,
@@ -39,14 +39,24 @@ export const boardState = atom({
   ]
 });
 
-export const listState = atom({
-  key: 'listState',
-  default: (data)=>[
-    {
-      id: data.id,
-      contents: data.contents,
-    },
-  ],
+export const listStateId = atom ({
+  key: 'worklist/listStateId',
+  default:[
+    { id: 0, contents: '' },
+    { id: 1, contents: '' },
+    { id: 2, contents: '' },
+    { id: 3, contents: '' },
+  ]
+})
+
+export const listState = atomFamily({
+  key: 'worklist/listState',
+  default: ({id, contents})=>{
+    return({
+     id: id,
+     contents: contents, 
+    })
+  }
 })
 
 //

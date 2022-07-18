@@ -19,13 +19,13 @@ const Sboard = styled.div`
 const Scontainor = styled.div`
 `
 const BoardList = (props) =>{
-    const { i,index, data, list, setList } = props;
+    const { i, data, index } = props;
     return(
         <Scontainor>
             <Sboard key={i}>
                 <Wtitle key={i}>{data.bname}</Wtitle>
             </Sboard>
-            <InnerList  list={list} setList={setList} index={index}/>
+            <InnerList index={index} />
         </Scontainor>
     )
 }

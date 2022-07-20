@@ -14,8 +14,8 @@ const Sli = styled.li`
 
 function SidebarChatLi({num}) {
 
-    const [chatLi, setChatLi] = useRecoilState(sidebarChatLi({num : num, name : '전채채팅'}))
-    console.log(chatLi)
+    const [chatLi, setChatLi] = useRecoilState(sidebarChatLi({num : num, name : '전체채팅'}))
+        
   return (
     <Link to={`/main/chat/${chatLi.num}`} style={{ textDecoration: 'none', color : 'black'}}><Sli>{chatLi.name}</Sli></Link>//${i}에서 i는 채팅 번호
   )

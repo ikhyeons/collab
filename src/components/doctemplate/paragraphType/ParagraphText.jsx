@@ -76,6 +76,7 @@ function ParagraphText(prop) {
     })}
 
   const textRef = useRef();
+  
   const [inputValue, setInputValue] = useState('');
 
   const handleResizeHeight = useCallback(() => {
@@ -117,7 +118,7 @@ function ParagraphText(prop) {
         {
         paragraphs.modify === 0?
         <SInnerDataV>
-          {paragraphs.data}  
+          {paragraphs.data}
         </SInnerDataV>
         :
         <SInnerDataI modify = {paragraphs.modify} value={inputValue} 

@@ -9,7 +9,7 @@ import {
 //------------------------사이드바
 export const sidebarWorkSpace = atom({
   key : 'sidebar/sidebarWorkSpace',
-  default : [1, 2, 3, 4],
+  default : [0, 1, 2, 3],
 })
 
 export const sidebarWorkSpaceLi = atomFamily({
@@ -24,7 +24,7 @@ export const sidebarWorkSpaceLi = atomFamily({
 
 export const sidebarChat = atom({
   key : 'sidebar/sidebarChat',
-  default : [1, 2],
+  default : [0, 1],
 })
 
 export const sidebarChatLi = atomFamily({
@@ -130,7 +130,7 @@ export const templateParagraph = atomFamily({
   }
 })
 
-//-------------------------------탬플릿 채팅
+//-------------------------------탬플릿 댓글
 
 export const replyList = atom({
   key : 'reply/replyList',
@@ -382,7 +382,7 @@ export const selectedTd = selector({
         }
       })
     })
-
+    
     return set
   },
 })

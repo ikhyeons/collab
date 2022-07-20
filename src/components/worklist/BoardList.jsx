@@ -18,22 +18,6 @@ const SlistContainor = styled.div`
     min-width:300px;
     margin-right:5px;
 `
-const Slist = styled.div`
-    max-height:35px;
-    max-width:300px;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-    background : lightyellow;
-    margin : 4px;
-    padding : 5px;
-    border : 1px solid black;
-    border-radius : 5px;
-    cursor : pointer;
-    :hover{
-        background : rgb(245, 245, 180)
-    }
-`
 const Sbutton = styled.button`
     width:300px;
     background : lightyellow;

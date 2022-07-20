@@ -130,6 +130,33 @@ export const templateParagraph = atomFamily({
   }
 })
 
+//-------------------------------탬플릿 채팅
+
+export const replyList = atom({
+  key : 'reply/replyList',
+  default : [
+    {
+      num : 0,
+      type : 'text',
+      writer : '성익현',
+      data : '첫 번째 댓글입니다.',
+    },
+    {
+      num : 1,
+      type : 'text',
+      writer : '강도경',
+      data : '두 번째 댓글입니다.',
+    },
+    {
+      num : 2,
+      type : 'text',
+      writer : '홍길동',
+      data : '세 번째 댓글입니다.',
+    },
+  ]
+})
+
+//-------------------------------글리스트
 export const docList = atom({
   key : 'doclist/docList',
   default : [
@@ -304,29 +331,7 @@ export const docList = atom({
 ]
 })
 
-export const replyList = atom({
-  key : 'reply/replyList',
-  default : [
-    {
-      num : 0,
-      type : 'text',
-      writer : '성익현',
-      data : '첫 번째 댓글입니다.',
-    },
-    {
-      num : 1,
-      type : 'text',
-      writer : '강도경',
-      data : '두 번째 댓글입니다.',
-    },
-    {
-      num : 2,
-      type : 'text',
-      writer : '홍길동',
-      data : '세 번째 댓글입니다.',
-    },
-  ]
-})
+//-------------------------------채팅
 
 export const chatList = atom({
   key : 'chatting/chatList',
@@ -341,6 +346,53 @@ export const chatList = atom({
 export const chatParticipant = atom({
   key : 'chatting/chatParticipant',
   default : ['성익현','강도경']
+})
+
+//-------------------------------리퀘스트
+export const requestTable = atom({
+  key : 'request/mainTable',
+  default : [
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+  ]
+})
+
+export const selectedTd = selector({
+  key : 'request/selectedTd',
+  get: ({get}) => {
+    let data = get(requestTable);
+    let set = []
+    data.map((row, i)=>{
+      row.map((cell, j)=>{
+        if(cell === 1){
+          set.push({rownum : i, cellnum : j});
+        }
+      })
+    })
+
+    return set
+  },
+})
+
+export const requestLast1Td = atom({ //마지막 지나온놈의 셀, 인덱스 번호
+  key : 'request/requestLast1Td',
+  default : {
+    rowIndex : 0,
+    cellIndex : 0,
+  }
 })
 
 //위로는 성익현

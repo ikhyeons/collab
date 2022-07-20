@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Tr from './Tr';
 import styled from "styled-components";
+import { selectedTd, requestTable } from "../../Atoms/atom";
+import { useRecoilState } from "recoil";
 
 const Std = styled.td`
     border: 1px solid black;
@@ -20,11 +22,12 @@ const Stable = styled.table`
 `
 
 const Table = () => {
-    const [selectedDate, setSelectedDate] = useState([]);
+    
     const [isMouseDown, setIsMouseDown] = useState(0);
-    useEffect(()=>{
-        console.log(selectedDate);
-    },[selectedDate])
+    const [tableSet] = useRecoilState(selectedTd);
+
+    useEffect(()=> {console.log(tableSet)}, [tableSet])
+
     return(
         <Stable onMouseDown={()=>{setIsMouseDown(1);}} onMouseUp={()=>{setIsMouseDown(0);}}>
             <tbody>
@@ -39,7 +42,7 @@ const Table = () => {
                     <Std>토</Std>
                 </tr>
                 {Array(15).fill().map((tr,i)=>(
-                        <Tr key={i} rowIndex={i} setSelectedDate={setSelectedDate} isMouseDown={isMouseDown}/>
+                        <Tr key={i} rowIndex={i} isMouseDown={isMouseDown}/>
                 ))
                 }
             </tbody>

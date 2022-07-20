@@ -387,14 +387,6 @@ export const selectedTd = selector({
   },
 })
 
-export const requestLast1Td = atom({ //마지막 지나온놈의 셀, 인덱스 번호
-  key : 'request/requestLast1Td',
-  default : {
-    rowIndex : 0,
-    cellIndex : 0,
-  }
-})
-
 //위로는 성익현
 //밑에는 강도경
 

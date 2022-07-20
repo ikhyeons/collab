@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useRecoilState } from "recoil";
-import { requestLast1Td, requestTable } from "../../Atoms/atom";
+import { requestTable } from "../../Atoms/atom";
 
 const Std = styled.td`
     background-color : ${ (props) => props.checked === 1 ? 'lightgreen': null};
@@ -13,7 +13,6 @@ const Std = styled.td`
 const Td = ({rowIndex, cellIndex, isMouseDown})=>{
 
     const [checkedTable, setCheckedTable] = useRecoilState(requestTable)
-    const [last1Td, setLast1Td] = useRecoilState(requestLast1Td);
     
     const checked = checkedTable[rowIndex][cellIndex];
     //이전 마우스가 있던 td

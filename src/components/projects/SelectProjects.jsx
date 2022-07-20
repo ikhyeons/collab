@@ -1,7 +1,9 @@
 import React, {useState} from "react";
 import styled from 'styled-components';
+import { projectState } from "../../Atoms/atom";
 import DetailProject from './DetailProject'
 import ModalName from "./NameModal";
+import { useRecoilState } from 'recoil';
 
 const SMain = styled.div`
     display : block;
@@ -83,7 +85,7 @@ let count = 1;
 
 const SelectProjects = () =>{
     //프로젝트 추가 생성을 위한 변수
-    const [project, setProject] = useState([{name:'새 프로젝트1', pic:''}]);
+    const [project, setProject] = useRecoilState(projectState);
     
     // 팝업창 띄우기위해 사용되는 변수
     const [modalnameOpen, setModalNameOpen] = useState(false);

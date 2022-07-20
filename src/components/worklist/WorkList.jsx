@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styled from 'styled-components';
+import { boardState, listState } from "../../Atoms/atom";
+import { useRecoilState } from "recoil";
 import BoardList from "./BoardList";
 
 
@@ -47,26 +49,12 @@ const Sbutton = styled.button`
 const WorkList = ()=>{
     const [boardClicked, setBoardClicked] = useState(0);
     const [boardName, setBoardName] = useState('');
-    const [board, setBoard] = useState([
-        {
-            bnum: 1,
-            bname: '할 일',
-        },
-        {
-            bnum: 2,
-            bname: '진행 중',
-        },
-        {
-            bnum: 3,
-            bname: '완료',
-        },
-    ])
-    const [list, setList] = useState([
-        [],
-        [],
-        [],
-        [],
-    ]);
+    const [board, setBoard] = useRecoilState(boardState)
+   
+    const inputBoard= (e)=>{
+        setBoardName(e.target.value)
+    };
+
     const addBoard = () =>{
         setBoard((prev) =>{
             let newBoard = [
@@ -79,21 +67,8 @@ const WorkList = ()=>{
             console.log(newBoard);
             return newBoard;
         })
-        setList((prev)=>{
-            let newList = [
-                ...prev,
-                [],
-            ]
-            return newList;
-        })
-        setBoardClicked(0);
-        setBoardName('');
     };
-
-    const inputBoard= (e)=>{
-        setBoardName(e.target.value)
-    };
-
+    
     return(
         <Wnav>
             <Wlogo>작업 목록</Wlogo>
@@ -102,7 +77,7 @@ const WorkList = ()=>{
                     <SboardName>
                         {board.map((data, i) =>{
                             return (
-                                <BoardList data={data} key={i} i={i} index={data.bnum} list={list} setList={setList}/>
+                                <BoardList data={data} key={i} i={i} index={data.bnum} />
                             )
                         })}
                         <SboardButton onClick={()=>{setBoardClicked(1)}}>보드 추가+</SboardButton>

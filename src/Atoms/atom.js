@@ -3,7 +3,6 @@ import {
     atomFamily,
     selector,
     selectorFamily,
-    atomFamily,
   } from 'recoil';
 
 //

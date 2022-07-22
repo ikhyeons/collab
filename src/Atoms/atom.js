@@ -17,7 +17,7 @@ export const sidebarWorkSpaceLi = atomFamily({
     default : (data)=>({
       num : data.num,
       type : data.type,
-      name : data.name,
+      name : data.num,
     }
   )
 })

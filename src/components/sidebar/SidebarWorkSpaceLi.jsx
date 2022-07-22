@@ -10,6 +10,15 @@ const Sli = styled.li`
     background : yellow;
     cursor : pointer;
   }
+
+  ::before {
+    color : black;
+    position : absolute;
+    left : 15px;
+    content : '*';
+    font-size : 28px;
+    transition: all 0.2s ease-in-out;
+  }
 `
 
 function SidebarWorkSpaceLi({num}) {

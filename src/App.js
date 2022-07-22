@@ -1,5 +1,9 @@
 import styled, { createGlobalStyle } from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import { DndProvider } from 'react-dnd'
+
+
 import SidebarMain from "./components/sidebar/SidebarMain"
 import LoginMain from './components/login/LoginMain'
 import SelectProject from './components/projects/SelectProjects'
@@ -69,7 +73,9 @@ function App() {
   return (
     <RecoilRoot>
       <div className="App">
+        
         <GlobalStyle />
+        <DndProvider backend={HTML5Backend}>
         {
         //<SelectProject />
         //<LoginMain />
@@ -110,6 +116,7 @@ function App() {
           </Routes>
         </BrowserRouter>
         }
+        </DndProvider>
       </div>
     </RecoilRoot>
   );

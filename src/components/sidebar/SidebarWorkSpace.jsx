@@ -39,7 +39,7 @@ const SidebarWorkSpace = () => {
   //워크스페이스 리스트 추가하는 함수
   const addWorkSpaceList = () => {
     setWorkSpaceList((prev)=>{
-      let newList = [...prev, prev.length +1]
+      let newList = [...prev, prev.length]
       return newList;
     })
   }

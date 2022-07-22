@@ -1,5 +1,8 @@
 import styled, { createGlobalStyle } from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import { DndProvider } from 'react-dnd'
+
 import SidebarMain from "./components/sidebar/SidebarMain"
 import LoginMain from './components/login/LoginMain'
 import SelectProject from './components/projects/SelectProjects'
@@ -67,51 +70,53 @@ function App() {
   
 
   return (
-    <RecoilRoot>
-      <div className="App">
-        <GlobalStyle />
-        {
-        //<SelectProject />
-        //<LoginMain />
-        <BrowserRouter>
-          <Inproject>
+    <DndProvider backend={HTML5Backend}>
+      <RecoilRoot>
+        <div className="App">
+          <GlobalStyle />
+          {
+          //<SelectProject />
+          //<LoginMain />
+          <BrowserRouter>
+            <Inproject>
 
-            <Routes>
-              <Route path="/main/*" element={<SidebarMain />} />
-            </Routes>
+              <Routes>
+                <Route path="/main/*" element={<SidebarMain />} />
+              </Routes>
 
-            <Routes>
-              <Route path="/" element={<LoginMain />} />
-              <Route path="/project" element={<SelectProject />} />
-              <Route path="/main/calendar" element={<CalendarPage />} />
-            </Routes>
+              <Routes>
+                <Route path="/" element={<LoginMain />} />
+                <Route path="/project" element={<SelectProject />} />
+                <Route path="/main/calendar" element={<CalendarPage />} />
+              </Routes>
 
-            <Routes>
-              <Route path="/main/workspace/li/*" element={<DocListMain />} />
+              <Routes>
+                <Route path="/main/workspace/li/*" element={<DocListMain />} />
+                
+              </Routes>
+
+              <Routes>
+                <Route path="/main/workspace/board/*" element={<WorkList />} />
+                <Route path="/main/workspace/li/*" element={<DocTemplateMain />} />
+                <Route path="/main/workspace/new/*" element={<NewSpace />} />
+              </Routes>
+
+              <Routes>
+                <Route path="/main/setting" element={<Setting />} />
+                <Route path="/main/chat/*" element={<Chatting />} />
+              </Routes>
+
               
-            </Routes>
+            </Inproject>
 
             <Routes>
-              <Route path="/main/workspace/board/*" element={<WorkList />} />
-              <Route path="/main/workspace/li/*" element={<DocTemplateMain />} />
-              <Route path="/main/workspace/new/*" element={<NewSpace />} />
+
             </Routes>
-
-            <Routes>
-              <Route path="/main/setting" element={<Setting />} />
-              <Route path="/main/chat/*" element={<Chatting />} />
-            </Routes>
-
-            
-          </Inproject>
-
-          <Routes>
-
-          </Routes>
-        </BrowserRouter>
-        }
-      </div>
-    </RecoilRoot>
+          </BrowserRouter>
+          }
+        </div>
+      </RecoilRoot>
+    </DndProvider>
   );
 }
 

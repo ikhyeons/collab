@@ -9,15 +9,15 @@ import {
 //------------------------사이드바
 export const sidebarWorkSpace = atom({
   key : 'sidebar/sidebarWorkSpace',
-  default : [0, 1, 2, 3],
+  default : [0, 1, 2, 3,],
 })
 
 export const sidebarWorkSpaceLi = atomFamily({
   key : 'sidebar/sidebarWorkSpaceInner',
     default : (data)=>({
-      num : data.num,
-      type : data.type,
-      name : data.num,
+      id : data.id,
+      type : 'li',
+      name : data.id,
     }
   )
 })

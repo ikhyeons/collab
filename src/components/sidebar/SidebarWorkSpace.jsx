@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import styled from 'styled-components'
 
 import { useRecoilState } from 'recoil'
@@ -36,6 +36,20 @@ const SidebarWorkSpace = () => {
   //워크스페이스 리스트
   const [workSpaceList, setWorkSpaceList] = useRecoilState(sidebarWorkSpace);
 
+  useEffect(()=>{console.log(workSpaceList)}, [workSpaceList]);
+
+  const moveFunction = (targetIndex, sourceIndex)=> {
+    setWorkSpaceList((prev)=>{
+      let newArray = [...prev];
+      let innerData = newArray[sourceIndex];
+      console.log(`input data is ${innerData}`)
+      newArray.splice(sourceIndex, 1);
+      newArray.splice(targetIndex, 0, innerData);
+      console.log(newArray);
+      return newArray
+    })
+  }
+
   //워크스페이스 리스트 추가하는 함수
   const addWorkSpaceList = () => {
     setWorkSpaceList((prev)=>{
@@ -54,7 +68,7 @@ const SidebarWorkSpace = () => {
         <Stitle onClick={()=>{accordion()}}>워크스페이스</Stitle>
         <Sul hidden = {hidden}>
           {workSpaceList.map((data , i )=>{
-            return <SidebarWorkSpaceLi key={i} num = {data}></SidebarWorkSpaceLi>
+            return <SidebarWorkSpaceLi key={i} index={i} id={data} moveFunction={moveFunction}></SidebarWorkSpaceLi>
           })}
           <SaddBtn onClick={()=>{addWorkSpaceList()}}>+</SaddBtn>
         </Sul>

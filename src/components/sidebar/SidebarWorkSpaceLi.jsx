@@ -28,7 +28,7 @@ function SidebarWorkSpaceLi({index, id, moveFunction}) {
     const [workSpaceLi, setWorkSpaceLi] = useRecoilState(sidebarWorkSpaceLi({id : id}))
     const resetLi = useResetRecoilState(sidebarWorkSpaceLi({id : id}));
   
-    useEffect(()=>{console.log(workSpaceLi)}, [workSpaceLi]);
+    useEffect(()=>{resetLi()}, [workSpaceLi]);
 
     const [{ isDragging }, dragRef, previewRef] = useDrag(
       () => ({

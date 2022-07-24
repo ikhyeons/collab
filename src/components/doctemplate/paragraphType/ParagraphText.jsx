@@ -2,6 +2,7 @@ import React, {useRef, useState, useCallback, useEffect} from 'react'
 import styled from 'styled-components'
 import { BsThreeDotsVertical,  } from 'react-icons/bs'
 import {MdOutlineCancel, MdOutlineEditNote} from 'react-icons/md'
+import { useDrag, useDrop } from 'react-dnd'
 import { useRecoilState, useSetRecoilState, useResetRecoilState } from 'recoil'
 import { templateParagraph, templateParagraphId } from '../../../Atoms/atom'
 
@@ -59,6 +60,8 @@ const SSettingLine = styled.div`
 
 function ParagraphText(prop) {
 
+  const {index, id, moveFunction} = prop;
+
   const setParagraphId = useSetRecoilState(templateParagraphId)
   const [paragraphs, setParagraphs] = useRecoilState(templateParagraph(prop.data))
   const resetParagraph = useResetRecoilState(templateParagraph(prop.data));
@@ -87,10 +90,36 @@ function ParagraphText(prop) {
      return ()=>{resetParagraph()}
    }, [])
 
+   const [{ isDragging }, dragRef, previewRef] = useDrag(
+    () => ({
+      type: 'paragraphList',
+      item: { index, id },
+      collect: (monitor) => ({
+        isDragging: monitor.isDragging(),
+      }),
+      end: (item) => {
+        //item.index = 떨어진 놈의 인덱스 index = 집은 놈의 인덱스 id = 집은 놈의 아이디
+        moveFunction(item.index, index);
+      },
+    })
+  )
+
+  const [, drop] = useDrop({
+    accept: 'paragraphList',
+    hover: (item) => {
+      if (item.index === index) {
+        return null
+      }
+      //item.index = 집은놈의 인덱스 index = 올라간 놈의 인덱스
+      item.index = index;
+      console.log(index);
+    },
+  })
+
   return (
-    <SParagraphText>
-        <SSettingLine>
-          <SimoDiv1>
+    <SParagraphText ref = {previewRef}>
+        <SSettingLine ref = {node => drop(node)}>
+          <SimoDiv1 ref={node => dragRef(drop(node))}>
             <BsThreeDotsVertical />
           </SimoDiv1>
 

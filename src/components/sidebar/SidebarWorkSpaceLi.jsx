@@ -1,10 +1,9 @@
 import React, {useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { useDrag, useDrop } from 'react-dnd'
 import { useRecoilState, useResetRecoilState } from 'recoil'
 import { sidebarWorkSpaceLi, sidebarWorkSpace } from '../../Atoms/atom'
-
-import { useDrag, useDrop } from 'react-dnd'
 
 const Sli = styled.li`
   width : 100%;
@@ -32,7 +31,7 @@ function SidebarWorkSpaceLi({index, id, moveFunction}) {
 
     const [{ isDragging }, dragRef, previewRef] = useDrag(
       () => ({
-        type: 'List',
+        type: 'sidebarWorkSpaceList',
         item: { index, id },
         collect: (monitor) => ({
           isDragging: monitor.isDragging(),
@@ -45,7 +44,7 @@ function SidebarWorkSpaceLi({index, id, moveFunction}) {
     )
 
     const [, drop] = useDrop({
-      accept: 'List',
+      accept: 'sidebarWorkSpaceList',
       hover: (item) => {
         if (item.index === index) {
           return null

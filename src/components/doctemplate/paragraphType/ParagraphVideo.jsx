@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { BsThreeDotsVertical,  } from 'react-icons/bs'
 import {MdOutlineCancel, MdOutlineEditNote} from 'react-icons/md'
 import ReactPlayer from 'react-player'
+import { useDrag, useDrop } from 'react-dnd'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import {templateParagraphId, templateParagraph} from '../../../Atoms/atom'
 
@@ -51,6 +52,8 @@ const SVideoTitle = styled.div`
 `
 function ParagraphVideo(prop) {
 
+  const {index, id, moveFunction} = prop;
+
   const setParagraphId = useSetRecoilState(templateParagraphId)
   const [paragraphs, setParagraphs] = useRecoilState(templateParagraph(prop.data))
 
@@ -67,10 +70,36 @@ function ParagraphVideo(prop) {
       return arrayData;
     })}
 
+    const [{ isDragging }, dragRef, previewRef] = useDrag(
+      () => ({
+        type: 'paragraphList',
+        item: { index, id },
+        collect: (monitor) => ({
+          isDragging: monitor.isDragging(),
+        }),
+        end: (item) => {
+          //item.index = 떨어진 놈의 인덱스 index = 집은 놈의 인덱스 id = 집은 놈의 아이디
+          moveFunction(item.index, index);
+        },
+      })
+    )
+  
+    const [, drop] = useDrop({
+      accept: 'paragraphList',
+      hover: (item) => {
+        if (item.index === index) {
+          return null
+        }
+        //item.index = 집은놈의 인덱스 index = 올라간 놈의 인덱스
+        item.index = index;
+        console.log(index);
+      },
+    })
+
   return (
-    <SParagraphVideo>
-        <SSettingLine>
-          <SimoDiv1>
+    <SParagraphVideo ref = {previewRef}>
+        <SSettingLine ref = {node => drop(node)}>
+          <SimoDiv1 ref={node => dragRef(drop(node))}>
             <BsThreeDotsVertical />
           </SimoDiv1>
 

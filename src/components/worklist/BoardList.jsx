@@ -52,14 +52,15 @@ const BoardList = (props) =>{
     const [listName, setListName] = useState("");
     const [addButton, setAddButton] = useState(0);
     const [list, setList] = useRecoilState(listStateId);
+    
 
-    const addList= (i)=>{
+    const addList= ()=>{
         setList((prev)=>{
             let newList = [
                 ...prev,
             ]
             if(listName){
-                newList.push({id: list.at(-1).id + 1, bnum: index})
+                newList[i].push({id: list.at(-1).id + 1, bnum: index})
             }else{
                 return newList;
             }
@@ -90,14 +91,15 @@ const BoardList = (props) =>{
                     console.log('gd');
                     console.log(list.at(-1));
                     let newList = [...prev];
-                    newList.push({id: list.at(-1).id + 1, bnum: index});
+                    console.log(newList, {id: list.at(-1).id + 1, bnum: index});
+                    newList[i].push({id: list.at(-1).id + 1, bnum: index});
                     return newList;
                 });
             } else {
                 setList((prev)=>{
                     console.log('gd');
                     let newList = [...prev];
-                    newList.push({id: list.at(-1).id + 1, bnum: index});
+                    newList[i].push({id: list.at(-1).id + 1, bnum: index});
                     return newList;
                 });
             }
@@ -135,7 +137,7 @@ const BoardList = (props) =>{
                 }}
                 onKeyPress={(e)=>{
                     if(e.key === 'Enter'){
-                        addList(index);
+                        addList();
                     }
                 }}
                 autoFocus

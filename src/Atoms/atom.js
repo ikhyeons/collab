@@ -412,15 +412,15 @@ export const boardState = atom({
   key: 'worklist/boardState',
   default: [
     {
-        bnum: 1,
+        bnum: 0,
         bname: '할 일',
     },
     {
-        bnum: 2,
+        bnum: 1,
         bname: '진행 중',
     },
     {
-        bnum: 3,
+        bnum: 2,
         bname: '완료',
     },
   ]
@@ -429,10 +429,10 @@ export const boardState = atom({
 export const listStateId = atom ({
   key: 'worklist/listStateId',
   default:[
-    { id: 0, bnum: 1 },
-    { id: 1, bnum: 2 },
-    { id: 2, bnum: 3 },
-    { id: 3, bnum: 2 },
+    [],
+    [],
+    [],
+    [],
   ]
 })
 
@@ -442,6 +442,7 @@ export const listState = atomFamily({
     return({
      id: id,
      bnum: bnum,
+     type: 'li',
      contents: `${id}, ${bnum}인 디폴트`, 
     })
   }

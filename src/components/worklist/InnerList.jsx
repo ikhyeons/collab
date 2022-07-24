@@ -27,7 +27,7 @@ const InnerList = (props) =>{
     const [listStatef, setListStatef] = useRecoilState(listState(data));
     const [, dragRef] = useDrag(
         () => ({
-          type :  "list",
+          type :  'List',
           item: listStatef.id,
           collect: (monitor) =>({
             isDragging: monitor.isDragging(),
@@ -39,7 +39,7 @@ const InnerList = (props) =>{
     )
 
     const [ , drop ] = useDrop({
-        accept: 'list',
+        accept: 'List',
         hover: (item) =>{
             if (item.index === index) {
                 return null
@@ -51,7 +51,7 @@ const InnerList = (props) =>{
     })
 
     return(
-        <Slist ref={item => dragRef(drop(item))}>{listStatef.contents}</Slist>
+        <Slist ref={item => dragRef(drop(item))}>{index}</Slist>
     )
 }
 

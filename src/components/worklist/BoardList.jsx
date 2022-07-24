@@ -77,7 +77,6 @@ const BoardList = (props) =>{
 
     useEffect(() => {
         document.addEventListener('mousedown', clickInputOutside);
-
         return () => {
             document.removeEventListener('mousedown', clickInputOutside);
         };
@@ -107,6 +106,16 @@ const BoardList = (props) =>{
         }
     }
 
+    const moveFunction = (targetIndex, sourceIndex) => {
+        setList((prev) => {
+            let newList = [...prev];
+            let innerData = newList[sourceIndex];
+            newList.splice(sourceIndex, 1);
+            newList.splice(targetIndex, 0, innerData);
+            console.log(newList);
+            return newList;
+        })
+    }
     return(
         <Scontainor>
             <Sboard key={i}>
@@ -115,7 +124,7 @@ const BoardList = (props) =>{
             <SlistContainor>
                 {list && list.filter((data)=>(data.bnum === index)).map((data, i)=>{
                     return(
-                        <InnerList key={i} data={data} />
+                        <InnerList key={i} index={i} data={data} moveFunction={moveFunction} />
                     )
                 })}
                 {addButton === 1 && <Sinput type="text" placeholder="내용 추가"

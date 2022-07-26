@@ -9,7 +9,7 @@ const Sli = styled.li`
   width : 100%;
   background : ${prop=> prop.isOver?'rgb(185, 250, 170)':'none'};
   :hover{
-    background : yellow;
+    background : rgb(245, 255, 200);
     cursor : pointer;
   }
 `
@@ -51,7 +51,7 @@ function SidebarChatLi({index, id, moveFunction}) {
     })
 
   return (
-    <Link to={`/main/chat/${chatLi.num}`} style={{ textDecoration: 'none', color : 'black'}}><Sli isOver={isOver} ref={node => dragRef(drop(node))}>{id}</Sli></Link>//${i}에서 i는 채팅 번호
+    <Link to={`/main/chat/${chatLi.num}`} style={{ textDecoration: 'none', color : 'black'}}><Sli isOver={isOver} ref={node => dragRef(drop(node))}>-{id}</Sli></Link>//${i}에서 i는 채팅 번호
   )
 }
 

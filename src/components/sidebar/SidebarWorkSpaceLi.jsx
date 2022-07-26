@@ -9,17 +9,8 @@ const Sli = styled.li`
   width : 100%;
   background : ${prop=> prop.isOver?'rgb(185, 250, 170)':'none'};
   :hover{
-    background : yellow;
+    background : rgb(245, 255, 200);
     cursor : pointer;
-  }
-
-  ::before {
-    color : black;
-    position : absolute;
-    left : 15px;
-    content : '-';
-    font-size : 28px;
-    transition: all 0.2s ease-in-out;
   }
 `
 
@@ -60,7 +51,7 @@ function SidebarWorkSpaceLi({index, id, moveFunction}) {
     })
 
   return (
-    <Link to={`/main/workspace/${workSpaceLi.type}/${workSpaceLi.id}`} style={{ textDecoration: 'none', color : 'black'}}><Sli isOver={isOver} ref={node => dragRef(drop(node))} >{id}</Sli></Link>
+    <Link to={`/main/workspace/${workSpaceLi.type}/${workSpaceLi.id}`} style={{ textDecoration: 'none', color : 'black'}}><Sli isOver={isOver} ref={node => dragRef(drop(node))} >-{id}</Sli></Link>
   )
 }
 

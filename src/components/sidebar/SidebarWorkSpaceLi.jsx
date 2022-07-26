@@ -7,6 +7,7 @@ import { sidebarWorkSpaceLi, sidebarWorkSpace } from '../../Atoms/atom'
 
 const Sli = styled.li`
   width : 100%;
+  background : ${prop=> prop.isOver?'rgb(185, 250, 170)':'none'};
   :hover{
     background : yellow;
     cursor : pointer;
@@ -16,7 +17,7 @@ const Sli = styled.li`
     color : black;
     position : absolute;
     left : 15px;
-    content : '*';
+    content : '-';
     font-size : 28px;
     transition: all 0.2s ease-in-out;
   }
@@ -43,7 +44,7 @@ function SidebarWorkSpaceLi({index, id, moveFunction}) {
       })
     )
 
-    const [, drop] = useDrop({
+    const [{isOver}, drop] = useDrop({
       accept: 'sidebarWorkSpaceList',
       hover: (item) => {
         if (item.index === index) {
@@ -53,10 +54,13 @@ function SidebarWorkSpaceLi({index, id, moveFunction}) {
         item.index = index;
         console.log(index);
       },
+      collect : (monitor)=>({
+        isOver : monitor.isOver()
+      })
     })
 
   return (
-    <Link to={`/main/workspace/${workSpaceLi.type}/${workSpaceLi.id}`} style={{ textDecoration: 'none', color : 'black'}}><Sli ref={node => dragRef(drop(node))} >{id}</Sli></Link>
+    <Link to={`/main/workspace/${workSpaceLi.type}/${workSpaceLi.id}`} style={{ textDecoration: 'none', color : 'black'}}><Sli isOver={isOver} ref={node => dragRef(drop(node))} >{id}</Sli></Link>
   )
 }
 

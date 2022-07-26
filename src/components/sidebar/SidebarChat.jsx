@@ -30,6 +30,7 @@ const SaddBtn = styled.li`
 `
 
 const SidebarChat = () => {
+  
   //숨김처리를 위한 변수
   const [hidden, setHidden] = useState(0);
   //채팅 리스트
@@ -44,12 +45,24 @@ const SidebarChat = () => {
     else setHidden(0)
   }
 
+  const moveFunction = (targetIndex, sourceIndex)=> {
+    setChatList((prev)=>{
+      let newArray = [...prev];
+      let innerData = newArray[sourceIndex];
+      console.log(`input data is ${innerData}`)
+      newArray.splice(sourceIndex, 1);
+      newArray.splice(targetIndex, 0, innerData);
+      console.log(newArray);
+      return newArray
+    })
+  }
+
   return (
     <div>
         <Stitle onClick={()=>{accordion()}}>채팅</Stitle>
         <Sul hidden = {hidden}>
         {chatList.map((data, i)=>{
-            return <SidebarChatLi key={i} num={data} />
+            return <SidebarChatLi moveFunction={moveFunction} index= {i} id={data} key={i} num={data} />
           })}
           <SaddBtn onClick={()=>{addChat()}}>+</SaddBtn>
         </Sul>

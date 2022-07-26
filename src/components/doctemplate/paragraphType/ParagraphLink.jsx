@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 import { BsThreeDotsVertical,  } from 'react-icons/bs'
 import {MdOutlineCancel, MdOutlineEditNote} from 'react-icons/md'
@@ -19,7 +19,7 @@ const SimoDiv1 = styled.span`
   margin : "0 0 10px 0";
   cursor : pointer;
   padding : 3px;
-  border-radius : 5px;
+  border-radius : 5px 0 0 5px;
   :hover{
     background : yellow;
   }
@@ -28,7 +28,7 @@ const SimoDiv1 = styled.span`
 const SimoDiv2 = styled.span`
   cursor : pointer;
   padding : 3px;
-  border-radius : 5px;
+  border-radius : 5px 0 0 5px;
   :hover{
     background : yellow;
   }
@@ -38,7 +38,6 @@ const SParagraphLink = styled.div`
   background : lightyellow;
   border-radius : 5px;
   width : 100%;
-  padding : 10px;
   display : flex;
   position : relative;
   min-height : 100px;
@@ -46,9 +45,14 @@ const SParagraphLink = styled.div`
 `
 
 const SSettingLine = styled.div`
+  background : gray;
   display : flex;
   flex-direction: column;
   margin-right : 5px;
+  background : ${ prop=>(prop.isOver?'rgb(205, 250, 170)':'rgb(235, 235, 170)')};
+  padding-left : 3px;
+  border-radius : 5px 0 0 5px;
+  padding-top : 10px;
 `
 
 const SLinkLeft = styled.div`
@@ -92,7 +96,7 @@ function ParagraphLink(prop) {
 
   const {index, id, moveFunction} = prop;
 
-  const setParagraphId = useSetRecoilState(templateParagraphId)
+  const setParagraphId = useSetRecoilState(templateParagraphId);
   const [paragraphs, setParagraphs] = useRecoilState(templateParagraph(prop.data))
 
   const delParagraph = ()=>{
@@ -122,9 +126,9 @@ function ParagraphLink(prop) {
       })
     )
   
-    const [, drop] = useDrop({
+    const [{isOver}, drop] = useDrop({
       accept: 'paragraphList',
-      hover: (item) => {
+      hover: (item, monitor) => {
         if (item.index === index) {
           return null
         }
@@ -132,11 +136,14 @@ function ParagraphLink(prop) {
         item.index = index;
         console.log(index);
       },
+      collect : monitor => ({
+        isOver : monitor.isOver(),
+      })
     })
 
   return (
     <SParagraphLink ref = {previewRef}>
-        <SSettingLine ref = {node => drop(node)}>
+        <SSettingLine isOver = {isOver}  ref = {node => drop(node)}>
           <SimoDiv1 ref={node => dragRef(drop(node))}>
             <BsThreeDotsVertical />
           </SimoDiv1>

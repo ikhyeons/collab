@@ -1,8 +1,8 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 import { BsThreeDotsVertical,  } from 'react-icons/bs'
 import {MdOutlineCancel, MdOutlineEditNote} from 'react-icons/md'
-
+import { useDrag, useDrop } from 'react-dnd'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { templateParagraph, templateParagraphId } from '../../../Atoms/atom'
 
@@ -15,7 +15,7 @@ const SimoDiv1 = styled.span`
   margin : "0 0 10px 0";
   cursor : pointer;
   padding : 3px;
-  border-radius : 5px;
+  border-radius : 5px 0 0 5px;
   :hover{
     background : yellow;
   }
@@ -24,7 +24,7 @@ const SimoDiv1 = styled.span`
 const SimoDiv2 = styled.span`
   cursor : pointer;
   padding : 3px;
-  border-radius : 5px;
+  border-radius : 5px 0 0 5px;
   :hover{
     background : yellow;
   }
@@ -34,7 +34,6 @@ const SParagraphImg = styled.div`
   background : lightyellow;
   border-radius : 5px;
   width : 100%;
-  padding : 10px;
   display : flex;
   position : relative;
   min-height : 80px;
@@ -45,9 +44,14 @@ const SParagraphImg = styled.div`
 `
 
 const SSettingLine = styled.div`
+  background : gray;
   display : flex;
   flex-direction: column;
   margin-right : 5px;
+  background : ${ prop=>(prop.isOver?'rgb(205, 250, 170)':'rgb(235, 235, 170)')};
+  padding-left : 3px;
+  border-radius : 5px 0 0 5px;
+  padding-top : 10px;
 `
 
 const SImageBox = styled.div`
@@ -88,7 +92,8 @@ const xStyle = {
 }
 
 function ParagraphImg(prop) {
-  const setParagraphId = useSetRecoilState(templateParagraphId)
+  const {index, id, moveFunction} = prop;
+  const setParagraphId = useSetRecoilState(templateParagraphId);
   const [paragraphs, setParagraphs] = useRecoilState(templateParagraph(prop.data))
 
   const delParagraph = ()=>{
@@ -104,10 +109,39 @@ function ParagraphImg(prop) {
       return arrayData;
     })}
 
+    const [{ isDragging }, dragRef, previewRef] = useDrag(
+      () => ({
+        type: 'paragraphList',
+        item: { index, id },
+        collect: (monitor) => ({
+          isDragging: monitor.isDragging(),
+        }),
+        end: (item) => {
+          //item.index = 떨어진 놈의 인덱스 index = 집은 놈의 인덱스 id = 집은 놈의 아이디
+          moveFunction(item.index, index);
+        },
+      })
+    )
+  
+    const [{isOver}, drop] = useDrop({
+      accept: 'paragraphList',
+      hover: (item, monitor) => {
+        if (item.index === index) {
+          return null
+        }
+        //item.index = 집은놈의 인덱스 index = 올라간 놈의 인덱스
+        item.index = index;
+        console.log(index);
+      },
+      collect : monitor => ({
+        isOver : monitor.isOver(),
+      })
+    })
+
   return (
-    <SParagraphImg>
-        <SSettingLine>
-          <SimoDiv1>
+    <SParagraphImg ref = {previewRef}>
+        <SSettingLine isOver = {isOver} ref = {node => drop(node)}>
+          <SimoDiv1 ref={node => dragRef(drop(node))}>
             <BsThreeDotsVertical />
           </SimoDiv1>
 

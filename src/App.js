@@ -2,6 +2,7 @@ import styled, { createGlobalStyle } from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
+import axios from "axios";
 
 
 import SidebarMain from "./components/sidebar/SidebarMain"
@@ -68,12 +69,21 @@ const Inproject = styled.div`
 
 function App() {
 
-  
+  const submitf = ()=>{
+    console.log('gd');
+    axios({
+      method: 'post',
+      url: 'http://localhost:1004/gd',
+      data: {},
+    }).then((res)=>{console.log(res)});
+  }
 
   return (
     <RecoilRoot>
       <div className="App">
-        
+        <button onClick={()=>{submitf()}}>
+          text
+        </button>
         <GlobalStyle />
         <DndProvider backend={HTML5Backend}>
         {

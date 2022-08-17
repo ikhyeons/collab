@@ -73,9 +73,9 @@ const Login = () => {
             },
             }).then((res)=>{
                 console.log(res);
-                if (res.data.success === 0){window.location.replace("/project")}
-                else if(res.data.success === 1){alert("비밀번호를 확인하세요!")}
-                else if(res.data.success === 2){alert("존재하지 않는 계정입니다!")}
+                if (res.data.return === 0){window.location.replace("/project")}
+                else if(res.data.return === 1){alert("비밀번호를 확인하세요!")}
+                else if(res.data.return === 2){alert("존재하지 않는 계정입니다!")}
             });
         }
       }
@@ -84,7 +84,7 @@ const Login = () => {
     <Sdiv>
         {
             join===0 && 
-            <Sform action="">
+            <Sform action="javascript://">
                 <h2>로그인</h2>
                 <p>이메일</p>
                 <Sinput type="email" placeholder="email"
@@ -113,7 +113,7 @@ const Login = () => {
         }
         {
             join===1 && 
-            <Sform action="">
+            <Sform action="javascript://">
                 <h2>회원가입</h2>
                 <p>이메일</p>
                 <Sinput type="email" placeholder="email"

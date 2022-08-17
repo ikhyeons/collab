@@ -5,24 +5,22 @@ const con = mysql.createConnection(mysqlKey);
 exports.login = (req, res) => {
     let email = req.body.email;
     let password = req.body.password
-    con.query('select * from user where email = ?', [email], (error, rows, fields) => {
+    con.query('select email, password, userNum from user where email = ?', [email], (error, rows, fields) => {
         if(rows.length){
             if(rows[0].email == email) {
-                con.query('select password from user where email = ?', [email], (error, rows, fields) => {
                     if(rows[0].password == password) {
                         req.session.logined=true;
-                        req.session.sid=email;
+                        req.session.sid=rows[0].userNum;
                         req.session.save(()=>{
                             console.log(req.session);
                         });
-                        res.send({'success' : 0})
+                        res.send({'return' : 0})
                     } else {
-                        res.send({'success' : 1})
+                        res.send({'return' : 1})
                     }
-                })
             };
         } else {
-            res.send({'success' : 2, 'session' : req.session})
+            res.send({'return' : 2})
         }
     })
 }

@@ -10,16 +10,17 @@ connection.connect();
 //------------------------------------------session 저장소
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session');
-sessionStore = new MySQLStore(mysqlKey);
+const sessionStore = new MySQLStore(mysqlKey);
 //------------------------------------------axios 허가
 const axios = require('axios');
-axios.defaults.withCredentials= true;
 //------------------------------------------helmet 페이지 보안
 const helmet = require('helmet');
 app.use(helmet());
 //------------------------------------------cors 허가
 const cors = require('cors');
-app.use(cors({origin : true, credentials: true}));
+app.use(cors({
+    origin : true, credentials: true
+}));
 //------------------------------------------body 파싱
 app.use(express.json());
 //------------------------------------------세션 설정
@@ -32,11 +33,11 @@ app.use(session({
 //------------------------------------------서버 구동
 app.listen(port, ()=>{console.log(`server run in ${port}`)});
 //------------------------------------------파일 임포트
-const login = require('./session/session')
+const {login, logout} = require('./session/session')
 //------------------------------------------라우팅
 app.post('/login', (req, res)=>{
-    login.login(req, res);
+    login(req, res);
   })
 app.post('/logout', (req, res)=>{
-    login.logout(req, res);
+    logout(req, res);
   })

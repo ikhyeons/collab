@@ -15,9 +15,9 @@ exports.login = (req, res) => {
                         req.session.save(()=>{
                             console.log(req.session);
                         });
-                        res.send({'success' : 0, 'session_cookie' : req.session, 'session_cookie_id' : req.session.id})
+                        res.send({'success' : 0})
                     } else {
-                        res.send({'success' : 1, 'session' : req.session})
+                        res.send({'success' : 1})
                     }
                 })
             };

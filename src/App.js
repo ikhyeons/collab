@@ -33,21 +33,7 @@ const GlobalStyle = createGlobalStyle`
     };
   }
   `
-
-  const SAllWrap = styled.div`
-  &::-webkit-scrollbar{
-    height : 5px;
-    background : rgba(240,240,150,1);
-  }
-
-  &::-webkit-scrollbar-thumb{
-      height: 17%;
-      background-color: rgba(255,255,170,1);
-      border : 1px solid yellow;
-      border-radius: 5px;    
-  }
-  `
-
+  
 const Inproject = styled.div`
   display : flex;
   overflow : hidden;
@@ -69,11 +55,12 @@ const Inproject = styled.div`
 
 function App() {
 
-  const submitf = ()=>{
+  const loginf = ()=>{
     console.log('gd');
     axios({
       method: 'post',
       url: 'http://localhost:1004/login',
+      withCredentials : true,
       data: {
         email : 'skantrkwl789@naver.com',
         password : '1234',
@@ -81,11 +68,23 @@ function App() {
     }).then((res)=>{console.log(res)});
   }
 
+  const logoutf = ()=>{
+    console.log('gd');
+    axios({
+      method: 'post',
+      withCredentials : true,
+      url: 'http://localhost:1004/logout',
+    }).then((res)=>{console.log(res)});
+  }
+
   return (
     <RecoilRoot>
       <div className="App">
-        <button onClick={()=>{submitf()}}>
-          text
+        <button onClick={()=>{loginf()}}>
+          text1
+        </button>
+        <button onClick={()=>{logoutf()}}>
+          text2
         </button>
         <GlobalStyle />
         <DndProvider backend={HTML5Backend}>

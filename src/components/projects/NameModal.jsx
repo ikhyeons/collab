@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import axios from "axios";
 
 // 로그아웃 팝업 div
 const Modalnamediv = styled.div`
@@ -31,7 +32,16 @@ const Modalnamefooter = styled.footer`
 
 const ModalName = (props) =>{
     const { open, close } = props;
-
+    const logoutf = ()=>{
+        console.log('gd');
+        axios({
+          method: 'post',
+          withCredentials : true,
+          url: 'http://localhost:1004/logout',
+        }).then((res)=>{
+            if (res.data.success == 0){window.location.replace("/")}
+        });
+      }
     return(
         <>
         {open? (
@@ -42,7 +52,7 @@ const ModalName = (props) =>{
                     </header>
                     <br/>
                     <Modalnamefooter>
-                        <Modalnamebutton className="check" onClick={()=>{close(false)}}>
+                        <Modalnamebutton className="check" onClick={()=>{logoutf()}}>
                             yes
                         </Modalnamebutton>
                         <Modalnamebutton className="close" onClick={()=>{close(false)}}>

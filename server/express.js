@@ -1,23 +1,42 @@
+//------------------------------------------express 실행
 const express = require('express');
 const app = express();
 const port = process.env.port||1004;
-
+//------------------------------------------mysql 연결
 const mysql = require('mysql');
 const {mysqlKey} = require('./mysqlKey.js');
 const connection = mysql.createConnection(mysqlKey);
 connection.connect();
-
+//------------------------------------------session 저장소
+const session = require('express-session');
+const MySQLStore = require('express-mysql-session');
+sessionStore = new MySQLStore(mysqlKey);
+//------------------------------------------axios 허가
+const axios = require('axios');
+axios.defaults.withCredentials= true;
+//------------------------------------------helmet 페이지 보안
+const helmet = require('helmet');
+app.use(helmet());
+//------------------------------------------cors 허가
 const cors = require('cors');
-
-app.use(
-    cors({
-        origin : "",
-        credentials : true,
-    })
-)
-
-app.get('/', (req, res)=>{
-    return res.send("hello world!")
-})
-
+app.use(cors({origin : true, credentials: true}));
+//------------------------------------------body 파싱
+app.use(express.json());
+//------------------------------------------세션 설정
+app.use(session({
+    secret: 'session_secret',
+    store: sessionStore,
+    resave: false,
+    saveUninitialized : false,
+  }));
+//------------------------------------------서버 구동
 app.listen(port, ()=>{console.log(`server run in ${port}`)});
+//------------------------------------------파일 임포트
+const login = require('./session/session')
+//------------------------------------------라우팅
+app.post('/login', (req, res)=>{
+    login.login(req, res);
+  })
+app.post('/logout', (req, res)=>{
+    login.logout(req, res);
+  })

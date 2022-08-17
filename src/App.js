@@ -73,8 +73,11 @@ function App() {
     console.log('gd');
     axios({
       method: 'post',
-      url: 'http://localhost:1004/gd',
-      data: {},
+      url: 'http://localhost:1004/login',
+      data: {
+        email : 'skantrkwl789@naver.com',
+        password : '1234',
+      },
     }).then((res)=>{console.log(res)});
   }
 

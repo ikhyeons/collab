@@ -33,11 +33,24 @@ app.use(session({
 //------------------------------------------서버 구동
 app.listen(port, ()=>{console.log(`server run in ${port}`)});
 //------------------------------------------파일 임포트
-const {login, logout} = require('./session/session')
-//------------------------------------------라우팅
+const {login, logout} = require('./session/session') //로그인 파일
+const {createProject} = require('./Create/createProject')
+const {createCollaborator} = require('./Create/createCollaborator')
+const {createCalendarEvent} = require('./Create/createCalendarEvent')
+//------------------------------------------session라우팅
 app.post('/login', (req, res)=>{
     login(req, res);
   })
 app.post('/logout', (req, res)=>{
     logout(req, res);
   })
+  //------------------------------------------Create라우팅
+app.post('/createProject', (req, res)=>{
+  createProject(req, res);
+})
+app.post('/createCollaborator', (req, res)=>{
+  createCollaborator(req, res);
+})
+app.post('/createCalendarEvent', (req, res)=>{
+  createCalendarEvent(req, res);
+})

@@ -56,24 +56,17 @@ const Inproject = styled.div`
 function App() {
 
   const loginf = ()=>{
-    console.log('gd');
     axios({
       method: 'post',
-      url: 'http://localhost:1004/login',
-      withCredentials : true,
-      data: {
-        email : 'skantrkwl789@naver.com',
-        password : '1234',
+      url: 'http://localhost:1004/createCalendarEvent',
+      data : {
+        projectNum : 1,
+        startDate : '2022-08-18',
+        endDate : '2022-08-19',
+        eventTitle : '이벤트 제목',
+        eventContent : '이벤트 내용',
       },
-    }).then((res)=>{console.log(res)});
-  }
-
-  const logoutf = ()=>{
-    console.log('gd');
-    axios({
-      method: 'post',
       withCredentials : true,
-      url: 'http://localhost:1004/logout',
     }).then((res)=>{console.log(res)});
   }
 
@@ -82,9 +75,6 @@ function App() {
       <div className="App">
         <button onClick={()=>{loginf()}}>
           text1
-        </button>
-        <button onClick={()=>{logoutf()}}>
-          text2
         </button>
         <GlobalStyle />
         <DndProvider backend={HTML5Backend}>

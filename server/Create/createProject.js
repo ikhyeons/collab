@@ -4,7 +4,7 @@ const con = mysql.createConnection(mysqlKey);
 
 exports.createProject = (req, res) => {
     if(req.session.logined === true){
-        con.query('insert into project values(default, "새 프로젝트", default, default, ?)', [req.session.logined], (error, rows, fields)=> {
+        con.query('insert into project values(default, "새 프로젝트", default, default, ?)', [req.session.sid], (error, rows, fields)=> {
             if(error) throw error;
             res.send({success : 0});
         })

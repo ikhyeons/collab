@@ -7,18 +7,16 @@ exports.login = (req, res) => {
     let password = req.body.password
     con.query('select email, password, userNum from user where email = ?', [email], (error, rows, fields) => {
         if(rows.length){
-            if(rows[0].email == email) {
-                    if(rows[0].password == password) {
-                        req.session.logined=true;
-                        req.session.sid=rows[0].userNum;
-                        req.session.save(()=>{
-                            console.log(req.session);
-                        });
-                        res.send({'return' : 0})
-                    } else {
-                        res.send({'return' : 1})
-                    }
-            };
+            if(rows[0].password == password) {
+                req.session.logined=true;
+                req.session.sid=rows[0].userNum;
+                req.session.save(()=>{
+                    console.log(req.session);
+                });
+                res.send({'return' : 0})
+            } else {
+                res.send({'return' : 1})
+            }
         } else {
             res.send({'return' : 2})
         }

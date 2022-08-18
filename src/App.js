@@ -58,15 +58,9 @@ function App() {
   const loginf = ()=>{
     axios({
       method: 'post',
-      url: 'http://localhost:1004/createCalendarEvent',
-      data : {
-        projectNum : 1,
-        startDate : '2022-08-18',
-        endDate : '2022-08-19',
-        eventTitle : '이벤트 제목',
-        eventContent : '이벤트 내용',
-      },
+      url: 'http://localhost:1004/createProject',
       withCredentials : true,
+      data : {},
     }).then((res)=>{console.log(res)});
   }
 

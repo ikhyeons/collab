@@ -54,3 +54,6 @@ app.post('/createCollaborator', (req, res)=>{
 app.post('/createCalendarEvent', (req, res)=>{
   createCalendarEvent(req, res);
 })
+//------------------------------------------Read라우팅
+//------------------------------------------Update라우팅
+//------------------------------------------Delete라우팅

@@ -80,6 +80,26 @@ const Login = () => {
         }
       }
 
+      const joinf = ()=>{
+        if(email !== '' && password !== '' && nickname !== ''){
+            console.log('try join');
+            axios({
+                method: 'post',
+                url: 'http://localhost:1004/join',
+                withCredentials : true,
+                data: {
+                    email : email,
+                    password: password,
+                    nickname: nickname,
+                }
+            }).then((res)=>{
+                console.log(res);
+                if(res.data.return === 0){alert("가입에 성공했습니다!")}
+                else if(res.data.return === 1){alert("이미 존재하는 이메일입니다!")}
+            })
+        }
+    }
+
   return (
     <Sdiv>
         {
@@ -140,6 +160,7 @@ const Login = () => {
                 required
                 />
                 <Sbutton type='submit' onClick={(e)=>{
+                    joinf();
                 }}>가입하기</Sbutton>
                 
                 <Sbutton onClick={(e)=>{

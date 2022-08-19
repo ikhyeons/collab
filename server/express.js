@@ -37,6 +37,7 @@ const {login, logout} = require('./session/session') //로그인 파일
 const {createProject} = require('./Create/createProject')
 const {createCollaborator} = require('./Create/createCollaborator')
 const {createCalendarEvent} = require('./Create/createCalendarEvent')
+const {join} = require('./Create/join');
 //------------------------------------------session라우팅
 app.post('/login', (req, res)=>{
     login(req, res);
@@ -53,6 +54,9 @@ app.post('/createCollaborator', (req, res)=>{
 })
 app.post('/createCalendarEvent', (req, res)=>{
   createCalendarEvent(req, res);
+})
+app.post('/join', (req, res)=>{
+  join(req, res);
 })
 //------------------------------------------Read라우팅
 //------------------------------------------Update라우팅

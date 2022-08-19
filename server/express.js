@@ -37,6 +37,10 @@ const {login, logout} = require('./session/session') //로그인 파일
 const {createProject} = require('./Create/createProject')
 const {createCollaborator} = require('./Create/createCollaborator')
 const {createCalendarEvent} = require('./Create/createCalendarEvent')
+const {createTimeRequest} = require('./Create/createTimeRequest')
+const {createWorkSpace} = require('./Create/createWorkSpace')
+const {createChatSpace} = require('./Create/createChatSpace')
+const {createParagraph} = require('./Create/createParagraph')
 //------------------------------------------session라우팅
 app.post('/login', (req, res)=>{
     login(req, res);
@@ -53,6 +57,18 @@ app.post('/createCollaborator', (req, res)=>{
 })
 app.post('/createCalendarEvent', (req, res)=>{
   createCalendarEvent(req, res);
+})
+app.post('/createTimeRequest', (req, res)=>{
+  createTimeRequest(req, res);
+})
+app.post('/createWorkSpace', (req, res)=>{
+  createWorkSpace(req, res);
+})
+app.post('/createChatSpace', (req, res)=>{
+  createChatSpace(req, res);
+})
+app.post('/createParagraph', (req, res)=>{
+  createParagraph(req, res);
 })
 //------------------------------------------Read라우팅
 //------------------------------------------Update라우팅

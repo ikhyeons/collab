@@ -58,13 +58,10 @@ function App() {
   const loginf = ()=>{
     axios({
       method: 'post',
-      url: 'http://localhost:1004/createParagraph',
+      url: 'http://localhost:1004/readDocInfo',
       withCredentials : true,
       data : {
         docNum : 1,
-        paragraphType : 'text',
-        innerData : '적당한 데이터',
-        sequent : 1,
       },
     }).then((res)=>{console.log(res)});
   }

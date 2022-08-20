@@ -33,14 +33,21 @@ app.use(session({
 //------------------------------------------서버 구동
 app.listen(port, ()=>{console.log(`server run in ${port}`)});
 //------------------------------------------파일 임포트
-const {login, logout} = require('./session/session') //로그인 파일
+const {login, logout} = require('./session/session')
 const {createProject} = require('./Create/createProject')
 const {createCollaborator} = require('./Create/createCollaborator')
 const {createCalendarEvent} = require('./Create/createCalendarEvent')
 const {createTimeRequest} = require('./Create/createTimeRequest')
 const {createWorkSpace} = require('./Create/createWorkSpace')
 const {createChatSpace} = require('./Create/createChatSpace')
-const {createParagraph} = require('./Create/createParagraph')
+const {createParagraph} = require('./Create/createParagraph');
+
+const {readMyProjectList} = require('./Read/readProjectList.js');
+const {readRequestList} = require('./Read/readRequestList')
+const {readWorkSpaceList} = require('./Read/readWorkSpaceList')
+const {readChatSpaceList} = require('./Read/readChatSpaceList')
+const {readDocList} = require('./Read/readDocList')
+const {readDocInfo} = require('./Read/readDocInfo')
 //------------------------------------------session라우팅
 app.post('/login', (req, res)=>{
     login(req, res);
@@ -71,5 +78,23 @@ app.post('/createParagraph', (req, res)=>{
   createParagraph(req, res);
 })
 //------------------------------------------Read라우팅
+app.post('/readMyProjectList', (req, res)=>{
+  readMyProjectList(req, res);
+})
+app.post('/readRequestList', (req, res)=>{
+  readRequestList(req, res);
+})
+app.post('/readWorkSpaceList', (req, res)=>{
+  readWorkSpaceList(req, res);
+})
+app.post('/readChatSpaceList', (req, res)=>{
+  readChatSpaceList(req, res);
+})
+app.post('/readDocList', (req, res)=>{
+  readDocList(req, res);
+})
+app.post('/readDocInfo', (req, res)=>{
+  readDocInfo(req, res);
+})
 //------------------------------------------Update라우팅
 //------------------------------------------Delete라우팅

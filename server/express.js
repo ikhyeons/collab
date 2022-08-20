@@ -38,6 +38,7 @@ const {createProject} = require('./Create/createProject')
 const {createCollaborator} = require('./Create/createCollaborator')
 const {createCalendarEvent} = require('./Create/createCalendarEvent')
 const {join} = require('./Create/join');
+const {timeResponse}= require('./Create/createTimeResponse');
 //------------------------------------------session라우팅
 app.post('/login', (req, res)=>{
     login(req, res);
@@ -57,6 +58,9 @@ app.post('/createCalendarEvent', (req, res)=>{
 })
 app.post('/join', (req, res)=>{
   join(req, res);
+})
+app.post('/addTimeResponse', (req, res)=>{
+  timeResponse(req, res);
 })
 //------------------------------------------Read라우팅
 //------------------------------------------Update라우팅

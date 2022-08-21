@@ -2,10 +2,10 @@ const {mysqlKey}  = require('../mysqlKey');
 const mysql = require('mysql');
 const con = mysql.createConnection(mysqlKey);
 
-exports.createCalendarEvent = (req, res) => {
-    const {projectNum, startDate, endDate, eventTitle, eventContent} = req.body;
+exports.delRep = (req, res) => {
+    const {repNum} = req.body;
     if(req.session.logined === true){
-        con.query('insert into calendarEvent values(default, ?, ?, ?, ?, ?, ?, default, 0, default)', [projectNum, req.session.sid, startDate, endDate, eventTitle, eventContent], (error, rows, fields)=> {
+        con.query('UPDATE reply SET del = 1 WHERE repNum = ?', [repNum], (error, rows, fields)=> {
             if(error) throw error;
             res.send({success : 0});
         })

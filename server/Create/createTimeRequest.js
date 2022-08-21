@@ -5,7 +5,7 @@ const con = mysql.createConnection(mysqlKey);
 exports.createTimeRequest = (req, res) => {
 const {projectNum, reqTitle, reqContent} = req.body;
     if(req.session.logined === true){
-        con.query('insert into timeRequest values(default, ?, ?, ?, ?)', [projectNum, req.session.sid, reqTitle, reqContent], (error, rows, fields)=> {
+        con.query('insert into timeRequest values(default, ?, ?, ?, ?, default)', [projectNum, req.session.sid, reqTitle, reqContent], (error, rows, fields)=> {
             if(error) throw error;
             res.send({success : 0});
         })

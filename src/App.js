@@ -57,11 +57,11 @@ function App() {
 
   const loginf = ()=>{
     axios({
-      method: 'post',
-      url: 'http://localhost:1004/readDocInfo',
+      method: 'delete',
+      url: 'http://localhost:1004/delEvent',
       withCredentials : true,
       data : {
-        docNum : 1,
+        eventNum : 1,
       },
     }).then((res)=>{console.log(res)});
   }

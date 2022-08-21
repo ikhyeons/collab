@@ -48,6 +48,20 @@ const {readWorkSpaceList} = require('./Read/readWorkSpaceList')
 const {readChatSpaceList} = require('./Read/readChatSpaceList')
 const {readDocList} = require('./Read/readDocList')
 const {readDocInfo} = require('./Read/readDocInfo')
+const {readEventList} = require('./Read/readEventList')
+const {readEventInfo} = require('./Read/readEventInfo')
+
+const {changeMyProjectOrder} = require('./Update/changeMyProjectOrder')
+const {changeWorkSpaceOrder} = require('./Update/changeWorkSpaceOrder')
+const {changeChatSpaceOrder} = require('./Update/changeChatSpaceOrder')
+
+const {delProject} = require('./Delete/delProject')
+const {delDoc} = require('./Delete/delDoc')
+const {delRep} = require('./Delete/delRep')
+const {delWorkSpace} = require('./Delete/delWorkSpace')
+const {delChatSpace} = require('./Delete/delChatSpace')
+const {delRequest} = require('./Delete/delRequest')
+const {delEvent} = require('./Delete/delEvent')
 //------------------------------------------session라우팅
 app.post('/login', (req, res)=>{
     login(req, res);
@@ -78,23 +92,59 @@ app.post('/createParagraph', (req, res)=>{
   createParagraph(req, res);
 })
 //------------------------------------------Read라우팅
-app.post('/readMyProjectList', (req, res)=>{
+app.get('/readMyProjectList', (req, res)=>{
   readMyProjectList(req, res);
 })
-app.post('/readRequestList', (req, res)=>{
+app.get('/readRequestList', (req, res)=>{
   readRequestList(req, res);
 })
-app.post('/readWorkSpaceList', (req, res)=>{
+app.get('/readWorkSpaceList', (req, res)=>{
   readWorkSpaceList(req, res);
 })
-app.post('/readChatSpaceList', (req, res)=>{
+app.get('/readChatSpaceList', (req, res)=>{
   readChatSpaceList(req, res);
 })
-app.post('/readDocList', (req, res)=>{
+app.get('/readDocList', (req, res)=>{
   readDocList(req, res);
 })
-app.post('/readDocInfo', (req, res)=>{
+app.get('/readDocInfo', (req, res)=>{
   readDocInfo(req, res);
 })
+app.get('/readEventList', (req, res)=>{
+  readEventList(req, res);
+})
+app.get('/readEventInfo', (req, res)=>{
+  readEventInfo(req, res);
+})
 //------------------------------------------Update라우팅
+app.put('/changeMyProjectOrder', (req, res)=>{
+  changeMyProjectOrder(req, res);
+})
+app.put('/changeWorkSpaceOrder', (req, res)=>{
+  changeWorkSpaceOrder(req, res);
+})
+app.put('/changeChatSpaceOrder', (req, res)=>{
+  changeChatSpaceOrder(req, res);
+})
 //------------------------------------------Delete라우팅
+app.delete('/delProject', (req, res)=>{
+  delProject(req, res);
+})
+app.delete('/delDoc', (req, res)=>{
+  delDoc(req, res);
+})
+app.delete('/delRep', (req, res)=>{
+  delRep(req, res);
+})
+app.delete('/delWorkSpace', (req, res)=>{
+  delWorkSpace(req, res);
+})
+app.delete('/delChatSpace', (req, res)=>{
+  delChatSpace(req, res);
+})
+app.delete('/delRequest', (req, res)=>{
+  delRequest(req, res);
+})
+app.delete('/delEvent', (req, res)=>{
+  delEvent(req, res);
+})

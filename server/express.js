@@ -33,7 +33,7 @@ app.use(session({
 //------------------------------------------서버 구동
 app.listen(port, ()=>{console.log(`server run in ${port}`)});
 //------------------------------------------파일 임포트
-const {login, logout} = require('./session/session') //로그인 파일
+const {login, logout} = require('./session/session')
 const {createProject} = require('./Create/createProject')
 const {createCollaborator} = require('./Create/createCollaborator')
 const {createCalendarEvent} = require('./Create/createCalendarEvent')
@@ -46,6 +46,40 @@ const { readMyAnswer } = require('./Read/readMyAnswer.js');
 const { readChatData } = require('./Read/readChatData.js');
 const { changeResponse } = require('./Update/changeResponse.js');
 const { changeCalendarEvent } = require('./Update/changeCalendarEvent.js');
+
+const {createTimeRequest} = require('./Create/createTimeRequest')
+const {createWorkSpace} = require('./Create/createWorkSpace')
+const {createChatSpace} = require('./Create/createChatSpace')
+const {createParagraph} = require('./Create/createParagraph');
+const {createDocLicenser} = require('./Create/createDocLicenser');
+const {createDocParticipant} = require('./Create/createDocParticipant');
+
+const {readMyProjectList} = require('./Read/readProjectList.js');
+const {readRequestList} = require('./Read/readRequestList')
+const {readWorkSpaceList} = require('./Read/readWorkSpaceList')
+const {readChatSpaceList} = require('./Read/readChatSpaceList')
+const {readDocList} = require('./Read/readDocList')
+const {readDocInfo} = require('./Read/readDocInfo')
+const {readEventList} = require('./Read/readEventList')
+const {readEventInfo} = require('./Read/readEventInfo')
+
+const {changeMyProjectOrder} = require('./Update/changeMyProjectOrder')
+const {changeWorkSpaceOrder} = require('./Update/changeWorkSpaceOrder')
+const {changeChatSpaceOrder} = require('./Update/changeChatSpaceOrder')
+const {changeReply} = require('./Update/changeReply')
+const {changeDoctype} = require('./Update/changeDoctype')
+const {changeDocInfo} = require('./Update/changeDocInfo')
+const {changeParagraph} = require('./Update/changeParagraph')
+
+const {delProject} = require('./Delete/delProject')
+const {delDoc} = require('./Delete/delDoc')
+const {delRep} = require('./Delete/delRep')
+const {delWorkSpace} = require('./Delete/delWorkSpace')
+const {delChatSpace} = require('./Delete/delChatSpace')
+const {delRequest} = require('./Delete/delRequest')
+const {delEvent} = require('./Delete/delEvent')
+const {delDocParticipant} = require('./Delete/delDocParticipant')
+const {delDocLicenser} = require('./Delete/delLicenser')
 //------------------------------------------session라우팅
 app.post('/login', (req, res)=>{
     login(req, res);
@@ -78,7 +112,49 @@ app.post('/writeChat', (req, res)=>{
 app.post('/writeReply', (req, res)=>{
   createWriteReply(req, res);
 })
+app.post('/createTimeRequest', (req, res)=>{
+  createTimeRequest(req, res);
+})
+app.post('/createWorkSpace', (req, res)=>{
+  createWorkSpace(req, res);
+})
+app.post('/createChatSpace', (req, res)=>{
+  createChatSpace(req, res);
+})
+app.post('/createParagraph', (req, res)=>{
+  createParagraph(req, res);
+})
+app.post('/createDocLicenser', (req, res)=>{
+  createDocLicenser(req, res);
+})
+app.post('/createDocParticipant', (req, res)=>{
+  createDocParticipant(req, res);
+})
 //------------------------------------------Read라우팅
+app.get('/readMyProjectList', (req, res)=>{
+  readMyProjectList(req, res);
+})
+app.get('/readRequestList', (req, res)=>{
+  readRequestList(req, res);
+})
+app.get('/readWorkSpaceList', (req, res)=>{
+  readWorkSpaceList(req, res);
+})
+app.get('/readChatSpaceList', (req, res)=>{
+  readChatSpaceList(req, res);
+})
+app.get('/readDocList', (req, res)=>{
+  readDocList(req, res);
+})
+app.get('/readDocInfo', (req, res)=>{
+  readDocInfo(req, res);
+})
+app.get('/readEventList', (req, res)=>{
+  readEventList(req, res);
+})
+app.get('/readEventInfo', (req, res)=>{
+  readEventInfo(req, res);
+})
 app.post('/readMyAnswer', (req, res)=>{
   readMyAnswer(req, res);
 })
@@ -86,6 +162,27 @@ app.post('/readChatData', (req, res)=>{
   readChatData(req, res);
 })
 //------------------------------------------Update라우팅
+app.put('/changeMyProjectOrder', (req, res)=>{
+  changeMyProjectOrder(req, res);
+})
+app.put('/changeWorkSpaceOrder', (req, res)=>{
+  changeWorkSpaceOrder(req, res);
+})
+app.put('/changeChatSpaceOrder', (req, res)=>{
+  changeChatSpaceOrder(req, res);
+})
+app.put('/changeReply', (req, res)=>{
+  changeReply(req, res);
+})
+app.put('/changeDoctype', (req, res)=>{
+  changeDoctype(req, res);
+})
+app.put('/changeParagraph', (req, res)=>{
+  changeParagraph(req, res);
+})
+app.put('/changeDocInfo', (req, res)=>{
+  changeDocInfo(req, res);
+})
 app.post('/changeResponse', (req, res)=>{
   changeResponse(req, res);
 })
@@ -93,3 +190,30 @@ app.post('/changeCalendarEvent', (req, res)=>{
   changeCalendarEvent(req, res);
 })
 //------------------------------------------Delete라우팅
+app.delete('/delProject', (req, res)=>{
+  delProject(req, res);
+})
+app.delete('/delDoc', (req, res)=>{
+  delDoc(req, res);
+})
+app.delete('/delRep', (req, res)=>{
+  delRep(req, res);
+})
+app.delete('/delWorkSpace', (req, res)=>{
+  delWorkSpace(req, res);
+})
+app.delete('/delChatSpace', (req, res)=>{
+  delChatSpace(req, res);
+})
+app.delete('/delRequest', (req, res)=>{
+  delRequest(req, res);
+})
+app.delete('/delEvent', (req, res)=>{
+  delEvent(req, res);
+})
+app.delete('/delDocParticipant', (req, res)=>{
+  delDocParticipant(req, res);
+})
+app.delete('/delDocLicenser', (req, res)=>{
+  delDocLicenser(req, res);
+})

@@ -57,17 +57,12 @@ function App() {
 
   const loginf = ()=>{
     axios({
-      method: 'post',
-      url: 'http://localhost:1004/changeCalendarEvent',
+      method: 'delete',
+      url: 'http://localhost:1004/delDocLicenser',
       withCredentials : true,
       data : {
-        eventNum:1,
-        projectNum: 1,
-        startDate: '2022-08-19',
-        endDate: '2022-08-20',
-        eventTitle: "바뀐 제목",
-        eventContent: "바뀐 내용",
-        secret: 0,
+        docNum : 1,
+        licenserNum : 1,
       },
     }).then((res)=>{console.log(res)});
   }

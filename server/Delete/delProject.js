@@ -5,9 +5,16 @@ const con = mysql.createConnection(mysqlKey);
 exports.delProject = (req, res) => {
     const {projectNum} = req.body;
     if(req.session.logined === true){
-        con.query('UPDATE project SET del = 1 WHERE projectNum = ?', [projectNum], (error, rows, fields)=> {
+        con.query('select projectManager from project WHERE projectNum = ?', [projectNum], (error, rows, fields)=> {
             if(error) throw error;
-            res.send({success : 0});
+            if(rows[0].projectManager === req.session.sid){
+                con.query('UPDATE project SET del = 1 WHERE projectNum = ?', [projectNum], (error, rows, fields)=> {
+                    if(error) throw error;
+                    res.send({success : 0});
+                })
+            } else {
+                res.send({success : 2})
+            }
         })
     }
     else {

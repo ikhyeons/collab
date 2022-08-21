@@ -5,9 +5,16 @@ const con = mysql.createConnection(mysqlKey);
 exports.delRep = (req, res) => {
     const {repNum} = req.body;
     if(req.session.logined === true){
-        con.query('UPDATE reply SET del = 1 WHERE repNum = ?', [repNum], (error, rows, fields)=> {
+        con.query('select makeUserNum from reply WHERE repNum = ?', [repNum], (error, rows, fields)=> {
             if(error) throw error;
-            res.send({success : 0});
+            if(rows[0].makeUserNum === req.session.sid){
+                con.query('UPDATE reply SET del = 1 WHERE repNum = ?', [repNum], (error, rows, fields)=> {
+                    if(error) throw error;
+                    res.send({success : 0});
+                })
+            } else {
+                res.send({success : 2});
+            }
         })
     }
     else {

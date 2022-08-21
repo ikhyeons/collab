@@ -58,10 +58,11 @@ function App() {
   const loginf = ()=>{
     axios({
       method: 'delete',
-      url: 'http://localhost:1004/delEvent',
+      url: 'http://localhost:1004/delDocLicenser',
       withCredentials : true,
       data : {
-        eventNum : 1,
+        docNum : 1,
+        licenserNum : 1,
       },
     }).then((res)=>{console.log(res)});
   }

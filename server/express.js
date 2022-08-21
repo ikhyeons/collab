@@ -41,6 +41,8 @@ const {createTimeRequest} = require('./Create/createTimeRequest')
 const {createWorkSpace} = require('./Create/createWorkSpace')
 const {createChatSpace} = require('./Create/createChatSpace')
 const {createParagraph} = require('./Create/createParagraph');
+const {createDocLicenser} = require('./Create/createDocLicenser');
+const {createDocParticipant} = require('./Create/createDocParticipant');
 
 const {readMyProjectList} = require('./Read/readProjectList.js');
 const {readRequestList} = require('./Read/readRequestList')
@@ -54,6 +56,10 @@ const {readEventInfo} = require('./Read/readEventInfo')
 const {changeMyProjectOrder} = require('./Update/changeMyProjectOrder')
 const {changeWorkSpaceOrder} = require('./Update/changeWorkSpaceOrder')
 const {changeChatSpaceOrder} = require('./Update/changeChatSpaceOrder')
+const {changeReply} = require('./Update/changeReply')
+const {changeDoctype} = require('./Update/changeDoctype')
+const {changeDocInfo} = require('./Update/changeDocInfo')
+const {changeParagraph} = require('./Update/changeParagraph')
 
 const {delProject} = require('./Delete/delProject')
 const {delDoc} = require('./Delete/delDoc')
@@ -62,6 +68,8 @@ const {delWorkSpace} = require('./Delete/delWorkSpace')
 const {delChatSpace} = require('./Delete/delChatSpace')
 const {delRequest} = require('./Delete/delRequest')
 const {delEvent} = require('./Delete/delEvent')
+const {delDocParticipant} = require('./Delete/delDocParticipant')
+const {delDocLicenser} = require('./Delete/delLicenser')
 //------------------------------------------session라우팅
 app.post('/login', (req, res)=>{
     login(req, res);
@@ -90,6 +98,12 @@ app.post('/createChatSpace', (req, res)=>{
 })
 app.post('/createParagraph', (req, res)=>{
   createParagraph(req, res);
+})
+app.post('/createDocLicenser', (req, res)=>{
+  createDocLicenser(req, res);
+})
+app.post('/createDocParticipant', (req, res)=>{
+  createDocParticipant(req, res);
 })
 //------------------------------------------Read라우팅
 app.get('/readMyProjectList', (req, res)=>{
@@ -126,6 +140,18 @@ app.put('/changeWorkSpaceOrder', (req, res)=>{
 app.put('/changeChatSpaceOrder', (req, res)=>{
   changeChatSpaceOrder(req, res);
 })
+app.put('/changeReply', (req, res)=>{
+  changeReply(req, res);
+})
+app.put('/changeDoctype', (req, res)=>{
+  changeDoctype(req, res);
+})
+app.put('/changeParagraph', (req, res)=>{
+  changeParagraph(req, res);
+})
+app.put('/changeDocInfo', (req, res)=>{
+  changeDocInfo(req, res);
+})
 //------------------------------------------Delete라우팅
 app.delete('/delProject', (req, res)=>{
   delProject(req, res);
@@ -148,3 +174,10 @@ app.delete('/delRequest', (req, res)=>{
 app.delete('/delEvent', (req, res)=>{
   delEvent(req, res);
 })
+app.delete('/delDocParticipant', (req, res)=>{
+  delDocParticipant(req, res);
+})
+app.delete('/delDocLicenser', (req, res)=>{
+  delDocLicenser(req, res);
+})
+

@@ -2,10 +2,10 @@ const {mysqlKey} = require('../mysqlKey');
 const mysql = require('mysql');
 const con = mysql.createConnection(mysqlKey);
 
-exports.timeResponse = (req, res) => {
-    const {reqNum, innerData} = req.body;
+exports.createDocument = (req, res) => {
+    const { workSpaceNum } = req.body;
         if(req.session.logined === true){
-            con.query('insert into timeResponse values(default, ?, ?, ?)', [reqNum, req.session.sid, JSON.stringify(innerData)], (error, rows, fields) =>{
+            con.query('insert into document values(default, ?,"적당한 제목",default, default,"new", 0, 1, ?, 0)', [workSpaceNum, req.session.sid], (error, rows, fields) =>{
                 if (error) throw error;
                 res.send({success : 0});
             })

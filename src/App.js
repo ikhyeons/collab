@@ -58,9 +58,13 @@ function App() {
   const loginf = ()=>{
     axios({
       method: 'post',
-      url: 'http://localhost:1004/createProject',
+      url: 'http://localhost:1004/writeReply',
       withCredentials : true,
-      data : {},
+      data : {
+        docNum: 0,
+        innerData:0,
+        type:"new",
+      },
     }).then((res)=>{console.log(res)});
   }
 

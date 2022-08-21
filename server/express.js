@@ -39,6 +39,9 @@ const {createCollaborator} = require('./Create/createCollaborator')
 const {createCalendarEvent} = require('./Create/createCalendarEvent')
 const {join} = require('./Create/join');
 const {timeResponse}= require('./Create/createTimeResponse');
+const { createDocument } = require('./Create/createDocument.js');
+const { writeChat } = require('./Create/createWriteChat.js');
+const { writeReply } = require('./Create/createWriteReply.js');
 //------------------------------------------session라우팅
 app.post('/login', (req, res)=>{
     login(req, res);
@@ -61,6 +64,15 @@ app.post('/join', (req, res)=>{
 })
 app.post('/addTimeResponse', (req, res)=>{
   timeResponse(req, res);
+})
+app.post('/createDocument', (req, res)=>{
+  createDocument(req, res);
+})
+app.post('/writeChat', (req, res)=>{
+  writeChat(req, res);
+})
+app.post('/writeReply', (req, res)=>{
+  writeReply(req, res);
 })
 //------------------------------------------Read라우팅
 //------------------------------------------Update라우팅

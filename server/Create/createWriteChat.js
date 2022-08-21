@@ -2,10 +2,10 @@ const {mysqlKey} = require('../mysqlKey');
 const mysql = require('mysql');
 const con = mysql.createConnection(mysqlKey);
 
-exports.timeResponse = (req, res) => {
-    const {reqNum, innerData} = req.body;
+exports.writeChat = (req, res) => {
+    const { chatSpaceNum, innerData } = req.body;
         if(req.session.logined === true){
-            con.query('insert into timeResponse values(default, ?, ?, ?)', [reqNum, req.session.sid, JSON.stringify(innerData)], (error, rows, fields) =>{
+            con.query('insert into chat values(default, ?, ?, "new", ?, default)', [chatSpaceNum, req.session.sid, innerData], (error, rows, fields) =>{
                 if (error) throw error;
                 res.send({success : 0});
             })

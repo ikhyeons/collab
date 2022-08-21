@@ -114,7 +114,6 @@ const Request = () =>{
                 withCredentials : true,
                 data: {
                     reqNum: 0,
-                    submitUserNum:0,
                     innerData: tableSet,
                 }
             }).then((res)=>{

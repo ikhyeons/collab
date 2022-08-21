@@ -58,12 +58,16 @@ function App() {
   const loginf = ()=>{
     axios({
       method: 'post',
-      url: 'http://localhost:1004/writeReply',
+      url: 'http://localhost:1004/changeCalendarEvent',
       withCredentials : true,
       data : {
-        docNum: 0,
-        innerData:0,
-        type:"new",
+        eventNum:1,
+        projectNum: 1,
+        startDate: '2022-08-19',
+        endDate: '2022-08-20',
+        eventTitle: "바뀐 제목",
+        eventContent: "바뀐 내용",
+        secret: 0,
       },
     }).then((res)=>{console.log(res)});
   }

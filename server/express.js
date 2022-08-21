@@ -40,8 +40,12 @@ const {createCalendarEvent} = require('./Create/createCalendarEvent')
 const {join} = require('./Create/join');
 const {timeResponse}= require('./Create/createTimeResponse');
 const { createDocument } = require('./Create/createDocument.js');
-const { writeChat } = require('./Create/createWriteChat.js');
-const { writeReply } = require('./Create/createWriteReply.js');
+const { createWriteChat } = require('./Create/createWriteChat.js');
+const { createWriteReply } = require('./Create/createWriteReply.js');
+const { readMyAnswer } = require('./Read/readMyAnswer.js');
+const { readChatData } = require('./Read/readChatData.js');
+const { changeResponse } = require('./Update/changeResponse.js');
+const { changeCalendarEvent } = require('./Update/changeCalendarEvent.js');
 //------------------------------------------session라우팅
 app.post('/login', (req, res)=>{
     login(req, res);
@@ -69,11 +73,23 @@ app.post('/createDocument', (req, res)=>{
   createDocument(req, res);
 })
 app.post('/writeChat', (req, res)=>{
-  writeChat(req, res);
+  createWriteChat(req, res);
 })
 app.post('/writeReply', (req, res)=>{
-  writeReply(req, res);
+  createWriteReply(req, res);
 })
 //------------------------------------------Read라우팅
+app.post('/readMyAnswer', (req, res)=>{
+  readMyAnswer(req, res);
+})
+app.post('/readChatData', (req, res)=>{
+  readChatData(req, res);
+})
 //------------------------------------------Update라우팅
+app.post('/changeResponse', (req, res)=>{
+  changeResponse(req, res);
+})
+app.post('/changeCalendarEvent', (req, res)=>{
+  changeCalendarEvent(req, res);
+})
 //------------------------------------------Delete라우팅

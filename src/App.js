@@ -33,21 +33,7 @@ const GlobalStyle = createGlobalStyle`
     };
   }
   `
-
-  const SAllWrap = styled.div`
-  &::-webkit-scrollbar{
-    height : 5px;
-    background : rgba(240,240,150,1);
-  }
-
-  &::-webkit-scrollbar-thumb{
-      height: 17%;
-      background-color: rgba(255,255,170,1);
-      border : 1px solid yellow;
-      border-radius: 5px;    
-  }
-  `
-
+  
 const Inproject = styled.div`
   display : flex;
   overflow : hidden;
@@ -69,20 +55,23 @@ const Inproject = styled.div`
 
 function App() {
 
-  const submitf = ()=>{
-    console.log('gd');
+  const loginf = ()=>{
     axios({
-      method: 'post',
-      url: 'http://localhost:1004/gd',
-      data: {},
+      method: 'delete',
+      url: 'http://localhost:1004/delDocLicenser',
+      withCredentials : true,
+      data : {
+        docNum : 1,
+        licenserNum : 1,
+      },
     }).then((res)=>{console.log(res)});
   }
 
   return (
     <RecoilRoot>
       <div className="App">
-        <button onClick={()=>{submitf()}}>
-          text
+        <button onClick={()=>{loginf()}}>
+          text1
         </button>
         <GlobalStyle />
         <DndProvider backend={HTML5Backend}>

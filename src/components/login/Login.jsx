@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
-import {Link} from 'react-router-dom'
+import axios from 'axios'
 
 
 //로그인 창 div
@@ -41,7 +41,6 @@ const Sbutton = styled.button`
 `
 
 const Login = () => {
-
     //로그인창 ←→ 회원가입 창 왔다갔다 할때 사용되는 변수
     const [join, setJoin] = useState(0);
 
@@ -60,53 +59,97 @@ const Login = () => {
     const inputNickname = (e)=>{
         setNickname(e.target.value);
     }
+    //로그인, 로그아웃 함수
+    const loginf = ()=>{
+        if(email !== '' && password !== ''){
+            console.log('gd');
+            axios({
+            method: 'post',
+            url: 'http://localhost:1004/login',
+            withCredentials : true,
+            data: {
+                email : email,
+                password : password,
+            },
+            }).then((res)=>{
+                console.log(res);
+                if (res.data.return === 0){window.location.replace("/project")}
+                else if(res.data.return === 1){alert("비밀번호를 확인하세요!")}
+                else if(res.data.return === 2){alert("존재하지 않는 계정입니다!")}
+            });
+        }
+      }
+
+      const joinf = ()=>{
+        if(email !== '' && password !== '' && nickname !== ''){
+            console.log('try join');
+            axios({
+                method: 'post',
+                url: 'http://localhost:1004/join',
+                withCredentials : true,
+                data: {
+                    email : email,
+                    password: password,
+                    nickname: nickname,
+                }
+            }).then((res)=>{
+                console.log(res);
+                if(res.data.return === 0){alert("가입에 성공했습니다!")}
+                else if(res.data.return === 1){alert("이미 존재하는 이메일입니다!")}
+            })
+        }
+    }
 
   return (
     <Sdiv>
         {
             join===0 && 
-            <Sform action="">
+            <Sform action="javascript://">
                 <h2>로그인</h2>
                 <p>이메일</p>
                 <Sinput type="email" placeholder="email"
                 value={email}
                 onChange={(e)=>{
                     inputEmail(e);
-                }}/>
+                }} 
+                required
+                />
                 <p>비밀번호</p>
                 <Sinput type="password" placeholder="password"
                 value={password}
                 onChange={(e)=>{
                     inputPassword(e);
                 }}
+                required
                 />
                 <Sbutton type='submit' onClick={(e)=>{
-                    e.preventDefault();
-                    window.location.replace("/project")
+                    loginf();
                 }}>로그인</Sbutton>
                 
-                <Sbutton onClick={(e)=>{
-                    e.preventDefault()
+                <Sbutton type='button' onClick={(e)=>{
                     setJoin(1);
                 }}>회원가입</Sbutton>
             </Sform>
         }
         {
             join===1 && 
-            <Sform action="">
+            <Sform action="javascript://">
                 <h2>회원가입</h2>
                 <p>이메일</p>
                 <Sinput type="email" placeholder="email"
                 value={email}
                 onChange={(e)=>{
                     inputEmail(e);
-                }}/>
+                }}
+                required
+                />
                 <p>비밀번호</p>
                 <Sinput type="password" placeholder="password"
                 value={password}
                 onChange={(e)=>{
                     inputPassword(e);
                 }}
+                required
                 />
                 <p>사용할 닉네임</p>
                 <Sinput type="text" placeholder="nickname"
@@ -114,9 +157,10 @@ const Login = () => {
                 onChange={(e)=>{
                     inputNickname(e);
                 }}
+                required
                 />
                 <Sbutton type='submit' onClick={(e)=>{
-                    e.preventDefault()
+                    joinf();
                 }}>가입하기</Sbutton>
                 
                 <Sbutton onClick={(e)=>{

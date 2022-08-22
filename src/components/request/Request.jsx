@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Table from "./Table";
+import {useRecoilState} from 'recoil';
+import { selectedTd } from "../../Atoms/atom";
+import axios from "axios";
 
 const RequestDiv = styled.div`
     width: 100%;
@@ -96,10 +99,31 @@ const Request = () =>{
     const [response, setResponse] = useState(0);
     const [resMemo, setResMemo] = useState('');
     const [alres, setAlres] = useState(0);
-    
+    const [tableSet] = useRecoilState(selectedTd);
+
     const inputResMemo = (e)=>{
         setResMemo(e.target.value);
     }
+
+    const timeResponse = ()=>{
+        if(tableSet != ''){
+            console.log('timeResponse');
+            axios({
+                method: 'post',
+                url: 'http://localhost:1004/addTimeResponse',
+                withCredentials : true,
+                data: {
+                    reqNum: 0,
+                    innerData: tableSet,
+                }
+            }).then((res)=>{
+                console.log(res);
+                if(res.data.return === 0){alert("전송에 성공했습니다!")}
+                else if(res.data.return === 3){alert("미로그인 상태입니다!")}
+            })
+        }
+    }
+
 
     return(
         <RequestDiv>    
@@ -177,6 +201,7 @@ const Request = () =>{
                     <button onClick={(e)=>{
                         e.preventDefault();
                         setResponse(0);
+                        timeResponse();
                     }}>확인</button>
                 </Resdiv>
             }

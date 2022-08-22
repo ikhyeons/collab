@@ -55,24 +55,9 @@ const Inproject = styled.div`
 
 function App() {
 
-  const loginf = ()=>{
-    axios({
-      method: 'delete',
-      url: 'http://localhost:1004/delDocLicenser',
-      withCredentials : true,
-      data : {
-        docNum : 1,
-        licenserNum : 1,
-      },
-    }).then((res)=>{console.log(res)});
-  }
-
   return (
     <RecoilRoot>
       <div className="App">
-        <button onClick={()=>{loginf()}}>
-          text1
-        </button>
         <GlobalStyle />
         <DndProvider backend={HTML5Backend}>
         {

@@ -62,6 +62,7 @@ const {readDocList} = require('./Read/readDocList')
 const {readDocInfo} = require('./Read/readDocInfo')
 const {readEventList} = require('./Read/readEventList')
 const {readEventInfo} = require('./Read/readEventInfo')
+const {readMyInfo} = require('./Read/readMyInfo')
 
 const {changeMyProjectOrder} = require('./Update/changeMyProjectOrder')
 const {changeWorkSpaceOrder} = require('./Update/changeWorkSpaceOrder')
@@ -155,12 +156,16 @@ app.get('/readEventList', (req, res)=>{
 app.get('/readEventInfo', (req, res)=>{
   readEventInfo(req, res);
 })
-app.post('/readMyAnswer', (req, res)=>{
+app.get('/readMyAnswer', (req, res)=>{
   readMyAnswer(req, res);
 })
-app.post('/readChatData', (req, res)=>{
+app.get('/readChatData', (req, res)=>{
   readChatData(req, res);
 })
+app.get('/readMyInfo', (req, res)=>{
+  readMyInfo(req, res);
+})
+
 //------------------------------------------Update라우팅
 app.put('/changeMyProjectOrder', (req, res)=>{
   changeMyProjectOrder(req, res);

@@ -4,6 +4,8 @@ import { projectState } from "../../Atoms/atom";
 import DetailProject from './DetailProject'
 import ModalName from "./NameModal";
 import { useRecoilState } from 'recoil';
+import { useEffect } from "react";
+import axios from "axios";
 
 const SMain = styled.div`
     display : block;
@@ -90,7 +92,7 @@ const SelectProjects = () =>{
     // 팝업창 띄우기위해 사용되는 변수
     const [modalnameOpen, setModalNameOpen] = useState(false);
     // 사용자 이름 변수
-    const [name] = useState('이름');
+    const [name, setName] = useState('로드 중..');
 
     //프로젝트 추가 함수
     const addProject = () => {
@@ -106,6 +108,14 @@ const SelectProjects = () =>{
             return newProject;
         })
     };
+
+    useEffect(()=>{
+        axios({
+            url: 'http://localhost:1004/readMyInfo',
+            withCredentials : true,
+            method: 'get',
+          }).then((res)=>{setName(res.data.data.nickName)});
+    }, [])
 
     return (
         <SMain>
@@ -127,7 +137,7 @@ const SelectProjects = () =>{
                     onWheel={(e)=>{if(e.deltaY>0)e.currentTarget.scrollLeft+=400; else if(e.deltaY<0) e.currentTarget.scrollLeft-=400;}}
                 >
                     <br/>
-                    <DetailProject project={project}/>
+                    <DetailProject />
                 </Projectdiv>
         </ScrollMenu>
         </SMain>

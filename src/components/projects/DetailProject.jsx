@@ -9,7 +9,6 @@ import { projectState } from "../../Atoms/atom";
 // 프로젝트 들어가는 div
 const Detaildiv = styled.div`
     height: 90%;
-    
     margin-left: 20px;
     margin-right:20px;
     display:flex;
@@ -36,8 +35,6 @@ const Projectname = styled.span`
 
 const DetailProject = () => {
     const [project, setProject] = useRecoilState(projectState);
-    console.log('생성됨');
-    console.log(project);
 
     useEffect(()=>{
         axios({
@@ -45,12 +42,12 @@ const DetailProject = () => {
             withCredentials : true,
             method: 'get',
           }).then((res)=>{setProject(res.data.data)});
-    },[])
+    })
     return(
         <Detaildiv className='gd'>
             {project && project.map((item, i)=>(
                     <InnerProject key={i}>
-                        <Link style={{ textDecoration: 'none', color : 'black' }} to="/main/calendar">
+                        <Link style={{ textDecoration: 'none', color : 'black' }} to={`/main/calendar/${item.projectNum}`}>
                         <DisplayProject>
                                 <Projectname>
                                     &nbsp;{item.projectTitle}

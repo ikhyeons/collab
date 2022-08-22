@@ -4,7 +4,7 @@ import { projectState } from "../../Atoms/atom";
 import DetailProject from './DetailProject'
 import ModalName from "./NameModal";
 import { useRecoilState } from 'recoil';
-import { useEffect } from "react";
+import { useEffect,} from "react";
 import axios from "axios";
 
 const SMain = styled.div`
@@ -83,30 +83,19 @@ const ScrollMenu = styled.div`
     justify-content:center;
 `;
 
-let count = 1;
-
 const SelectProjects = () =>{
-    //프로젝트 추가 생성을 위한 변수
-    const [project, setProject] = useRecoilState(projectState);
-    
+    const[, setProject] = useRecoilState(projectState)
     // 팝업창 띄우기위해 사용되는 변수
     const [modalnameOpen, setModalNameOpen] = useState(false);
     // 사용자 이름 변수
     const [name, setName] = useState('로드 중..');
-
     //프로젝트 추가 함수
     const addProject = () => {
-        count+=1;
-        setProject((prev)=>{
-            let newProject = [
-                ...prev,
-                {
-                    name: `새 프로젝트${count}`,
-                    pic:''
-                },
-            ]
-            return newProject;
-        })
+        axios({
+            url: 'http://localhost:1004/createProject',
+            withCredentials : true,
+            method: 'post',
+          }).then(setProject((prev)=>[...prev]))
     };
 
     useEffect(()=>{

@@ -400,12 +400,7 @@ export const requestLast1Td = atom({ //마지막 지나온놈의 셀, 인덱스 
 
 export const projectState = atom({
   key: 'projects/projectState',
-  default: [
-    {
-      name:'새 프로젝트1',
-      pic:'',
-    }
-  ],
+  default: [],
 });
 
 export const boardState = atom({

@@ -5,18 +5,30 @@ import {
     selectorFamily,
   } from 'recoil';
 
-//
+//현재 페이지 url 관련
+export const projectUrl = atom({
+  key : 'url/projectUrl',
+  default : 0
+})
+export const workSpaceUrl = atom({
+  key : 'url/workSpaceUrl',
+  default : 0
+})
+export const chatSpaceUrl = atom({
+  key : 'url/chatSpaceUrl',
+  default : 0
+})
 //------------------------사이드바
 export const sidebarWorkSpace = atom({
   key : 'sidebar/sidebarWorkSpace',
-  default : [0, 1, 2, 3,],
+  default : [],
 })
 
 export const sidebarWorkSpaceLi = atomFamily({
   key : 'sidebar/sidebarWorkSpaceInner',
     default : (data)=>({
       id : data.id,
-      type : 'li',
+      type : data.type,
       name : data.id,
     }
   )

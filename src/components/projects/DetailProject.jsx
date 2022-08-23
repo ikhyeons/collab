@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { useEffect } from "react";
 import axios from "axios";
-import { projectState } from "../../Atoms/atom";
+import { projectState, projectUrl } from "../../Atoms/atom";
 
 // 프로젝트 들어가는 div
 const Detaildiv = styled.div`
@@ -35,6 +35,7 @@ const Projectname = styled.span`
 
 const DetailProject = () => {
     const [project, setProject] = useRecoilState(projectState);
+    const [projectUrlNum, setProjectUrlNum] = useRecoilState(projectUrl)
 
     useEffect(()=>{
         axios({
@@ -47,7 +48,7 @@ const DetailProject = () => {
         <Detaildiv className='gd'>
             {project && project.map((item, i)=>(
                     <InnerProject key={i}>
-                        <Link style={{ textDecoration: 'none', color : 'black' }} to={`/main/calendar/${item.projectNum}`}>
+                        <Link onClick={()=>{setProjectUrlNum(item.projectNum)}} style={{ textDecoration: 'none', color : 'black' }} to={`/main/calendar/${item.projectNum}`}>
                         <DisplayProject>
                                 <Projectname>
                                     &nbsp;{item.projectTitle}

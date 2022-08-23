@@ -63,6 +63,7 @@ const {readDocInfo} = require('./Read/readDocInfo')
 const {readEventList} = require('./Read/readEventList')
 const {readEventInfo} = require('./Read/readEventInfo')
 const {readMyInfo} = require('./Read/readMyInfo')
+const {readWorkSpaceInfo} = require('./Read/readWorkSpaceInfo')
 
 const {changeMyProjectOrder} = require('./Update/changeMyProjectOrder')
 const {changeWorkSpaceOrder} = require('./Update/changeWorkSpaceOrder')
@@ -80,7 +81,7 @@ const {delChatSpace} = require('./Delete/delChatSpace')
 const {delRequest} = require('./Delete/delRequest')
 const {delEvent} = require('./Delete/delEvent')
 const {delDocParticipant} = require('./Delete/delDocParticipant')
-const {delDocLicenser} = require('./Delete/delLicenser')
+const {delDocLicenser} = require('./Delete/delLicenser');
 //------------------------------------------session라우팅
 app.post('/login', (req, res)=>{
     login(req, res);
@@ -138,7 +139,7 @@ app.get('/readMyProjectList', (req, res)=>{
 app.get('/readRequestList', (req, res)=>{
   readRequestList(req, res);
 })
-app.get('/readWorkSpaceList', (req, res)=>{
+app.get('/readWorkSpaceList/:projectNum', (req, res)=>{
   readWorkSpaceList(req, res);
 })
 app.get('/readChatSpaceList', (req, res)=>{
@@ -164,6 +165,9 @@ app.get('/readChatData', (req, res)=>{
 })
 app.get('/readMyInfo', (req, res)=>{
   readMyInfo(req, res);
+})
+app.get('/readWorkSpaceInfo/:workSpaceNum', (req, res)=>{
+  readWorkSpaceInfo(req, res);
 })
 
 //------------------------------------------Update라우팅

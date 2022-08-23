@@ -2,13 +2,13 @@ const {mysqlKey}  = require('../mysqlKey');
 const mysql = require('mysql');
 const con = mysql.createConnection(mysqlKey);
 
-exports.readWorkSpaceList = (req, res) => {
+exports.readWorkSpaceInfo = (req, res) => {
 
     if(req.session.logined === true){
-        let projectNum = req.params.projectNum;
-        con.query('select * from workSpace where projectNum = ?', [projectNum], (error, rows, fields)=> {
+        let workSpaceNum = req.params.workSpaceNum;
+        con.query('select * from workSpace where workSpaceNum = ?', [workSpaceNum], (error, rows, fields)=> {
             if(error) throw error;
-            res.send({success : 0, data : rows});
+            res.send({success : 0, data : rows[0]});
         })
     }
     else {

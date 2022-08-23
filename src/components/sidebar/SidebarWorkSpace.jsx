@@ -1,9 +1,10 @@
 import React,{useEffect, useState} from 'react'
 import styled from 'styled-components'
-
 import { useRecoilState } from 'recoil'
-import {sidebarWorkSpace} from '../../Atoms/atom'
+import {sidebarWorkSpace, projectUrl} from '../../Atoms/atom'
 import SidebarWorkSpaceLi from './SidebarWorkSpaceLi'
+import axios from 'axios'
+import { useParams } from 'react-router-dom'
 
 const Stitle = styled.div`
   padding-left : 10px;
@@ -36,7 +37,17 @@ const SidebarWorkSpace = () => {
   //워크스페이스 리스트
   const [workSpaceList, setWorkSpaceList] = useRecoilState(sidebarWorkSpace);
 
-  useEffect(()=>{console.log(workSpaceList)}, [workSpaceList]);
+  const {projectNum} = useParams();
+  useEffect(()=>{
+    axios({
+      url: `http://localhost:1004/readWorkSpaceList/${projectNum}`, // 통신할 웹문서
+      method: 'get', // 통신할 방식
+      withCredentials : true,
+    }).then((res)=>{
+      let NewArray = res.data.data.map((data, i)=>data.workSpaceNum)
+      setWorkSpaceList(NewArray);
+    })
+  });
 
   const moveFunction = (targetIndex, sourceIndex)=> {
     setWorkSpaceList((prev)=>{

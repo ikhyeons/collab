@@ -3,8 +3,8 @@ import SidebarChat from './SidebarChat'
 import SidebarWorkSpace from './SidebarWorkSpace'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { useRecoilState } from 'recoil'
-import { projectUrl } from '../../Atoms/atom'
+import { useParams } from 'react-router-dom'
+
 
 const Snav = styled.nav`
   position : relative;
@@ -65,13 +65,11 @@ const Snavmain = styled.ul`
 `
 
 const SidebarMain = () => {
-
-  const [projectUrlNum, setProjectUrlNum] = useRecoilState(projectUrl)
-
+  const {projectNum} = useParams()
   return (
     <Snav>
         <Snavmain>
-            <Sspace><Link to={`/main/calendar/${projectUrlNum}`} style={{ textDecoration: 'none', color : 'black'}}><SidebarGoMain>메인</SidebarGoMain></Link></Sspace>
+            <Sspace><Link to={`/main/calendar/${projectNum}`} style={{ textDecoration: 'none', color : 'black'}}><SidebarGoMain>메인</SidebarGoMain></Link></Sspace>
             <Sspace><SidebarWorkSpace /></Sspace>
             <Sspace><SidebarChat /></Sspace>
             <SidebarBottom> {/* 아래부분 */}

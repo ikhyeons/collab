@@ -58,11 +58,11 @@ function SidebarWorkSpaceLi({index, id, moveFunction}) {
       }).then((res)=>{
         setWorkSpaceLi({...res.data.data, id : res.data.data.workSpaceNum});
       })
-    })
+    }, [])
 
   return (
     <Link to={`/main/workspace/${projectNum}/${workSpaceLi.type}/${workSpaceLi.id}`} style={{ textDecoration: 'none', color : 'black'}}>
-      <Sli isOver={isOver} ref={node => dragRef(drop(node))} >-{id}</Sli>
+      <Sli isOver={isOver} ref={node => dragRef(drop(node))} >-{workSpaceLi.spaceTitle}</Sli>
     </Link>
   )
 }

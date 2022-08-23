@@ -47,7 +47,7 @@ const SidebarWorkSpace = () => {
       let NewArray = res.data.data.map((data, i)=>data.workSpaceNum)
       setWorkSpaceList(NewArray);
     })
-  });
+  }, []);
 
   const moveFunction = (targetIndex, sourceIndex)=> {
     setWorkSpaceList((prev)=>{

@@ -35,8 +35,6 @@ const Projectname = styled.span`
 
 const DetailProject = () => {
     const [project, setProject] = useRecoilState(projectState);
-    const [projectUrlNum, setProjectUrlNum] = useRecoilState(projectUrl)
-
     useEffect(()=>{
         axios({
             url: 'http://localhost:1004/readMyProjectList',
@@ -48,7 +46,7 @@ const DetailProject = () => {
         <Detaildiv className='gd'>
             {project && project.map((item, i)=>(
                     <InnerProject key={i}>
-                        <Link onClick={()=>{setProjectUrlNum(item.projectNum)}} style={{ textDecoration: 'none', color : 'black' }} to={`/main/calendar/${item.projectNum}`}>
+                        <Link style={{ textDecoration: 'none', color : 'black' }} to={`/main/calendar/${item.projectNum}`}>
                         <DisplayProject>
                                 <Projectname>
                                     &nbsp;{item.projectTitle}

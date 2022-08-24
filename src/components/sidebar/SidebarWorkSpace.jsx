@@ -33,7 +33,6 @@ const SidebarWorkSpace = () => {
 
   //숨김처리를 위한 변수
   const [hidden, setHidden] = useState(0);
-
   //워크스페이스 리스트
   const [workSpaceList, setWorkSpaceList] = useRecoilState(sidebarWorkSpace);
 

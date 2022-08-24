@@ -46,7 +46,7 @@ const DetailProject = () => {
         <Detaildiv className='gd'>
             {project && project.map((item, i)=>(
                     <InnerProject key={i}>
-                        <Link style={{ textDecoration: 'none', color : 'black' }} to={`/main/calendar/${item.projectNum}`}>
+                        <Link style={{ textDecoration: 'none', color : 'black' }} to={`/main/${item.projectNum}/calendar`}>
                         <DisplayProject>
                                 <Projectname>
                                     &nbsp;{item.projectTitle}

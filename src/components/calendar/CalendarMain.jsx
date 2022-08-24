@@ -4,11 +4,13 @@ import interactionPlugin from "@fullcalendar/interaction"
 import CalendarEventWrap from './CalendarEventWrap'
 import { calendarModalState, calendarSelectedDate, calendarEvents } from '../../Atoms/atom'
 import { useRecoilState } from 'recoil'
+import axios from 'axios'
 
 
 
 import styled from 'styled-components'
 import { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 
 
 //풀캘린더의 크기는 상위 태그의 크기에 맞춰서 변경됨
@@ -23,6 +25,7 @@ const CalendarMain = () => {
     const [selectedDate, setSelectedDate] = useRecoilState(calendarSelectedDate); //선택된 날짜
     const [event, setEvent] = useRecoilState(calendarEvents); //이벤트들
     const [eventSet, setEventSet] = useRecoilState(calendarModalState); // 현재 달력 상태 0 : 기본 / 1 : 이벤트 추가 / 2 : 이벤트 보기 / 3 : 이벤트 수정
+    const {projectNum} = useParams();
 
     const changeEventDate = (inputDate, addedDate) =>{ // input : 표준시 상태의 입력, 추가할 날자(정수) / output : YYYY-MM-DD
         let date = new Date(inputDate)
@@ -35,8 +38,25 @@ const CalendarMain = () => {
     }
 
     useEffect(()=>{
-        console.log(selectedDate);
-    }, [selectedDate])
+        console.log("gd");
+        axios({
+            url: `http://localhost:1004/readEventList/${projectNum}`, // 통신할 웹문서
+            method: 'get', // 통신할 방식
+            withCredentials : true,
+          }).then(res=>{
+            let newArray = [];
+            res.data.data.map((data)=>(
+                newArray.push({
+                    id : data.eventNum, 
+                    title : data.eventTitle, 
+                    content : data.eventContent, 
+                    start : data.startDate ,
+                    end : data.endDate,
+                })
+            ))
+            setEvent(newArray);
+        })
+    }, [eventSet])
 
   return (
     <FullCalendarWrap>

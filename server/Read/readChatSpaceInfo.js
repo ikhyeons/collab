@@ -2,10 +2,10 @@ const {mysqlKey}  = require('../mysqlKey');
 const mysql = require('mysql');
 const con = mysql.createConnection(mysqlKey);
 
-exports.readWorkSpaceInfo = (req, res) => {
+exports.readChatSpaceInfo = (req, res) => {
     if(req.session.logined === true){
-        let workSpaceNum = req.params.workSpaceNum;
-        con.query('select * from workSpace where workSpaceNum = ?', [workSpaceNum], (error, rows, fields)=> {
+        let chatSpaceNum = req.params.chatSpaceNum;
+        con.query('select * from chatSpace where chatSpaceNum = ?', [chatSpaceNum], (error, rows, fields)=> {
             if(error) throw error;
             res.send({success : 0, data : rows[0]});
         })
@@ -15,3 +15,4 @@ exports.readWorkSpaceInfo = (req, res) => {
         res.send({success : 3});
     }
     }
+    

@@ -1,9 +1,10 @@
 import React, {useEffect} from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { useDrag, useDrop } from 'react-dnd'
 import { useRecoilState, useResetRecoilState } from 'recoil'
 import { sidebarChatLi } from '../../Atoms/atom'
+import axios from 'axios'
 
 const Sli = styled.li`
   width : 100%;
@@ -16,10 +17,8 @@ const Sli = styled.li`
 
 function SidebarChatLi({index, id, moveFunction}) {
 
-    const [chatLi, setChatLi] = useRecoilState(sidebarChatLi({num : id, name : '전체채팅'}))
-    const resetLi = useResetRecoilState(sidebarChatLi({num : id, name : '전체채팅'}));
-
-    useEffect(()=>{resetLi()}, [chatLi]);
+    const [chatLi, setChatLi] = useRecoilState(sidebarChatLi({num : id}))
+    const {projectNum} = useParams()
         
     const [{ isDragging }, dragRef, previewRef] = useDrag(
       () => ({
@@ -43,15 +42,24 @@ function SidebarChatLi({index, id, moveFunction}) {
         }
         //item.index = 집은놈의 인덱스 index = 올라간 놈의 인덱스
         item.index = index;
-        console.log(index);
       },
       collect : (monitor)=>({
         isOver : monitor.isOver()
       })
     })
+    useEffect(()=>{
+      axios({
+        url: `http://localhost:1004/readChatSpaceInfo/${id}`, // 통신할 웹문서
+        method: 'get', // 통신할 방식
+        withCredentials : true,
+      }).then((res)=>{
+        setChatLi({...res.data.data, name : res.data.data.spaceTitle});
+      })
+    }, [])
+    
 
   return (
-    <Link to={`/main/chat/${chatLi.num}`} style={{ textDecoration: 'none', color : 'black'}}><Sli isOver={isOver} ref={node => dragRef(drop(node))}>-{id}</Sli></Link>//${i}에서 i는 채팅 번호
+    <Link to={`/main/${projectNum}/chat/${chatLi.chatSpaceNum}`} style={{ textDecoration: 'none', color : 'black'}}><Sli isOver={isOver} ref={node => dragRef(drop(node))}>-{chatLi.name}</Sli></Link>//${i}에서 i는 채팅 번호
   )
 }
 

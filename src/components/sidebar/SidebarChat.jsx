@@ -1,9 +1,11 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 import { useRecoilState } from 'recoil'
 
 import {sidebarChat} from '../../Atoms/atom'
 import SidebarChatLi from './SidebarChatLi'
+import { useParams } from 'react-router-dom'
+import axios from 'axios'
 
 const Stitle = styled.div`
   
@@ -35,7 +37,17 @@ const SidebarChat = () => {
   const [hidden, setHidden] = useState(0);
   //채팅 리스트
   const [chatList, setChatList] = useRecoilState(sidebarChat)
-
+  const {projectNum} = useParams();
+  useEffect(()=>{
+    axios({
+      url: `http://localhost:1004/readChatSpaceList/${projectNum}`, // 통신할 웹문서
+      method: 'get', // 통신할 방식
+      withCredentials : true,
+    }).then((res)=>{
+      let NewArray = res.data.data.map((data, i)=>data.chatSpaceNum)
+      setChatList(NewArray);
+    })
+  }, []);
   const addChat = () => { //채팅 리스트 추가하는 함수
     setChatList((prev)=>{let newList = [...prev, prev.length,]; return newList;})
   }

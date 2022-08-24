@@ -64,12 +64,12 @@ function App() {
             <Routes>
               <Route path="/" element={<LoginMain />} />
               <Route path="/project" element={<SelectProject />} />
-              <Route path="/main/calendar/:projectNum" element={<CalendarPage />} />
-              <Route path="/main/workspace/:projectNum/li/:workSpaceNum" element={<DocPage />} />
-              <Route path="/main/workspace/:projectNum/board/:workSpaceNum" element={<WorkListPage />} />
-              <Route path="/main/workspace/:projectNum/new/:workSpaceNum" element={<NewSpacePage />} />
-              <Route path="/main/setting" element={<SettingPage />} />
-              <Route path="/main/chat/:chatSpaceNum" element={<ChattingPage />} />
+              <Route path="/main/:projectNum/calendar" element={<CalendarPage />} />
+              <Route path="/main/:projectNum/workspace/li/:workSpaceNum" element={<DocPage />} />
+              <Route path="/main/:projectNum/workspace/board/:workSpaceNum" element={<WorkListPage />} />
+              <Route path="/main/:projectNum/workspace/new/:workSpaceNum" element={<NewSpacePage />} />
+              <Route path="/main/:projectNum/setting" element={<SettingPage />} />
+              <Route path="/main/:projectNum/chat/:chatSpaceNum" element={<ChattingPage />} />
             </Routes>            
           </Inproject>
         </BrowserRouter>

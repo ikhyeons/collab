@@ -22,11 +22,11 @@ export const sidebarWorkSpaceLi = atomFamily({
 
 export const sidebarChat = atom({
   key : 'sidebar/sidebarChat',
-  default : [0, 1],
+  default : [],
 })
 
 export const sidebarChatLi = atomFamily({
-  key : 'sidebar/sidebarWorkSpaceInner',
+  key : 'sidebar/sidebarChatSpaceInner',
     default : (data)=>({
       num : data.num,
       name : data.name,

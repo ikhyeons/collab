@@ -63,10 +63,16 @@ const SidebarWorkSpace = () => {
 
   //워크스페이스 리스트 추가하는 함수
   const addWorkSpaceList = () => {
-    setWorkSpaceList((prev)=>{
-      let newList = [...prev, prev.length]
-      return newList;
-    })
+    axios({
+      url: `http://localhost:1004/createWorkSpace`,
+      method: 'post',
+      withCredentials : true,
+      data:{
+        projectNum: projectNum,
+      }
+    }).then((res)=>{
+      window.location.reload(); // 클릭시 바로 적용이 안되서 일단 새로고침 추가      -- 추후 변경해야함 --
+      console.log(res);})
   }
 
   const accordion = ()=>{ //클릭했을 경우 숨겨져 있으면 보이게하고, 보이는 상태이면 숨기게함.

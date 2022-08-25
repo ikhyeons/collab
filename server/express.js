@@ -82,6 +82,7 @@ const {delRequest} = require('./Delete/delRequest')
 const {delEvent} = require('./Delete/delEvent')
 const {delDocParticipant} = require('./Delete/delDocParticipant')
 const {delDocLicenser} = require('./Delete/delLicenser');
+const { changeWorkSpaceType } = require('./Update/changeWorkSpaceType.js');
 //------------------------------------------session라우팅
 app.post('/login', (req, res)=>{
     login(req, res);
@@ -192,11 +193,14 @@ app.put('/changeParagraph', (req, res)=>{
 app.put('/changeDocInfo', (req, res)=>{
   changeDocInfo(req, res);
 })
-app.post('/changeResponse', (req, res)=>{
+app.put('/changeResponse', (req, res)=>{
   changeResponse(req, res);
 })
-app.post('/changeCalendarEvent', (req, res)=>{
+app.put('/changeCalendarEvent', (req, res)=>{
   changeCalendarEvent(req, res);
+})
+app.put('/changeWorkSpaceType', (req, res)=>{
+  changeWorkSpaceType(req, res);
 })
 //------------------------------------------Delete라우팅
 app.delete('/delProject', (req, res)=>{

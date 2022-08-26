@@ -155,7 +155,7 @@ app.get('/readDocInfo', (req, res)=>{
 app.get('/readEventList/:projectNum', (req, res)=>{
   readEventList(req, res);
 })
-app.get('/readEventInfo', (req, res)=>{
+app.get('/readEventInfo/:eventNum', (req, res)=>{
   readEventInfo(req, res);
 })
 app.get('/readMyAnswer', (req, res)=>{
@@ -196,10 +196,10 @@ app.put('/changeParagraph', (req, res)=>{
 app.put('/changeDocInfo', (req, res)=>{
   changeDocInfo(req, res);
 })
-app.post('/changeResponse', (req, res)=>{
+app.put('/changeResponse', (req, res)=>{
   changeResponse(req, res);
 })
-app.post('/changeCalendarEvent', (req, res)=>{
+app.put('/changeCalendarEvent', (req, res)=>{
   changeCalendarEvent(req, res);
 })
 //------------------------------------------Delete라우팅

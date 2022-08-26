@@ -2,7 +2,7 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from "@fullcalendar/interaction"
 import CalendarEventWrap from './CalendarEventWrap'
-import { calendarModalState, calendarSelectedDate, calendarEvents } from '../../Atoms/atom'
+import { calendarModalState, calendarSelectedDate, calendarEvents, calendarEventData } from '../../Atoms/atom'
 import { useRecoilState } from 'recoil'
 import axios from 'axios'
 
@@ -26,6 +26,7 @@ const CalendarMain = () => {
     const [event, setEvent] = useRecoilState(calendarEvents); //이벤트들
     const [eventSet, setEventSet] = useRecoilState(calendarModalState); // 현재 달력 상태 0 : 기본 / 1 : 이벤트 추가 / 2 : 이벤트 보기 / 3 : 이벤트 수정
     const {projectNum} = useParams();
+    const [calendarData, setCalendarData] = useRecoilState(calendarEventData)
 
     const changeEventDate = (inputDate, addedDate) =>{ // input : 표준시 상태의 입력, 추가할 날자(정수) / output : YYYY-MM-DD
         let date = new Date(inputDate)
@@ -47,8 +48,8 @@ const CalendarMain = () => {
             let newArray = [];
             res.data.data.map((data)=>(
                 newArray.push({
-                    id : data.eventNum, 
-                    title : data.eventTitle, 
+                    id : data.eventNum,
+                    title : data.eventTitle,
                     content : data.eventContent, 
                     start : data.startDate ,
                     end : data.endDate,
@@ -57,6 +58,21 @@ const CalendarMain = () => {
             setEvent(newArray);
         })
     }, [eventSet])
+
+    const getCalendarEventData = (eventNum)=>{
+        axios({
+            url: `http://localhost:1004/readEventInfo/${eventNum}`, // 통신할 웹문서
+            method: 'get', // 통신할 방식
+            withCredentials : true,
+          }).then((res)=>{setCalendarData({
+            id : res.data.data.eventNum,
+            title : res.data.data.eventTitle,
+            content : res.data.data.eventContent,
+            start : res.data.data.startDate,
+            end : res.data.data.endDate
+            }
+        )})
+    }
 
   return (
     <FullCalendarWrap>
@@ -77,7 +93,7 @@ const CalendarMain = () => {
         }}
 
         eventClick = {(info)=>{ //이벤트 클릭 핸들러
-            console.log(info);
+            getCalendarEventData(info.event._def.publicId)
             setEventSet(2);
         }}
 

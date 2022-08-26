@@ -17,9 +17,9 @@ exports.changeCalendarEvent = (req, res) => {
                                 if (error) throw error;
                                 res.send({success : 0})
                             })  
-                        })  
+                        })
                     })
-                })  
+                })
             })
         } else {
             console.log("미로그인 상태입니다.");

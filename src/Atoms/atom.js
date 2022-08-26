@@ -51,7 +51,7 @@ export const calendarEvents = atom({
 
 export const calendarEventData = atom({
   key : 'calendar/calendarEventData',
-  default : {id : 1, title : '', content : '', start : '', end : ''},
+  default : {id : 0, title : '', content : '', start : '', end : ''},
 })
 //-------------------------------탬플릿
 export const userNamePool = atom({

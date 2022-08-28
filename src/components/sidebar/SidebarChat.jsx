@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 import { useRecoilState } from 'recoil'
 
@@ -37,21 +37,19 @@ const SidebarChat = () => {
   const [hidden, setHidden] = useState(0);
   //채팅 리스트
   const [chatList, setChatList] = useRecoilState(sidebarChat)
-  
   const {projectNum} = useParams();
-
-  const addChat = () => {
-    console.log(projectNum);
+  useEffect(()=>{
     axios({
-      url: `http://localhost:1004/createChatSpace`,
-      method: 'post',
+      url: `http://localhost:1004/readChatSpaceList/${projectNum}`, // 통신할 웹문서
+      method: 'get', // 통신할 방식
       withCredentials : true,
-      data:{
-        projectNum: projectNum,
-      }
     }).then((res)=>{
-      window.location.reload(); // 클릭시 바로 적용이 안되서 일단 새로고침 추가      -- 추후 변경해야함 --
-      console.log(res);})
+      let NewArray = res.data.data.map((data, i)=>data.chatSpaceNum)
+      setChatList(NewArray);
+    })
+  }, []);
+  const addChat = () => { //채팅 리스트 추가하는 함수
+    setChatList((prev)=>{let newList = [...prev, prev.length,]; return newList;})
   }
 
   const accordion = ()=>{ //클릭했을 경우 숨겨져 있으면 보이게하고, 보이는 상태이면 숨기게함.

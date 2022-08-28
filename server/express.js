@@ -64,6 +64,7 @@ const {readEventList} = require('./Read/readEventList')
 const {readEventInfo} = require('./Read/readEventInfo')
 const {readMyInfo} = require('./Read/readMyInfo')
 const {readWorkSpaceInfo} = require('./Read/readWorkSpaceInfo')
+const {readChatSpaceInfo} = require('./Read/readChatSpaceInfo')
 
 const {changeMyProjectOrder} = require('./Update/changeMyProjectOrder')
 const {changeWorkSpaceOrder} = require('./Update/changeWorkSpaceOrder')
@@ -143,7 +144,7 @@ app.get('/readRequestList', (req, res)=>{
 app.get('/readWorkSpaceList/:projectNum', (req, res)=>{
   readWorkSpaceList(req, res);
 })
-app.get('/readChatSpaceList', (req, res)=>{
+app.get('/readChatSpaceList/:projectNum', (req, res)=>{
   readChatSpaceList(req, res);
 })
 app.get('/readDocList', (req, res)=>{
@@ -152,10 +153,10 @@ app.get('/readDocList', (req, res)=>{
 app.get('/readDocInfo', (req, res)=>{
   readDocInfo(req, res);
 })
-app.get('/readEventList', (req, res)=>{
+app.get('/readEventList/:projectNum', (req, res)=>{
   readEventList(req, res);
 })
-app.get('/readEventInfo', (req, res)=>{
+app.get('/readEventInfo/:eventNum', (req, res)=>{
   readEventInfo(req, res);
 })
 app.get('/readMyAnswer', (req, res)=>{
@@ -169,6 +170,9 @@ app.get('/readMyInfo', (req, res)=>{
 })
 app.get('/readWorkSpaceInfo/:workSpaceNum', (req, res)=>{
   readWorkSpaceInfo(req, res);
+})
+app.get('/readChatSpaceInfo/:chatSpaceNum', (req, res)=>{
+  readChatSpaceInfo(req, res);
 })
 
 //------------------------------------------Update라우팅

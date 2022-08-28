@@ -69,11 +69,11 @@ const SidebarMain = () => {
   return (
     <Snav>
         <Snavmain>
-            <Sspace><Link to={`/main/calendar/${projectNum}`} style={{ textDecoration: 'none', color : 'black'}}><SidebarGoMain>메인</SidebarGoMain></Link></Sspace>
+            <Sspace><Link to={`/main/${projectNum}/calendar`} style={{ textDecoration: 'none', color : 'black'}}><SidebarGoMain>메인</SidebarGoMain></Link></Sspace>
             <Sspace><SidebarWorkSpace /></Sspace>
             <Sspace><SidebarChat /></Sspace>
             <SidebarBottom> {/* 아래부분 */}
-                    <Link to='/main/setting' style={{ textDecoration: 'none', color : 'black'}}><SidebarSetting>세팅</SidebarSetting></Link>
+                    <Link to={`/main/${projectNum}/setting`} style={{ textDecoration: 'none', color : 'black'}}><SidebarSetting>세팅</SidebarSetting></Link>
                     <Link to='/project' style={{ textDecoration: 'none', color : 'black'}}><SidebarGoSelectProject>프로젝트</SidebarGoSelectProject></Link>
             </SidebarBottom>
         </Snavmain>

@@ -43,7 +43,6 @@ function SidebarWorkSpaceLi({index, id, moveFunction}) {
         }
         //item.index = 집은놈의 인덱스 index = 올라간 놈의 인덱스
         item.index = index;
-        console.log(index);
       },
       collect : (monitor)=>({
         isOver : monitor.isOver()
@@ -61,7 +60,7 @@ function SidebarWorkSpaceLi({index, id, moveFunction}) {
     }, [])
 
   return (
-    <Link to={`/main/workspace/${projectNum}/${workSpaceLi.type}/${workSpaceLi.id}`} style={{ textDecoration: 'none', color : 'black'}}>
+    <Link to={`/main/${projectNum}/workspace/${workSpaceLi.type}/${workSpaceLi.id}`} style={{ textDecoration: 'none', color : 'black'}}>
       <Sli isOver={isOver} ref={node => dragRef(drop(node))} >-{workSpaceLi.spaceTitle}</Sli>
     </Link>
   )

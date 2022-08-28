@@ -1,7 +1,9 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components'
 import { calendarSelectedDate, calendarEvents, calendarModalState } from '../../Atoms/atom'
 import { useRecoilValue, useRecoilState } from 'recoil'
+import axios from 'axios'
+import {useParams} from 'react-router-dom'
 
 const AddEventModal = styled.div`
   width : 35vw;
@@ -84,30 +86,35 @@ function CalendarAddEventModal() {
   const selectedDate = useRecoilValue(calendarSelectedDate);
   const [event, setEvent] = useRecoilState(calendarEvents);
   const [eventSet, setEventSet] = useRecoilState(calendarModalState);
+  const {projectNum} = useParams();
+  const [eventTitle, setEventTitle] = useState('');
+  const [eventContent, setEventContent] = useState('');
 
   const addEvent = ()=>{
-    setEvent((prev)=>{
-      let newEvent = [
-        ...prev,
-        {
-          id : '2',
-          title : '입력받은 제목',
-          content : '입력받은 내용',
-          start : selectedDate.start,
-          end : selectedDate.end,
+    if(eventTitle === ''){
+      alert('제목은 필수로 입력해야 합니다.')
+    } else {
+      axios({
+        url: `http://localhost:1004/createCalendarEvent`, // 통신할 웹문서
+        method: 'post', // 통신할 방식
+        withCredentials : true,
+        data : {
+          projectNum : projectNum,
+          startDate : selectedDate.start,
+          endDate : selectedDate.end,
+          eventTitle : eventTitle,
+          eventContent : eventContent,
         }
-      ]
-      return newEvent
-    })
-    setEventSet(0)
+      }).then(()=>{setEventSet(0)})
+    }
   }
 
   return (
     <AddEventModal>
       <SselectedDate>{selectedDate.start} ~ {selectedDate.end}</SselectedDate>
-      <Stitle placeholder='제목을 입력하세요' type="text" />
+      <Stitle value={eventTitle} onChange={(e)=>{setEventTitle(e.target.value)}} placeholder='제목을 입력하세요' type="text" />
       <Sline/>
-      <Scontent name="" id="" cols="30" rows="10"></Scontent>
+      <Scontent value={eventContent} onChange={(e)=>{setEventContent(e.target.value)}} name="" id="" cols="30" rows="10"></Scontent>
       <Sbutton onClick={()=>{addEvent()}}>추가</Sbutton>
       <Sbutton onClick={()=>{setEventSet(0)}}>취소</Sbutton>
     </AddEventModal>

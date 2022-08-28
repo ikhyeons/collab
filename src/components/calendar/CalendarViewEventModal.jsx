@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { calendarEventData, calendarModalState } from '../../Atoms/atom'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { useEffect } from 'react'
+import axios from 'axios'
 
 const EventViewModal = styled.div`
   width : 35vw;
@@ -85,13 +86,6 @@ function CalendarViewEventModal() {
   
   const [eventData, setEventData] = useRecoilState(calendarEventData);
   const [eventSet, setEventSet] = useRecoilState(calendarModalState); // 현재 달력 상태 0 : 기본 / 1 : 이벤트 추가 / 2 : 이벤트 보기 / 3 : 이벤트 수정
-
-  useEffect(()=>{
-    setEventData((prev)=>{
-      let newData = {...prev, title : '이벤트 제목입니다', content : '이벤트 내용입니다.', start : '2022-07-04', end : '2022-07-07'}
-      return newData
-    })
-  }, [])
 
   return (
     <EventViewModal>

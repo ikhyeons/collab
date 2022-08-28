@@ -1,7 +1,9 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components'
-import { calendarSelectedDate, calendarModalState } from '../../Atoms/atom'
+import { calendarSelectedDate, calendarModalState, calendarEventData } from '../../Atoms/atom'
 import { useRecoilValue, useRecoilState } from 'recoil'
+import { useEffect } from 'react'
+import axios from 'axios'
 
 const UpdateEventModal = styled.div`
   width : 35vw;
@@ -23,12 +25,14 @@ const SselectedDate = styled.div`
   height : 10%;
 `
 const Stitle = styled.input`
+  font-family : none;
   border-radius : 10px;
   font-size : 30px;
   width : 100%;
   height : 10%;
   margin : 5px auto;
   padding : 5px;
+  padding-bottom : 8px;
   background : none;
   border : none;
   :hover{
@@ -41,6 +45,7 @@ const Stitle = styled.input`
 `
 
 const Scontent = styled.textarea`
+  font-family : none;
   border-radius : 10px;
   font-size : 27px;
   width : 100%;
@@ -82,14 +87,38 @@ const Sline = styled.div`
 function CalendarUpdateEventModal() {
 
   const [eventSet, setEventSet] = useRecoilState(calendarModalState); // 현재 달력 상태 0 : 기본 / 1 : 이벤트 추가 / 2 : 이벤트 보기 / 3 : 이벤트 수정
-  
+  const [eventData, setEventData] = useRecoilState(calendarEventData)
+  const [eventTitle, setEventTitle] = useState('');
+  const [eventContent, setEventContent] = useState('');
+
+  useEffect(()=>{
+    setEventTitle(eventData.title)
+    setEventContent(eventData.content)
+  }, [])
+  const updateEventData = ()=>{
+    axios({
+      url: `http://localhost:1004/changeCalendarEvent`, // 통신할 웹문서
+      method: 'put', // 통신할 방식
+      data : {
+        eventNum : eventData.id,
+        startDate : eventData.start,
+        endDate : eventData.end,
+        eventTitle : eventData.title,
+        eventContent : eventData.content,
+      },
+      withCredentials : true,
+    })
+  }
   return (
     <UpdateEventModal>
-        <SselectedDate>2022-06-01 ~ 2022-06-10</SselectedDate>
-      <Stitle placeholder='제목을 입력하세요' type="text" />
+        <SselectedDate>{eventData.start} ~ {eventData.end}</SselectedDate>
+      <Stitle value={eventTitle} onChange={(e)=>{setEventTitle(e.target.value)}} type="text" />
       <Sline/>
-      <Scontent name="" id="" cols="30" rows="10"></Scontent>
-      <Sbutton onClick={()=>{setEventSet(0)}}>수정 완료</Sbutton>
+      <Scontent value={eventContent} onChange={(e)=>{setEventContent(e.target.value)}} name="" id="" cols="30" rows="10"></Scontent>
+      <Sbutton onClick={()=>{
+        updateEventData();
+        setEventSet(0)
+        }}>수정 완료</Sbutton>
       <Sbutton onClick={()=>{setEventSet(0)}}>취소</Sbutton>
 
 

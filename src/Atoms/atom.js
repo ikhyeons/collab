@@ -22,11 +22,11 @@ export const sidebarWorkSpaceLi = atomFamily({
 
 export const sidebarChat = atom({
   key : 'sidebar/sidebarChat',
-  default : [0, 1],
+  default : [],
 })
 
 export const sidebarChatLi = atomFamily({
-  key : 'sidebar/sidebarWorkSpaceInner',
+  key : 'sidebar/sidebarChatSpaceInner',
     default : (data)=>({
       num : data.num,
       name : data.name,
@@ -51,7 +51,7 @@ export const calendarEvents = atom({
 
 export const calendarEventData = atom({
   key : 'calendar/calendarEventData',
-  default : {id : 1, title : '', content : '', start : '', end : ''},
+  default : {id : 0, title : '', content : '', start : '', end : ''},
 })
 //-------------------------------탬플릿
 export const userNamePool = atom({

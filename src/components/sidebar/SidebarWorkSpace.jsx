@@ -35,7 +35,7 @@ const SidebarWorkSpace = () => {
   const [hidden, setHidden] = useState(0);
   //워크스페이스 리스트
   const [workSpaceList, setWorkSpaceList] = useRecoilState(sidebarWorkSpace);
-
+  const [forceRerender, setForceRerender] = useState(0);
   const {projectNum} = useParams();
   useEffect(()=>{
     axios({
@@ -46,7 +46,7 @@ const SidebarWorkSpace = () => {
       let NewArray = res.data.data.map((data, i)=>data.workSpaceNum)
       setWorkSpaceList(NewArray);
     })
-  }, []);
+  }, [forceRerender]);
 
   const moveFunction = (targetIndex, sourceIndex)=> {
     setWorkSpaceList((prev)=>{
@@ -70,9 +70,10 @@ const SidebarWorkSpace = () => {
         projectNum: projectNum,
       }
     }).then((res)=>{
-      window.location.reload(); // 클릭시 바로 적용이 안되서 일단 새로고침 추가      -- 추후 변경해야함 --
-      console.log(res);})
+      setForceRerender((prev)=>{if(prev==1){return 0} else return 1});
+    })
   }
+
 
   const accordion = ()=>{ //클릭했을 경우 숨겨져 있으면 보이게하고, 보이는 상태이면 숨기게함.
     if (hidden === 0 ) setHidden(1)

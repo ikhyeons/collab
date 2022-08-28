@@ -1,9 +1,11 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import styled from 'styled-components'
 import { useRecoilState } from 'recoil'
 
 import {sidebarChat} from '../../Atoms/atom'
 import SidebarChatLi from './SidebarChatLi'
+import { useParams } from 'react-router-dom'
+import axios from 'axios'
 
 const Stitle = styled.div`
   
@@ -35,9 +37,21 @@ const SidebarChat = () => {
   const [hidden, setHidden] = useState(0);
   //채팅 리스트
   const [chatList, setChatList] = useRecoilState(sidebarChat)
+  
+  const {projectNum} = useParams();
 
-  const addChat = () => { //채팅 리스트 추가하는 함수
-    setChatList((prev)=>{let newList = [...prev, prev.length,]; return newList;})
+  const addChat = () => {
+    console.log(projectNum);
+    axios({
+      url: `http://localhost:1004/createChatSpace`,
+      method: 'post',
+      withCredentials : true,
+      data:{
+        projectNum: projectNum,
+      }
+    }).then((res)=>{
+      window.location.reload(); // 클릭시 바로 적용이 안되서 일단 새로고침 추가      -- 추후 변경해야함 --
+      console.log(res);})
   }
 
   const accordion = ()=>{ //클릭했을 경우 숨겨져 있으면 보이게하고, 보이는 상태이면 숨기게함.

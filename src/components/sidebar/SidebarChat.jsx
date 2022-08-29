@@ -46,10 +46,12 @@ const SidebarChat = () => {
     }).then((res)=>{
       let NewArray = res.data.data.map((data, i)=>data.chatSpaceNum)
       setChatList(NewArray);
+      console.log(chatList);
     })
   }, []);
   const addChat = () => { //채팅 리스트 추가하는 함수
     setChatList((prev)=>{let newList = [...prev, prev.length,]; return newList;})
+    // addchat 부분 머지하면서 날아가서 다시 해야합니다 ~~ 
   }
 
   const accordion = ()=>{ //클릭했을 경우 숨겨져 있으면 보이게하고, 보이는 상태이면 숨기게함.

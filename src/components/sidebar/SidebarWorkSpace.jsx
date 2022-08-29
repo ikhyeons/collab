@@ -45,6 +45,7 @@ const SidebarWorkSpace = () => {
     }).then((res)=>{
       let NewArray = res.data.data.map((data, i)=>data.workSpaceNum)
       setWorkSpaceList(NewArray);
+      console.log(res);
     })
   }, [forceRerender]);
 

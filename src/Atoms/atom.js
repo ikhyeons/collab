@@ -157,7 +157,7 @@ export const replyList = atom({
 //-------------------------------글리스트
 export const docList = atom({
   key : 'doclist/docList',
-  default : []
+  default : [],
 })
 
 export const docForceRerender = atom({

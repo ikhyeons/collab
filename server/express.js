@@ -73,6 +73,7 @@ const {changeReply} = require('./Update/changeReply')
 const {changeDoctype} = require('./Update/changeDoctype')
 const {changeDocInfo} = require('./Update/changeDocInfo')
 const {changeParagraph} = require('./Update/changeParagraph')
+const {changeCalendarEventDate} = require('./Update/chageCalendarEventDate')
 
 const {delProject} = require('./Delete/delProject')
 const {delDoc} = require('./Delete/delDoc')
@@ -205,6 +206,9 @@ app.put('/changeCalendarEvent', (req, res)=>{
 })
 app.put('/changeWorkSpaceType', (req, res)=>{
   changeWorkSpaceType(req, res);
+})
+app.put('/changeCalendarEventDate', (req, res)=>{
+  changeCalendarEventDate(req, res)
 })
 //------------------------------------------Delete라우팅
 app.delete('/delProject', (req, res)=>{

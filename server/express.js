@@ -148,7 +148,7 @@ app.get('/readWorkSpaceList/:projectNum', (req, res)=>{
 app.get('/readChatSpaceList/:projectNum', (req, res)=>{
   readChatSpaceList(req, res);
 })
-app.get('/readDocList', (req, res)=>{
+app.get('/readDocList/:workSpaceNum', (req, res)=>{
   readDocList(req, res);
 })
 app.get('/readDocInfo', (req, res)=>{

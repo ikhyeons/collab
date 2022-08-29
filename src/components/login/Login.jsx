@@ -94,8 +94,14 @@ const Login = () => {
                 }
             }).then((res)=>{
                 console.log(res);
-                if(res.data.return === 0){alert("가입에 성공했습니다!")}
-                else if(res.data.return === 1){alert("이미 존재하는 이메일입니다!")}
+                if(res.data.success === 0){
+                    alert("가입에 성공했습니다!")
+                    setJoin(0);
+                    setEmail('');
+                    setPassword('');
+                    setNickname('');
+                }
+                else if(res.data.success === 1){alert("이미 존재하는 이메일입니다!")}
             })
         }
     }

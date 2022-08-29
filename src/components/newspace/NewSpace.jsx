@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 import styled from "styled-components";
 
@@ -37,13 +38,46 @@ const Sbtn = styled.button`
 
 `
 const NewSpace = ()=>{
+    const changeTypeWorkList = ()=>{
+        axios({
+            url: `http://localhost:1004/changeWorkSpaceType`,
+            method: 'put',
+            withCredentials : true,
+            data:{
+                projectNum: window.location.pathname.split('/')[3],
+                workSpaceNum: window.location.pathname.split('/')[5],
+                changeType: 'board',
+                changeTitle: '작업공간',
+            }
+          }).then((res)=>{
+            window.location.reload();
+            console.log(res);
+        })
+    };
+
+    const changeTypeList = ()=>{
+        axios({
+            url: `http://localhost:1004/changeWorkSpaceType`,
+            method: 'put',
+            withCredentials : true,
+            data:{
+                projectNum: window.location.pathname.split('/')[3],
+                workSpaceNum: window.location.pathname.split('/')[5],
+                changeType: 'li',
+                changeTitle: '문서',
+            }
+          }).then((res)=>{
+            window.location.reload();
+            console.log(res);
+        })
+    };
     
     return(
         <Scontainor>
             <Sselectdiv>
                 <Sh3>어떤 타입을 추가하시겠습니까?</Sh3>
-                <Sbtn>작업목록</Sbtn>
-                <Sbtn>문서</Sbtn>
+                <Sbtn onClick={()=>{changeTypeWorkList()}}>작업목록</Sbtn>
+                <Sbtn onClick={()=>{changeTypeList()}}>문서</Sbtn>
             </Sselectdiv>
         </Scontainor>
     )

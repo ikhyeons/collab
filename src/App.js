@@ -2,20 +2,15 @@ import styled, { createGlobalStyle } from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
-import axios from "axios";
 
-
-import SidebarMain from "./components/sidebar/SidebarMain"
 import LoginMain from './components/login/LoginMain'
 import SelectProject from './components/projects/SelectProjects'
 import CalendarPage from './page/CalendarPage'
-import DocListMain from "./components/doclist/DocListMain";
-import WorkList from "./components/worklist/WorkList";
-import DocTemplateMain from "./components/doctemplate/DocTemplateMain";
-import Setting from "./components/setting/Setting";
-import NewSpace from "./components/newspace/NewSpace";
-import Chatting from "./components/chatting/Chatting";
-
+import DocPage from "./page/DocPage";
+import WorkListPage from "./page/WorkListPage"
+import SettingPage from "./page/SettingPage";
+import NewSpacePage from './page/NewSpacePage'
+import ChattingPage from "./page/ChattingPage";
 
 import {RecoilRoot} from 'recoil';
 
@@ -55,24 +50,9 @@ const Inproject = styled.div`
 
 function App() {
 
-  const loginf = ()=>{
-    axios({
-      method: 'delete',
-      url: 'http://localhost:1004/delDocLicenser',
-      withCredentials : true,
-      data : {
-        docNum : 1,
-        licenserNum : 1,
-      },
-    }).then((res)=>{console.log(res)});
-  }
-
   return (
     <RecoilRoot>
       <div className="App">
-        <button onClick={()=>{loginf()}}>
-          text1
-        </button>
         <GlobalStyle />
         <DndProvider backend={HTML5Backend}>
         {
@@ -82,37 +62,16 @@ function App() {
           <Inproject>
 
             <Routes>
-              <Route path="/main/*" element={<SidebarMain />} />
-            </Routes>
-
-            <Routes>
               <Route path="/" element={<LoginMain />} />
               <Route path="/project" element={<SelectProject />} />
-              <Route path="/main/calendar" element={<CalendarPage />} />
-            </Routes>
-
-            <Routes>
-              <Route path="/main/workspace/li/*" element={<DocListMain />} />
-              
-            </Routes>
-
-            <Routes>
-              <Route path="/main/workspace/board/*" element={<WorkList />} />
-              <Route path="/main/workspace/li/*" element={<DocTemplateMain />} />
-              <Route path="/main/workspace/new/*" element={<NewSpace />} />
-            </Routes>
-
-            <Routes>
-              <Route path="/main/setting" element={<Setting />} />
-              <Route path="/main/chat/*" element={<Chatting />} />
-            </Routes>
-
-            
+              <Route path="/main/:projectNum/calendar" element={<CalendarPage />} />
+              <Route path="/main/:projectNum/workspace/li/:workSpaceNum" element={<DocPage />} />
+              <Route path="/main/:projectNum/workspace/board/:workSpaceNum" element={<WorkListPage />} />
+              <Route path="/main/:projectNum/workspace/new/:workSpaceNum" element={<NewSpacePage />} />
+              <Route path="/main/:projectNum/setting" element={<SettingPage />} />
+              <Route path="/main/:projectNum/chat/:chatSpaceNum" element={<ChattingPage />} />
+            </Routes>            
           </Inproject>
-
-          <Routes>
-
-          </Routes>
         </BrowserRouter>
         }
         </DndProvider>

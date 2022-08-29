@@ -3,7 +3,7 @@ const mysql = require('mysql');
 const con = mysql.createConnection(mysqlKey);
 
 exports.readEventInfo = (req, res) => {
-    const {eventNum} = req.body;
+    const eventNum = req.params.eventNum;
     if(req.session.logined === true){
         con.query('select * from calendarEvent where eventNum = ?', [eventNum], (error, rows, fields)=> {
             if(error) throw error;

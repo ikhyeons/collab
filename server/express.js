@@ -62,6 +62,9 @@ const {readDocList} = require('./Read/readDocList')
 const {readDocInfo} = require('./Read/readDocInfo')
 const {readEventList} = require('./Read/readEventList')
 const {readEventInfo} = require('./Read/readEventInfo')
+const {readMyInfo} = require('./Read/readMyInfo')
+const {readWorkSpaceInfo} = require('./Read/readWorkSpaceInfo')
+const {readChatSpaceInfo} = require('./Read/readChatSpaceInfo')
 
 const {changeMyProjectOrder} = require('./Update/changeMyProjectOrder')
 const {changeWorkSpaceOrder} = require('./Update/changeWorkSpaceOrder')
@@ -79,7 +82,8 @@ const {delChatSpace} = require('./Delete/delChatSpace')
 const {delRequest} = require('./Delete/delRequest')
 const {delEvent} = require('./Delete/delEvent')
 const {delDocParticipant} = require('./Delete/delDocParticipant')
-const {delDocLicenser} = require('./Delete/delLicenser')
+const {delDocLicenser} = require('./Delete/delLicenser');
+const { changeWorkSpaceType } = require('./Update/changeWorkSpaceType.js');
 //------------------------------------------session라우팅
 app.post('/login', (req, res)=>{
     login(req, res);
@@ -137,10 +141,10 @@ app.get('/readMyProjectList', (req, res)=>{
 app.get('/readRequestList', (req, res)=>{
   readRequestList(req, res);
 })
-app.get('/readWorkSpaceList', (req, res)=>{
+app.get('/readWorkSpaceList/:projectNum', (req, res)=>{
   readWorkSpaceList(req, res);
 })
-app.get('/readChatSpaceList', (req, res)=>{
+app.get('/readChatSpaceList/:projectNum', (req, res)=>{
   readChatSpaceList(req, res);
 })
 app.get('/readDocList', (req, res)=>{
@@ -149,18 +153,28 @@ app.get('/readDocList', (req, res)=>{
 app.get('/readDocInfo', (req, res)=>{
   readDocInfo(req, res);
 })
-app.get('/readEventList', (req, res)=>{
+app.get('/readEventList/:projectNum', (req, res)=>{
   readEventList(req, res);
 })
-app.get('/readEventInfo', (req, res)=>{
+app.get('/readEventInfo/:eventNum', (req, res)=>{
   readEventInfo(req, res);
 })
-app.post('/readMyAnswer', (req, res)=>{
+app.get('/readMyAnswer', (req, res)=>{
   readMyAnswer(req, res);
 })
-app.post('/readChatData', (req, res)=>{
+app.get('/readChatData', (req, res)=>{
   readChatData(req, res);
 })
+app.get('/readMyInfo', (req, res)=>{
+  readMyInfo(req, res);
+})
+app.get('/readWorkSpaceInfo/:workSpaceNum', (req, res)=>{
+  readWorkSpaceInfo(req, res);
+})
+app.get('/readChatSpaceInfo/:chatSpaceNum', (req, res)=>{
+  readChatSpaceInfo(req, res);
+})
+
 //------------------------------------------Update라우팅
 app.put('/changeMyProjectOrder', (req, res)=>{
   changeMyProjectOrder(req, res);
@@ -183,11 +197,14 @@ app.put('/changeParagraph', (req, res)=>{
 app.put('/changeDocInfo', (req, res)=>{
   changeDocInfo(req, res);
 })
-app.post('/changeResponse', (req, res)=>{
+app.put('/changeResponse', (req, res)=>{
   changeResponse(req, res);
 })
-app.post('/changeCalendarEvent', (req, res)=>{
+app.put('/changeCalendarEvent', (req, res)=>{
   changeCalendarEvent(req, res);
+})
+app.put('/changeWorkSpaceType', (req, res)=>{
+  changeWorkSpaceType(req, res);
 })
 //------------------------------------------Delete라우팅
 app.delete('/delProject', (req, res)=>{

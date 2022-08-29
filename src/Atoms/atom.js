@@ -4,19 +4,17 @@ import {
     selector,
     selectorFamily,
   } from 'recoil';
-
-//
 //------------------------사이드바
 export const sidebarWorkSpace = atom({
   key : 'sidebar/sidebarWorkSpace',
-  default : [0, 1, 2, 3,],
+  default : [],
 })
 
 export const sidebarWorkSpaceLi = atomFamily({
   key : 'sidebar/sidebarWorkSpaceInner',
     default : (data)=>({
       id : data.id,
-      type : 'li',
+      type : data.type,
       name : data.id,
     }
   )
@@ -24,11 +22,11 @@ export const sidebarWorkSpaceLi = atomFamily({
 
 export const sidebarChat = atom({
   key : 'sidebar/sidebarChat',
-  default : [0, 1],
+  default : [],
 })
 
 export const sidebarChatLi = atomFamily({
-  key : 'sidebar/sidebarWorkSpaceInner',
+  key : 'sidebar/sidebarChatSpaceInner',
     default : (data)=>({
       num : data.num,
       name : data.name,
@@ -53,7 +51,7 @@ export const calendarEvents = atom({
 
 export const calendarEventData = atom({
   key : 'calendar/calendarEventData',
-  default : {id : 1, title : '', content : '', start : '', end : ''},
+  default : {id : 0, title : '', content : '', start : '', end : ''},
 })
 //-------------------------------탬플릿
 export const userNamePool = atom({
@@ -400,12 +398,7 @@ export const requestLast1Td = atom({ //마지막 지나온놈의 셀, 인덱스 
 
 export const projectState = atom({
   key: 'projects/projectState',
-  default: [
-    {
-      name:'새 프로젝트1',
-      pic:'',
-    }
-  ],
+  default: [],
 });
 
 export const boardState = atom({

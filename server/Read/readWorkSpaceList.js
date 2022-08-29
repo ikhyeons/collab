@@ -3,8 +3,9 @@ const mysql = require('mysql');
 const con = mysql.createConnection(mysqlKey);
 
 exports.readWorkSpaceList = (req, res) => {
-    const {projectNum} = req.body;
+
     if(req.session.logined === true){
+        let projectNum = req.params.projectNum;
         con.query('select * from workSpace where projectNum = ?', [projectNum], (error, rows, fields)=> {
             if(error) throw error;
             res.send({success : 0, data : rows});

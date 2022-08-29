@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import { useDrag, useDrop } from 'react-dnd'
 import { useRecoilState, useResetRecoilState } from 'recoil'
 import { sidebarWorkSpaceLi, sidebarWorkSpace } from '../../Atoms/atom'
+import axios from 'axios'
+import { useParams } from 'react-router-dom'
 
 const Sli = styled.li`
   width : 100%;
@@ -17,9 +19,7 @@ const Sli = styled.li`
 function SidebarWorkSpaceLi({index, id, moveFunction}) {
 
     const [workSpaceLi, setWorkSpaceLi] = useRecoilState(sidebarWorkSpaceLi({id : id}))
-    const resetLi = useResetRecoilState(sidebarWorkSpaceLi({id : id}));
-  
-    useEffect(()=>{resetLi()}, [workSpaceLi]);
+    const {projectNum} = useParams()
 
     const [{ isDragging }, dragRef, previewRef] = useDrag(
       () => ({
@@ -43,15 +43,26 @@ function SidebarWorkSpaceLi({index, id, moveFunction}) {
         }
         //item.index = 집은놈의 인덱스 index = 올라간 놈의 인덱스
         item.index = index;
-        console.log(index);
       },
       collect : (monitor)=>({
         isOver : monitor.isOver()
       })
     })
+    
+    useEffect(()=>{
+      axios({
+        url: `http://localhost:1004/readWorkSpaceInfo/${id}`, // 통신할 웹문서
+        method: 'get', // 통신할 방식
+        withCredentials : true,
+      }).then((res)=>{
+        setWorkSpaceLi({...res.data.data, id : res.data.data.workSpaceNum});
+      })
+    }, [])
 
   return (
-    <Link to={`/main/workspace/${workSpaceLi.type}/${workSpaceLi.id}`} style={{ textDecoration: 'none', color : 'black'}}><Sli isOver={isOver} ref={node => dragRef(drop(node))} >-{id}</Sli></Link>
+    <Link to={`/main/${projectNum}/workspace/${workSpaceLi.type}/${workSpaceLi.id}`} style={{ textDecoration: 'none', color : 'black'}}>
+      <Sli isOver={isOver} ref={node => dragRef(drop(node))} >-{workSpaceLi.spaceTitle}</Sli>
+    </Link>
   )
 }
 

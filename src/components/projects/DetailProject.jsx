@@ -1,11 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { useEffect } from "react";
+import axios from "axios";
+import { projectState, projectUrl } from "../../Atoms/atom";
 
 // 프로젝트 들어가는 div
 const Detaildiv = styled.div`
     height: 90%;
-    
     margin-left: 20px;
     margin-right:20px;
     display:flex;
@@ -30,18 +33,23 @@ const Projectname = styled.span`
     height: 20px;
 `;  
 
-const DetailProject = (props) => {
-    const { project } = props;
-    console.log('생성됨');
-    console.log(project);
+const DetailProject = () => {
+    const [project, setProject] = useRecoilState(projectState);
+    useEffect(()=>{
+        axios({
+            url: 'http://localhost:1004/readMyProjectList',
+            withCredentials : true,
+            method: 'get',
+          }).then((res)=>{setProject(res.data.data)});
+    })
     return(
         <Detaildiv className='gd'>
-            {props.project && props.project.map((item, i)=>(
+            {project && project.map((item, i)=>(
                     <InnerProject key={i}>
-                        <Link style={{ textDecoration: 'none', color : 'black' }} to="/main/calendar">
+                        <Link style={{ textDecoration: 'none', color : 'black' }} to={`/main/${item.projectNum}/calendar`}>
                         <DisplayProject>
                                 <Projectname>
-                                    &nbsp;새 프로젝트{i+1}
+                                    &nbsp;{item.projectTitle}
                                 </Projectname>
                         </DisplayProject>
                         </Link>

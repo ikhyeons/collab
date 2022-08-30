@@ -7,7 +7,6 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import { docList, docForceRerender } from '../../Atoms/atom'
 import { useEffect } from 'react'
 
-
 const Sli = styled.li`
     list-style : none;
     margin : 2px;
@@ -28,7 +27,7 @@ const Snum = styled.span`
 
 const Stitle = styled.span`
     position : absolute;
-    width : 44%;
+    width : 50%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -40,8 +39,8 @@ const Stitle = styled.span`
 
 const Swriterwrap = styled.span`
     position : absolute;
-    right : 105px;
-    width : 23%;
+    right : 130px;
+    width : 22%;
     text-align : center;
 `
 
@@ -57,11 +56,17 @@ const Swriter = styled.span`
         background : rgb(235, 0, 235);
     }
 `
+const Sdelbutton = styled.button`
+    position : absolute;
+    width : 5%;
+    right : 100px;
+    min-width : 35px;
+`
 
 const Sdate = styled.span`
     position : absolute;
     right : 0px;
-    width : 21%;
+    width : 20%;
     max-width : 95px;
 `
 const Sul = styled.ul`
@@ -87,15 +92,16 @@ const SloadBox = styled.div`
     text-align : center;
 `
 
+
+
 //회전 애니메이션
 const rotation = keyframes`
   from{
-    transform: rotate(0deg)
+    transform: rotate(0deg);
   }
   to{
-    transform: rotate(360deg)
+    transform: rotate(360deg);
   }
-
 `
 
 //투명도 애니메이션
@@ -139,6 +145,18 @@ function DocList() {
             setIsBottom(1); //isBottom을 1로 변경함.
         }
     })
+    const deleteDoc = (docNum)=>{
+        axios({
+            url: `http://localhost:1004/delDoc`,
+            data : {
+                docNum : docNum,
+            },
+            method: 'delete',
+            withCredentials : true,
+          }).then((res)=>{console.log(res)}).then(()=>{
+            setDocForceRerender((prev)=>prev===0? 1 : 0);
+          })
+    }
 
     useEffect(()=>{
         axios({
@@ -156,6 +174,7 @@ function DocList() {
                                 <Snum>{data.docNum}</Snum>
                                 <Link to = {`./${data.docNum}`}><Stitle num={data.docNum}>{data.docTitle}</Stitle></Link>
                                 <Swriterwrap><Swriter>{data.nickName}</Swriter></Swriterwrap>
+                                <Sdelbutton onClick={()=>{deleteDoc(data.docNum)}}>삭제</Sdelbutton>
                                 <Sdate>{data.makeDate.slice(0, 10)}</Sdate>
                             </Sli>
                         )

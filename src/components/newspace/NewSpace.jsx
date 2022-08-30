@@ -1,6 +1,9 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { useRecoilState } from 'recoil';
+import { forceRerender } from "../../Atoms/atom";
 
 const Scontainor = styled.div`
     width: 100%;
@@ -38,20 +41,25 @@ const Sbtn = styled.button`
 
 `
 const NewSpace = ()=>{
+    const {projectNum, workSpaceNum} = useParams();
+    const [Rerender, setRerender] = useRecoilState(forceRerender);
+
+    useEffect(()=>{
+        console.log('rerender');
+    },[Rerender])
     const changeTypeWorkList = ()=>{
         axios({
             url: `http://localhost:1004/changeWorkSpaceType`,
             method: 'put',
             withCredentials : true,
             data:{
-                projectNum: window.location.pathname.split('/')[3],
-                workSpaceNum: window.location.pathname.split('/')[5],
+                projectNum: projectNum,
+                workSpaceNum: workSpaceNum,
                 changeType: 'board',
                 changeTitle: '작업공간',
             }
           }).then((res)=>{
-            window.location.reload();
-            console.log(res);
+            setRerender((prev)=>{if(prev == 1){return 0} else return 1});
         })
     };
 
@@ -61,14 +69,13 @@ const NewSpace = ()=>{
             method: 'put',
             withCredentials : true,
             data:{
-                projectNum: window.location.pathname.split('/')[3],
-                workSpaceNum: window.location.pathname.split('/')[5],
+                projectNum: projectNum,
+                workSpaceNum: workSpaceNum,
                 changeType: 'li',
                 changeTitle: '문서',
             }
           }).then((res)=>{
-            window.location.reload();
-            console.log(res);
+            setRerender((prev)=>{if(prev == 1){return 0} else return 1});
         })
     };
     

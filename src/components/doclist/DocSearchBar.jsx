@@ -1,6 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FaSearch } from 'react-icons/fa'
+import axios from 'axios'
+import { useParams } from 'react-router-dom'
+import { useRecoilState } from 'recoil'
+import { docForceRerender } from '../../Atoms/atom'
 
 const SdocSearchBar = styled.div`
     padding : 8px 10px 10px 6px;
@@ -39,13 +43,26 @@ const Sbutton = styled.button`
 `
 
 function DocSearchBar() {
+  const [docforceRerender, setDocForceRerender] = useRecoilState(docForceRerender);
+  const {workSpaceNum} = useParams()
+  const createDoc = ()=>{
+    axios({
+      url: `http://localhost:1004/createDocument`,
+            method: 'post',
+            data : {
+              workSpaceNum : workSpaceNum,
+            },
+            withCredentials : true,
+    }).then(()=>{setDocForceRerender((prev)=>(prev===1? 0 : 1))});
+  }
+
   return (
     <SdocSearchBar>
       <SinputWrap>
         <Sinput placeholder='검색! @태그검색' type="text" />
         <FaSearch style={{fontSize : '20px', color : 'red', margin : '5px auto'}}/>
       </SinputWrap>
-      <Sbutton>문서 작성</Sbutton>
+      <Sbutton onClick={()=>{createDoc();}}>문서 작성</Sbutton>
     </SdocSearchBar>
   )
 }

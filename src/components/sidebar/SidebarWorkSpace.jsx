@@ -42,9 +42,9 @@ const SidebarWorkSpace = () => {
       url: `http://localhost:1004/readWorkSpaceList/${projectNum}`, // 통신할 웹문서
       method: 'get', // 통신할 방식
       withCredentials : true,
-    }).then((res)=>{
-      let NewArray = res.data.data.map((data, i)=>data.workSpaceNum)
-      setWorkSpaceList(NewArray);
+    }).then((res)=>{setWorkSpaceList([]);return res}).then((res)=>{
+      res.data.data.map((data, i)=>{setWorkSpaceList((prev)=>[...prev, data.workSpaceNum]);})
+      console.log(res);
     })
   }, [forceRerender]);
 

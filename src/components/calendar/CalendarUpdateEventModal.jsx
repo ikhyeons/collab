@@ -96,15 +96,14 @@ function CalendarUpdateEventModal() {
     setEventContent(eventData.content)
   }, [])
   const updateEventData = ()=>{
+    console.log("gd")
     axios({
       url: `http://localhost:1004/changeCalendarEvent`, // 통신할 웹문서
       method: 'put', // 통신할 방식
       data : {
         eventNum : eventData.id,
-        startDate : eventData.start,
-        endDate : eventData.end,
-        eventTitle : eventData.title,
-        eventContent : eventData.content,
+        eventTitle : eventTitle,
+        eventContent : eventContent,
       },
       withCredentials : true,
     })

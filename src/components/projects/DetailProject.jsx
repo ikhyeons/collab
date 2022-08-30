@@ -41,7 +41,7 @@ const DetailProject = () => {
             withCredentials : true,
             method: 'get',
           }).then((res)=>{setProject(res.data.data)});
-    })
+    }, [])
     return(
         <Detaildiv className='gd'>
             {project && project.map((item, i)=>(

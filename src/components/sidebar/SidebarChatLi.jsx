@@ -17,7 +17,11 @@ const Sli = styled.li`
 `
 
 const SdelButton = styled.button`
+`
 
+const Sdiv = styled.div`
+  display: flex;
+  justify-content : flex-start;
 `
 
 function SidebarChatLi({index, id, moveFunction}) {
@@ -80,15 +84,19 @@ function SidebarChatLi({index, id, moveFunction}) {
     };
 
   return (
-    <Link to={`/main/${projectNum}/chat/${chatLi.chatSpaceNum}`} style={{ textDecoration: 'none', color : 'black'}}>
-      <Sli isOver={isOver} ref={node => dragRef(drop(node))}>
-        -{chatLi.name} 
-        <SdelButton onClick={()=>{deleteChat(chatLi.chatSpaceNum)}}>
-          <MdOutlineCancel /> 
-          {/* 전체 채팅이 디폴트로 들어가 있어서 채팅 타입이 디폴트 값이면 삭제 버튼이 랜더링 안되게끔하기 */}
-        </SdelButton>
-      </Sli>
-    </Link>//${i}에서 i는 채팅 번호
+    <>
+    <Sdiv>
+      <Link to={`/main/${projectNum}/chat/${chatLi.chatSpaceNum}`} style={{ textDecoration: 'none', color : 'black'}}>
+        <Sli isOver={isOver} ref={node => dragRef(drop(node))}>
+          -{chatLi.name} 
+        </Sli>
+      </Link>
+      <SdelButton onClick={()=>{deleteChat(chatLi.chatSpaceNum)}}>
+        <MdOutlineCancel /> 
+        {/* 전체 채팅이 디폴트로 들어가 있어서 채팅 타입이 디폴트 값이면 삭제 버튼이 랜더링 안되게끔하기 */}
+      </SdelButton>
+    </Sdiv>
+    </>
   )
 }
 

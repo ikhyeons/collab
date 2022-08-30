@@ -30,13 +30,18 @@ const STemplateMain = styled.div`
     }
 `
 
-const Stitle = styled.div`
+const Stitle = styled.input`
     width : 100%;
     font-size : 40px;
     font-weight : bold;
     margin-bottom : 10px;
     border-bottom : 2px solid black;
+    border-radius : 8px;
     padding : 10px;
+    background : rgba(255, 255, 200, 0.3);
+    :focus{
+        background : rgba(255, 255, 0, 0.1)
+    }
 `
 
 const SsetMain = styled.div`
@@ -72,9 +77,7 @@ function DocTemplateMain() {
     
   return (
     <STemplateMain mouseOnImg={mouseOnImg} >
-        <Stitle>    {/* 제목 */}
-            {'세번째 글 제목'}
-        </Stitle> 
+        <Stitle value={'기본 제목'}></Stitle> 
 
         <SsetMain>
             <Ssets>작성일 : {templateData.makeDate}</Ssets> {/* 작성일 */}

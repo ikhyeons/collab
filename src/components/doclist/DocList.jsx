@@ -1,11 +1,11 @@
 import React, {useState ,useCallback} from 'react'
 import styled, { keyframes } from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { FaSpinner } from 'react-icons/fa'
-
-import { useRecoilValue } from 'recoil'
-import { docList } from '../../Atoms/atom'
-
+import axios from 'axios'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import { docList, docForceRerender } from '../../Atoms/atom'
+import { useEffect } from 'react'
 
 const Sli = styled.li`
     list-style : none;
@@ -27,7 +27,7 @@ const Snum = styled.span`
 
 const Stitle = styled.span`
     position : absolute;
-    width : 44%;
+    width : 50%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -39,8 +39,8 @@ const Stitle = styled.span`
 
 const Swriterwrap = styled.span`
     position : absolute;
-    right : 105px;
-    width : 23%;
+    right : 130px;
+    width : 22%;
     text-align : center;
 `
 
@@ -56,11 +56,17 @@ const Swriter = styled.span`
         background : rgb(235, 0, 235);
     }
 `
+const Sdelbutton = styled.button`
+    position : absolute;
+    width : 5%;
+    right : 100px;
+    min-width : 35px;
+`
 
 const Sdate = styled.span`
     position : absolute;
     right : 0px;
-    width : 21%;
+    width : 20%;
     max-width : 95px;
 `
 const Sul = styled.ul`
@@ -86,15 +92,16 @@ const SloadBox = styled.div`
     text-align : center;
 `
 
+
+
 //회전 애니메이션
 const rotation = keyframes`
   from{
-    transform: rotate(0deg)
+    transform: rotate(0deg);
   }
   to{
-    transform: rotate(360deg)
+    transform: rotate(360deg);
   }
-
 `
 
 //투명도 애니메이션
@@ -126,29 +133,49 @@ const SloadingOpacity = styled.span`
 
 
 function DocList() {
-
-    const doclist = useRecoilValue(docList);
-
+    const {workSpaceNum} = useParams();
+    const [doclist, setDocList] = useRecoilState(docList);
+    const [docforceRerender, setDocForceRerender] = useRecoilState(docForceRerender);
     //현재 스크롤량을 확인하여 맨 밑까지 스크롤 되었는지를 확인하는 스테이트
     const [isBottom, setIsBottom] = useState(0);
-
+    
     const scrollBottom = useCallback((e)=>{ //스크롤 되었을 경우에
         if(e.target.scrollTop + e.target.offsetHeight + 1 === e.currentTarget.scrollHeight){
             //만약 스크롤된 량 + 화면의 높이가 해당 div의 전체 높이일때(맨 아래까지 스크롤 되었을 경우) 
             setIsBottom(1); //isBottom을 1로 변경함.
         }
     })
+    const deleteDoc = (docNum)=>{
+        axios({
+            url: `http://localhost:1004/delDoc`,
+            data : {
+                docNum : docNum,
+            },
+            method: 'delete',
+            withCredentials : true,
+          }).then((res)=>{console.log(res)}).then(()=>{
+            setDocForceRerender((prev)=>prev===0? 1 : 0);
+          })
+    }
 
+    useEffect(()=>{
+        axios({
+            url: `http://localhost:1004/readDocList/${workSpaceNum}`,
+            method: 'get',
+            withCredentials : true,
+          }).then((res)=>{console.log(res); setDocList(res.data.data)});
+    }, [docforceRerender])
     return (
         <Sul onScroll={(e)=>{scrollBottom(e)}}>
             {
                 doclist.map((data)=>{{/* 부모에서 받은 글 리스트를 렌더함. */}
                     return (
-                            <Sli key={data.num}>
-                                <Snum>{data.num}</Snum>
-                                <Link to = {`./${data.num}`}><Stitle num={data.num}>{data.title}</Stitle></Link>
-                                <Swriterwrap><Swriter>{data.writer}</Swriter></Swriterwrap>
-                                <Sdate>{data.makeDate}</Sdate>
+                            <Sli key={data.docNum}>
+                                <Snum>{data.docNum}</Snum>
+                                <Link to = {`./${data.docNum}`}><Stitle num={data.docNum}>{data.docTitle}</Stitle></Link>
+                                <Swriterwrap><Swriter>{data.nickName}</Swriter></Swriterwrap>
+                                <Sdelbutton onClick={()=>{deleteDoc(data.docNum)}}>삭제</Sdelbutton>
+                                <Sdate>{data.makeDate.slice(0, 10)}</Sdate>
                             </Sli>
                         )
                     }

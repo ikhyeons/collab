@@ -16,13 +16,13 @@ const Snum = styled.span`
 
 const Stitle = styled.span`
     position : absolute;
-    width : 35%;
+    width : 40%;
     text-align : center;
 `
 
 const Swriter = styled.span`
     position : absolute;
-    right : 104px;
+    right : 130px;
     width : 21%;
     text-align : center;
     border-radius : 5px;

@@ -74,6 +74,20 @@ const CalendarMain = () => {
         )})
     }
 
+    const updateEventDate = (id, start, end)=>{
+        //startDate가 ''이면 확장/축소, ''이 아니면 이동
+        axios({
+            url: `http://localhost:1004/changeCalendarEventDate`, // 통신할 웹문서
+            method: 'put', // 통신할 방식
+            withCredentials : true,
+            data : {
+                eventNum : id,
+                startDate : start,
+                endDate : end,
+            }
+          })
+    }
+
   return (
     <FullCalendarWrap>
         <FullCalendar
@@ -100,12 +114,12 @@ const CalendarMain = () => {
         eventDrop = {(info)=>{ // 이벤트 드래그 핸들러, 이벤트가 끝났을 때 변경 날자만큼 데이터를 이동시킴.
             let changeStart = changeEventDate(info.oldEvent._instance.range.start, info.delta.days);
             let changeEnd = changeEventDate(info.oldEvent._instance.range.end, info.delta.days);
-            console.log(changeStart, changeEnd);
+            updateEventDate(info.event._def.publicId, changeStart, changeEnd)
         }}
 
         eventResize = {(info)=>{ //이벤트 기간 확장 및 축소 리사이징
             let changeEnd = changeEventDate(info.oldEvent._instance.range.end, info.endDelta.days);
-            console.log(changeEnd);
+            updateEventDate(info.event._def.publicId, '', changeEnd)
         }}
 
         ></FullCalendar>

@@ -6,6 +6,7 @@ import {sidebarChat} from '../../Atoms/atom'
 import SidebarChatLi from './SidebarChatLi'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
+import { forceRerender } from '../../Atoms/atom'
 
 const Stitle = styled.div`
   
@@ -38,6 +39,8 @@ const SidebarChat = () => {
   //채팅 리스트
   const [chatList, setChatList] = useRecoilState(sidebarChat)
   const {projectNum} = useParams();
+  const [Rerender, setRerender] = useRecoilState(forceRerender);
+
   useEffect(()=>{
     axios({
       url: `http://localhost:1004/readChatSpaceList/${projectNum}`, // 통신할 웹문서
@@ -48,10 +51,21 @@ const SidebarChat = () => {
       setChatList(NewArray);
       console.log(chatList);
     })
-  }, []);
-  const addChat = () => { //채팅 리스트 추가하는 함수
-    setChatList((prev)=>{let newList = [...prev, prev.length,]; return newList;})
-    // addchat 부분 머지하면서 날아가서 다시 해야합니다 ~~ 
+  }, [Rerender]);
+
+  const addChat = () => {
+    console.log(projectNum);
+    axios({
+      url: `http://localhost:1004/createChatSpace`,
+      method: 'post',
+      withCredentials: true,
+      data: {
+        projectNum: projectNum,
+      }
+    }).then((res)=>{
+      setRerender((prev)=>{if(prev==1){return 0} else return 1});
+      console.log(res);
+    })
   }
 
   const accordion = ()=>{ //클릭했을 경우 숨겨져 있으면 보이게하고, 보이는 상태이면 숨기게함.

@@ -29,7 +29,6 @@ export const sidebarChatLi = atomFamily({
   key : 'sidebar/sidebarChatSpaceInner',
     default : (data)=>({
       num : data.num,
-      name : data.name,
     }
   )
 })

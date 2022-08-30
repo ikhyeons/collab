@@ -6,6 +6,7 @@ import { useRecoilState, useResetRecoilState } from 'recoil'
 import { sidebarWorkSpaceLi, sidebarWorkSpace } from '../../Atoms/atom'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
+import { MdOutlineCancel } from 'react-icons/md'
 
 const Sli = styled.li`
   width : 100%;
@@ -15,6 +16,11 @@ const Sli = styled.li`
     cursor : pointer;
   }
 `
+
+const SdelButton = styled.button`
+
+`
+
 
 function SidebarWorkSpaceLi({index, id, moveFunction}) {
 
@@ -61,7 +67,9 @@ function SidebarWorkSpaceLi({index, id, moveFunction}) {
 
   return (
     <Link to={`/main/${projectNum}/workspace/${workSpaceLi.type}/${workSpaceLi.id}`} style={{ textDecoration: 'none', color : 'black'}}>
-      <Sli isOver={isOver} ref={node => dragRef(drop(node))} >-{workSpaceLi.spaceTitle}</Sli>
+      <Sli isOver={isOver} ref={node => dragRef(drop(node))} >
+        -{workSpaceLi.spaceTitle}
+        </Sli>
     </Link>
   )
 }

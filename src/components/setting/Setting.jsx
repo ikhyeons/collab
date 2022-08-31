@@ -1,6 +1,9 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import Toggle from './Toggle'
+import { sidebarWorkSpace } from '../../Atoms/atom'
+import { useRecoilState } from 'recoil'
+import SetWorkSpaceLi from './SetWorkSpaceLi'
 
 const SSettingWrap = styled.div`
     background : lightyellow;
@@ -9,7 +12,7 @@ const SSettingWrap = styled.div`
     padding : 5px;
 `
 
-const Sul = styled.ul`
+const Sul = styled.ul`-
   margin : 5px;
 `
 const Sli = styled.li`
@@ -73,7 +76,14 @@ const Sbutton = styled.button`
   border-radius : 15px;
   transform : translate(8px, 2px);
 `
+
+const SworkListUl = styled.ul`
+
+`
+const SworkListLi = styled.li`
+`
 function Setting() {
+  const [workSpaceList] = useRecoilState(sidebarWorkSpace);
 
   const [participant, setParticipant] = useState([
     {
@@ -100,6 +110,13 @@ function Setting() {
         <SLeaveBtn>팀 이탈하기</SLeaveBtn> 
         <br />
         <SDelBtn>프로젝트 제거</SDelBtn>
+        <br />
+        <Sspan>워크스페이스 목록</Sspan>
+        <SworkListUl>
+          {workSpaceList.map((data, i)=>{
+            return <SetWorkSpaceLi key={i} index={i} id={data}></SetWorkSpaceLi>
+          })}
+        </SworkListUl>
 
     </SSettingWrap>
   )

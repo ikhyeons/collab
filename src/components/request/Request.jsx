@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Table from "./Table";
 import {useRecoilState} from 'recoil';
@@ -69,7 +69,14 @@ const RSelWeek = styled.select`
 const ResText = styled.textarea`
     width: 100%;
     height: 200px;
+    resize:none;
 `;
+
+const ResTitle = styled.textarea`
+    width: 100%;
+    height: 40px;
+    resize:none;
+`
 
 const Receive = styled.div`
     background-color:${ (props) => props.alres === 1 ? 'lightgreen': 'red'};
@@ -98,11 +105,19 @@ const Request = () =>{
     const [request, setRequest] = useState(0);
     const [response, setResponse] = useState(0);
     const [resMemo, setResMemo] = useState('');
+    const [resTitle, setResTitle] = useState('');
     const [alres, setAlres] = useState(0);
     const [tableSet] = useRecoilState(selectedTd);
+    
+    const [selectedMonth, setSelectedMonth] = useState(0);
+    const [selectedWeek, setSelectedWeek] = useState(0);
 
     const inputResMemo = (e)=>{
         setResMemo(e.target.value);
+    }
+
+    const inputResTitle = (e)=>{
+        setResTitle(e.target.value);
     }
 
     const timeResponse = ()=>{
@@ -124,6 +139,16 @@ const Request = () =>{
         }
     }
 
+    useEffect(()=>{
+        console.log(selectedMonth, selectedWeek, resMemo);
+    },[selectedMonth, selectedWeek, resMemo])
+
+    const changeMonth = (e)=>{
+        setSelectedMonth(e.target.value);
+    }
+    const changeWeek = (e)=>{
+        setSelectedWeek(e.target.value);
+    }
 
     return(
         <RequestDiv>    
@@ -153,8 +178,13 @@ const Request = () =>{
                 request === 1 && response === 0 &&
                 <Rdiv>
                     <Sb>요청하기</Sb>
+                    <b>제목 입력</b>
+                    <ResTitle type="text" placeholder="제목을 입력하세요"
+                    value={resTitle} onChange={(e)=>{
+                        inputResTitle(e);
+                    }}/>
                     <b>월 선택</b>
-                    <RSelMon type='number'>
+                    <RSelMon type='number' onChange={(e)=>{changeMonth(e)}}>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -169,27 +199,28 @@ const Request = () =>{
                         <option value="12">12</option>
                     </RSelMon>
                     <b>주차 선택</b>
-                    <RSelWeek type='number'>
-                        <option value="1">1</option>
+                    <RSelWeek type='number' onChange={(e)=>{changeWeek(e)}}> 
+                        <option value="1">1</option> 
                         <option value="2">2</option>
                         <option value="3">3</option>
                         <option value="4">4</option>
-                        <option value="5">5</option>
+                        <option value="5">5</option> 
                     </RSelWeek>
-                    <ResText type="text" placeholder="내용을 입력하세요." 
+
+                    <ResText type="text" placeholder="내용을 입력하세요."  // 텍스트 입력 공간
                     value={resMemo} onChange={(e)=>{
                         inputResMemo(e);
                     }}/>
+
                     <RBtn type="submit" onClick={(e)=>{
                         e.preventDefault()
                         setRequest(0);
-                    }}
-                    >요청하기</RBtn>
+                    }}>요청하기</RBtn>
+
                     <Sbtn type="submit" onClick={(e)=>{
                         e.preventDefault()
                         setRequest(0);
-                    }}
-                    >취소</Sbtn>
+                    }}>취소</Sbtn>
                 </Rdiv>
             }
             {

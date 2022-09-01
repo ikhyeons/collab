@@ -59,19 +59,23 @@ const {readRequestList} = require('./Read/readRequestList')
 const {readWorkSpaceList} = require('./Read/readWorkSpaceList')
 const {readChatSpaceList} = require('./Read/readChatSpaceList')
 const {readDocList} = require('./Read/readDocList')
-const {readDocInfo} = require('./Read/readDocInfo')
+const {readDocMakeDate} = require('./Read/readDocMakeDate')
+const {readDocTitle} = require('./Read/readDocTitle')
 const {readEventList} = require('./Read/readEventList')
 const {readEventInfo} = require('./Read/readEventInfo')
 const {readMyInfo} = require('./Read/readMyInfo')
 const {readWorkSpaceInfo} = require('./Read/readWorkSpaceInfo')
 const {readChatSpaceInfo} = require('./Read/readChatSpaceInfo')
+const {readProjectCollaborator} = require('./Read/readProjectCollaborator')
+const {readDocParticipant} = require('./Read/readDocParticipant')
+const {readDocLicenser} = require('./Read/readDocLicenser')
 
 const {changeMyProjectOrder} = require('./Update/changeMyProjectOrder')
 const {changeWorkSpaceOrder} = require('./Update/changeWorkSpaceOrder')
 const {changeChatSpaceOrder} = require('./Update/changeChatSpaceOrder')
 const {changeReply} = require('./Update/changeReply')
 const {changeDoctype} = require('./Update/changeDoctype')
-const {changeDocInfo} = require('./Update/changeDocInfo')
+const {changeDocTitle} = require('./Update/changeDocTitle')
 const {changeParagraph} = require('./Update/changeParagraph')
 const {changeCalendarEventDate} = require('./Update/chageCalendarEventDate')
 
@@ -151,9 +155,6 @@ app.get('/readChatSpaceList/:projectNum', (req, res)=>{
 app.get('/readDocList/:workSpaceNum', (req, res)=>{
   readDocList(req, res);
 })
-app.get('/readDocInfo', (req, res)=>{
-  readDocInfo(req, res);
-})
 app.get('/readEventList/:projectNum', (req, res)=>{
   readEventList(req, res);
 })
@@ -175,6 +176,23 @@ app.get('/readWorkSpaceInfo/:workSpaceNum', (req, res)=>{
 app.get('/readChatSpaceInfo/:chatSpaceNum', (req, res)=>{
   readChatSpaceInfo(req, res);
 })
+app.get('/readProjectCollaborator/:projectNum', (req, res)=>{
+  readProjectCollaborator(req, res)
+})
+app.get('/readDocParticipant/:docNum', (req, res)=>{
+  readDocParticipant(req, res)
+})
+app.get('/readDocMakeDate/:docNum', (req, res)=>{
+  readDocMakeDate(req, res);
+})
+app.get('/readDocTitle/:docNum', (req, res)=>{
+  readDocTitle(req, res);
+})
+
+app.get('/readDocLicenser/:docNum', (req, res)=>{
+  readDocLicenser(req, res)
+})
+
 
 //------------------------------------------Update라우팅
 app.put('/changeMyProjectOrder', (req, res)=>{
@@ -195,8 +213,8 @@ app.put('/changeDoctype', (req, res)=>{
 app.put('/changeParagraph', (req, res)=>{
   changeParagraph(req, res);
 })
-app.put('/changeDocInfo', (req, res)=>{
-  changeDocInfo(req, res);
+app.put('/changeDocTitle', (req, res)=>{
+  changeDocTitle(req, res);
 })
 app.put('/changeResponse', (req, res)=>{
   changeResponse(req, res);

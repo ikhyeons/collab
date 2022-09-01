@@ -2,12 +2,12 @@ const {mysqlKey}  = require('../mysqlKey');
 const mysql = require('mysql');
 const con = mysql.createConnection(mysqlKey);
 
-exports.readDocInfo = (req, res) => {
-    const {docNum} = req.body;
+exports.readProjectCollaborator = (req, res) => {
+    const projectNum = req.params.projectNum;
     if(req.session.logined === true){
-        con.query('select * from document where docNum = ?', [docNum], (error, rows, fields)=> {
+        con.query('SELECT *, user.nickName FROM collaborator LEFT JOIN user ON collaborator.userNum = user.userNum where projectNum = ?', [projectNum], (error, rows, fields)=> {
             if(error) throw error;
-            res.send({success : 0, data : rows[0]});
+            res.send({success : 0, data : rows});
         })
     }
     else {

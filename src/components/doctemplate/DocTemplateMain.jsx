@@ -1,11 +1,12 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 import ParagraphList from './ParagraphList'
 import DocReplyMain from './DocReplyMain'
 import Participant from './Participant'
 import Licenser from './Licenser'
 import { useRecoilState } from 'recoil'
-import { templateMainData } from '../../Atoms/atom'
+import { templateMainData, currentDocId, docForceRerender } from '../../Atoms/atom'
+import axios from 'axios'
 
 const STemplateMain = styled.div`
     
@@ -73,11 +74,45 @@ const Ssets = styled.div`
 
 function DocTemplateMain() {
     const [templateData, setTemplateData] = useRecoilState(templateMainData);
+    const [docId, setDocId] = useRecoilState(currentDocId)
     const [mouseOnImg, setMouseOnImg] = useState(0);
+    const [title, setTitle] = useState('')
+    const [docforceRerender, setDocForceRerender] = useRecoilState(docForceRerender);
+    
+    useEffect(()=>{
+        axios({
+            url: `http://localhost:1004/readDocTitle/${docId}`,
+            method: 'get',
+            withCredentials : true,
+          }).then(res=>{setTitle(res.data.data.docTitle)});
+          axios({
+            url: `http://localhost:1004/readDocMakeDate/${docId}`,
+            method: 'get',
+            withCredentials : true,
+          }).then(res=>{setTemplateData((prev)=>{
+            let newData = {...prev, makeDate : res.data.data.makeDate.slice(0, 10)}
+            return newData
+          })});
+    }, [docId])
+
+    useEffect(()=>{
+        axios({
+            url: `http://localhost:1004/changeDocTitle`,
+            method: 'put',
+            data : {
+                docNum : docId,
+                docTitle : title,
+            },
+            withCredentials : true,
+          }).then(()=>{setDocForceRerender((prev)=>prev===0? 1 : 0);})
+    }, [title])
+
     
   return (
     <STemplateMain mouseOnImg={mouseOnImg} >
-        <Stitle value={'기본 제목'}></Stitle> 
+        <Stitle onChange={async (e)=>{
+            setTitle(e.target.value);
+        }} value={title}></Stitle> 
 
         <SsetMain>
             <Ssets>작성일 : {templateData.makeDate}</Ssets> {/* 작성일 */}

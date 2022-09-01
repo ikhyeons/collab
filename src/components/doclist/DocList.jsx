@@ -1,10 +1,10 @@
 import React, {useState ,useCallback} from 'react'
 import styled, { keyframes } from 'styled-components'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { FaSpinner } from 'react-icons/fa'
 import axios from 'axios'
-import { useRecoilState, useRecoilValue } from 'recoil'
-import { docList, docForceRerender } from '../../Atoms/atom'
+import { useRecoilState } from 'recoil'
+import { docList, docForceRerender, currentDocId, docTitle } from '../../Atoms/atom'
 import { useEffect } from 'react'
 
 const Sli = styled.li`
@@ -32,6 +32,7 @@ const Stitle = styled.span`
     text-overflow: ellipsis;
     white-space: nowrap;
     color : black;
+    cursor : pointer;
     :hover{
         text-decoration : underline;
     }
@@ -136,6 +137,7 @@ function DocList() {
     const {workSpaceNum} = useParams();
     const [doclist, setDocList] = useRecoilState(docList);
     const [docforceRerender, setDocForceRerender] = useRecoilState(docForceRerender);
+    const [docId, setDocId] = useRecoilState(currentDocId);
     //현재 스크롤량을 확인하여 맨 밑까지 스크롤 되었는지를 확인하는 스테이트
     const [isBottom, setIsBottom] = useState(0);
     
@@ -153,7 +155,7 @@ function DocList() {
             },
             method: 'delete',
             withCredentials : true,
-          }).then((res)=>{console.log(res)}).then(()=>{
+          }).then(()=>{
             setDocForceRerender((prev)=>prev===0? 1 : 0);
           })
     }
@@ -163,7 +165,7 @@ function DocList() {
             url: `http://localhost:1004/readDocList/${workSpaceNum}`,
             method: 'get',
             withCredentials : true,
-          }).then((res)=>{console.log(res); setDocList(res.data.data)});
+          }).then((res)=>{setDocList(res.data.data)});
     }, [docforceRerender])
     return (
         <Sul onScroll={(e)=>{scrollBottom(e)}}>
@@ -172,7 +174,7 @@ function DocList() {
                     return (
                             <Sli key={data.docNum}>
                                 <Snum>{data.docNum}</Snum>
-                                <Link to = {`./${data.docNum}`}><Stitle num={data.docNum}>{data.docTitle}</Stitle></Link>
+                                <Stitle onClick={()=>{setDocId(data.docNum);}} num={data.docNum}>&nbsp;{data.docTitle}</Stitle>
                                 <Swriterwrap><Swriter>{data.nickName}</Swriter></Swriterwrap>
                                 <Sdelbutton onClick={()=>{deleteDoc(data.docNum)}}>삭제</Sdelbutton>
                                 <Sdate>{data.makeDate.slice(0, 10)}</Sdate>

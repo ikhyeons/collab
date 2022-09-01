@@ -56,16 +56,12 @@ export const calendarEventData = atom({
 export const userNamePool = atom({
   key : 'template/licensorNamePool',
   default : 
-    [
-      {
-          id : '성익현',
-          display : '@성익현',
-      },
-      {
-          id : '강도경',
-          display : '@강도경',
-      },
-  ]
+    []
+})
+
+export const currentDocId = atom({
+  key : 'template/selectedDocId',
+  default : 1,
 })
 
 export const templateMainData = atom({
@@ -73,13 +69,17 @@ export const templateMainData = atom({
   default : {
   id : 3,
   name : '세번째 글 제목',
-  makeDate : '2022-07-14',
+  makeDate : '',
   modifyDate : '2022-07-15',
   maker : '성익현',
-  participant : ['강도경', '성익현'],
-  licensor : ['강도경', ],
+  participant : [],
+  licenser : [],
 }})
 
+export const templateForceRerender = atom({
+  key : 'template/templateForceRerender',
+  default : 0,
+})
 export const templateParagraphId = atom({
   key : 'template/templateParagraphId',
   default : [
@@ -162,6 +162,11 @@ export const docList = atom({
 export const docForceRerender = atom({
   key : 'docForceRerender',
   default : 0
+})
+
+export const docPage = atom({
+  key : 'doclist/docPage',
+  default : 1,
 })
 
 //-------------------------------채팅

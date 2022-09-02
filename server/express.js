@@ -139,7 +139,7 @@ app.post('/createDocParticipant', (req, res)=>{
 app.get('/readMyProjectList', (req, res)=>{
   readMyProjectList(req, res);
 })
-app.get('/readRequestList', (req, res)=>{
+app.get('/readRequestList/:projectNum', (req, res)=>{
   readRequestList(req, res);
 })
 app.get('/readWorkSpaceList/:projectNum', (req, res)=>{

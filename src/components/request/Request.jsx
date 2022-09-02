@@ -4,6 +4,8 @@ import Table from "./Table";
 import {useRecoilState} from 'recoil';
 import { selectedTd } from "../../Atoms/atom";
 import axios from "axios";
+import { useParams } from "react-router-dom";
+import ResponseList from "./ResponseList";
 
 const RequestDiv = styled.div`
     width: 100%;
@@ -78,13 +80,6 @@ const ResTitle = styled.textarea`
     resize:none;
 `
 
-const Receive = styled.div`
-    background-color:${ (props) => props.alres === 1 ? 'lightgreen': 'red'};
-    color:${ (props) => props.alres === 1 ? 'black': 'white'};
-    width: 100%;
-    border-radius: 10px;
-    margin-bottom:10px;
-`;
 
 const Sbtn = styled.button`
     width: 60px;
@@ -106,11 +101,13 @@ const Request = () =>{
     const [response, setResponse] = useState(0);
     const [resMemo, setResMemo] = useState('');
     const [resTitle, setResTitle] = useState('');
-    const [alres, setAlres] = useState(0);
     const [tableSet] = useRecoilState(selectedTd);
     
     const [selectedMonth, setSelectedMonth] = useState(0);
     const [selectedWeek, setSelectedWeek] = useState(0);
+    const [receiveRequest, setReceiveRequest] = useState([]);
+
+    const {projectNum} = useParams();
 
     const inputResMemo = (e)=>{
         setResMemo(e.target.value);
@@ -120,8 +117,9 @@ const Request = () =>{
         setResTitle(e.target.value);
     }
 
+    // 테이블 시간표 보내는 함수
     const timeResponse = ()=>{
-        if(tableSet != ''){
+        if(tableSet !== ''){
             console.log('timeResponse');
             axios({
                 method: 'post',
@@ -139,9 +137,17 @@ const Request = () =>{
         }
     }
 
+    //받은 요청 불러오는 함수
     useEffect(()=>{
-        console.log(selectedMonth, selectedWeek, resMemo);
-    },[selectedMonth, selectedWeek, resMemo])
+        axios({
+            url: `http://localhost:1004/readRequestList/${projectNum}`,
+            method: 'get',
+            withCredentials: true,
+        }).then((res)=>{
+            console.log(res);
+            setReceiveRequest(res.data.data);
+        })
+    },[])
 
     const changeMonth = (e)=>{
         setSelectedMonth(e.target.value);
@@ -150,23 +156,34 @@ const Request = () =>{
         setSelectedWeek(e.target.value);
     }
 
+    //요청 보내는 함수
+    const createTimeRequest = () =>{
+        axios({
+            url: `http://localhost:1004/createTimeRequest`,
+            method: 'post',
+            withCredentials: true,
+            data:{
+                month: selectedMonth,
+                week: selectedWeek,
+                reqTitle: resTitle,
+                reqContent: resMemo,
+                projectNum: projectNum,
+            }
+        }).then((res)=>{
+            console.log(res);
+        })
+    }
+
     return(
         <RequestDiv>    
             {
                 request === 0 && response === 0 &&
                 <Rdiv>
                     <Sb>받은 요청</Sb>
-                    <Receive alres ={alres} onClick={(e)=>{
-                        e.preventDefault();
-                        setResponse(1);
-                        setAlres(1);
-                    }}>
-                        <div>
-                            6월 3째주 비는 시간 보내주세요
-                            <br/>
-                            @강도경
-                        </div>
-                    </Receive>
+                    {receiveRequest.map((data, i)=>{
+                        return <ResponseList key={i} data={data} setResponse={setResponse}/>
+                    })}
+                    <button onClick={()=>{console.log(receiveRequest)}}>gd</button>
                     <RBtn type="submit" onClick={(e)=>{
                         e.preventDefault()
                         setRequest(1);
@@ -215,6 +232,7 @@ const Request = () =>{
                     <RBtn type="submit" onClick={(e)=>{
                         e.preventDefault()
                         setRequest(0);
+                        createTimeRequest();
                     }}>요청하기</RBtn>
 
                     <Sbtn type="submit" onClick={(e)=>{
@@ -230,9 +248,9 @@ const Request = () =>{
                     <Table 
                     style={{width: '100%', marginLeft:'10px'}}/>
                     <button onClick={(e)=>{
-                        e.preventDefault();
-                        setResponse(0);
-                        timeResponse();
+                            e.preventDefault();
+                            setResponse(0);
+                            timeResponse();
                     }}>확인</button>
                 </Resdiv>
             }

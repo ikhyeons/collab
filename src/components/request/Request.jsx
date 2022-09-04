@@ -5,7 +5,7 @@ import {useRecoilState} from 'recoil';
 import { selectedTd } from "../../Atoms/atom";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import ResponseList from "./ResponseList";
+import ResponseList from "./ResponseList"
 
 const RequestDiv = styled.div`
     width: 100%;
@@ -180,9 +180,11 @@ const Request = () =>{
                 request === 0 && response === 0 &&
                 <Rdiv>
                     <Sb>받은 요청</Sb>
-                    {receiveRequest.map((data, i)=>{
-                        return <ResponseList key={i} data={data} setResponse={setResponse}/>
-                    })}
+                    <ul>
+                        {receiveRequest.map((data, i)=>{
+                            return (<ResponseList key={i} data={data} setResponse={setResponse} />)
+                        })}
+                    </ul>
                     <button onClick={()=>{console.log(receiveRequest)}}>gd</button>
                     <RBtn type="submit" onClick={(e)=>{
                         e.preventDefault()

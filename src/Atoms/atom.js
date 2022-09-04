@@ -280,4 +280,9 @@ export const forceRerender = atom({
   default: 0,
 })
 
+export const currentReqId = atom({
+  key: 'request/selectedReqId',
+  default: 0,
+})
+
 //

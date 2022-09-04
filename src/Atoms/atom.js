@@ -61,7 +61,7 @@ export const userNamePool = atom({
 
 export const currentDocId = atom({
   key : 'template/selectedDocId',
-  default : 1,
+  default : 0,
 })
 
 export const templateMainData = atom({

@@ -96,6 +96,15 @@ function Licenser() {
                         newData.licenser = newData.licenser.filter((fdata)=>!(fdata.id===data.id))
                         return newData
                     })
+                axios({
+                    url: `http://localhost:1004/delDocLicenser`,
+                    method: 'delete',
+                    data : {
+                        docNum : docNum,
+                        licenserNum : data.pid,
+                    },
+                    withCredentials : true,
+                })
                 }}
             >X</Sx></Sname>
         })}</Licensers>

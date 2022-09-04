@@ -92,6 +92,16 @@ function Participant() {
                         newData.participant = newData.participant.filter((fdata)=>!(fdata.id===data.id))
                         return newData
                     })
+                axios({
+                    url: `http://localhost:1004/delDocParticipant`,
+                    method: 'delete',
+                    data : {
+                        docNum : docNum,
+                        particiNum : data.pid,
+                    },
+                    withCredentials : true,
+                })
+                    
                 }}
                 >X</Sx></Sname>
             })}</Participants>

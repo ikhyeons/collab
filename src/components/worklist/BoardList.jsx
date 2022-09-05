@@ -4,6 +4,8 @@ import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import InnerList from "./InnerList";
 import { listStateId, listState } from "../../Atoms/atom";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const Sinput = styled.input`
     width:300px;
@@ -51,21 +53,23 @@ const BoardList = (props) =>{
     const { i, data, index } = props;
     const [listName, setListName] = useState("");
     const [addButton, setAddButton] = useState(0);
-    const [list, setList] = useRecoilState(listStateId);
+    const [list, setList] = useState([]);
+    const {workSpaceNum} = useParams();
 
-    const addList= (i)=>{
-        setList((prev)=>{
-            let newList = [
-                ...prev,
-            ]
-            if(listName){
-                newList.push({id: list.at(-1).id + 1, bnum: index})
-            }else{
-                return newList;
+    //   *** 현재 작동안됨 ***
+    const addList= ()=>{
+        console.log(workSpaceNum);
+        axios({
+            url: `http://localhost:1004/createBoard`,
+            method:'post',
+            withCredentials: true,
+            data:{
+                workspaceNum:workSpaceNum,
             }
-            return newList;
-        });
-        setListName('');
+        }).then((res)=>{
+            console.log(res);
+            setList(res.data.data)
+        })
         setAddButton(0);
     };
 
@@ -86,23 +90,7 @@ const BoardList = (props) =>{
     const clickInputOutside = e =>{
         if (addButton && !inputRef.current.contains(e.target)){
             setAddButton(0);
-            if(listName===''){
-                setList((prev)=>{
-                    console.log('gd');
-                    console.log(list.at(-1));
-                    let newList = [...prev];
-                    newList.push({id: list.at(-1).id + 1, bnum: index});
-                    return newList;
-                });
-            } else {
-                setList((prev)=>{
-                    console.log('gd');
-                    let newList = [...prev];
-                    newList.push({id: list.at(-1).id + 1, bnum: index});
-                    return newList;
-                });
-            }
-            
+            addList();
             setListName('');
         }
     }

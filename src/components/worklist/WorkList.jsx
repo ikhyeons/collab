@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import styled from 'styled-components';
-import { boardState, listState } from "../../Atoms/atom";
-import { useRecoilState } from "recoil";
 import BoardList from "./BoardList";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { useEffect } from "react";
 
 
 const Wnav = styled.nav`
@@ -49,23 +50,32 @@ const Sbutton = styled.button`
 const WorkList = ()=>{
     const [boardClicked, setBoardClicked] = useState(0);
     const [boardName, setBoardName] = useState('');
-    const [board, setBoard] = useRecoilState(boardState)
+    const [board, setBoard] = useState([]);
+    const {workSpaceNum} = useParams();
    
     const inputBoard= (e)=>{
         setBoardName(e.target.value)
     };
 
+    useEffect(()=>{
+        axios({
+            url: `http://localhost:1004/readBoard/${workspaceNum}`,
+            method:'get',
+            withCredentials: true,
+        })
+    }, [])
+
     const addBoard = () =>{
-        setBoard((prev) =>{
-            let newBoard = [
-                ...prev,
-                {
-                    bnum: prev.length+1,
-                    bname: boardName,
-                },
-            ]
-            console.log(newBoard);
-            return newBoard;
+        console.log(board);
+        axios({
+            url: `http://localhost:1004/createBoard`,
+            method:'post',
+            withCredentials: true,
+            data:{
+                workspaceNum:workSpaceNum,
+            }
+        }).then((res)=>{
+            console.log(res);
         })
     };
     

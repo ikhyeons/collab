@@ -1,6 +1,4 @@
 import React from "react";
-import { useRecoilState } from "recoil";
-import { listState } from "../../Atoms/atom";
 import styled from "styled-components";
 
 
@@ -22,10 +20,10 @@ const Slist = styled.div`
 `
 
 const InnerList = (props) =>{
-    const [listStatef, setListStatef] = useRecoilState(listState(props.data));
+    const { data } = props;
 
     return(
-        <Slist>{listStatef.contents}</Slist>
+        <Slist>{data.contents}</Slist>
     )
 }
 

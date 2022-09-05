@@ -85,6 +85,7 @@ const {delEvent} = require('./Delete/delEvent')
 const {delDocParticipant} = require('./Delete/delDocParticipant')
 const {delDocLicenser} = require('./Delete/delLicenser');
 const { changeWorkSpaceType } = require('./Update/changeWorkSpaceType.js');
+const { createBoard } = require('./Create/createBoard.js');
 //------------------------------------------session라우팅
 app.post('/login', (req, res)=>{
     login(req, res);
@@ -134,6 +135,9 @@ app.post('/createDocLicenser', (req, res)=>{
 })
 app.post('/createDocParticipant', (req, res)=>{
   createDocParticipant(req, res);
+})
+app.post('/createBoard', (req, res)=>{
+  createBoard(req, res);
 })
 //------------------------------------------Read라우팅
 app.get('/readMyProjectList', (req, res)=>{

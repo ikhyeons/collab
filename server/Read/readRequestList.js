@@ -7,7 +7,7 @@ exports.readRequestList = (req, res) => {
     if(req.session.logined === true){
         con.query('select * from timeRequest where projectNum = ? and del = 0', [projectNum], (error, rows, fields)=> {
             if(error) throw error;
-            res.send({success : 0, data : rows});
+            res.send({success : 0, data : rows, user : req.session.sid});
         })
     }
     else {

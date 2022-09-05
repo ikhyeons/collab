@@ -8,7 +8,8 @@ exports.createProject = (req, res) => {
             if(error) throw error;
             con.query('SELECT COUNT(*) FROM project', (error, rows1, fields)=> {
                 if(error) throw error;
-                con.query('insert into collaborator values(default, ?, ?, default, 1, default)', [rows1[0]['COUNT(*)'], req.session.sid], (error, rows, fields)=> {
+                console.log(rows1[0]['COUNT(*)'], req.session.sid);
+                con.query('insert into collaborator values(default, ?, ?, default, 1)', [rows1[0]['COUNT(*)'], req.session.sid], (error, rows, fields)=> {
                     if(error) throw error;
                     res.send({success : 0});
                 })

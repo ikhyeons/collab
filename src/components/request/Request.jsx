@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Table from "./Table";
 import {useRecoilState} from 'recoil';
-import { selectedTd } from "../../Atoms/atom";
+import { currentReqId, selectedTd } from "../../Atoms/atom";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import ResponseList from "./ResponseList"
@@ -102,6 +102,7 @@ const Request = () =>{
     const [resMemo, setResMemo] = useState('');
     const [resTitle, setResTitle] = useState('');
     const [tableSet] = useRecoilState(selectedTd);
+    const [reqId] = useRecoilState(currentReqId);
     
     const [selectedMonth, setSelectedMonth] = useState(0);
     const [selectedWeek, setSelectedWeek] = useState(0);
@@ -126,7 +127,7 @@ const Request = () =>{
                 url: 'http://localhost:1004/addTimeResponse',
                 withCredentials : true,
                 data: {
-                    reqNum: 0,
+                    reqNum: reqId,
                     innerData: tableSet,
                 }
             }).then((res)=>{
@@ -182,10 +183,9 @@ const Request = () =>{
                     <Sb>받은 요청</Sb>
                     <ul>
                         {receiveRequest.map((data, i)=>{
-                            return (<ResponseList key={i} data={data} setResponse={setResponse} />)
+                            return (<ResponseList key={i} data={data} setResponse={setResponse} reqId={data.reqNum} />)
                         })}
                     </ul>
-                    <button onClick={()=>{console.log(receiveRequest)}}>gd</button>
                     <RBtn type="submit" onClick={(e)=>{
                         e.preventDefault()
                         setRequest(1);

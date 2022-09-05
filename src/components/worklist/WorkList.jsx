@@ -59,7 +59,7 @@ const WorkList = ()=>{
 
     useEffect(()=>{
         axios({
-            url: `http://localhost:1004/readBoard/${workspaceNum}`,
+            url: `http://localhost:1004/readBoard/${workSpaceNum}`,
             method:'get',
             withCredentials: true,
         })

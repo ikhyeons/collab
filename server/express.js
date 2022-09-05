@@ -86,6 +86,7 @@ const {delDocParticipant} = require('./Delete/delDocParticipant')
 const {delDocLicenser} = require('./Delete/delLicenser');
 const { changeWorkSpaceType } = require('./Update/changeWorkSpaceType.js');
 const { createBoard } = require('./Create/createBoard.js');
+const { readBoard } = require('./Read/readBoard.js');
 //------------------------------------------session라우팅
 app.post('/login', (req, res)=>{
     login(req, res);
@@ -178,6 +179,9 @@ app.get('/readWorkSpaceInfo/:workSpaceNum', (req, res)=>{
 })
 app.get('/readChatSpaceInfo/:chatSpaceNum', (req, res)=>{
   readChatSpaceInfo(req, res);
+})
+app.get('/readBoard/:workSpaceNum', (req, res)=>{
+  readBoard(req, res);
 })
 
 //------------------------------------------Update라우팅

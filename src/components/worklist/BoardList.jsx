@@ -1,9 +1,7 @@
 import React from "react";
 import { useState, useRef, useEffect } from "react";
-import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import InnerList from "./InnerList";
-import { listStateId, listState } from "../../Atoms/atom";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 

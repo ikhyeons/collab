@@ -53,12 +53,10 @@ const NewSpace = ()=>{
             method: 'put',
             withCredentials : true,
             data:{
-                projectNum: projectNum,
                 workSpaceNum: workSpaceNum,
                 changeType: 'board',
-                changeTitle: '작업공간',
             }
-          }).then((res)=>{
+          }).then(()=>{
             setRerender((prev)=>{if(prev == 1){return 0} else return 1});
         })
     };
@@ -69,12 +67,10 @@ const NewSpace = ()=>{
             method: 'put',
             withCredentials : true,
             data:{
-                projectNum: projectNum,
                 workSpaceNum: workSpaceNum,
                 changeType: 'li',
-                changeTitle: '문서',
             }
-          }).then((res)=>{
+          }).then(()=>{
             setRerender((prev)=>{if(prev == 1){return 0} else return 1});
         })
     };

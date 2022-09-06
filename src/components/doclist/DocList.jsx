@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import { FaSpinner } from 'react-icons/fa'
 import axios from 'axios'
 import { useRecoilState } from 'recoil'
-import { docList, docForceRerender, currentDocId, docTitle } from '../../Atoms/atom'
+import { docList, docForceRerender, currentDocId, currentWorkSpaceId } from '../../Atoms/atom'
 import { useEffect } from 'react'
 
 const Sli = styled.li`
@@ -134,6 +134,7 @@ const SloadingOpacity = styled.span`
 
 
 function DocList() {
+    const [acurrentWorkSpaceId, setCurrentWorkSpaceId] = useRecoilState(currentWorkSpaceId)
     const {workSpaceNum} = useParams();
     const [doclist, setDocList] = useRecoilState(docList);
     const [docforceRerender, setDocForceRerender] = useRecoilState(docForceRerender);
@@ -166,7 +167,8 @@ function DocList() {
             method: 'get',
             withCredentials : true,
           }).then((res)=>{setDocList(res.data.data)});
-    }, [docforceRerender])
+    }, [docforceRerender, acurrentWorkSpaceId])
+    
     return (
         <Sul onScroll={(e)=>{scrollBottom(e)}}>
             {

@@ -85,14 +85,24 @@ function DocTemplateMain() {
             method: 'get',
             withCredentials : true,
           }).then(res=>{setTitle(res.data.data.docTitle)});
-          axios({
-            url: `http://localhost:1004/readDocMakeDate/${docId}`,
-            method: 'get',
-            withCredentials : true,
-          }).then(res=>{setTemplateData((prev)=>{
+        axios({
+        url: `http://localhost:1004/readDocMakeDate/${docId}`,
+        method: 'get',
+        withCredentials : true,
+        }).then(res=>{setTemplateData((prev)=>{
             let newData = {...prev, makeDate : res.data.data.makeDate.slice(0, 10)}
             return newData
-          })});
+        })});
+        axios({
+            url: `http://localhost:1004/readDocMaker/${docId}`,
+            method: 'get',
+            withCredentials : true,
+            }).then(res=>{
+                setTemplateData((prev)=>{
+                    let newData = {...prev, maker : res.data.data.nickName.slice(0, 10)}
+                    return newData
+                })
+            })
     }, [docId])
 
     useEffect(()=>{

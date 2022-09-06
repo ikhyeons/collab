@@ -5,6 +5,11 @@ import {
     selectorFamily,
   } from 'recoil';
 //------------------------사이드바
+export const currentWorkSpaceId = atom({
+  key : 'workSpace/workSpaceId',
+  default : '0',
+})
+
 export const sidebarWorkSpace = atom({
   key : 'sidebar/sidebarWorkSpace',
   default : [],
@@ -71,7 +76,7 @@ export const templateMainData = atom({
   name : '세번째 글 제목',
   makeDate : '',
   modifyDate : '2022-07-15',
-  maker : '성익현',
+  maker : '',
   participant : [],
   licenser : [],
 }})

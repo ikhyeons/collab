@@ -69,6 +69,7 @@ const {readChatSpaceInfo} = require('./Read/readChatSpaceInfo')
 const {readProjectCollaborator} = require('./Read/readProjectCollaborator')
 const {readDocParticipant} = require('./Read/readDocParticipant')
 const {readDocLicenser} = require('./Read/readDocLicenser')
+const {readDocMaker} = require('./Read/readDocMaker')
 
 const {changeMyProjectOrder} = require('./Update/changeMyProjectOrder')
 const {changeWorkSpaceOrder} = require('./Update/changeWorkSpaceOrder')
@@ -78,6 +79,7 @@ const {changeDoctype} = require('./Update/changeDoctype')
 const {changeDocTitle} = require('./Update/changeDocTitle')
 const {changeParagraph} = require('./Update/changeParagraph')
 const {changeCalendarEventDate} = require('./Update/chageCalendarEventDate')
+const { changeWorkSpaceType } = require('./Update/changeWorkSpaceType.js');
 
 const {delProject} = require('./Delete/delProject')
 const {delDoc} = require('./Delete/delDoc')
@@ -88,7 +90,7 @@ const {delRequest} = require('./Delete/delRequest')
 const {delEvent} = require('./Delete/delEvent')
 const {delDocParticipant} = require('./Delete/delDocParticipant')
 const {delDocLicenser} = require('./Delete/delLicenser');
-const { changeWorkSpaceType } = require('./Update/changeWorkSpaceType.js');
+const {delCollaborator} = require('./Delete/delCollaborator')
 //------------------------------------------session라우팅
 app.post('/login', (req, res)=>{
     login(req, res);
@@ -192,7 +194,9 @@ app.get('/readDocTitle/:docNum', (req, res)=>{
 app.get('/readDocLicenser/:docNum', (req, res)=>{
   readDocLicenser(req, res)
 })
-
+app.get('/readDocMaker/:docNum', (req, res)=>{
+  readDocMaker(req, res)
+})
 
 //------------------------------------------Update라우팅
 app.put('/changeMyProjectOrder', (req, res)=>{
@@ -255,4 +259,7 @@ app.delete('/delDocParticipant', (req, res)=>{
 })
 app.delete('/delDocLicenser', (req, res)=>{
   delDocLicenser(req, res);
+})
+app.delete('/delCollaborator', (req, res)=>{
+  delCollaborator(req, res)
 })

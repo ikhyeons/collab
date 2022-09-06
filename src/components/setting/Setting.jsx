@@ -1,6 +1,9 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import Toggle from './Toggle'
+import { useParams } from 'react-router-dom'
+import axios from 'axios'
+import { useEffect } from 'react'
 
 const SSettingWrap = styled.div`
     background : lightyellow;
@@ -75,31 +78,78 @@ const Sbutton = styled.button`
 `
 function Setting() {
 
-  const [participant, setParticipant] = useState([
-    {
-      name : '성익현',
-    },
-    {
-      name : '강도경',
-    },
-    {
-      name : '홍길동',
-    },
-  ])
+  const {projectNum} = useParams();
+  const [collabEmail, setCollabEmail] = useState('')
+  const [collaborator, setCollaborator] = useState([])
 
+  const afterLeaveTeam = () => {
+    document.location.assign('/project');
+  }
+
+  const deleteProject = ()=>{
+    axios({
+      url: `http://localhost:1004/delProject`, // 통신할 웹문서
+      method: 'delete', // 통신할 방식
+      data : {
+        projectNum : projectNum,
+      },
+      withCredentials : true,
+    }).then(res=>{console.log(res)})
+  }
+
+  const deleteCollaborator = ()=>{
+    axios({
+      url: `http://localhost:1004/delCollaborator`, // 통신할 웹문서
+      method: 'delete', // 통신할 방식
+      data : {
+        projectNum : projectNum,
+      },
+      withCredentials : true,
+    }).then(res=>{console.log(res)})
+  }
+
+  const addCollaborator = ()=>{
+    axios({
+      url: `http://localhost:1004/createCollaborator`, // 통신할 웹문서
+      method: 'post', // 통신할 방식
+      data : {
+        projectNum : projectNum,
+        userEmail : collabEmail,
+      },
+      withCredentials : true,
+    })
+  }
+
+  useEffect(()=>{
+    axios({
+      url: `http://localhost:1004/readProjectCollaborator/${projectNum}`, // 통신할 웹문서
+      method: 'get', // 통신할 방식
+      withCredentials : true,
+    }).then(res=>{console.log(res.data.data); setCollaborator(res.data.data)})
+  }, [])
   return (
     <SSettingWrap>
-        <Sspan>초대 보내기</Sspan> <Sform><Sinput type="text" /> <Sbutton>전송</Sbutton></Sform>
+        <Sspan>초대 보내기</Sspan> 
+        <Sform>
+          <Sinput type="text" onChange={(e)=>{setCollabEmail(e.target.value)}} value={collabEmail}/> 
+          <Sbutton onClick={()=>{addCollaborator(); setCollabEmail('')}}>전송</Sbutton>
+        </Sform>
         <Sul>
           <Sspan>참가자 리스트</Sspan>
-          {participant.map((data, i)=><Sli key={i}>{data.name}</Sli>)}
+          {collaborator.map((data, i)=><Sli key={i}>{data.nickName}</Sli>)}
         </Sul>
         <Sspan>다크모드</Sspan> <Toggle />
         
         <br />
-        <SLeaveBtn>팀 이탈하기</SLeaveBtn> 
+        <SLeaveBtn onClick={()=>{
+          deleteCollaborator()
+          afterLeaveTeam()
+        }}>팀 이탈하기</SLeaveBtn> 
         <br />
-        <SDelBtn>프로젝트 제거</SDelBtn>
+        <SDelBtn onClick={()=>{
+          deleteProject();
+          afterLeaveTeam()
+        }}>프로젝트 제거</SDelBtn>
 
     </SSettingWrap>
   )

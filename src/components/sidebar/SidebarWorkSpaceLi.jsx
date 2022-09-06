@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { useDrag, useDrop } from 'react-dnd'
 import { useRecoilState, useResetRecoilState } from 'recoil'
-import { sidebarWorkSpaceLi, sidebarWorkSpace } from '../../Atoms/atom'
+import { sidebarWorkSpaceLi, currentWorkSpaceId } from '../../Atoms/atom'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import { MdOutlineCancel } from 'react-icons/md'
@@ -26,6 +26,7 @@ function SidebarWorkSpaceLi({index, id, moveFunction}) {
 
     const [workSpaceLi, setWorkSpaceLi] = useRecoilState(sidebarWorkSpaceLi({id : id}))
     const {projectNum} = useParams()
+    const [acurrentWorkSpaceId, setCurrentWorkSpaceId] = useRecoilState(currentWorkSpaceId)
 
     const [{ isDragging }, dragRef, previewRef] = useDrag(
       () => ({
@@ -66,7 +67,9 @@ function SidebarWorkSpaceLi({index, id, moveFunction}) {
     }, [])
 
   return (
-    <Link to={`/main/${projectNum}/workspace/${workSpaceLi.type}/${workSpaceLi.id}`} style={{ textDecoration: 'none', color : 'black'}}>
+    <Link onClick={()=>{
+      setCurrentWorkSpaceId(workSpaceLi.id)
+    }} to={`/main/${projectNum}/workspace/${workSpaceLi.type}/${workSpaceLi.id}`} style={{ textDecoration: 'none', color : 'black'}}>
       <Sli isOver={isOver} ref={node => dragRef(drop(node))} >
         -{workSpaceLi.spaceTitle}
         </Sli>

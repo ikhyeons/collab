@@ -76,8 +76,8 @@ const Sbutton = styled.button`
   border-radius : 15px;
   transform : translate(8px, 2px);
 `
-function Setting() {
 
+function Setting() {
   const {projectNum} = useParams();
   const [collabEmail, setCollabEmail] = useState('')
   const [collaborator, setCollaborator] = useState([])

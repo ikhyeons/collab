@@ -11,8 +11,6 @@ connection.connect();
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session');
 const sessionStore = new MySQLStore(mysqlKey);
-//------------------------------------------axios 허가
-const axios = require('axios');
 //------------------------------------------helmet 페이지 보안
 const helmet = require('helmet');
 app.use(helmet());
@@ -53,6 +51,7 @@ const {createChatSpace} = require('./Create/createChatSpace')
 const {createParagraph} = require('./Create/createParagraph');
 const {createDocLicenser} = require('./Create/createDocLicenser');
 const {createDocParticipant} = require('./Create/createDocParticipant');
+const {createChatParticipant} = require('./Create/createChatParticipant')
 
 const {readMyProjectList} = require('./Read/readProjectList.js');
 const {readRequestList} = require('./Read/readRequestList')
@@ -70,6 +69,7 @@ const {readProjectCollaborator} = require('./Read/readProjectCollaborator')
 const {readDocParticipant} = require('./Read/readDocParticipant')
 const {readDocLicenser} = require('./Read/readDocLicenser')
 const {readDocMaker} = require('./Read/readDocMaker')
+const {readChatParticipant} = require('./Read/readChatParticipant')
 
 const {changeMyProjectOrder} = require('./Update/changeMyProjectOrder')
 const {changeWorkSpaceOrder} = require('./Update/changeWorkSpaceOrder')
@@ -91,6 +91,7 @@ const {delEvent} = require('./Delete/delEvent')
 const {delDocParticipant} = require('./Delete/delDocParticipant')
 const {delDocLicenser} = require('./Delete/delLicenser');
 const {delCollaborator} = require('./Delete/delCollaborator')
+const {delChatParticipant} = require('./Delete/delChatParticipant')
 //------------------------------------------session라우팅
 app.post('/login', (req, res)=>{
     login(req, res);
@@ -141,6 +142,9 @@ app.post('/createDocLicenser', (req, res)=>{
 app.post('/createDocParticipant', (req, res)=>{
   createDocParticipant(req, res);
 })
+app.post('/createChatParticipant', (req, res)=>{
+  createChatParticipant(req, res);
+})
 //------------------------------------------Read라우팅
 app.get('/readMyProjectList', (req, res)=>{
   readMyProjectList(req, res);
@@ -166,7 +170,7 @@ app.get('/readEventInfo/:eventNum', (req, res)=>{
 app.get('/readMyAnswer', (req, res)=>{
   readMyAnswer(req, res);
 })
-app.get('/readChatData', (req, res)=>{
+app.get('/readChatData/:chatSpaceNum', (req, res)=>{
   readChatData(req, res);
 })
 app.get('/readMyInfo', (req, res)=>{
@@ -196,6 +200,9 @@ app.get('/readDocLicenser/:docNum', (req, res)=>{
 })
 app.get('/readDocMaker/:docNum', (req, res)=>{
   readDocMaker(req, res)
+})
+app.get('/readChatParticipant/:chatSpaceNum', (req, res)=>{
+  readChatParticipant(req, res)
 })
 
 //------------------------------------------Update라우팅
@@ -262,4 +269,7 @@ app.delete('/delDocLicenser', (req, res)=>{
 })
 app.delete('/delCollaborator', (req, res)=>{
   delCollaborator(req, res)
+})
+app.delete('/delChatParticipant', (req, res)=>{
+  delChatParticipant(req, res)
 })

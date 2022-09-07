@@ -178,17 +178,14 @@ export const docPage = atom({
 
 export const chatList = atom({
   key : 'chatting/chatList',
-  default : [
-    {
-      my:0,
-      contents:'뭐해',
-  },
-  ]
+  default : []
 })
 
 export const chatParticipant = atom({
   key : 'chatting/chatParticipant',
-  default : ['성익현','강도경']
+  default : [
+    
+  ]
 })
 
 //-------------------------------리퀘스트

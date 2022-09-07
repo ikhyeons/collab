@@ -23,7 +23,7 @@ const InnerList = (props) =>{
     const { data } = props;
 
     return(
-        <Slist>{data.contents}</Slist>
+        <Slist>{data.listTitle}</Slist>
     )
 }
 

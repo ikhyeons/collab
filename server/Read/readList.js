@@ -2,10 +2,10 @@ const {mysqlKey}  = require('../mysqlKey');
 const mysql = require('mysql');
 const con = mysql.createConnection(mysqlKey);
 
-exports.readBoard = (req, res) => {
-    let workspaceNum = req.params.workSpaceNum;
+exports.readList = (req, res) => {
+    let boardNum = req.params.boardNum
     if(req.session.logined === true){
-        con.query('SELECT * FROM board where workspaceNum = ?', [workspaceNum], (error, rows1, fields)=> {
+        con.query('SELECT * FROM list where boardNum = ?', [boardNum], (error, rows1, fields)=> {
             if(error) throw error;
             res.send({success : 0, data : rows1})
         })

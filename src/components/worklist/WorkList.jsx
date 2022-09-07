@@ -4,6 +4,8 @@ import BoardList from "./BoardList";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { forceRerender } from "../../Atoms/atom";
 
 
 const Wnav = styled.nav`
@@ -51,7 +53,8 @@ const WorkList = ()=>{
     const [boardClicked, setBoardClicked] = useState(0);
     const [boardName, setBoardName] = useState('');
     const [board, setBoard] = useState([]);
-    const {workSpaceNum} = useParams();
+    const { workSpaceNum } = useParams();
+    const [forceRender, setForceRender] = useRecoilState(forceRerender);
    
     const inputBoard= (e)=>{
         setBoardName(e.target.value)
@@ -62,8 +65,11 @@ const WorkList = ()=>{
             url: `http://localhost:1004/readBoard/${workSpaceNum}`,
             method:'get',
             withCredentials: true,
+        }).then((res)=>{
+            console.log(res, 'board res');
+            setBoard(res.data.data);
         })
-    }, [])
+    }, [forceRender])
 
     const addBoard = () =>{
         console.log(board);
@@ -72,10 +78,13 @@ const WorkList = ()=>{
             method:'post',
             withCredentials: true,
             data:{
-                workspaceNum:workSpaceNum,
+                workspaceNum : workSpaceNum,
+                boardTitle : boardName,
             }
         }).then((res)=>{
             console.log(res);
+            setForceRender((prev)=>{if(prev==1){return 0} else return 1});
+            setBoardClicked(0);
         })
     };
     

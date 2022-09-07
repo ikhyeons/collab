@@ -52,21 +52,30 @@ const BoardList = (props) =>{
     const [listName, setListName] = useState("");
     const [addButton, setAddButton] = useState(0);
     const [list, setList] = useState([]);
-    const {workSpaceNum} = useParams();
 
-    //   *** 현재 작동안됨 ***
-    const addList= ()=>{
-        console.log(workSpaceNum);
+    useEffect(()=>{
         axios({
-            url: `http://localhost:1004/createBoard`,
+            url: `http://localhost:1004/readList/${data.boardNum}`,
+            method:'get',
+            withCredentials: true,
+        }).then((res)=>{
+            console.log(res);
+            setList(res.data.data);
+        })
+    },[])
+
+    const addList= ()=>{
+        console.log(list, 'list');
+        axios({
+            url: `http://localhost:1004/createList`,
             method:'post',
             withCredentials: true,
             data:{
-                workspaceNum:workSpaceNum,
+                boardNum:data.boardNum,
+                listTitle: listName,
             }
         }).then((res)=>{
-            console.log(res);
-            setList(res.data.data)
+            console.log(res, 'addList');
         })
         setAddButton(0);
     };
@@ -96,10 +105,10 @@ const BoardList = (props) =>{
     return(
         <Scontainor>
             <Sboard key={i}>
-                <Wtitle key={i}>{data.bname}</Wtitle>
+                <Wtitle key={i}>{data.boardTitle}</Wtitle>
             </Sboard>
             <SlistContainor>
-                {list && list.filter((data)=>(data.bnum === index)).map((data, i)=>{
+                {list.map((data, i)=>{
                     return(
                         <InnerList key={i} data={data} />
                     )

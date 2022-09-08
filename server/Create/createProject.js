@@ -10,6 +10,7 @@ exports.createProject = (req, res) => {
                 if(error) throw error;
                 console.log(rows1[0]['COUNT(*)'], req.session.sid);
                 con.query('insert into collaborator values(default, ?, ?, default, 1)', [rows1[0]['COUNT(*)'], req.session.sid], (error, rows, fields)=> {
+                    // 이거 수정해야 되는듯?
                     if(error) throw error;
                     res.send({success : 0});
                 })

@@ -109,7 +109,9 @@ const Chatting = ()=>{
                 innerData : chat,
             },
             withCredentials : true,
-          }).then(()=>{setChat('');}).then(socket.emit('message',{chat}))
+          }).then(()=>{
+            setChat('');
+            socket.emit('message',{chat})})
           .then(()=>{setForceRerender(prev=>{
             if(prev === 0) return 1;
             else if (prev === 1) return 2;
@@ -119,7 +121,13 @@ const Chatting = ()=>{
     }
 
     useEffect(()=>{
-        socket.on("newChat", ()=>{})
+        socket.on("newChat", ()=>{
+            setForceRerender(prev=>{
+                if(prev === 0) return 1;
+                else if (prev === 1) return 2;
+                else return 0;
+            })
+        })
     }, [])
 
     useEffect(()=>{

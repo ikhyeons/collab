@@ -29,7 +29,7 @@ app.use(session({
     saveUninitialized : false,
   }));
 //------------------------------------------서버 구동
-app.listen(port, ()=>{console.log(`server run in ${port}`)});
+app.listen(port, ()=>{console.log(`server run in ${port} with websocket`)});
 //------------------------------------------파일 임포트
 const {login, logout} = require('./session/session')
 const {createProject} = require('./Create/createProject')

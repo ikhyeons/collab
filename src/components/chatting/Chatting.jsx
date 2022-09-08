@@ -7,6 +7,9 @@ import styled from "styled-components";
 import { chatList } from "../../Atoms/atom";
 import ChatUser from './ChatUser'
 import axios from "axios";
+import io from 'socket.io-client'
+
+const socket = io.connect('http://localhost:3001', {transports : ['websocket']})
 
 const Scontainor = styled.div`
     width: 80%;
@@ -94,20 +97,24 @@ const Chatting = ()=>{
     const [allChat, setAllchat] = useRecoilState(chatList);
     const [chat, setChat] = useState('');
     const scrollRef = useRef();
+    const [forceRerender, setForceRerender] = useState(0)
 
     const addChat = () =>{
-        setAllchat((prev)=>{
-            let newchat = [
-                ...prev,
-                {
-                    my:1,
-                    innerData:chat,
-                }
-            ]
-            return newchat;        
-        })
-        setChat('');
+        axios({
+            url: `http://localhost:1004/writeChat`, // 통신할 웹문서
+            method: 'post', // 통신할 방식
+            data : {
+                chatSpaceNum : chatSpaceNum,
+                innerData : chat,
+            },
+            withCredentials : true,
+          }).then(()=>{setChat('');}).then(socket.emit('message',{chat}))
+          .then(()=>{setForceRerender(prev=>prev===1? 0 : 1)})
     }
+
+    useEffect(()=>{
+        socket.on("newChat", ()=>{})
+    }, [])
 
     useEffect(()=>{
         axios({
@@ -115,7 +122,7 @@ const Chatting = ()=>{
             method: 'get', // 통신할 방식
             withCredentials : true,
           }).then(res=>{console.log(res); setAllchat(res.data.data)})
-    }, [])
+    }, [forceRerender])
 
     useEffect(()=>{
         console.log('ㅎㅇ');

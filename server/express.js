@@ -89,6 +89,8 @@ const { createBoard } = require('./Create/createBoard.js');
 const { readBoard } = require('./Read/readBoard.js');
 const { readList } = require('./Read/readList.js');
 const { createList } = require('./Create/createList.js');
+const { delBoard } = require('./Delete/delBoard.js');
+const { delList } = require('./Delete/delList.js');
 //------------------------------------------session라우팅
 app.post('/login', (req, res)=>{
     login(req, res);
@@ -253,4 +255,10 @@ app.delete('/delDocParticipant', (req, res)=>{
 })
 app.delete('/delDocLicenser', (req, res)=>{
   delDocLicenser(req, res);
+})
+app.delete('/delBoard', (req, res)=>{
+  delBoard(req, res);
+})
+app.delete('/delList', (req, res)=>{
+  delList(req, res);
 })

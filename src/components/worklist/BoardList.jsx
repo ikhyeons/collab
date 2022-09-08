@@ -3,7 +3,10 @@ import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import InnerList from "./InnerList";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { MdOutlineCancel } from "react-icons/md";
+import { useRecoilState } from "recoil";
+import { forceRerender } from "../../Atoms/atom";
+
 
 const Sinput = styled.input`
     width:300px;
@@ -35,7 +38,7 @@ const Wtitle = styled.div`
     padding-left: 12px;
     border-bottom: 1px solid grey;
     min-height: 21px;
-    max-width:300px;
+    width:283px;
     overflow:hidden;
     text-overflow:ellipsis;
     white-space:nowrap;
@@ -43,15 +46,21 @@ const Wtitle = styled.div`
 const Sboard = styled.div`
     min-width:150px;
     margin-right:5px;
+    display:flex;
 `
 
 const Scontainor = styled.div`
 `
+
+const SdelButton = styled.button`
+`
+
 const BoardList = (props) =>{
     const { i, data, index } = props;
     const [listName, setListName] = useState("");
     const [addButton, setAddButton] = useState(0);
     const [list, setList] = useState([]);
+    const [render, setRender] = useRecoilState(forceRerender);
 
     useEffect(()=>{
         axios({
@@ -102,10 +111,27 @@ const BoardList = (props) =>{
         }
     }
 
+    const delBoard = (boardNum)=>{
+        axios({
+            url: `http://localhost:1004/delBoard`,
+            method: 'delete',
+            withCredentials: true,
+            data: {
+                boardNum : boardNum
+            }
+        }).then((res)=>{
+            console.log(res);
+            setRender((prev)=>{if(prev==1){return 0} else return 1});
+        })
+    }
+
     return(
         <Scontainor>
             <Sboard key={i}>
                 <Wtitle key={i}>{data.boardTitle}</Wtitle>
+                <SdelButton onClick={()=>{delBoard(data.boardNum)}}>
+                <MdOutlineCancel /> 
+                </SdelButton>
             </Sboard>
             <SlistContainor>
                 {list.map((data, i)=>{

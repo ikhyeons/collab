@@ -93,7 +93,6 @@ function SidebarChatLi({index, id, moveFunction}) {
       </Link>
       <SdelButton onClick={()=>{deleteChat(chatLi.chatSpaceNum)}}>
         <MdOutlineCancel /> 
-        {/* 전체 채팅이 디폴트로 들어가 있어서 채팅 타입이 디폴트 값이면 삭제 버튼이 랜더링 안되게끔하기 */}
       </SdelButton>
     </Sdiv>
     </>

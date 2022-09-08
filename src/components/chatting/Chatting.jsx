@@ -8,8 +8,9 @@ import { chatList } from "../../Atoms/atom";
 import ChatUser from './ChatUser'
 import axios from "axios";
 import io from 'socket.io-client'
+import { webPort } from "../../port";
 
-const socket = io.connect('http://localhost:3001', {transports : ['websocket']})
+const socket = io.connect(`http://${webPort.webSocket}`, {transports : ['websocket']})
 
 const Scontainor = styled.div`
     width: 80%;
@@ -101,7 +102,7 @@ const Chatting = ()=>{
 
     const addChat = () =>{
         axios({
-            url: `http://localhost:1004/writeChat`, // 통신할 웹문서
+            url: `http://${webPort.express}/writeChat`, // 통신할 웹문서
             method: 'post', // 통신할 방식
             data : {
                 chatSpaceNum : chatSpaceNum,
@@ -109,7 +110,12 @@ const Chatting = ()=>{
             },
             withCredentials : true,
           }).then(()=>{setChat('');}).then(socket.emit('message',{chat}))
-          .then(()=>{setForceRerender(prev=>prev===1? 0 : 1)})
+          .then(()=>{setForceRerender(prev=>{
+            if(prev === 0) return 1;
+            else if (prev === 1) return 2;
+            else return 0;
+            })
+        })
     }
 
     useEffect(()=>{
@@ -118,7 +124,7 @@ const Chatting = ()=>{
 
     useEffect(()=>{
         axios({
-            url: `http://localhost:1004/readChatData/${chatSpaceNum}`, // 통신할 웹문서
+            url: `http://${webPort.express}/readChatData/${chatSpaceNum}`, // 통신할 웹문서
             method: 'get', // 통신할 방식
             withCredentials : true,
           }).then(res=>{console.log(res); setAllchat(res.data.data)})

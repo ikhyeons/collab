@@ -6,6 +6,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { templateMainData, userNamePool, currentDocId, templateForceRerender } from '../../Atoms/atom.js';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { webPort } from "../../port";
 
 const Licensers = styled.div`
     margin-bottom : 3px;
@@ -51,7 +52,7 @@ function Licenser() {
 
     useEffect(()=>{
         axios({
-            url: `http://localhost:1004/readProjectCollaborator/${projectNum}`,
+            url: `http://${webPort.express}/readProjectCollaborator/${projectNum}`,
             method: 'get',
             withCredentials : true,
           }).then((res)=>{
@@ -59,7 +60,7 @@ function Licenser() {
             setNamePool(newArray);
           })
         axios({
-        url: `http://localhost:1004/readDocLicenser/${docNum}`,
+        url: `http://${webPort.express}/readDocLicenser/${docNum}`,
         method: 'get',
         withCredentials : true,
         }).then((res)=>{
@@ -97,7 +98,7 @@ function Licenser() {
                         return newData
                     })
                 axios({
-                    url: `http://localhost:1004/delDocLicenser`,
+                    url: `http://${webPort.express}/delDocLicenser`,
                     method: 'delete',
                     data : {
                         docNum : docNum,
@@ -131,7 +132,7 @@ function Licenser() {
                     let newData = {...prev};
                     newData.licenser = [...newData.licenser, {id, name : display}];
                     axios({
-                        url: `http://localhost:1004/createDocLicenser`,
+                        url: `http://${webPort.express}/createDocLicenser`,
                         method: 'post',
                         data : {docNum : docNum, selectedUserNum : id},
                         withCredentials : true,

@@ -4,6 +4,7 @@ import Toggle from './Toggle'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import { useEffect } from 'react'
+import { webPort } from "../../port";
 
 const SSettingWrap = styled.div`
     background : lightyellow;
@@ -88,7 +89,7 @@ function Setting() {
 
   const deleteProject = ()=>{
     axios({
-      url: `http://localhost:1004/delProject`, // 통신할 웹문서
+      url: `http://${webPort.express}/delProject`, // 통신할 웹문서
       method: 'delete', // 통신할 방식
       data : {
         projectNum : projectNum,
@@ -99,7 +100,7 @@ function Setting() {
 
   const deleteCollaborator = ()=>{
     axios({
-      url: `http://localhost:1004/delCollaborator`, // 통신할 웹문서
+      url: `http://${webPort.express}/delCollaborator`, // 통신할 웹문서
       method: 'delete', // 통신할 방식
       data : {
         projectNum : projectNum,
@@ -110,7 +111,7 @@ function Setting() {
 
   const addCollaborator = ()=>{
     axios({
-      url: `http://localhost:1004/createCollaborator`, // 통신할 웹문서
+      url: `http://${webPort.express}/createCollaborator`, // 통신할 웹문서
       method: 'post', // 통신할 방식
       data : {
         projectNum : projectNum,
@@ -122,7 +123,7 @@ function Setting() {
 
   useEffect(()=>{
     axios({
-      url: `http://localhost:1004/readProjectCollaborator/${projectNum}`, // 통신할 웹문서
+      url: `http://${webPort.express}/readProjectCollaborator/${projectNum}`, // 통신할 웹문서
       method: 'get', // 통신할 방식
       withCredentials : true,
     }).then(res=>{console.log(res.data.data); setCollaborator(res.data.data)})

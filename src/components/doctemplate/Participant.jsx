@@ -7,6 +7,7 @@ import { templateMainData, userNamePool, templateForceRerender, currentDocId } f
 import { useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { webPort } from "../../port";
 
 const Participants = styled.div`
     margin-bottom : 3px;
@@ -48,7 +49,7 @@ function Participant() {
     
     useEffect(()=>{
         axios({
-            url: `http://localhost:1004/readProjectCollaborator/${projectNum}`,
+            url: `http://${webPort.express}/readProjectCollaborator/${projectNum}`,
             method: 'get',
             withCredentials : true,
           }).then((res)=>{
@@ -56,7 +57,7 @@ function Participant() {
             setNamePool(newArray);
           })
         axios({
-        url: `http://localhost:1004/readDocParticipant/${docNum}`,
+        url: `http://${webPort.express}/readDocParticipant/${docNum}`,
         method: 'get',
         withCredentials : true,
         }).then((res)=>{
@@ -93,7 +94,7 @@ function Participant() {
                         return newData
                     })
                 axios({
-                    url: `http://localhost:1004/delDocParticipant`,
+                    url: `http://${webPort.express}/delDocParticipant`,
                     method: 'delete',
                     data : {
                         docNum : docNum,
@@ -128,7 +129,7 @@ function Participant() {
                     let newData = {...prev};
                     newData.participant = [...newData.participant, {id, name : display}];
                     axios({
-                        url: `http://localhost:1004/createDocParticipant`,
+                        url: `http://${webPort.express}/createDocParticipant`,
                         method: 'post',
                         data : {docNum : docNum, selectedUserNum : id},
                         withCredentials : true,

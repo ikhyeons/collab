@@ -2,6 +2,7 @@ import React from 'react'
 import Login from './Login'
 import Loginpic from './Loginpic'
 import styled from 'styled-components'
+import { webPort } from "../../port";
 
 const SloginMain = styled.div`
     display : flex; // block 가로정렬

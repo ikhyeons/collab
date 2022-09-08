@@ -6,6 +6,7 @@ import ParagraphVideo from './paragraphType/ParagraphVideo';
 import ParagraphLink from './paragraphType/ParagraphLink';
 import { useRecoilState } from 'recoil';
 import { templateParagraphId, templateParagraph } from '../../Atoms/atom';
+import { webPort } from "../../port";
 
 const SParagraphList = styled.ul`
   border-radius : 5px;

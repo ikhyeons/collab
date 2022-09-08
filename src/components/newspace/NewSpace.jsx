@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useRecoilState } from 'recoil';
 import { forceRerender } from "../../Atoms/atom";
+import { webPort } from "../../port";
 
 const Scontainor = styled.div`
     width: 100%;
@@ -49,7 +50,7 @@ const NewSpace = ()=>{
     },[Rerender])
     const changeTypeWorkList = ()=>{
         axios({
-            url: `http://localhost:1004/changeWorkSpaceType`,
+            url: `http://${webPort.express}/changeWorkSpaceType`,
             method: 'put',
             withCredentials : true,
             data:{
@@ -63,7 +64,7 @@ const NewSpace = ()=>{
 
     const changeTypeList = ()=>{
         axios({
-            url: `http://localhost:1004/changeWorkSpaceType`,
+            url: `http://${webPort.express}/changeWorkSpaceType`,
             method: 'put',
             withCredentials : true,
             data:{

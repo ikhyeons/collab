@@ -7,6 +7,7 @@ import SidebarChatLi from './SidebarChatLi'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import { forceRerender } from '../../Atoms/atom'
+import { webPort } from "../../port";
 
 const Stitle = styled.div`
   
@@ -43,7 +44,7 @@ const SidebarChat = () => {
 
   useEffect(()=>{
     axios({
-      url: `http://localhost:1004/readChatSpaceList/${projectNum}`, // 통신할 웹문서
+      url: `http://${webPort.express}/readChatSpaceList/${projectNum}`, // 통신할 웹문서
       method: 'get', // 통신할 방식
       withCredentials : true,
     }).then((res)=>{
@@ -56,7 +57,7 @@ const SidebarChat = () => {
   const addChat = () => {
     console.log(projectNum);
     axios({
-      url: `http://localhost:1004/createChatSpace`,
+      url: `http://${webPort.express}/createChatSpace`,
       method: 'post',
       withCredentials: true,
       data: {

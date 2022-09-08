@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { boardState, listState } from "../../Atoms/atom";
 import { useRecoilState } from "recoil";
 import BoardList from "./BoardList";
-
+import { webPort } from "../../port";
 
 const Wnav = styled.nav`
     width: 80%;

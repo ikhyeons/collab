@@ -6,6 +6,7 @@ import axios from 'axios'
 import { useRecoilState } from 'recoil'
 import { docList, docForceRerender, currentDocId, currentWorkSpaceId } from '../../Atoms/atom'
 import { useEffect } from 'react'
+import { webPort } from "../../port";
 
 const Sli = styled.li`
     list-style : none;
@@ -150,7 +151,7 @@ function DocList() {
     })
     const deleteDoc = (docNum)=>{
         axios({
-            url: `http://localhost:1004/delDoc`,
+            url: `http://${webPort.express}/delDoc`,
             data : {
                 docNum : docNum,
             },
@@ -163,7 +164,7 @@ function DocList() {
 
     useEffect(()=>{
         axios({
-            url: `http://localhost:1004/readDocList/${workSpaceNum}`,
+            url: `http://${webPort.express}/readDocList/${workSpaceNum}`,
             method: 'get',
             withCredentials : true,
           }).then((res)=>{setDocList(res.data.data)});

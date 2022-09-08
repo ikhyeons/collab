@@ -5,6 +5,7 @@ import { chatParticipant } from '../../Atoms/atom'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
+import { webPort } from "../../port";
 
 const Sparticipant = styled.div`
     width: 15%;
@@ -76,7 +77,7 @@ function ChatUser() {
 
   useEffect(()=>{
     axios({
-      url: `http://localhost:1004/readChatParticipant/${chatSpaceNum}`, // 통신할 웹문서
+      url: `http://${webPort.express}/readChatParticipant/${chatSpaceNum}`, // 통신할 웹문서
       method: 'get', // 통신할 방식
       withCredentials : true,
     }).then((res)=>{setChatParticipants(res.data.data)})
@@ -88,7 +89,7 @@ function ChatUser() {
         <Sinput type="text" value={userEmail} onChange={(e)=>{setUserEmail(e.target.value)}}/> 
         <Sbutton onClick={()=>{
           axios({
-            url: `http://localhost:1004/createChatParticipant`, // 통신할 웹문서
+            url: `http://${webPort.express}/createChatParticipant`, // 통신할 웹문서
             method: 'post', // 통신할 방식
             data : {
               chatSpaceNum : chatSpaceNum,
@@ -107,7 +108,7 @@ function ChatUser() {
         </Suser>
         <SObutton onClick={()=>{
           axios({
-            url: `http://localhost:1004/delChatParticipant`, // 통신할 웹문서
+            url: `http://${webPort.express}/delChatParticipant`, // 통신할 웹문서
             method: 'delete', // 통신할 방식
             data : {
               chatSpaceNum : chatSpaceNum,

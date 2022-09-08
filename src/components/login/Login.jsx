@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
-
+import { webPort } from "../../port";
 
 //로그인 창 div
 const Sdiv = styled.div`
@@ -65,7 +65,7 @@ const Login = () => {
             console.log('gd');
             axios({
             method: 'post',
-            url: 'http://localhost:1004/login',
+            url: `http://${webPort.express}/login`,
             withCredentials : true,
             data: {
                 email : email,
@@ -85,7 +85,7 @@ const Login = () => {
             console.log('try join');
             axios({
                 method: 'post',
-                url: 'http://localhost:1004/join',
+                url: `http://${webPort.express}/join`,
                 withCredentials : true,
                 data: {
                     email : email,

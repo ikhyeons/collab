@@ -7,6 +7,7 @@ import Licenser from './Licenser'
 import { useRecoilState } from 'recoil'
 import { templateMainData, currentDocId, docForceRerender } from '../../Atoms/atom'
 import axios from 'axios'
+import { webPort } from "../../port";
 
 const STemplateMain = styled.div`
     
@@ -81,12 +82,12 @@ function DocTemplateMain() {
     
     useEffect(()=>{
         axios({
-            url: `http://localhost:1004/readDocTitle/${docId}`,
+            url: `http://${webPort.express}/readDocTitle/${docId}`,
             method: 'get',
             withCredentials : true,
           }).then(res=>{setTitle(res.data.data.docTitle)});
         axios({
-        url: `http://localhost:1004/readDocMakeDate/${docId}`,
+        url: `http://${webPort.express}/readDocMakeDate/${docId}`,
         method: 'get',
         withCredentials : true,
         }).then(res=>{setTemplateData((prev)=>{
@@ -94,7 +95,7 @@ function DocTemplateMain() {
             return newData
         })});
         axios({
-            url: `http://localhost:1004/readDocMaker/${docId}`,
+            url: `http://${webPort.express}/readDocMaker/${docId}`,
             method: 'get',
             withCredentials : true,
             }).then(res=>{
@@ -107,7 +108,7 @@ function DocTemplateMain() {
 
     useEffect(()=>{
         axios({
-            url: `http://localhost:1004/changeDocTitle`,
+            url: `http://${webPort.express}/changeDocTitle`,
             method: 'put',
             data : {
                 docNum : docId,

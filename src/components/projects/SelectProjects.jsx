@@ -6,6 +6,7 @@ import ModalName from "./NameModal";
 import { useRecoilState } from 'recoil';
 import { useEffect,} from "react";
 import axios from "axios";
+import { webPort } from "../../port";
 
 const SMain = styled.div`
     display : block;
@@ -92,7 +93,7 @@ const SelectProjects = () =>{
     //프로젝트 추가 함수
     const addProject = () => {
         axios({
-            url: 'http://localhost:1004/createProject',
+            url: `http://${webPort.express}/createProject`,
             withCredentials : true,
             method: 'post',
           }).then(setProject((prev)=>[...prev]))
@@ -100,7 +101,7 @@ const SelectProjects = () =>{
 
     useEffect(()=>{
         axios({
-            url: 'http://localhost:1004/readMyInfo',
+            url: `http://${webPort.express}/readMyInfo`,
             withCredentials : true,
             method: 'get',
           }).then((res)=>{setName(res.data.data.nickName)});

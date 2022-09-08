@@ -1,7 +1,7 @@
 //------------------------------------------express 실행
 const express = require('express');
 const app = express();
-const port = process.env.port||1004;
+const port = process.env.port||2005;
 //------------------------------------------mysql 연결
 const mysql = require('mysql');
 const {mysqlKey} = require('./mysqlKey.js');
@@ -29,7 +29,7 @@ app.use(session({
     saveUninitialized : false,
   }));
 //------------------------------------------서버 구동
-app.listen(port, ()=>{console.log(`server run in ${port} with websocket`)});
+app.listen(port, ()=>{console.log(`server run in ${port}`)});
 //------------------------------------------파일 임포트
 const {login, logout} = require('./session/session')
 const {createProject} = require('./Create/createProject')

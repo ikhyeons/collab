@@ -4,6 +4,7 @@ import Table from "./Table";
 import {useRecoilState} from 'recoil';
 import { selectedTd } from "../../Atoms/atom";
 import axios from "axios";
+import { webPort } from "../../port";
 
 const RequestDiv = styled.div`
     width: 100%;
@@ -110,7 +111,7 @@ const Request = () =>{
             console.log('timeResponse');
             axios({
                 method: 'post',
-                url: 'http://localhost:1004/addTimeResponse',
+                url: `http://${webPort.express}/addTimeResponse`,
                 withCredentials : true,
                 data: {
                     reqNum: 0,

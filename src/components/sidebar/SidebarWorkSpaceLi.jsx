@@ -7,6 +7,7 @@ import { sidebarWorkSpaceLi, currentWorkSpaceId } from '../../Atoms/atom'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import { MdOutlineCancel } from 'react-icons/md'
+import { webPort } from "../../port";
 
 const Sli = styled.li`
   width : 100%;
@@ -58,7 +59,7 @@ function SidebarWorkSpaceLi({index, id, moveFunction}) {
     
     useEffect(()=>{
       axios({
-        url: `http://localhost:1004/readWorkSpaceInfo/${id}`, // 통신할 웹문서
+        url: `http://${webPort.express}/readWorkSpaceInfo/${id}`, // 통신할 웹문서
         method: 'get', // 통신할 방식
         withCredentials : true,
       }).then((res)=>{

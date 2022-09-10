@@ -10,8 +10,6 @@ import axios from "axios";
 import io from 'socket.io-client'
 import { webPort } from "../../port";
 
-const socket = io.connect(`http://${webPort.webSocket}`, {transports : ['websocket']})
-
 const Scontainor = styled.div`
     width: 80%;
     height:97vh;
@@ -93,6 +91,8 @@ const Scell = styled.div`
     justify-content : ${ props => props.my === 1 ? 'flex-end' : null};
 `;
 
+const socket = io.connect(`http://${webPort.webSocket}`, {transports : ['websocket']})
+
 const Chatting = ()=>{
     const {chatSpaceNum} = useParams()
     const [allChat, setAllchat] = useRecoilState(chatList);
@@ -111,7 +111,7 @@ const Chatting = ()=>{
             withCredentials : true,
           }).then(()=>{
             setChat('');
-            socket.emit('message',{chat})})
+            socket.emit('message', {chat})})
           .then(()=>{setForceRerender(prev=>{
             if(prev === 0) return 1;
             else if (prev === 1) return 2;

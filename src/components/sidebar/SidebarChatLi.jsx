@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { useDrag, useDrop } from 'react-dnd'
 import { useRecoilState, useResetRecoilState } from 'recoil'
-import { forceRerender, sidebarChatLi } from '../../Atoms/atom'
+import { forceRerender, sidebarChatLi, currentChatSpaceId } from '../../Atoms/atom'
 import axios from 'axios'
 import { MdOutlineCancel } from 'react-icons/md'
 import { webPort } from "../../port";
@@ -30,6 +30,7 @@ function SidebarChatLi({index, id, moveFunction}) {
     const [chatLi, setChatLi] = useRecoilState(sidebarChatLi({num : id}));
     const {projectNum} = useParams();
     const [reRender, setReRender] = useRecoilState(forceRerender);
+    const [acurrentChatSpaceId, setCurrentChatSpaceId] = useRecoilState(currentChatSpaceId)
         
     const [{ isDragging }, dragRef, previewRef] = useDrag(
       () => ({
@@ -87,7 +88,9 @@ function SidebarChatLi({index, id, moveFunction}) {
   return (
     <>
     <Sdiv>
-      <Link to={`/main/${projectNum}/chat/${chatLi.chatSpaceNum}`} style={{ textDecoration: 'none', color : 'black'}}>
+      <Link onClick={()=>{
+        setCurrentChatSpaceId(chatLi.chatSpaceNum)
+      }} to={`/main/${projectNum}/chat/${chatLi.chatSpaceNum}`} style={{ textDecoration: 'none', color : 'black'}}>
         <Sli isOver={isOver} ref={node => dragRef(drop(node))}>
           -{chatLi.name} 
         </Sli>

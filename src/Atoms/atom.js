@@ -10,6 +10,11 @@ export const currentWorkSpaceId = atom({
   default : '0',
 })
 
+export const currentChatSpaceId = atom({
+  key : 'chatSpace/chatSpaceId',
+  default : '0',
+})
+
 export const sidebarWorkSpace = atom({
   key : 'sidebar/sidebarWorkSpace',
   default : [],

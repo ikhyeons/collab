@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from'styled-components'
 import { useRecoilState, useRecoilValue } from 'recoil'
-import { chatParticipant } from '../../Atoms/atom'
+import { chatParticipant, currentChatSpaceId } from '../../Atoms/atom'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
@@ -74,6 +74,7 @@ function ChatUser() {
   const {chatSpaceNum, projectNum} = useParams()
   const [chatParticipants, setChatParticipants] = useRecoilState(chatParticipant)
   const [userEmail, setUserEmail] = useState('')
+  const [acurrentChatSpaceId, setCurrentChatSpaceId] = useRecoilState(currentChatSpaceId)
 
   useEffect(()=>{
     axios({
@@ -81,7 +82,7 @@ function ChatUser() {
       method: 'get', // 통신할 방식
       withCredentials : true,
     }).then((res)=>{setChatParticipants(res.data.data)})
-  }, [])
+  }, [acurrentChatSpaceId])
   return (
     <Sparticipant>
       <Sspan>초대 보내기</Sspan> 

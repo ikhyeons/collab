@@ -18,11 +18,6 @@ const Sli = styled.li`
   }
 `
 
-const SdelButton = styled.button`
-
-`
-
-
 function SidebarWorkSpaceLi({index, id, moveFunction}) {
 
     const [workSpaceLi, setWorkSpaceLi] = useRecoilState(sidebarWorkSpaceLi({id : id}))

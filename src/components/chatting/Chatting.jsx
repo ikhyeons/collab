@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { chatList } from "../../Atoms/atom";
+import { chatList, currentChatSpaceId } from "../../Atoms/atom";
 import ChatUser from './ChatUser'
 import axios from "axios";
 import io from 'socket.io-client'
@@ -99,6 +99,7 @@ const Chatting = ()=>{
     const [chat, setChat] = useState('');
     const scrollRef = useRef();
     const [forceRerender, setForceRerender] = useState(0)
+    const [acurrentChatSpaceId, setCurrentChatSpaceId] = useRecoilState(currentChatSpaceId)
 
     const addChat = () =>{
         axios({
@@ -134,7 +135,7 @@ const Chatting = ()=>{
             method: 'get', // 통신할 방식
             withCredentials : true,
           }).then(res=>{console.log(res); setAllchat(res.data.data)})
-    }, [forceRerender])
+    }, [forceRerender, acurrentChatSpaceId])
 
     useEffect(()=>{
         console.log('ㅎㅇ');

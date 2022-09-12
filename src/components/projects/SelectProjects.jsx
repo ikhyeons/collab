@@ -6,6 +6,7 @@ import ModalName from "./NameModal";
 import { useRecoilState } from 'recoil';
 import { useEffect,} from "react";
 import axios from "axios";
+import { webPort } from "../../port";
 
 const SMain = styled.div`
     display : block;
@@ -83,16 +84,24 @@ const ScrollMenu = styled.div`
     justify-content:center;
 `;
 
+const Detaildiv = styled.div`
+    height: 90%;
+    margin-left: 20px;
+    margin-right:20px;
+    display:flex;
+`;
+
 const SelectProjects = () =>{
-    const[, setProject] = useRecoilState(projectState)
+    const[project, setProject] = useRecoilState(projectState)
     // 팝업창 띄우기위해 사용되는 변수
     const [modalnameOpen, setModalNameOpen] = useState(false);
     // 사용자 이름 변수
     const [name, setName] = useState('로드 중..');
     //프로젝트 추가 함수
+
     const addProject = () => {
         axios({
-            url: 'http://localhost:1004/createProject',
+            url: `http://${webPort.express}/createProject`,
             withCredentials : true,
             method: 'post',
           }).then(setProject((prev)=>[...prev]))
@@ -100,11 +109,17 @@ const SelectProjects = () =>{
 
     useEffect(()=>{
         axios({
-            url: 'http://localhost:1004/readMyInfo',
+            url: `http://${webPort.express}/readMyInfo`,
             withCredentials : true,
             method: 'get',
           }).then((res)=>{setName(res.data.data.nickName)});
-    }, [])
+
+        axios({
+            url: `http://${webPort.express}/readMyProjectList`,
+            withCredentials : true,
+            method: 'get',
+          }).then((res)=>{setProject(res.data.data)});
+    }, [setProject])
 
     return (
         <SMain>
@@ -117,7 +132,7 @@ const SelectProjects = () =>{
         </Logodiv>
         <Namediv>
             <Name>프로젝트 목록</Name>
-            <Addbutton onClick={addProject}>
+            <Addbutton onClick={()=>{addProject()}}>
                 +
             </Addbutton>
         </Namediv>            
@@ -126,7 +141,11 @@ const SelectProjects = () =>{
                     onWheel={(e)=>{if(e.deltaY>0)e.currentTarget.scrollLeft+=400; else if(e.deltaY<0) e.currentTarget.scrollLeft-=400;}}
                 >
                     <br/>
-                    <DetailProject />
+                    <Detaildiv>
+                        {project && project.map((data, i)=>(
+                            <DetailProject key={i} data={data} />
+                        ))}
+                    </Detaildiv>
                 </Projectdiv>
         </ScrollMenu>
         </SMain>

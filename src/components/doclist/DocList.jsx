@@ -1,11 +1,12 @@
 import React, {useState ,useCallback} from 'react'
 import styled, { keyframes } from 'styled-components'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { FaSpinner } from 'react-icons/fa'
 import axios from 'axios'
-import { useRecoilState, useRecoilValue } from 'recoil'
-import { docList, docForceRerender } from '../../Atoms/atom'
+import { useRecoilState } from 'recoil'
+import { docList, docForceRerender, currentDocId, currentWorkSpaceId } from '../../Atoms/atom'
 import { useEffect } from 'react'
+import { webPort } from "../../port";
 
 const Sli = styled.li`
     list-style : none;
@@ -32,6 +33,7 @@ const Stitle = styled.span`
     text-overflow: ellipsis;
     white-space: nowrap;
     color : black;
+    cursor : pointer;
     :hover{
         text-decoration : underline;
     }
@@ -133,9 +135,11 @@ const SloadingOpacity = styled.span`
 
 
 function DocList() {
+    const [acurrentWorkSpaceId, setCurrentWorkSpaceId] = useRecoilState(currentWorkSpaceId)
     const {workSpaceNum} = useParams();
     const [doclist, setDocList] = useRecoilState(docList);
     const [docforceRerender, setDocForceRerender] = useRecoilState(docForceRerender);
+    const [docId, setDocId] = useRecoilState(currentDocId);
     //현재 스크롤량을 확인하여 맨 밑까지 스크롤 되었는지를 확인하는 스테이트
     const [isBottom, setIsBottom] = useState(0);
     
@@ -147,24 +151,25 @@ function DocList() {
     })
     const deleteDoc = (docNum)=>{
         axios({
-            url: `http://localhost:1004/delDoc`,
+            url: `http://${webPort.express}/delDoc`,
             data : {
                 docNum : docNum,
             },
             method: 'delete',
             withCredentials : true,
-          }).then((res)=>{console.log(res)}).then(()=>{
+          }).then(()=>{
             setDocForceRerender((prev)=>prev===0? 1 : 0);
           })
     }
 
     useEffect(()=>{
         axios({
-            url: `http://localhost:1004/readDocList/${workSpaceNum}`,
+            url: `http://${webPort.express}/readDocList/${workSpaceNum}`,
             method: 'get',
             withCredentials : true,
-          }).then((res)=>{console.log(res); setDocList(res.data.data)});
-    }, [docforceRerender])
+          }).then((res)=>{setDocList(res.data.data)});
+    }, [docforceRerender, acurrentWorkSpaceId])
+    
     return (
         <Sul onScroll={(e)=>{scrollBottom(e)}}>
             {
@@ -172,7 +177,7 @@ function DocList() {
                     return (
                             <Sli key={data.docNum}>
                                 <Snum>{data.docNum}</Snum>
-                                <Link to = {`./${data.docNum}`}><Stitle num={data.docNum}>{data.docTitle}</Stitle></Link>
+                                <Stitle onClick={()=>{setDocId(data.docNum);}} num={data.docNum}>&nbsp;{data.docTitle}</Stitle>
                                 <Swriterwrap><Swriter>{data.nickName}</Swriter></Swriterwrap>
                                 <Sdelbutton onClick={()=>{deleteDoc(data.docNum)}}>삭제</Sdelbutton>
                                 <Sdate>{data.makeDate.slice(0, 10)}</Sdate>

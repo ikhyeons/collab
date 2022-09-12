@@ -1,12 +1,21 @@
+import axios from "axios";
+import { useEffect } from "preact/hooks";
 import React from "react";
+import { MdOutlineCancel } from "react-icons/md";
 import { useRecoilState } from "recoil";
-import { listState } from "../../Atoms/atom";
 import styled from "styled-components";
+import { forceRerender } from "../../Atoms/atom";
+import { webPort } from "../../port";
 
+const Scontainor = styled.div`
+    display: flex;
+    width: 100%;
+    justify-content: center;
+`
 
 const Slist = styled.div`
     max-height:35px;
-    max-width:300px;
+    width:267px;
     overflow:hidden;
     text-overflow:ellipsis;
     white-space:nowrap;
@@ -21,11 +30,34 @@ const Slist = styled.div`
     }
 `
 
+const SdelButton = styled.button`
+`
+
 const InnerList = (props) =>{
-    const [listStatef, setListStatef] = useRecoilState(listState(props.data));
+    const { data } = props;
+    const [render, setRender] = useRecoilState(forceRerender);
+
+    const delList = (listNum)=>{
+        axios({
+            url: `http://${webPort.axios}/delList`,
+            method: 'delete',
+            withCredentials: true,
+            data: {
+                listNum: listNum
+            }
+        }).then((res)=>{
+            console.log(res);
+            setRender((prev)=>{if(prev==1){return 0} else return 1});
+        })
+    }
 
     return(
-        <Slist>{listStatef.contents}</Slist>
+        <Scontainor>
+            <Slist>{data.listTitle}</Slist>
+            <SdelButton onClick={()=>{delList(data.listNum)}}>
+                <MdOutlineCancel /> 
+            </SdelButton>
+        </ Scontainor>
     )
 }
 

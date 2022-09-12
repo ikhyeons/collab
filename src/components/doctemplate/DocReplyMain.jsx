@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import ReplyText from './docReplyType/ReplyText'
 import { useRecoilState } from 'recoil'
 import { replyList } from '../../Atoms/atom'
+import { webPort } from "../../port";
 
 
 const SListDiv = styled.ul`

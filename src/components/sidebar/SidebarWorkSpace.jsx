@@ -5,6 +5,7 @@ import {sidebarWorkSpace, projectUrl} from '../../Atoms/atom'
 import SidebarWorkSpaceLi from './SidebarWorkSpaceLi'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
+import { webPort } from "../../port";
 
 const Stitle = styled.div`
   padding-left : 10px;
@@ -39,7 +40,7 @@ const SidebarWorkSpace = () => {
   const {projectNum} = useParams();
   useEffect(()=>{
     axios({
-      url: `http://localhost:1004/readWorkSpaceList/${projectNum}`, // 통신할 웹문서
+      url: `http://${webPort.express}/readWorkSpaceList/${projectNum}`, // 통신할 웹문서
       method: 'get', // 통신할 방식
       withCredentials : true,
     }).then((res)=>{setWorkSpaceList([]);return res}).then((res)=>{
@@ -63,7 +64,7 @@ const SidebarWorkSpace = () => {
   //워크스페이스 리스트 추가하는 함수
   const addWorkSpaceList = () => {
     axios({
-      url: `http://localhost:1004/createWorkSpace`,
+      url: `http://${webPort.express}/createWorkSpace`,
       method: 'post',
       withCredentials : true,
       data:{

@@ -5,6 +5,16 @@ import {
     selectorFamily,
   } from 'recoil';
 //------------------------사이드바
+export const currentWorkSpaceId = atom({
+  key : 'workSpace/workSpaceId',
+  default : '0',
+})
+
+export const currentChatSpaceId = atom({
+  key : 'chatSpace/chatSpaceId',
+  default : '0',
+})
+
 export const sidebarWorkSpace = atom({
   key : 'sidebar/sidebarWorkSpace',
   default : [],
@@ -56,16 +66,12 @@ export const calendarEventData = atom({
 export const userNamePool = atom({
   key : 'template/licensorNamePool',
   default : 
-    [
-      {
-          id : '성익현',
-          display : '@성익현',
-      },
-      {
-          id : '강도경',
-          display : '@강도경',
-      },
-  ]
+    []
+})
+
+export const currentDocId = atom({
+  key : 'template/selectedDocId',
+  default : 0,
 })
 
 export const templateMainData = atom({
@@ -73,13 +79,17 @@ export const templateMainData = atom({
   default : {
   id : 3,
   name : '세번째 글 제목',
-  makeDate : '2022-07-14',
+  makeDate : '',
   modifyDate : '2022-07-15',
-  maker : '성익현',
-  participant : ['강도경', '성익현'],
-  licensor : ['강도경', ],
+  maker : '',
+  participant : [],
+  licenser : [],
 }})
 
+export const templateForceRerender = atom({
+  key : 'template/templateForceRerender',
+  default : 0,
+})
 export const templateParagraphId = atom({
   key : 'template/templateParagraphId',
   default : [
@@ -164,21 +174,23 @@ export const docForceRerender = atom({
   default : 0
 })
 
+export const docPage = atom({
+  key : 'doclist/docPage',
+  default : 1,
+})
+
 //-------------------------------채팅
 
 export const chatList = atom({
   key : 'chatting/chatList',
-  default : [
-    {
-      my:0,
-      contents:'뭐해',
-  },
-  ]
+  default : []
 })
 
 export const chatParticipant = atom({
   key : 'chatting/chatParticipant',
-  default : ['성익현','강도경']
+  default : [
+    
+  ]
 })
 
 //-------------------------------리퀘스트
@@ -254,29 +266,14 @@ export const boardState = atom({
   ]
 });
 
-export const listStateId = atom ({
-  key: 'worklist/listStateId',
-  default:[
-    { id: 0, bnum: 1 },
-    { id: 1, bnum: 2 },
-    { id: 2, bnum: 3 },
-    { id: 3, bnum: 2 },
-  ]
-})
-
-export const listState = atomFamily({
-  key: 'worklist/listState',
-  default: ({id, bnum})=>{
-    return({
-     id: id,
-     bnum: bnum,
-     contents: `${id}, ${bnum}인 디폴트`, 
-    })
-  }
-})
 
 export const forceRerender = atom({
   key: 'forceRerender',
+  default: 0,
+})
+
+export const currentReqId = atom({
+  key: 'request/selectedReqId',
   default: 0,
 })
 

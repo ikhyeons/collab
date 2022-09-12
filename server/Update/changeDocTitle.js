@@ -2,7 +2,7 @@ const {mysqlKey}  = require('../mysqlKey');
 const mysql = require('mysql');
 const con = mysql.createConnection(mysqlKey);
 
-exports.changeDocInfo = (req, res) => {
+exports.changeDocTitle = (req, res) => {
     const {docNum, docTitle} = req.body;
     if(req.session.logined === true){
         con.query('UPDATE document SET docTitle = ? WHERE docNum = ?', [docTitle, docNum], (error, rows, fields)=> {

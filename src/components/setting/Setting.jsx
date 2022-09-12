@@ -1,6 +1,13 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import Toggle from './Toggle'
+import { sidebarWorkSpace } from '../../Atoms/atom'
+import { useRecoilState } from 'recoil'
+import SetWorkSpaceLi from './SetWorkSpaceLi'
+import { useParams } from 'react-router-dom'
+import axios from 'axios'
+import { useEffect } from 'react'
+import { webPort } from "../../port";
 
 const SSettingWrap = styled.div`
     background : lightyellow;
@@ -9,7 +16,7 @@ const SSettingWrap = styled.div`
     padding : 5px;
 `
 
-const Sul = styled.ul`
+const Sul = styled.ul`-
   margin : 5px;
 `
 const Sli = styled.li`
@@ -73,33 +80,93 @@ const Sbutton = styled.button`
   border-radius : 15px;
   transform : translate(8px, 2px);
 `
+
+const SworkListUl = styled.ul`
+
+`
+
 function Setting() {
+  const [workSpaceList] = useRecoilState(sidebarWorkSpace);
+  const {projectNum} = useParams();
+  const [collabEmail, setCollabEmail] = useState('')
+  const [collaborator, setCollaborator] = useState([])
 
-  const [participant, setParticipant] = useState([
-    {
-      name : '성익현',
-    },
-    {
-      name : '강도경',
-    },
-    {
-      name : '홍길동',
-    },
-  ])
+  const afterLeaveTeam = () => {
+    document.location.assign('/project');
+  }
 
+  const deleteProject = ()=>{
+    axios({
+      url: `http://${webPort.express}/delProject`, // 통신할 웹문서
+      method: 'delete', // 통신할 방식
+      data : {
+        projectNum : projectNum,
+      },
+      withCredentials : true,
+    }).then(res=>{console.log(res)})
+  }
+
+  const deleteCollaborator = ()=>{
+    axios({
+      url: `http://${webPort.express}/delCollaborator`, // 통신할 웹문서
+      method: 'delete', // 통신할 방식
+      data : {
+        projectNum : projectNum,
+      },
+      withCredentials : true,
+    }).then(res=>{console.log(res)})
+  }
+
+  const addCollaborator = ()=>{
+    axios({
+      url: `http://${webPort.express}/createCollaborator`, // 통신할 웹문서
+      method: 'post', // 통신할 방식
+      data : {
+        projectNum : projectNum,
+        userEmail : collabEmail,
+      },
+      withCredentials : true,
+    })
+  }
+
+  useEffect(()=>{
+    axios({
+      url: `http://${webPort.express}/readProjectCollaborator/${projectNum}`, // 통신할 웹문서
+      method: 'get', // 통신할 방식
+      withCredentials : true,
+    }).then(res=>{console.log(res.data.data); setCollaborator(res.data.data)})
+  }, [])
   return (
     <SSettingWrap>
-        <Sspan>초대 보내기</Sspan> <Sform><Sinput type="text" /> <Sbutton>전송</Sbutton></Sform>
+        <Sspan>초대 보내기</Sspan> 
+        <Sform>
+          <Sinput type="text" onChange={(e)=>{setCollabEmail(e.target.value)}} value={collabEmail}/> 
+          <Sbutton onClick={()=>{addCollaborator(); setCollabEmail('')}}>전송</Sbutton>
+        </Sform>
         <Sul>
           <Sspan>참가자 리스트</Sspan>
-          {participant.map((data, i)=><Sli key={i}>{data.name}</Sli>)}
+          {collaborator.map((data, i)=><Sli key={i}>{data.nickName}</Sli>)}
         </Sul>
         <Sspan>다크모드</Sspan> <Toggle />
         
         <br />
-        <SLeaveBtn>팀 이탈하기</SLeaveBtn> 
+        <SLeaveBtn onClick={()=>{
+          deleteCollaborator()
+          afterLeaveTeam()
+        }}>팀 이탈하기</SLeaveBtn> 
         <br />
-        <SDelBtn>프로젝트 제거</SDelBtn>
+        <SDelBtn onClick={()=>{
+          deleteProject();
+          afterLeaveTeam()
+        }}>프로젝트 제거</SDelBtn>
+        <br />
+        <Sspan>워크스페이스 목록</Sspan>
+        <SworkListUl>
+          {workSpaceList.map((data, i)=>{
+            return <SetWorkSpaceLi key={i} index={i} id={data}></SetWorkSpaceLi>
+          })}
+        </SworkListUl>
+        
 
     </SSettingWrap>
   )

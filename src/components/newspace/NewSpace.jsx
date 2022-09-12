@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useRecoilState } from 'recoil';
 import { forceRerender } from "../../Atoms/atom";
+import { webPort } from "../../port";
 
 const Scontainor = styled.div`
     width: 100%;
@@ -49,32 +50,28 @@ const NewSpace = ()=>{
     },[Rerender])
     const changeTypeWorkList = ()=>{
         axios({
-            url: `http://localhost:1004/changeWorkSpaceType`,
+            url: `http://${webPort.express}/changeWorkSpaceType`,
             method: 'put',
             withCredentials : true,
             data:{
-                projectNum: projectNum,
                 workSpaceNum: workSpaceNum,
                 changeType: 'board',
-                changeTitle: '작업공간',
             }
-          }).then((res)=>{
+          }).then(()=>{
             setRerender((prev)=>{if(prev == 1){return 0} else return 1});
         })
     };
 
     const changeTypeList = ()=>{
         axios({
-            url: `http://localhost:1004/changeWorkSpaceType`,
+            url: `http://${webPort.express}/changeWorkSpaceType`,
             method: 'put',
             withCredentials : true,
             data:{
-                projectNum: projectNum,
                 workSpaceNum: workSpaceNum,
                 changeType: 'li',
-                changeTitle: '문서',
             }
-          }).then((res)=>{
+          }).then(()=>{
             setRerender((prev)=>{if(prev == 1){return 0} else return 1});
         })
     };

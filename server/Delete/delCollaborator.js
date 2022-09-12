@@ -2,12 +2,12 @@ const {mysqlKey}  = require('../mysqlKey');
 const mysql = require('mysql');
 const con = mysql.createConnection(mysqlKey);
 
-exports.readDocInfo = (req, res) => {
-    const {docNum} = req.body;
+exports.delCollaborator = (req, res) => {
+    const {projectNum} = req.body;
     if(req.session.logined === true){
-        con.query('select * from document where docNum = ?', [docNum], (error, rows, fields)=> {
+        con.query('delete from collaborator WHERE projectNum = ? and userNum = ?', [projectNum, req.session.sid], (error, rows, fields)=> {
             if(error) throw error;
-            res.send({success : 0, data : rows[0]});
+            res.send({success : 0});
         })
     }
     else {

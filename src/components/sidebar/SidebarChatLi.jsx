@@ -3,9 +3,10 @@ import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { useDrag, useDrop } from 'react-dnd'
 import { useRecoilState, useResetRecoilState } from 'recoil'
-import { forceRerender, sidebarChatLi } from '../../Atoms/atom'
+import { forceRerender, sidebarChatLi, currentChatSpaceId } from '../../Atoms/atom'
 import axios from 'axios'
 import { MdOutlineCancel } from 'react-icons/md'
+import { webPort } from "../../port";
 
 const Sli = styled.li`
   width : 100%;
@@ -17,7 +18,11 @@ const Sli = styled.li`
 `
 
 const SdelButton = styled.button`
+`
 
+const Sdiv = styled.div`
+  display: flex;
+  justify-content : flex-start;
 `
 
 function SidebarChatLi({index, id, moveFunction}) {
@@ -25,6 +30,7 @@ function SidebarChatLi({index, id, moveFunction}) {
     const [chatLi, setChatLi] = useRecoilState(sidebarChatLi({num : id}));
     const {projectNum} = useParams();
     const [reRender, setReRender] = useRecoilState(forceRerender);
+    const [acurrentChatSpaceId, setCurrentChatSpaceId] = useRecoilState(currentChatSpaceId)
         
     const [{ isDragging }, dragRef, previewRef] = useDrag(
       () => ({
@@ -55,7 +61,7 @@ function SidebarChatLi({index, id, moveFunction}) {
     })
     useEffect(()=>{
       axios({
-        url: `http://localhost:1004/readChatSpaceInfo/${id}`, // 통신할 웹문서
+        url: `http://${webPort.express}/readChatSpaceInfo/${id}`, // 통신할 웹문서
         method: 'get', // 통신할 방식
         withCredentials : true,
       }).then((res)=>{
@@ -67,7 +73,7 @@ function SidebarChatLi({index, id, moveFunction}) {
     const deleteChat = (chatSpaceNum) => {
       console.log(chatLi);
       axios({
-        url: `http://localhost:1004/delChatSpace`,
+        url: `http://${webPort.express}/delChatSpace`,
         method: 'delete',
         withCredentials: true,
         data: {
@@ -80,15 +86,20 @@ function SidebarChatLi({index, id, moveFunction}) {
     };
 
   return (
-    <Link to={`/main/${projectNum}/chat/${chatLi.chatSpaceNum}`} style={{ textDecoration: 'none', color : 'black'}}>
-      <Sli isOver={isOver} ref={node => dragRef(drop(node))}>
-        -{chatLi.name} 
-        <SdelButton onClick={()=>{deleteChat(chatLi.chatSpaceNum)}}>
-          <MdOutlineCancel /> 
-          {/* 전체 채팅이 디폴트로 들어가 있어서 채팅 타입이 디폴트 값이면 삭제 버튼이 랜더링 안되게끔하기 */}
-        </SdelButton>
-      </Sli>
-    </Link>//${i}에서 i는 채팅 번호
+    <>
+    <Sdiv>
+      <Link onClick={()=>{
+        setCurrentChatSpaceId(chatLi.chatSpaceNum)
+      }} to={`/main/${projectNum}/chat/${chatLi.chatSpaceNum}`} style={{ textDecoration: 'none', color : 'black'}}>
+        <Sli isOver={isOver} ref={node => dragRef(drop(node))}>
+          -{chatLi.name} 
+        </Sli>
+      </Link>
+      <SdelButton onClick={()=>{deleteChat(chatLi.chatSpaceNum)}}>
+        <MdOutlineCancel /> 
+      </SdelButton>
+    </Sdiv>
+    </>
   )
 }
 

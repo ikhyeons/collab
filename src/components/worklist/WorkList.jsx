@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import styled from 'styled-components';
-import { boardState, listState } from "../../Atoms/atom";
-import { useRecoilState } from "recoil";
 import BoardList from "./BoardList";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { forceRerender } from "../../Atoms/atom";
 
+import { webPort } from "../../port";
 
 const Wnav = styled.nav`
     width: 80%;
@@ -49,23 +53,39 @@ const Sbutton = styled.button`
 const WorkList = ()=>{
     const [boardClicked, setBoardClicked] = useState(0);
     const [boardName, setBoardName] = useState('');
-    const [board, setBoard] = useRecoilState(boardState)
+    const [board, setBoard] = useState([]);
+    const { workSpaceNum } = useParams();
+    const [forceRender, setForceRender] = useRecoilState(forceRerender);
    
     const inputBoard= (e)=>{
         setBoardName(e.target.value)
     };
 
+    useEffect(()=>{
+        axios({
+            url: `http://${webPort.axios}/readBoard/${workSpaceNum}`,
+            method:'get',
+            withCredentials: true,
+        }).then((res)=>{
+            console.log(res, 'board res');
+            setBoard(res.data.data);
+        })
+    }, [forceRender])
+
     const addBoard = () =>{
-        setBoard((prev) =>{
-            let newBoard = [
-                ...prev,
-                {
-                    bnum: prev.length+1,
-                    bname: boardName,
-                },
-            ]
-            console.log(newBoard);
-            return newBoard;
+        console.log(board);
+        axios({
+            url: `http://${webPort.axios}/createBoard`,
+            method:'post',
+            withCredentials: true,
+            data:{
+                workspaceNum : workSpaceNum,
+                boardTitle : boardName,
+            }
+        }).then((res)=>{
+            console.log(res);
+            setForceRender((prev)=>{if(prev==1){return 0} else return 1});
+            setBoardClicked(0);
         })
     };
     

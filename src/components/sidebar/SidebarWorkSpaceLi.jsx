@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { useDrag, useDrop } from 'react-dnd'
 import { useRecoilState, useResetRecoilState } from 'recoil'
-import { sidebarWorkSpaceLi, sidebarWorkSpace } from '../../Atoms/atom'
+import { sidebarWorkSpaceLi, currentWorkSpaceId } from '../../Atoms/atom'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import { MdOutlineCancel } from 'react-icons/md'
+import { webPort } from "../../port";
 
 const Sli = styled.li`
   width : 100%;
@@ -17,15 +18,11 @@ const Sli = styled.li`
   }
 `
 
-const SdelButton = styled.button`
-
-`
-
-
 function SidebarWorkSpaceLi({index, id, moveFunction}) {
 
     const [workSpaceLi, setWorkSpaceLi] = useRecoilState(sidebarWorkSpaceLi({id : id}))
     const {projectNum} = useParams()
+    const [acurrentWorkSpaceId, setCurrentWorkSpaceId] = useRecoilState(currentWorkSpaceId)
 
     const [{ isDragging }, dragRef, previewRef] = useDrag(
       () => ({
@@ -57,7 +54,7 @@ function SidebarWorkSpaceLi({index, id, moveFunction}) {
     
     useEffect(()=>{
       axios({
-        url: `http://localhost:1004/readWorkSpaceInfo/${id}`, // 통신할 웹문서
+        url: `http://${webPort.express}/readWorkSpaceInfo/${id}`, // 통신할 웹문서
         method: 'get', // 통신할 방식
         withCredentials : true,
       }).then((res)=>{
@@ -66,7 +63,9 @@ function SidebarWorkSpaceLi({index, id, moveFunction}) {
     }, [])
 
   return (
-    <Link to={`/main/${projectNum}/workspace/${workSpaceLi.type}/${workSpaceLi.id}`} style={{ textDecoration: 'none', color : 'black'}}>
+    <Link onClick={()=>{
+      setCurrentWorkSpaceId(workSpaceLi.id)
+    }} to={`/main/${projectNum}/workspace/${workSpaceLi.type}/${workSpaceLi.id}`} style={{ textDecoration: 'none', color : 'black'}}>
       <Sli isOver={isOver} ref={node => dragRef(drop(node))} >
         -{workSpaceLi.spaceTitle}
         </Sli>

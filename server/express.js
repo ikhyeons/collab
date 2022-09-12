@@ -1,7 +1,7 @@
 //------------------------------------------express 실행
 const express = require('express');
 const app = express();
-const port = process.env.port||1004;
+const port = process.env.port||2005;
 //------------------------------------------mysql 연결
 const mysql = require('mysql');
 const {mysqlKey} = require('./mysqlKey.js');
@@ -11,8 +11,6 @@ connection.connect();
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session');
 const sessionStore = new MySQLStore(mysqlKey);
-//------------------------------------------axios 허가
-const axios = require('axios');
 //------------------------------------------helmet 페이지 보안
 const helmet = require('helmet');
 app.use(helmet());
@@ -53,27 +51,35 @@ const {createChatSpace} = require('./Create/createChatSpace')
 const {createParagraph} = require('./Create/createParagraph');
 const {createDocLicenser} = require('./Create/createDocLicenser');
 const {createDocParticipant} = require('./Create/createDocParticipant');
+const {createChatParticipant} = require('./Create/createChatParticipant')
 
 const {readMyProjectList} = require('./Read/readProjectList.js');
 const {readRequestList} = require('./Read/readRequestList')
 const {readWorkSpaceList} = require('./Read/readWorkSpaceList')
 const {readChatSpaceList} = require('./Read/readChatSpaceList')
 const {readDocList} = require('./Read/readDocList')
-const {readDocInfo} = require('./Read/readDocInfo')
+const {readDocMakeDate} = require('./Read/readDocMakeDate')
+const {readDocTitle} = require('./Read/readDocTitle')
 const {readEventList} = require('./Read/readEventList')
 const {readEventInfo} = require('./Read/readEventInfo')
 const {readMyInfo} = require('./Read/readMyInfo')
 const {readWorkSpaceInfo} = require('./Read/readWorkSpaceInfo')
 const {readChatSpaceInfo} = require('./Read/readChatSpaceInfo')
+const {readProjectCollaborator} = require('./Read/readProjectCollaborator')
+const {readDocParticipant} = require('./Read/readDocParticipant')
+const {readDocLicenser} = require('./Read/readDocLicenser')
+const {readDocMaker} = require('./Read/readDocMaker')
+const {readChatParticipant} = require('./Read/readChatParticipant')
 
 const {changeMyProjectOrder} = require('./Update/changeMyProjectOrder')
 const {changeWorkSpaceOrder} = require('./Update/changeWorkSpaceOrder')
 const {changeChatSpaceOrder} = require('./Update/changeChatSpaceOrder')
 const {changeReply} = require('./Update/changeReply')
 const {changeDoctype} = require('./Update/changeDoctype')
-const {changeDocInfo} = require('./Update/changeDocInfo')
+const {changeDocTitle} = require('./Update/changeDocTitle')
 const {changeParagraph} = require('./Update/changeParagraph')
 const {changeCalendarEventDate} = require('./Update/chageCalendarEventDate')
+const { changeWorkSpaceType } = require('./Update/changeWorkSpaceType.js');
 
 const {delProject} = require('./Delete/delProject')
 const {delDoc} = require('./Delete/delDoc')
@@ -84,7 +90,14 @@ const {delRequest} = require('./Delete/delRequest')
 const {delEvent} = require('./Delete/delEvent')
 const {delDocParticipant} = require('./Delete/delDocParticipant')
 const {delDocLicenser} = require('./Delete/delLicenser');
-const { changeWorkSpaceType } = require('./Update/changeWorkSpaceType.js');
+const { createBoard } = require('./Create/createBoard.js');
+const { readBoard } = require('./Read/readBoard.js');
+const { readList } = require('./Read/readList.js');
+const { createList } = require('./Create/createList.js');
+const { delBoard } = require('./Delete/delBoard.js');
+const { delList } = require('./Delete/delList.js');
+const {delCollaborator} = require('./Delete/delCollaborator')
+const {delChatParticipant} = require('./Delete/delChatParticipant')
 //------------------------------------------session라우팅
 app.post('/login', (req, res)=>{
     login(req, res);
@@ -135,11 +148,20 @@ app.post('/createDocLicenser', (req, res)=>{
 app.post('/createDocParticipant', (req, res)=>{
   createDocParticipant(req, res);
 })
+app.post('/createBoard', (req, res)=>{
+  createBoard(req, res);
+})
+app.post('/createList', (req, res)=>{
+  createList(req, res);
+})
+app.post('/createChatParticipant', (req, res)=>{
+  createChatParticipant(req, res);
+})
 //------------------------------------------Read라우팅
 app.get('/readMyProjectList', (req, res)=>{
   readMyProjectList(req, res);
 })
-app.get('/readRequestList', (req, res)=>{
+app.get('/readRequestList/:projectNum', (req, res)=>{
   readRequestList(req, res);
 })
 app.get('/readWorkSpaceList/:projectNum', (req, res)=>{
@@ -151,9 +173,6 @@ app.get('/readChatSpaceList/:projectNum', (req, res)=>{
 app.get('/readDocList/:workSpaceNum', (req, res)=>{
   readDocList(req, res);
 })
-app.get('/readDocInfo', (req, res)=>{
-  readDocInfo(req, res);
-})
 app.get('/readEventList/:projectNum', (req, res)=>{
   readEventList(req, res);
 })
@@ -163,7 +182,7 @@ app.get('/readEventInfo/:eventNum', (req, res)=>{
 app.get('/readMyAnswer', (req, res)=>{
   readMyAnswer(req, res);
 })
-app.get('/readChatData', (req, res)=>{
+app.get('/readChatData/:chatSpaceNum', (req, res)=>{
   readChatData(req, res);
 })
 app.get('/readMyInfo', (req, res)=>{
@@ -174,6 +193,34 @@ app.get('/readWorkSpaceInfo/:workSpaceNum', (req, res)=>{
 })
 app.get('/readChatSpaceInfo/:chatSpaceNum', (req, res)=>{
   readChatSpaceInfo(req, res);
+})
+app.get('/readBoard/:workSpaceNum', (req, res)=>{
+  readBoard(req, res);
+})
+app.get('/readList/:boardNum', (req, res)=>{
+  readList(req, res);
+})
+app.get('/readProjectCollaborator/:projectNum', (req, res)=>{
+  readProjectCollaborator(req, res)
+})
+app.get('/readDocParticipant/:docNum', (req, res)=>{
+  readDocParticipant(req, res)
+})
+app.get('/readDocMakeDate/:docNum', (req, res)=>{
+  readDocMakeDate(req, res);
+})
+app.get('/readDocTitle/:docNum', (req, res)=>{
+  readDocTitle(req, res);
+})
+
+app.get('/readDocLicenser/:docNum', (req, res)=>{
+  readDocLicenser(req, res)
+})
+app.get('/readDocMaker/:docNum', (req, res)=>{
+  readDocMaker(req, res)
+})
+app.get('/readChatParticipant/:chatSpaceNum', (req, res)=>{
+  readChatParticipant(req, res)
 })
 
 //------------------------------------------Update라우팅
@@ -195,8 +242,8 @@ app.put('/changeDoctype', (req, res)=>{
 app.put('/changeParagraph', (req, res)=>{
   changeParagraph(req, res);
 })
-app.put('/changeDocInfo', (req, res)=>{
-  changeDocInfo(req, res);
+app.put('/changeDocTitle', (req, res)=>{
+  changeDocTitle(req, res);
 })
 app.put('/changeResponse', (req, res)=>{
   changeResponse(req, res);
@@ -237,4 +284,16 @@ app.delete('/delDocParticipant', (req, res)=>{
 })
 app.delete('/delDocLicenser', (req, res)=>{
   delDocLicenser(req, res);
+})
+app.delete('/delBoard', (req, res)=>{
+  delBoard(req, res);
+})
+app.delete('/delList', (req, res)=>{
+  delList(req, res);
+})
+app.delete('/delCollaborator', (req, res)=>{
+  delCollaborator(req, res)
+})
+app.delete('/delChatParticipant', (req, res)=>{
+  delChatParticipant(req, res)
 })

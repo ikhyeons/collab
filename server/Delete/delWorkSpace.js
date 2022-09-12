@@ -3,11 +3,12 @@ const mysql = require('mysql');
 const con = mysql.createConnection(mysqlKey);
 
 exports.delWorkSpace = (req, res) => {
-    const {workSpaceNum} = req.body;
+    const {workSpaceNum, projectNum} = req.body;
     if(req.session.logined === true){
-        con.query('select makeUserNum from document WHERE docNum = ?', [docNum], (error, rows, fields)=> {
+        con.query('select projectManager from project WHERE projectNum = ?', [projectNum], (error, rows, fields)=> {
             if(error) throw error;
-            if(rows[0].makeUserNum === req.session.sid){
+            console.log(rows);
+            if(rows[0].projectManager === req.session.sid){
                 con.query('UPDATE workSpace SET del = 1 WHERE workSpaceNum = ?', [workSpaceNum], (error, rows, fields)=> {
                     if(error) throw error;
                     res.send({success : 0});

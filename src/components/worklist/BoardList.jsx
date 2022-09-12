@@ -1,9 +1,14 @@
 import React from "react";
 import { useState, useRef, useEffect } from "react";
-import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import InnerList from "./InnerList";
+import axios from "axios";
+import { MdOutlineCancel } from "react-icons/md";
+import { useRecoilState } from "recoil";
+import { forceRerender } from "../../Atoms/atom";
+
 import { listStateId, listState } from "../../Atoms/atom";
+import { webPort } from "../../port";
 
 const Sinput = styled.input`
     width:300px;
@@ -35,7 +40,7 @@ const Wtitle = styled.div`
     padding-left: 12px;
     border-bottom: 1px solid grey;
     min-height: 21px;
-    max-width:300px;
+    width:283px;
     overflow:hidden;
     text-overflow:ellipsis;
     white-space:nowrap;
@@ -43,29 +48,46 @@ const Wtitle = styled.div`
 const Sboard = styled.div`
     min-width:150px;
     margin-right:5px;
+    display:flex;
 `
 
 const Scontainor = styled.div`
 `
+
+const SdelButton = styled.button`
+`
+
 const BoardList = (props) =>{
     const { i, data, index } = props;
     const [listName, setListName] = useState("");
     const [addButton, setAddButton] = useState(0);
-    const [list, setList] = useRecoilState(listStateId);
+    const [list, setList] = useState([]);
+    const [render, setRender] = useRecoilState(forceRerender);
 
-    const addList= (i)=>{
-        setList((prev)=>{
-            let newList = [
-                ...prev,
-            ]
-            if(listName){
-                newList.push({id: list.at(-1).id + 1, bnum: index})
-            }else{
-                return newList;
+    useEffect(()=>{
+        axios({
+            url: `http://${webPort.axios}/readList/${data.boardNum}`,
+            method:'get',
+            withCredentials: true,
+        }).then((res)=>{
+            console.log(res);
+            setList(res.data.data);
+        })
+    },[])
+
+    const addList= ()=>{
+        console.log(list, 'list');
+        axios({
+            url: `http://${webPort.axios}/createList`,
+            method:'post',
+            withCredentials: true,
+            data:{
+                boardNum:data.boardNum,
+                listTitle: listName,
             }
-            return newList;
-        });
-        setListName('');
+        }).then((res)=>{
+            console.log(res, 'addList');
+        })
         setAddButton(0);
     };
 
@@ -86,34 +108,35 @@ const BoardList = (props) =>{
     const clickInputOutside = e =>{
         if (addButton && !inputRef.current.contains(e.target)){
             setAddButton(0);
-            if(listName===''){
-                setList((prev)=>{
-                    console.log('gd');
-                    console.log(list.at(-1));
-                    let newList = [...prev];
-                    newList.push({id: list.at(-1).id + 1, bnum: index});
-                    return newList;
-                });
-            } else {
-                setList((prev)=>{
-                    console.log('gd');
-                    let newList = [...prev];
-                    newList.push({id: list.at(-1).id + 1, bnum: index});
-                    return newList;
-                });
-            }
-            
+            addList();
             setListName('');
         }
+    }
+
+    const delBoard = (boardNum)=>{
+        axios({
+            url: `http://${webPort.axios}/delBoard`,
+            method: 'delete',
+            withCredentials: true,
+            data: {
+                boardNum : boardNum
+            }
+        }).then((res)=>{
+            console.log(res);
+            setRender((prev)=>{if(prev==1){return 0} else return 1});
+        })
     }
 
     return(
         <Scontainor>
             <Sboard key={i}>
-                <Wtitle key={i}>{data.bname}</Wtitle>
+                <Wtitle key={i}>{data.boardTitle}</Wtitle>
+                <SdelButton onClick={()=>{delBoard(data.boardNum)}}>
+                <MdOutlineCancel /> 
+                </SdelButton>
             </Sboard>
             <SlistContainor>
-                {list && list.filter((data)=>(data.bnum === index)).map((data, i)=>{
+                {list.map((data, i)=>{
                     return(
                         <InnerList key={i} data={data} />
                     )

@@ -4,6 +4,7 @@ import { calendarSelectedDate, calendarEvents, calendarModalState } from '../../
 import { useRecoilValue, useRecoilState } from 'recoil'
 import axios from 'axios'
 import {useParams} from 'react-router-dom'
+import { webPort } from "../../port";
 
 const AddEventModal = styled.div`
   width : 35vw;
@@ -95,7 +96,7 @@ function CalendarAddEventModal() {
       alert('제목은 필수로 입력해야 합니다.')
     } else {
       axios({
-        url: `http://localhost:1004/createCalendarEvent`, // 통신할 웹문서
+        url: `http://${webPort.express}/createCalendarEvent`, // 통신할 웹문서
         method: 'post', // 통신할 방식
         withCredentials : true,
         data : {

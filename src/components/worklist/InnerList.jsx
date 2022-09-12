@@ -39,7 +39,7 @@ const InnerList = (props) =>{
 
     const delList = (listNum)=>{
         axios({
-            url: `http://${webPort.axios}/delList`,
+            url: `http://${webPort.express}/delList`,
             method: 'delete',
             withCredentials: true,
             data: {

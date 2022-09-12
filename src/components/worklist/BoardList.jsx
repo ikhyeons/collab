@@ -66,7 +66,7 @@ const BoardList = (props) =>{
 
     useEffect(()=>{
         axios({
-            url: `http://${webPort.axios}/readList/${data.boardNum}`,
+            url: `http://${webPort.express}/readList/${data.boardNum}`,
             method:'get',
             withCredentials: true,
         }).then((res)=>{
@@ -78,7 +78,7 @@ const BoardList = (props) =>{
     const addList= ()=>{
         console.log(list, 'list');
         axios({
-            url: `http://${webPort.axios}/createList`,
+            url: `http://${webPort.express}/createList`,
             method:'post',
             withCredentials: true,
             data:{
@@ -115,7 +115,7 @@ const BoardList = (props) =>{
 
     const delBoard = (boardNum)=>{
         axios({
-            url: `http://${webPort.axios}/delBoard`,
+            url: `http://${webPort.express}/delBoard`,
             method: 'delete',
             withCredentials: true,
             data: {

@@ -123,9 +123,7 @@ const Chatting = ()=>{
     useEffect(()=>{
         socket.on("newChat", ()=>{
             setForceRerender(prev=>{
-                if(prev === 0) return 1;
-                else if (prev === 1) return 2;
-                else return 0;
+                return prev+1;
             })
         })
     }, [])

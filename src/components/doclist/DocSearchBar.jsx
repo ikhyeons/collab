@@ -5,6 +5,7 @@ import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import { docForceRerender } from '../../Atoms/atom'
+import { webPort } from "../../port";
 
 const SdocSearchBar = styled.div`
     padding : 8px 10px 10px 6px;
@@ -47,7 +48,7 @@ function DocSearchBar() {
   const {workSpaceNum} = useParams()
   const createDoc = ()=>{
     axios({
-      url: `http://localhost:1004/createDocument`,
+      url: `http://${webPort.express}/createDocument`,
             method: 'post',
             data : {
               workSpaceNum : workSpaceNum,

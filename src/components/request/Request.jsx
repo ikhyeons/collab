@@ -7,7 +7,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import ResponseList from "./ResponseList"
 import SendList from "./SendList";
-
+import { webPort } from "../../port";
 
 const RequestDiv = styled.div`
     width: 100%;
@@ -127,7 +127,7 @@ const Request = () =>{
             console.log('timeResponse');
             axios({
                 method: 'post',
-                url: 'http://localhost:1004/addTimeResponse',
+                url: `http://${webPort.express}/addTimeResponse`,
                 withCredentials : true,
                 data: {
                     reqNum: reqId,

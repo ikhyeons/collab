@@ -5,7 +5,7 @@ const con = mysql.createConnection(mysqlKey);
 exports.delDocParticipant = (req, res) => {
     const {docNum, particiNum} = req.body;
     if(req.session.logined === true){
-        con.query('select makeUserNum from reply WHERE docNum = ?', [docNum], (error, rows, fields)=> {
+        con.query('select makeUserNum from document WHERE docNum = ?', [docNum], (error, rows, fields)=> {
             if(error) throw error;
             if(rows[0].makeUserNum === req.session.sid){
                 con.query('delete from docParticipant WHERE particiNum = ?', [particiNum], (error, rows, fields)=> {

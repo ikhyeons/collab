@@ -7,6 +7,8 @@ import { MdOutlineCancel } from "react-icons/md";
 import { useRecoilState } from "recoil";
 import { forceRerender } from "../../Atoms/atom";
 
+import { listStateId, listState } from "../../Atoms/atom";
+import { webPort } from "../../port";
 
 const Sinput = styled.input`
     width:300px;

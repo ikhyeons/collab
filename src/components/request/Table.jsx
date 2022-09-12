@@ -3,6 +3,7 @@ import Tr from './Tr';
 import styled from "styled-components";
 import { selectedTd, requestTable } from "../../Atoms/atom";
 import { useRecoilState } from "recoil";
+import { webPort } from "../../port";
 
 const Std = styled.td`
     border: 1px solid black;

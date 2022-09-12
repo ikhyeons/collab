@@ -5,7 +5,7 @@ import CalendarEventWrap from './CalendarEventWrap'
 import { calendarModalState, calendarSelectedDate, calendarEvents, calendarEventData } from '../../Atoms/atom'
 import { useRecoilState } from 'recoil'
 import axios from 'axios'
-
+import { webPort } from "../../port";
 
 
 import styled from 'styled-components'
@@ -41,7 +41,7 @@ const CalendarMain = () => {
     useEffect(()=>{
         console.log("gd");
         axios({
-            url: `http://localhost:1004/readEventList/${projectNum}`, // 통신할 웹문서
+            url: `http://${webPort.express}/readEventList/${projectNum}`, // 통신할 웹문서
             method: 'get', // 통신할 방식
             withCredentials : true,
           }).then(res=>{
@@ -61,7 +61,7 @@ const CalendarMain = () => {
 
     const getCalendarEventData = (eventNum)=>{
         axios({
-            url: `http://localhost:1004/readEventInfo/${eventNum}`, // 통신할 웹문서
+            url: `http://${webPort.express}/readEventInfo/${eventNum}`, // 통신할 웹문서
             method: 'get', // 통신할 방식
             withCredentials : true,
           }).then((res)=>{setCalendarData({
@@ -77,7 +77,7 @@ const CalendarMain = () => {
     const updateEventDate = (id, start, end)=>{
         //startDate가 ''이면 확장/축소, ''이 아니면 이동
         axios({
-            url: `http://localhost:1004/changeCalendarEventDate`, // 통신할 웹문서
+            url: `http://${webPort.express}/changeCalendarEventDate`, // 통신할 웹문서
             method: 'put', // 통신할 방식
             withCredentials : true,
             data : {

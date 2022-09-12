@@ -3,7 +3,11 @@ import {Mention, MentionsInput} from 'react-mentions'
 import defaultStyle from './defaultStyle.js'
 import styled from 'styled-components';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { templateMainData, userNamePool } from '../../Atoms/atom.js';
+import { templateMainData, userNamePool, templateForceRerender, currentDocId } from '../../Atoms/atom.js';
+import { useEffect } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { webPort } from "../../port";
 
 const Participants = styled.div`
     margin-bottom : 3px;
@@ -33,17 +37,41 @@ const Sx = styled.span`
 
 function Participant() {
     
-    const namePool = useRecoilValue(userNamePool);
+    const [namePool, setNamePool]= useRecoilState(userNamePool);
     const [templateData, setTemplateData] = useRecoilState(templateMainData);
+    const [templateforceRerender, setTemplateForceRerender] = useRecoilState(templateForceRerender)
+    const [docNum, setDocNum] = useRecoilState(currentDocId);
 
     const [inputValue, setInputValue] = useState('');
     const [isAdd, setIsAdd] = useState(0);
-
-
     const lineRef = useRef(null);
+    const {projectNum} = useParams()
     
+    useEffect(()=>{
+        axios({
+            url: `http://${webPort.express}/readProjectCollaborator/${projectNum}`,
+            method: 'get',
+            withCredentials : true,
+          }).then((res)=>{
+            let newArray = res.data.data.map((data, i)=>({id : data.userNum, display : data.nickName}))
+            setNamePool(newArray);
+          })
+        axios({
+        url: `http://${webPort.express}/readDocParticipant/${docNum}`,
+        method: 'get',
+        withCredentials : true,
+        }).then((res)=>{
+            let resArray = res.data.data.map((data)=>{return {pid : data.particiNum, id : data.userNum, display : data.nickName}})
+            setTemplateData((prev)=>{
+                let newData = {...prev};
+                newData.participant = resArray;
+                return newData
+            })
+        })
+
+    }, [templateforceRerender, docNum])
+
     const onParticipantMention = (e)=>{
-        console.log(lineRef.current, e.target)
         if(lineRef.current === e.target){
             setIsAdd((prev)=>{
                 return prev === 1 ? 0:1
@@ -58,13 +86,23 @@ function Participant() {
         참여자 : 
         {
             templateData.participant.map((data, i)=>{
-                return <Sname key={i}>@{data} <Sx
+                return <Sname key={i}>@{data.display} <Sx
                 onClick={()=>{
                     setTemplateData((prev)=>{
                         let newData = {...prev};
-                        newData.participant = newData.participant.filter((fdata)=>!(fdata===data))
+                        newData.participant = newData.participant.filter((fdata)=>!(fdata.id===data.id))
                         return newData
                     })
+                axios({
+                    url: `http://${webPort.express}/delDocParticipant`,
+                    method: 'delete',
+                    data : {
+                        docNum : docNum,
+                        particiNum : data.pid,
+                    },
+                    withCredentials : true,
+                })
+                    
                 }}
                 >X</Sx></Sname>
             })}</Participants>
@@ -84,9 +122,20 @@ function Participant() {
             data={namePool} 
             onAdd = {(id, display)=>{
                 setTemplateData((prev)=>{
-                    if(templateData.participant.includes(id)) return prev;
+                    for(let j=0; j<templateData.participant.length;j++) {
+                        if(templateData.participant[j].id==id)
+                        return prev;
+                    }
                     let newData = {...prev};
-                    newData.participant = [...newData.participant, id];
+                    newData.participant = [...newData.participant, {id, name : display}];
+                    axios({
+                        url: `http://${webPort.express}/createDocParticipant`,
+                        method: 'post',
+                        data : {docNum : docNum, selectedUserNum : id},
+                        withCredentials : true,
+                      }).then(()=>{
+                        setTemplateForceRerender((prev)=>prev===0? 1 : 0);
+                      });
                     return newData;
                 })
             }}

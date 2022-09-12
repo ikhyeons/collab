@@ -6,6 +6,7 @@ import { useRecoilState, useResetRecoilState } from 'recoil'
 import { forceRerender, sidebarChatLi } from '../../Atoms/atom'
 import axios from 'axios'
 import { MdOutlineCancel } from 'react-icons/md'
+import { webPort } from "../../port";
 
 const Sli = styled.li`
   width : 100%;
@@ -59,7 +60,7 @@ function SidebarChatLi({index, id, moveFunction}) {
     })
     useEffect(()=>{
       axios({
-        url: `http://localhost:1004/readChatSpaceInfo/${id}`, // 통신할 웹문서
+        url: `http://${webPort.express}/readChatSpaceInfo/${id}`, // 통신할 웹문서
         method: 'get', // 통신할 방식
         withCredentials : true,
       }).then((res)=>{
@@ -71,7 +72,7 @@ function SidebarChatLi({index, id, moveFunction}) {
     const deleteChat = (chatSpaceNum) => {
       console.log(chatLi);
       axios({
-        url: `http://localhost:1004/delChatSpace`,
+        url: `http://${webPort.express}/delChatSpace`,
         method: 'delete',
         withCredentials: true,
         data: {

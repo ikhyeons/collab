@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
+import { useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { chatList } from "../../Atoms/atom";
 import ChatUser from './ChatUser'
+import axios from "axios";
+import io from 'socket.io-client'
+import { webPort } from "../../port";
 
 const Scontainor = styled.div`
     width: 80%;
@@ -55,6 +59,10 @@ const Schatdiv = styled.div`
     position : relative;
 `;
 
+const SchatName = styled.div`
+    
+`
+
 const Sinput = styled.textarea`
     border: none;
     font-size : 20px;
@@ -83,24 +91,50 @@ const Scell = styled.div`
     justify-content : ${ props => props.my === 1 ? 'flex-end' : null};
 `;
 
+const socket = io.connect(`http://${webPort.webSocket}`, {transports : ['websocket']})
+
 const Chatting = ()=>{
+    const {chatSpaceNum} = useParams()
     const [allChat, setAllchat] = useRecoilState(chatList);
     const [chat, setChat] = useState('');
     const scrollRef = useRef();
+    const [forceRerender, setForceRerender] = useState(0)
 
     const addChat = () =>{
-        setAllchat((prev)=>{
-            let newchat = [
-                ...prev,
-                {
-                    my:1,
-                    contents:chat,
-                }
-            ]
-            return newchat;        
+        axios({
+            url: `http://${webPort.express}/writeChat`, // 통신할 웹문서
+            method: 'post', // 통신할 방식
+            data : {
+                chatSpaceNum : chatSpaceNum,
+                innerData : chat,
+            },
+            withCredentials : true,
+          }).then(()=>{
+            setChat('');
+            socket.emit('message', {chat})})
+          .then(()=>{setForceRerender(prev=>{
+            if(prev === 0) return 1;
+            else if (prev === 1) return 2;
+            else return 0;
+            })
         })
-        setChat('');
     }
+
+    useEffect(()=>{
+        socket.on("newChat", ()=>{
+            setForceRerender(prev=>{
+                return prev+1;
+            })
+        })
+    }, [])
+
+    useEffect(()=>{
+        axios({
+            url: `http://${webPort.express}/readChatData/${chatSpaceNum}`, // 통신할 웹문서
+            method: 'get', // 통신할 방식
+            withCredentials : true,
+          }).then(res=>{console.log(res); setAllchat(res.data.data)})
+    }, [forceRerender])
 
     useEffect(()=>{
         console.log('ㅎㅇ');
@@ -120,7 +154,10 @@ const Chatting = ()=>{
                 <Stitle>채팅/전체 채팅</Stitle>
                 <Schatting>
                     {allChat.map((data, i)=>{
-                        return <Scell my={data.my} key={i+1}><Smychat key={i} my={data.my}>{data.contents}</Smychat></Scell>;
+                        return <Scell my={data.my} key={i+1}>
+                                <SchatName>{data.my===1? '나' : data.nickName}</SchatName>
+                                <Smychat key={i} my={data.my}>{data.innerData}</Smychat>
+                                </Scell>;
                         
                     })}
                     <div ref={scrollRef} style={{height:'1px'}}/>

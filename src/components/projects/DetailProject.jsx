@@ -1,6 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { useEffect } from "react";
+import axios from "axios";
+import { projectState, projectUrl } from "../../Atoms/atom";
+import { webPort } from "../../port";
 
 // 프로젝트 들어가는 div
 
@@ -23,15 +28,21 @@ const Projectname = styled.span`
     height: 20px;
 `;  
 
-const DetailProject = (props) => {
-    const {data} = props;
-
+const DetailProject = () => {
+    const [project, setProject] = useRecoilState(projectState);
+    useEffect(()=>{
+        axios({
+            url: `http://${webPort.express}/readMyProjectList`,
+            withCredentials : true,
+            method: 'get',
+          }).then((res)=>{setProject(res.data.data)});
+    }, [])
     return(
         <InnerProject >
-            <Link style={{ textDecoration: 'none', color : 'black' }} to={`/main/${data.projectNum}/calendar`}>
+            <Link style={{ textDecoration: 'none', color : 'black' }} to={`/main/${project.projectNum}/calendar`}>
             <DisplayProject>
                     <Projectname>
-                        &nbsp;{data.projectTitle}
+                        &nbsp;{project.projectTitle}
                     </Projectname>
             </DisplayProject>
             </Link>

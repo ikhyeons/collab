@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { webPort } from "../../port";
 
 // 로그아웃 팝업 div
 const Modalnamediv = styled.div`
@@ -37,7 +38,7 @@ const ModalName = (props) =>{
         axios({
           method: 'post',
           withCredentials : true,
-          url: 'http://localhost:1004/logout',
+          url: `http://${webPort.express}/logout`,
         }).then((res)=>{
             if (res.data.success == 0){window.location.replace("/")}
         });

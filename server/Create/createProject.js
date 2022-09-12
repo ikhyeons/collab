@@ -8,11 +8,19 @@ exports.createProject = (req, res) => {
             if(error) throw error;
             con.query('SELECT COUNT(*) FROM project', (error, rows1, fields)=> {
                 if(error) throw error;
+<<<<<<< HEAD
                 console.log(rows1[0]['COUNT(*)'], req.session.sid);
                 con.query('insert into collaborator values(default, ?, ?, default, 1)', [rows1[0]['COUNT(*)'], req.session.sid], (error, rows, fields)=> {
                     // 이거 수정해야 되는듯?
+=======
+                con.query('insert into collaborator values(default, ?, ?, default, 1)', [rows1[0]['COUNT(*)'], req.session.sid], (error, rows, fields)=> {
+>>>>>>> ikhyeonsWork
                     if(error) throw error;
-                    res.send({success : 0});
+                    con.query('insert into workSpace values(default, ?, "문서", "li", 1, default)', [rows1[0]['COUNT(*)']], (error, rows, fields)=> {
+                        con.query('insert into workSpace values(default, ?, "작업목록", "board", 1, default)', [rows1[0]['COUNT(*)']], (error, rows, fields)=> {
+                            res.send({success : 0});
+                        })
+                    })
                 })
             })
         })

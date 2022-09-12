@@ -4,6 +4,7 @@ import { calendarSelectedDate, calendarModalState, calendarEventData } from '../
 import { useRecoilValue, useRecoilState } from 'recoil'
 import { useEffect } from 'react'
 import axios from 'axios'
+import { webPort } from "../../port";
 
 const UpdateEventModal = styled.div`
   width : 35vw;
@@ -98,7 +99,7 @@ function CalendarUpdateEventModal() {
   const updateEventData = ()=>{
     console.log("gd")
     axios({
-      url: `http://localhost:1004/changeCalendarEvent`, // 통신할 웹문서
+      url: `http://${webPort.express}/changeCalendarEvent`, // 통신할 웹문서
       method: 'put', // 통신할 방식
       data : {
         eventNum : eventData.id,

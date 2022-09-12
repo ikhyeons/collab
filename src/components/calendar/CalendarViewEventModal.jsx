@@ -5,6 +5,7 @@ import { calendarEventData, calendarModalState } from '../../Atoms/atom'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { useEffect } from 'react'
 import axios from 'axios'
+import { webPort } from "../../port";
 
 const EventViewModal = styled.div`
   width : 35vw;
@@ -90,7 +91,7 @@ function CalendarViewEventModal() {
   const delEvent = ( ) => {
     console.log(eventData.id);
     axios({
-      url: `http://localhost:1004/delEvent`, // 통신할 웹문서
+      url: `http://${webPort.express}/delEvent`, // 통신할 웹문서
       method: 'delete', // 통신할 방식
       data : {
         eventNum : eventData.id,

@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { forceRerender } from "../../Atoms/atom";
 
+import { webPort } from "../../port";
 
 const Wnav = styled.nav`
     width: 80%;

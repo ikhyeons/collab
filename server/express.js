@@ -90,7 +90,6 @@ const {delRequest} = require('./Delete/delRequest')
 const {delEvent} = require('./Delete/delEvent')
 const {delDocParticipant} = require('./Delete/delDocParticipant')
 const {delDocLicenser} = require('./Delete/delLicenser');
-const { changeWorkSpaceType } = require('./Update/changeWorkSpaceType.js');
 const { createBoard } = require('./Create/createBoard.js');
 const { readBoard } = require('./Read/readBoard.js');
 const { readList } = require('./Read/readList.js');
@@ -154,6 +153,7 @@ app.post('/createBoard', (req, res)=>{
 })
 app.post('/createList', (req, res)=>{
   createList(req, res);
+})
 app.post('/createChatParticipant', (req, res)=>{
   createChatParticipant(req, res);
 })
@@ -199,6 +199,7 @@ app.get('/readBoard/:workSpaceNum', (req, res)=>{
 })
 app.get('/readList/:boardNum', (req, res)=>{
   readList(req, res);
+})
 app.get('/readProjectCollaborator/:projectNum', (req, res)=>{
   readProjectCollaborator(req, res)
 })

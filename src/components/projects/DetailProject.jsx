@@ -28,21 +28,13 @@ const Projectname = styled.span`
     height: 20px;
 `;  
 
-const DetailProject = () => {
-    const [project, setProject] = useRecoilState(projectState);
-    useEffect(()=>{
-        axios({
-            url: `http://${webPort.express}/readMyProjectList`,
-            withCredentials : true,
-            method: 'get',
-          }).then((res)=>{setProject(res.data.data)});
-    }, [])
+const DetailProject = (props) => {
     return(
         <InnerProject >
-            <Link style={{ textDecoration: 'none', color : 'black' }} to={`/main/${project.projectNum}/calendar`}>
+            <Link style={{ textDecoration: 'none', color : 'black' }} to={`/main/${props.data.projectNum}/calendar`}>
             <DisplayProject>
                     <Projectname>
-                        &nbsp;{project.projectTitle}
+                        &nbsp;{props.data.projectTitle}
                     </Projectname>
             </DisplayProject>
             </Link>

@@ -63,7 +63,7 @@ const WorkList = ()=>{
 
     useEffect(()=>{
         axios({
-            url: `http://localhost:1004/readBoard/${workSpaceNum}`,
+            url: `http://${webPort.axios}/readBoard/${workSpaceNum}`,
             method:'get',
             withCredentials: true,
         }).then((res)=>{
@@ -75,7 +75,7 @@ const WorkList = ()=>{
     const addBoard = () =>{
         console.log(board);
         axios({
-            url: `http://localhost:1004/createBoard`,
+            url: `http://${webPort.axios}/createBoard`,
             method:'post',
             withCredentials: true,
             data:{

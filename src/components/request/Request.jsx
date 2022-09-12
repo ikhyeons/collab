@@ -144,7 +144,7 @@ const Request = () =>{
     //받은 요청 불러오는 함수
     useEffect(()=>{
         axios({
-            url: `http://localhost:1004/readRequestList/${projectNum}`,
+            url: `http://${webPort.express}/readRequestList/${projectNum}`,
             method: 'get',
             withCredentials: true,
         }).then((res)=>{
@@ -164,7 +164,7 @@ const Request = () =>{
     //요청 보내는 함수
     const createTimeRequest = () =>{
         axios({
-            url: `http://localhost:1004/createTimeRequest`,
+            url: `http://${webPort.express}/createTimeRequest`,
             method: 'post',
             withCredentials: true,
             data:{

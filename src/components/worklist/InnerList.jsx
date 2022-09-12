@@ -5,14 +5,13 @@ import { MdOutlineCancel } from "react-icons/md";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { forceRerender } from "../../Atoms/atom";
+import { webPort } from "../../port";
 
 const Scontainor = styled.div`
     display: flex;
     width: 100%;
     justify-content: center;
-
 `
-import { webPort } from "../../port";
 
 const Slist = styled.div`
     max-height:35px;
@@ -40,7 +39,7 @@ const InnerList = (props) =>{
 
     const delList = (listNum)=>{
         axios({
-            url: `http://localhost:1004/delList`,
+            url: `http://${webPort.axios}/delList`,
             method: 'delete',
             withCredentials: true,
             data: {

@@ -115,7 +115,7 @@ const SelectProjects = () =>{
           }).then((res)=>{setName(res.data.data.nickName)});
 
         axios({
-            url: 'http://localhost:1004/readMyProjectList',
+            url: `http://${webPort.express}/readMyProjectList`,
             withCredentials : true,
             method: 'get',
           }).then((res)=>{setProject(res.data.data)});
@@ -132,7 +132,7 @@ const SelectProjects = () =>{
         </Logodiv>
         <Namediv>
             <Name>프로젝트 목록</Name>
-            <Addbutton onClick={addProject}>
+            <Addbutton onClick={()=>{addProject()}}>
                 +
             </Addbutton>
         </Namediv>            

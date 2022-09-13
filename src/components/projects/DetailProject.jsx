@@ -1,11 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import { useEffect } from "react";
-import axios from "axios";
-import { projectState, projectUrl } from "../../Atoms/atom";
-import { webPort } from "../../port";
+import { useDrag, useDrop } from 'react-dnd';
 
 // 프로젝트 들어가는 div
 
@@ -27,6 +23,33 @@ const DisplayProject = styled.div`
 const Projectname = styled.span`
     height: 20px;
 `;  
+// const [{ isDragging }, dragRef, previewRef] = useDrag(
+//     () => ({
+//       type: 'sidebarChatSpaceList',
+//       item: { index, id },
+//       collect: (monitor) => ({
+//         isDragging: monitor.isDragging(),
+//       }),
+//       end: (item) => {
+//         //item.index = 떨어진 놈의 인덱스 index = 집은 놈의 인덱스 id = 집은 놈의 아이디
+//         moveFunction(item.index, index);
+//       },
+//     })
+//   )
+
+//   const [{isOver}, drop] = useDrop({
+//     accept: 'sidebarChatSpaceList',
+//     hover: (item) => {
+//       if (item.index === index) {
+//         return null
+//       }
+//       //item.index = 집은놈의 인덱스 index = 올라간 놈의 인덱스
+//       item.index = index;
+//     },
+//     collect : (monitor)=>({
+//       isOver : monitor.isOver()
+//     })
+//   })
 
 const DetailProject = (props) => {
     return(

@@ -1,7 +1,7 @@
 import React,{useEffect, useState} from 'react'
 import styled from 'styled-components'
 import { useRecoilState } from 'recoil'
-import {sidebarWorkSpace, projectUrl} from '../../Atoms/atom'
+import {sidebarWorkSpace, sidebarForceRerender} from '../../Atoms/atom'
 import SidebarWorkSpaceLi from './SidebarWorkSpaceLi'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
@@ -36,7 +36,7 @@ const SidebarWorkSpace = () => {
   const [hidden, setHidden] = useState(0);
   //워크스페이스 리스트
   const [workSpaceList, setWorkSpaceList] = useRecoilState(sidebarWorkSpace);
-  const [forceRerender, setForceRerender] = useState(0);
+  const [asidebarForceRerender, setSidebarForceRerender] = useRecoilState(sidebarForceRerender);
   const {projectNum} = useParams();
   useEffect(()=>{
     axios({
@@ -47,13 +47,13 @@ const SidebarWorkSpace = () => {
       res.data.data.map((data, i)=>{setWorkSpaceList((prev)=>[...prev, data.workSpaceNum]);})
       console.log(res);
     })
-  }, [forceRerender]);
+  }, [asidebarForceRerender]);
 
   const moveFunction = (targetIndex, sourceIndex)=> {
+    console.log(targetIndex, sourceIndex)
     setWorkSpaceList((prev)=>{
       let newArray = [...prev];
       let innerData = newArray[sourceIndex];
-      console.log(`input data is ${innerData}`)
       newArray.splice(sourceIndex, 1);
       newArray.splice(targetIndex, 0, innerData);
       console.log(newArray);
@@ -71,7 +71,7 @@ const SidebarWorkSpace = () => {
         projectNum: projectNum,
       }
     }).then((res)=>{
-      setForceRerender((prev)=>{if(prev==1){return 0} else return 1});
+      setSidebarForceRerender((prev)=>{if(prev==1){return 0} else return 1});
     })
   }
 
@@ -86,7 +86,7 @@ const SidebarWorkSpace = () => {
         <Stitle onClick={()=>{accordion()}}>워크스페이스</Stitle>
         <Sul hidden = {hidden}>
           {workSpaceList.map((data , i )=>{
-            return <SidebarWorkSpaceLi key={i} index={i} id={data} moveFunction={moveFunction}></SidebarWorkSpaceLi>
+            return <SidebarWorkSpaceLi key={i} index = {i} id={data} moveFunction={moveFunction}></SidebarWorkSpaceLi>
           })}
           <SaddBtn onClick={()=>{addWorkSpaceList()}}>+</SaddBtn>
         </Sul>

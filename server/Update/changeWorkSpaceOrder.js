@@ -4,6 +4,7 @@ const con = mysql.createConnection(mysqlKey);
 
 exports.changeWorkSpaceOrder = (req, res) => {
     const {projectNum, order, targetOrder} = req.body;
+    console.log(projectNum, order, targetOrder)
     if(req.session.logined === true){
         con.query('UPDATE workSpace SET sequent = 0 WHERE projectNum = ? and sequent = ?', [projectNum, order], (error, rows, fields)=> {
             if(error) throw error;

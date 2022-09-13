@@ -5,6 +5,10 @@ import {
     selectorFamily,
   } from 'recoil';
 //------------------------사이드바
+export const sidebarForceRerender = atom({
+  key : 'sidebar/sidebarForceRerender',
+  default : 0,
+});
 export const currentWorkSpaceId = atom({
   key : 'workSpace/workSpaceId',
   default : '0',
@@ -22,12 +26,7 @@ export const sidebarWorkSpace = atom({
 
 export const sidebarWorkSpaceLi = atomFamily({
   key : 'sidebar/sidebarWorkSpaceInner',
-    default : (data)=>({
-      id : data.id,
-      type : data.type,
-      name : data.id,
-    }
-  )
+    default : (data)=>({})
 })
 
 export const sidebarChat = atom({
@@ -188,9 +187,7 @@ export const chatList = atom({
 
 export const chatParticipant = atom({
   key : 'chatting/chatParticipant',
-  default : [
-    
-  ]
+  default : []
 })
 
 //-------------------------------리퀘스트

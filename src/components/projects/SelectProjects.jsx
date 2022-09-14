@@ -118,8 +118,11 @@ const SelectProjects = () =>{
             url: `http://${webPort.express}/readMyProjectList`,
             withCredentials : true,
             method: 'get',
-          }).then((res)=>{setProject(res.data.data)});
-    }, [setProject])
+          }).then((res)=>{
+            setProject(res.data.data)
+            console.log(res.data.data);
+        });
+    }, [])
 
     return (
         <SMain>
@@ -143,7 +146,7 @@ const SelectProjects = () =>{
                     <br/>
                     <Detaildiv>
                         {project && project.map((data, i)=>(
-                            <DetailProject key={i} data={data} />
+                            <DetailProject key={i} data={data} index={i}/>
                         ))}
                     </Detaildiv>
                 </Projectdiv>

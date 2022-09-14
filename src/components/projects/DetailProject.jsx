@@ -2,6 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom';
 import { useDrag, useDrop } from 'react-dnd';
+import axios from 'axios';
+import { useRecoilState } from 'recoil';
+import { projectForceRerender } from '../../Atoms/atom';
+import { webPort } from '../../port';
+import { useEffect } from 'react';
 
 // 프로젝트 들어가는 div
 
@@ -18,52 +23,67 @@ const DisplayProject = styled.div`
     background-color:lightgrey;
     align-items:flex-end;
     display:flex;
+    :hover{
+        background-color: grey;
+    }
 `;
 
 const Projectname = styled.span`
     height: 20px;
 `;  
-// const [{ isDragging }, dragRef, previewRef] = useDrag(
-//     () => ({
-//       type: 'sidebarChatSpaceList',
-//       item: { index, id },
-//       collect: (monitor) => ({
-//         isDragging: monitor.isDragging(),
-//       }),
-//       end: (item) => {
-//         //item.index = 떨어진 놈의 인덱스 index = 집은 놈의 인덱스 id = 집은 놈의 아이디
-//         moveFunction(item.index, index);
-//       },
-//     })
-//   )
 
-//   const [{isOver}, drop] = useDrop({
-//     accept: 'sidebarChatSpaceList',
-//     hover: (item) => {
-//       if (item.index === index) {
-//         return null
-//       }
-//       //item.index = 집은놈의 인덱스 index = 올라간 놈의 인덱스
-//       item.index = index;
-//     },
-//     collect : (monitor)=>({
-//       isOver : monitor.isOver()
-//     })
-//   })
 
-const DetailProject = (props) => {
+const DetailProject = ({index, data}) => {
+    const [aprojectForceRerender,setProjectForceRerender] = useRecoilState(projectForceRerender);
+
+
+    const [{ isDragging }, dragRef, previewRef] = useDrag(
+    () => ({
+      type: 'project',
+      item: { index },
+      collect: (monitor) => ({
+        isDragging: monitor.isDragging(),
+      }),
+      end: (item) => {
+        axios({
+            url: `http://${webPort.express}/changeMyProjectOrder`,
+            method: 'put',
+            withCredentials: true,
+            data: {
+                order: item.index+1,
+                targetOrder: index+1,
+            }
+        }).then(()=>{
+            setProjectForceRerender(prev=>{if(prev === 1) return 0; else return 1;})
+        })
+      },
+    })
+  )
+
+  const [{isOver}, drop] = useDrop({
+    accept: 'project',
+    hover: (item) => {
+      if (item.index === index) {
+        return null
+      }
+      //item.index = 집은놈의 인덱스 index = 올라간 놈의 인덱스
+      item.index = index;
+    },
+    collect : (monitor)=>({
+      isOver : monitor.isOver()
+    })
+  })
+
     return(
-        <InnerProject >
-            <Link style={{ textDecoration: 'none', color : 'black' }} to={`/main/${props.data.projectNum}/calendar`}>
+        <InnerProject ref={node => dragRef(drop(node))}>
+            <Link style={{ textDecoration: 'none', color : 'black' }} to={`/main/${data.projectNum}/calendar`}>
             <DisplayProject>
                     <Projectname>
-                        &nbsp;{props.data.projectTitle}
+                        &nbsp;{data.projectTitle}
                     </Projectname>
             </DisplayProject>
             </Link>
         </InnerProject>
-            
-        
     )
 
 };

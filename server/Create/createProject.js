@@ -8,11 +8,14 @@ exports.createProject = (req, res) => {
             if(error) throw error;
             con.query('SELECT COUNT(*) FROM project', (error, rows1, fields)=> {
                 if(error) throw error;
-                con.query('insert into collaborator values(default, ?, ?, default, 1)', [rows1[0]['COUNT(*)'], req.session.sid], (error, rows, fields)=> {
-                    if(error) throw error;
-                    con.query('insert into workSpace values(default, ?, "문서", "li", 1, default)', [rows1[0]['COUNT(*)']], (error, rows, fields)=> {
-                        con.query('insert into workSpace values(default, ?, "작업목록", "board", 1, default)', [rows1[0]['COUNT(*)']], (error, rows, fields)=> {
-                            res.send({success : 0});
+                con.query('SELECT projectNum FROM project ORDER BY projectNum DESC LIMIT 1', (error, rows2, fields)=> {
+                    if (error) throw error;
+                    con.query('insert into collaborator values(default, ?, ?, default, ?)', [rows2[0].projectNum, req.session.sid, rows1[0]['COUNT(*)']], (error, rows, fields)=> {
+                        if(error) throw error;
+                        con.query('insert into workSpace values(default, ?, "문서", "li", 1, default)', [rows1[0]['COUNT(*)']], (error, rows, fields)=> {
+                            con.query('insert into workSpace values(default, ?, "작업목록", "board", 1, default)', [rows1[0]['COUNT(*)']], (error, rows, fields)=> {
+                                res.send({success : 0});
+                            })
                         })
                     })
                 })

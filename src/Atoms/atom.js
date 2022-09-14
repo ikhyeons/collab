@@ -277,4 +277,10 @@ export const currentReqId = atom({
   default: 0,
 })
 
+export const projectForceRerender = atom({
+  key: 'projectForceRerender',
+  default: 0,
+})
+
+
 //

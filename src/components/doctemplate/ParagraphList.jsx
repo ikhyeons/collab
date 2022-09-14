@@ -5,8 +5,10 @@ import ParagraphImg from './paragraphType/ParagraphImg';
 import ParagraphVideo from './paragraphType/ParagraphVideo';
 import ParagraphLink from './paragraphType/ParagraphLink';
 import { useRecoilState } from 'recoil';
-import { templateParagraphId, templateParagraph } from '../../Atoms/atom';
+import { templateParagraphId, templateParagraph, currentDocId, paragraphListForceRerender } from '../../Atoms/atom';
 import { webPort } from "../../port";
+import axios from 'axios';
+import { useEffect } from 'react';
 
 const SParagraphList = styled.ul`
   border-radius : 5px;
@@ -34,55 +36,40 @@ const SAddParagraph = styled.button`
 `
 
 function ParagraphList(prop) {
-
+  
   const [paragraphId, setParagraphId] = useRecoilState(templateParagraphId);
-
-  const moveFunction = (targetIndex, sourceIndex)=> {
-    setParagraphId((prev)=>{
-      let newArray = [...prev];
-      let innerData = newArray[sourceIndex];
-      console.log(`input data is ${innerData}`)
-      newArray.splice(sourceIndex, 1);
-      newArray.splice(targetIndex, 0, innerData);
-      console.log(newArray);
-      return newArray
-    })
-  }
-
+  const [docId, setDocId] = useRecoilState(currentDocId);
+  const [aparagraphListForceRerender, setParagraphListForceRerender] = useRecoilState(paragraphListForceRerender);
   const addParagraphs = ()=>{ //아이디를 추가하는걸로 바꿈 (타입은 text기본)
-    setParagraphId((prev)=>{
-      let newArray = [
-        ...prev
-      ]
-      newArray = newArray.map((data)=>{
-         return ({
-          ...data,
-          id : data.id+1,
-         })
-      })
-      return newArray;
-    })
-    setParagraphId((prev)=>{
-      let newArray = [
-        ...prev
-      ]
-      newArray.unshift({
-        id : 0,
-        type : 'text',
-      })
-     console.log(newArray);
-     return newArray;
+    axios({
+      url: `http://${webPort.express}/createTextParagraph`,
+      method: 'post',
+      data : {docNum : docId,},
+      withCredentials : true,
+    }).then((res)=>{console.log(res)}).then(()=>{
+      setParagraphListForceRerender((prev)=>prev+1);
     })
   }
+
+  useEffect(()=>{
+    axios({
+      url: `http://${webPort.express}/readParagraphList/${docId}`,
+      method: 'get',
+      withCredentials : true,
+    }).then((res)=>{
+      console.log(res);
+      setParagraphId(res.data.data)
+    })
+  }, [aparagraphListForceRerender, docId])
 
   return (
     <SParagraphList>
         <SAddParagraph onClick={()=>{addParagraphs()}}>+ 문단추가</SAddParagraph>
         {paragraphId.map((data, i)=>{
-          if (data.type === 'text') return <ParagraphText moveFunction={moveFunction} key={i} index={i} data={data}/>
-          else if (data.type === 'image') return <ParagraphImg moveFunction={moveFunction} mouseOnImg={prop.mouseOnImg} index={i} setMouseOnImg={prop.setMouseOnImg} key={i} data={data} />
-          else if (data.type === 'video') return <ParagraphVideo moveFunction={moveFunction} key={i} index={i} data={data} />
-          else if (data.type === 'link') return <ParagraphLink moveFunction={moveFunction} key={i} index={i} data={data} />
+          if (data.paragraphType === 'text') return <ParagraphText key={i} index={data.sequent} data={data}/>
+          else if (data.paragraphType === 'image') return <ParagraphImg mouseOnImg={prop.mouseOnImg} index={data.sequent} setMouseOnImg={prop.setMouseOnImg} key={i} data={data} />
+          else if (data.paragraphType === 'video') return <ParagraphVideo key={i} index={data.sequent} data={data} />
+          else if (data.paragraphType === 'link') return <ParagraphLink key={i} index={data.sequent} data={data} />
         })}
     </SParagraphList>
   )

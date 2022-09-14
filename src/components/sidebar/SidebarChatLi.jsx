@@ -25,7 +25,7 @@ const Sdiv = styled.div`
   justify-content : flex-start;
 `
 
-function SidebarChatLi({index, id, moveFunction}) {
+function SidebarChatLi({index, id}) {
 
     const [chatLi, setChatLi] = useRecoilState(sidebarChatLi({num : id}));
     const {projectNum} = useParams();
@@ -41,15 +41,14 @@ function SidebarChatLi({index, id, moveFunction}) {
         }),
         end: (item) => {
           //item.index = 떨어진 놈의 인덱스 index = 집은 놈의 인덱스 id = 집은 놈의 아이디
-          moveFunction(item.index, index);
           axios({
             url: `http://${webPort.express}/changeChatSpaceOrder`,
             method: 'put',
             withCredentials : true,
             data:{
               projectNum: projectNum,
-              order : item.index+1,
-              targetOrder : index+1,
+              order : item.index,
+              targetOrder : index,
             }
           }).then(()=>{setSidebarForceRerender((prev)=>{if(prev==1){return 0} else return 1})})
         },
@@ -75,8 +74,8 @@ function SidebarChatLi({index, id, moveFunction}) {
         method: 'get', // 통신할 방식
         withCredentials : true,
       }).then((res)=>{
+        console.log(res)
         setChatLi({...res.data.data, name : res.data.data.spaceTitle});
-        console.log(chatLi);
       })
     }, [reRender])
     

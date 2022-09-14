@@ -48,7 +48,7 @@ const { changeCalendarEvent } = require('./Update/changeCalendarEvent.js');
 const {createTimeRequest} = require('./Create/createTimeRequest')
 const {createWorkSpace} = require('./Create/createWorkSpace')
 const {createChatSpace} = require('./Create/createChatSpace')
-const {createParagraph} = require('./Create/createParagraph');
+const {createTextParagraph} = require('./Create/createTextParagraph');
 const {createDocLicenser} = require('./Create/createDocLicenser');
 const {createDocParticipant} = require('./Create/createDocParticipant');
 const {createChatParticipant} = require('./Create/createChatParticipant')
@@ -70,6 +70,7 @@ const {readDocParticipant} = require('./Read/readDocParticipant')
 const {readDocLicenser} = require('./Read/readDocLicenser')
 const {readDocMaker} = require('./Read/readDocMaker')
 const {readChatParticipant} = require('./Read/readChatParticipant')
+const {readParagraphList} = require('./Read/readParagraphList')
 
 const {changeMyProjectOrder} = require('./Update/changeMyProjectOrder')
 const {changeWorkSpaceOrder} = require('./Update/changeWorkSpaceOrder')
@@ -80,6 +81,7 @@ const {changeDocTitle} = require('./Update/changeDocTitle')
 const {changeParagraph} = require('./Update/changeParagraph')
 const {changeCalendarEventDate} = require('./Update/chageCalendarEventDate')
 const { changeWorkSpaceType } = require('./Update/changeWorkSpaceType.js');
+const {changeParagraphOrder} = require('./Update/changeParagraphOrder')
 
 const {delProject} = require('./Delete/delProject')
 const {delDoc} = require('./Delete/delDoc')
@@ -98,6 +100,7 @@ const { delBoard } = require('./Delete/delBoard.js');
 const { delList } = require('./Delete/delList.js');
 const {delCollaborator} = require('./Delete/delCollaborator')
 const {delChatParticipant} = require('./Delete/delChatParticipant')
+const {delParagraph} = require('./Delete/delParagraph')
 //------------------------------------------session라우팅
 app.post('/login', (req, res)=>{
     login(req, res);
@@ -139,8 +142,8 @@ app.post('/createWorkSpace', (req, res)=>{
 app.post('/createChatSpace', (req, res)=>{
   createChatSpace(req, res);
 })
-app.post('/createParagraph', (req, res)=>{
-  createParagraph(req, res);
+app.post('/createTextParagraph', (req, res)=>{
+  createTextParagraph(req, res);
 })
 app.post('/createDocLicenser', (req, res)=>{
   createDocLicenser(req, res);
@@ -222,6 +225,9 @@ app.get('/readDocMaker/:docNum', (req, res)=>{
 app.get('/readChatParticipant/:chatSpaceNum', (req, res)=>{
   readChatParticipant(req, res)
 })
+app.get('/readParagraphList/:docNum', (req, res)=>{
+  readParagraphList(req, res)
+})
 
 //------------------------------------------Update라우팅
 app.put('/changeMyProjectOrder', (req, res)=>{
@@ -256,6 +262,9 @@ app.put('/changeWorkSpaceType', (req, res)=>{
 })
 app.put('/changeCalendarEventDate', (req, res)=>{
   changeCalendarEventDate(req, res)
+})
+app.put('/changeParagraphOrder', (req, res)=>{
+  changeParagraphOrder(req, res)
 })
 //------------------------------------------Delete라우팅
 app.delete('/delProject', (req, res)=>{
@@ -296,4 +305,7 @@ app.delete('/delCollaborator', (req, res)=>{
 })
 app.delete('/delChatParticipant', (req, res)=>{
   delChatParticipant(req, res)
+})
+app.delete('/delParagraph', (req, res)=>{
+  delParagraph(req, res)
 })

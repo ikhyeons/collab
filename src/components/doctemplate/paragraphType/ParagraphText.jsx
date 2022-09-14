@@ -3,8 +3,10 @@ import styled from 'styled-components'
 import { BsThreeDotsVertical,  } from 'react-icons/bs'
 import {MdOutlineCancel, MdOutlineEditNote} from 'react-icons/md'
 import { useDrag, useDrop } from 'react-dnd'
-import { useRecoilState, useSetRecoilState, useResetRecoilState } from 'recoil'
-import { templateParagraph, templateParagraphId } from '../../../Atoms/atom'
+import { useRecoilState, useSetRecoilState } from 'recoil'
+import { templateParagraph, templateParagraphId, paragraphListForceRerender, currentDocId } from '../../../Atoms/atom'
+import axios from 'axios'
+import { webPort } from '../../../port'
 
 const SInnerDataV = styled.div`
   padding-left : 25px;
@@ -63,23 +65,23 @@ const SSettingLine = styled.div`
 
 function ParagraphText(prop) {
 
-  const {index, id, moveFunction} = prop;
-
+  const {index, id, moveFunction, data} = prop;
   const setParagraphId = useSetRecoilState(templateParagraphId)
-  const [paragraphs, setParagraphs] = useRecoilState(templateParagraph(prop.data))
-  const resetParagraph = useResetRecoilState(templateParagraph(prop.data));
+  const [paragraphs, setParagraphs] = useRecoilState(templateParagraph(data));
+  const [docId, setDocId] = useRecoilState(currentDocId);
+  const [aparagraphListForceRerender, setParagraphListForceRerender] = useRecoilState(paragraphListForceRerender);
   const delParagraph = ()=>{
-    setParagraphId((prev)=>{
-      let arrayData = [
-        ...prev,
-      ]
-      arrayData = arrayData.filter((list)=>{
-        return list.id !== prop.data.id;
-      });
-      
-      console.log(arrayData);
-      return arrayData;
-    })}
+    axios({
+      url: `http://${webPort.express}/delParagraph`,
+      method: 'delete',
+      data : {paragraphNum : paragraphs.paragraphNum,},
+      withCredentials : true,
+    }).then((res)=>{
+      console.log(res)
+    }).then(()=>{
+      setParagraphListForceRerender((prev)=>prev+1);
+    })
+  }
 
   const textRef = useRef();
   
@@ -89,10 +91,6 @@ function ParagraphText(prop) {
     textRef.current.style.height = textRef.current.scrollHeight + "px";
   }, []);
 
-   useEffect(()=>{
-     return ()=>{resetParagraph()}
-   }, [])
-
    const [{ isDragging }, dragRef, previewRef] = useDrag(
     () => ({
       type: 'paragraphList',
@@ -101,8 +99,20 @@ function ParagraphText(prop) {
         isDragging: monitor.isDragging(),
       }),
       end: (item) => {
+        console.log(index, item.index)
         //item.index = 떨어진 놈의 인덱스 index = 집은 놈의 인덱스 id = 집은 놈의 아이디
-        moveFunction(item.index, index);
+        axios({
+          url: `http://${webPort.express}/changeParagraphOrder`,
+          method: 'put',
+          withCredentials : true,
+          data:{
+            docNum: docId,
+            order : item.index,
+            targetOrder : index,
+          }
+        }).then(()=>{
+          setParagraphListForceRerender((prev)=>prev+1);
+        })
       },
     })
   )
@@ -115,7 +125,6 @@ function ParagraphText(prop) {
       }
       //item.index = 집은놈의 인덱스 index = 올라간 놈의 인덱스
       item.index = index;
-      console.log(index);
       
     },
     collect : monitor => ({

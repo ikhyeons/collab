@@ -91,49 +91,45 @@ export const templateForceRerender = atom({
 })
 export const templateParagraphId = atom({
   key : 'template/templateParagraphId',
-  default : [
-    { id : 0, type : 'text'},
-    { id : 1, type : 'image'},
-    { id : 2, type : 'link'},
-    { id : 3, type : 'video'},
-    { id : 4, type : 'text'},
-    { id : 5, type : 'image'},
-    { id : 6, type : 'video'},
-    { id : 7, type : 'link'},
-  ]
+  default : []
 })
 
 export const templateParagraph = atomFamily({
   key : 'template/templateParagraphF',
-  default : ({id, type})=>{
-    if(type === 'text') return({
-      id : id,
-      type : type,
-      data : id,
+  default : ({paragraphNum, paragraphType})=>{
+    if(paragraphType === 'text') return({
+      paragraphNum : paragraphNum,
+      paragraphType : paragraphType,
+      data : paragraphNum,
       modify : 0,
     })
-    else if (type === 'image') return ({
-      id : id,
-      type : type,
+    else if (paragraphType === 'image') return ({
+      paragraphNum : paragraphNum,
+      paragraphType : paragraphType,
       data : '내용',
       imgs : ["http://www.fintechpost.co.kr/news/photo/201907/46375_27128_0925.jpg", "https://cdn.topstarnews.net/news/photo/201908/653630_355016_3125.jpg", "http://www.biztribune.co.kr/news/photo/201903/202520_52645_3519.png",],
       modify : 0,
     })
-    else if (type === 'video') return ({
-      id : id,
-      type : type,
+    else if (paragraphType === 'video') return ({
+      paragraphNum : paragraphNum,
+      paragraphType : paragraphType,
       data : '적절한 비디오 제목1',
       url : 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
       modify : 0,
     })
-    else if (type === 'link') return ({
-      id : id,
-      type : type,
+    else if (paragraphType === 'link') return ({
+      paragraphNum : paragraphNum,
+      paragraphType : paragraphType,
       linktype : 'youtube', //youtube, web,
       data : 'https://www.youtube.com/watch?v=jlm2f29ka_0',
       modify : 0,
     })
   }
+})
+
+export const paragraphListForceRerender = atom({
+  key : 'paragraph/paragraphListForceRerender',
+  default : 0,
 })
 
 //-------------------------------탬플릿 댓글

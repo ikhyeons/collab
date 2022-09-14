@@ -2,13 +2,12 @@ const {mysqlKey}  = require('../mysqlKey');
 const mysql = require('mysql');
 const con = mysql.createConnection(mysqlKey);
 
-exports.readChatSpaceInfo = (req, res) => {
+exports.readParagraphList = (req, res) => {
+    const docNum = req.params.docNum;
     if(req.session.logined === true){
-        let chatSpaceNum = req.params.chatSpaceNum;
-        console.log(chatSpaceNum)
-        con.query('select * from chatSpace where chatSpaceNum = ?', [chatSpaceNum], (error, rows, fields)=> {
+        con.query('SELECT paragraphNum, paragraphType, sequent FROM paragraph where docNum = ? order by sequent desc', [docNum], (error, rows, fields)=> {
             if(error) throw error;
-            res.send({success : 0, data : rows[0]});
+            res.send({success : 0, data : rows});
         })
     }
     else {
@@ -16,4 +15,3 @@ exports.readChatSpaceInfo = (req, res) => {
         res.send({success : 3});
     }
     }
-    

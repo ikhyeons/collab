@@ -80,6 +80,7 @@ function DocTemplateMain() {
     const [title, setTitle] = useState('')
     const [docforceRerender, setDocForceRerender] = useRecoilState(docForceRerender);
     
+    
     useEffect(()=>{
         axios({
             url: `http://${webPort.express}/readDocTitle/${docId}`,

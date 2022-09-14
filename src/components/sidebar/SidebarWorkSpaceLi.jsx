@@ -17,7 +17,7 @@ const Sli = styled.li`
   }
 `
 
-function SidebarWorkSpaceLi({index, id, moveFunction}) {
+function SidebarWorkSpaceLi({index, id}) {
 
     const [workSpaceLi, setWorkSpaceLi] = useRecoilState(sidebarWorkSpaceLi({id : id}))
     const {projectNum} = useParams()
@@ -43,15 +43,14 @@ function SidebarWorkSpaceLi({index, id, moveFunction}) {
         }),
         end: (item) => {
           //item.index = 떨어진 놈의 인덱스 index = 집은 놈의 인덱스 id = 집은 놈의 아이디
-          moveFunction(item.index, index);
           axios({
             url: `http://${webPort.express}/changeWorkSpaceOrder`,
             method: 'put',
             withCredentials : true,
             data:{
               projectNum: projectNum,
-              order : item.index+1,
-              targetOrder : index+1,
+              order : item.index,
+              targetOrder : index,
             }
           }).then(()=>{setSidebarForceRerender((prev)=>{if(prev==1){return 0} else return 1})})
         },

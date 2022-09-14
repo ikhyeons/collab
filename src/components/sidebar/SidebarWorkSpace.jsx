@@ -43,23 +43,12 @@ const SidebarWorkSpace = () => {
       url: `http://${webPort.express}/readWorkSpaceList/${projectNum}`, // 통신할 웹문서
       method: 'get', // 통신할 방식
       withCredentials : true,
-    }).then((res)=>{setWorkSpaceList([]);return res}).then((res)=>{
-      res.data.data.map((data, i)=>{setWorkSpaceList((prev)=>[...prev, data.workSpaceNum]);})
-      console.log(res);
+    }).then((res)=>{
+      let newList = []
+      res.data.data.map((data, i)=>{newList.push({ workSpaceNum : data.workSpaceNum, sequent : data.sequent})})
+      setWorkSpaceList(newList);
     })
   }, [asidebarForceRerender]);
-
-  const moveFunction = (targetIndex, sourceIndex)=> {
-    console.log(targetIndex, sourceIndex)
-    setWorkSpaceList((prev)=>{
-      let newArray = [...prev];
-      let innerData = newArray[sourceIndex];
-      newArray.splice(sourceIndex, 1);
-      newArray.splice(targetIndex, 0, innerData);
-      console.log(newArray);
-      return newArray
-    })
-  }
 
   //워크스페이스 리스트 추가하는 함수
   const addWorkSpaceList = () => {
@@ -86,7 +75,7 @@ const SidebarWorkSpace = () => {
         <Stitle onClick={()=>{accordion()}}>워크스페이스</Stitle>
         <Sul hidden = {hidden}>
           {workSpaceList.map((data , i )=>{
-            return <SidebarWorkSpaceLi key={i} index = {i} id={data} moveFunction={moveFunction}></SidebarWorkSpaceLi>
+            return <SidebarWorkSpaceLi key={i} index = {data.sequent} id={data.workSpaceNum}></SidebarWorkSpaceLi>
           })}
           <SaddBtn onClick={()=>{addWorkSpaceList()}}>+</SaddBtn>
         </Sul>

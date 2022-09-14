@@ -6,13 +6,13 @@ exports.changeWorkSpaceOrder = (req, res) => {
     const {projectNum, order, targetOrder} = req.body;
     console.log(projectNum, order, targetOrder)
     if(req.session.logined === true){
-        con.query('UPDATE workSpace SET sequent = 0 WHERE projectNum = ? and sequent = ?', [projectNum, order], (error, rows, fields)=> {
+        con.query('UPDATE workSpace SET sequent = 0 WHERE projectNum = ? and sequent = ?', [projectNum, targetOrder], (error, rows, fields)=> {
             if(error) throw error;
-            con.query('UPDATE workSpace SET sequent = sequent - 1 WHERE projectNum = ? and sequent > ?', [projectNum, order], (error, rows, fields)=> {
+            con.query('UPDATE workSpace SET sequent = sequent - 1 WHERE projectNum = ? and sequent > ?', [projectNum, targetOrder], (error, rows, fields)=> {
                 if(error) throw error;
-                con.query('UPDATE workSpace SET sequent = sequent + 1 WHERE projectNum = ? and sequent >= ?', [projectNum, targetOrder], (error, rows, fields)=> {
+                con.query('UPDATE workSpace SET sequent = sequent + 1 WHERE projectNum = ? and sequent >= ?', [projectNum, order], (error, rows, fields)=> {
                     if(error) throw error;
-                    con.query('UPDATE workSpace SET sequent = ? WHERE projectNum = ? and sequent = 0', [targetOrder, projectNum], (error, rows, fields)=> {
+                    con.query('UPDATE workSpace SET sequent = ? WHERE projectNum = ? and sequent = 0', [order, projectNum], (error, rows, fields)=> {
                         if(error) throw error;
                         res.send({success : 0});
                     })

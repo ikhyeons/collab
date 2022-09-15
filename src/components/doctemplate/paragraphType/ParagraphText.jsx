@@ -100,7 +100,7 @@ function ParagraphText(prop) {
       }),
       end: (item) => {
         console.log(index, item.index)
-        //item.index = 떨어진 놈의 인덱스 index = 집은 놈의 인덱스 id = 집은 놈의 아이디
+        //index = 집은 놈의 인덱스  item.index = 떨어진 놈의 인덱스  id = 집은 놈의 아이디
         axios({
           url: `http://${webPort.express}/changeParagraphOrder`,
           method: 'put',

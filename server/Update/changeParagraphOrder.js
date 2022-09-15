@@ -10,7 +10,7 @@ exports.changeParagraphOrder = (req, res) => {
             if(error) throw error;
             con.query('UPDATE paragraph SET sequent = sequent - 1 WHERE docNum = ? and sequent > ?', [docNum, targetOrder], (error, rows, fields)=> {
                 if(error) throw error;
-                con.query('UPDATE paragraph SET sequent = sequent + 1 WHERE docNum = ? and sequent > ?', [docNum, order], (error, rows, fields)=> {
+                con.query('UPDATE paragraph SET sequent = sequent + 1 WHERE docNum = ? and sequent >= ?', [docNum, order], (error, rows, fields)=> {
                     if(error) throw error;
                     con.query('UPDATE paragraph SET sequent = ? WHERE docNum = ? and sequent = 0', [order, docNum], (error, rows, fields)=> {
                         if(error) throw error;

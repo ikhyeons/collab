@@ -4,7 +4,7 @@ const con = mysql.createConnection(mysqlKey);
 
 exports.changeParagraphOrder = (req, res) => {
     const {docNum, order, targetOrder} = req.body;
-    console.log(docNum, order, targetOrder)
+    console.log("n",docNum, "o",order, "to",targetOrder)
     if(req.session.logined === true){
         con.query('UPDATE paragraph SET sequent = 0 WHERE docNum = ? and sequent = ?', [docNum, targetOrder], (error, rows, fields)=> {
             if(error) throw error;

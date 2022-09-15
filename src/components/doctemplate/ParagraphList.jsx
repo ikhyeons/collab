@@ -5,7 +5,7 @@ import ParagraphImg from './paragraphType/ParagraphImg';
 import ParagraphVideo from './paragraphType/ParagraphVideo';
 import ParagraphLink from './paragraphType/ParagraphLink';
 import { useRecoilState } from 'recoil';
-import { templateParagraphId, templateParagraph, currentDocId, paragraphListForceRerender } from '../../Atoms/atom';
+import { templateParagraphId, templateParagraph, paragraphForceRerender, currentDocId, paragraphListForceRerender } from '../../Atoms/atom';
 import { webPort } from "../../port";
 import axios from 'axios';
 import { useEffect } from 'react';
@@ -16,21 +16,41 @@ const SParagraphList = styled.ul`
   width : 100%;
 `
 
-const SAddParagraph = styled.button`
+const SAddParagraph = styled.div`
   background : lightyellow;
   border-radius : 5px;
   width : 100%;
-  padding : 14px;
+  padding : 15px 10px 5px 15px;
   display : flex;
   position : relative;
-  min-height : 50px;
+  min-height : 40px;
   margin : 5px 0;
   border : 1px solid black;
-  
+  font-weight : bold;
+
+  :hover{
+    border : 2px solid black;
+    padding : 14px 9px 4px 14px;
+    cursor : pointer;
+  }
+`
+
+const SpbuttonWrap = styled.div`
+display : flex;
+margin-left : 5px;
+transform : translateY(-6px);
+`
+
+const Spbutton = styled.button`
+  background : lightyellow;
+  border-radius : 5px;
+  padding : 5px;
+  border : 1px solid black;
+  margin : 3px;
   font-weight : bold;
   :hover{
     border : 2px solid black;
-    padding : 13px;
+    padding : 4px;
     cursor : pointer;
   }
 `
@@ -40,15 +60,17 @@ function ParagraphList(prop) {
   const [paragraphId, setParagraphId] = useRecoilState(templateParagraphId);
   const [docId, setDocId] = useRecoilState(currentDocId);
   const [aparagraphListForceRerender, setParagraphListForceRerender] = useRecoilState(paragraphListForceRerender);
+  const [aparagraphForceRerender, setParagraphForceRerender] = useRecoilState(paragraphForceRerender);
+  
   const addParagraphs = ()=>{ //아이디를 추가하는걸로 바꿈 (타입은 text기본)
     axios({
       url: `http://${webPort.express}/createTextParagraph`,
       method: 'post',
       data : {docNum : docId,},
       withCredentials : true,
-    }).then((res)=>{console.log(res)}).then(()=>{
+    }).then(()=>{
       setParagraphListForceRerender((prev)=>prev+1);
-    })
+    }).then(()=>{setParagraphForceRerender(prev=>prev+1)})
   }
 
   useEffect(()=>{
@@ -57,19 +79,20 @@ function ParagraphList(prop) {
       method: 'get',
       withCredentials : true,
     }).then((res)=>{
-      console.log(res);
       setParagraphId(res.data.data)
-    })
+      return res
+    }).then((res)=>{setParagraphForceRerender(prev=>prev+1)})
   }, [aparagraphListForceRerender, docId])
 
   return (
     <SParagraphList>
-        <SAddParagraph onClick={()=>{addParagraphs()}}>+ 문단추가</SAddParagraph>
+        <SAddParagraph 
+        >+ 문단추가 <SpbuttonWrap><Spbutton onClick={()=>{addParagraphs()}} >텍스트</Spbutton><Spbutton>이미지</Spbutton><Spbutton>비디오</Spbutton><Spbutton>파일</Spbutton></SpbuttonWrap></SAddParagraph>
         {paragraphId.map((data, i)=>{
-          if (data.paragraphType === 'text') return <ParagraphText key={i} index={data.sequent} data={data}/>
-          else if (data.paragraphType === 'image') return <ParagraphImg mouseOnImg={prop.mouseOnImg} index={data.sequent} setMouseOnImg={prop.setMouseOnImg} key={i} data={data} />
-          else if (data.paragraphType === 'video') return <ParagraphVideo key={i} index={data.sequent} data={data} />
-          else if (data.paragraphType === 'link') return <ParagraphLink key={i} index={data.sequent} data={data} />
+          if (data.paragraphType === 'text') return <ParagraphText key={i} data={data} num={data.paragraphNum}/>
+          else if (data.paragraphType === 'image') return <ParagraphImg mouseOnImg={prop.mouseOnImg} setMouseOnImg={prop.setMouseOnImg} key={i} data={data} />
+          else if (data.paragraphType === 'video') return <ParagraphVideo key={i} data={data} />
+          else if (data.paragraphType === 'link') return <ParagraphLink key={i} data={data} />
         })}
     </SParagraphList>
   )

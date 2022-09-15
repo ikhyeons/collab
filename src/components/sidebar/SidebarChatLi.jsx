@@ -74,7 +74,6 @@ function SidebarChatLi({index, id}) {
         method: 'get', // 통신할 방식
         withCredentials : true,
       }).then((res)=>{
-        console.log(res)
         setChatLi({...res.data.data, name : res.data.data.spaceTitle});
       })
     }, [reRender])

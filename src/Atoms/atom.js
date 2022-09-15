@@ -94,26 +94,32 @@ export const templateParagraphId = atom({
   default : []
 })
 
+export const paragraphForceRerender = atom({
+  key : 'template/templateParagraphForceRerender',
+  default : 0
+})
+
 export const templateParagraph = atomFamily({
   key : 'template/templateParagraphF',
-  default : ({paragraphNum, paragraphType})=>{
+  default : ({paragraphNum, paragraphType, sequent, innerData})=>{
     if(paragraphType === 'text') return({
       paragraphNum : paragraphNum,
       paragraphType : paragraphType,
-      data : paragraphNum,
+      innerData : innerData,
+      sequent : sequent,
       modify : 0,
     })
     else if (paragraphType === 'image') return ({
       paragraphNum : paragraphNum,
       paragraphType : paragraphType,
-      data : '내용',
+      innerData : '내용',
       imgs : ["http://www.fintechpost.co.kr/news/photo/201907/46375_27128_0925.jpg", "https://cdn.topstarnews.net/news/photo/201908/653630_355016_3125.jpg", "http://www.biztribune.co.kr/news/photo/201903/202520_52645_3519.png",],
       modify : 0,
     })
     else if (paragraphType === 'video') return ({
       paragraphNum : paragraphNum,
       paragraphType : paragraphType,
-      data : '적절한 비디오 제목1',
+      innerData : '적절한 비디오 제목1',
       url : 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
       modify : 0,
     })
@@ -121,7 +127,7 @@ export const templateParagraph = atomFamily({
       paragraphNum : paragraphNum,
       paragraphType : paragraphType,
       linktype : 'youtube', //youtube, web,
-      data : 'https://www.youtube.com/watch?v=jlm2f29ka_0',
+      innerData : 'https://www.youtube.com/watch?v=jlm2f29ka_0',
       modify : 0,
     })
   }

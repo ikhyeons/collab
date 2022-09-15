@@ -71,6 +71,7 @@ const {readDocLicenser} = require('./Read/readDocLicenser')
 const {readDocMaker} = require('./Read/readDocMaker')
 const {readChatParticipant} = require('./Read/readChatParticipant')
 const {readParagraphList} = require('./Read/readParagraphList')
+const {readParagraphInfo} = require('./Read/readParagraphInfo')
 
 const {changeMyProjectOrder} = require('./Update/changeMyProjectOrder')
 const {changeWorkSpaceOrder} = require('./Update/changeWorkSpaceOrder')
@@ -227,6 +228,9 @@ app.get('/readChatParticipant/:chatSpaceNum', (req, res)=>{
 })
 app.get('/readParagraphList/:docNum', (req, res)=>{
   readParagraphList(req, res)
+})
+app.get('/readParagraphInfo/:paragraphNum', (req, res)=>{
+  readParagraphInfo(req, res)
 })
 
 //------------------------------------------Update라우팅

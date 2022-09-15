@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import { BsThreeDotsVertical,  } from 'react-icons/bs'
 import {MdOutlineCancel, MdOutlineEditNote} from 'react-icons/md'
 import { useDrag, useDrop } from 'react-dnd'
-import { useRecoilState, useSetRecoilState } from 'recoil'
-import { templateParagraph, templateParagraphId, paragraphListForceRerender, currentDocId } from '../../../Atoms/atom'
+import { useRecoilState, useSetRecoilState, useResetRecoilState } from 'recoil'
+import { templateParagraph, templateParagraphId, paragraphListForceRerender, currentDocId, paragraphForceRerender } from '../../../Atoms/atom'
 import axios from 'axios'
 import { webPort } from '../../../port'
 
@@ -65,11 +65,15 @@ const SSettingLine = styled.div`
 
 function ParagraphText(prop) {
 
-  const {index, id, moveFunction, data} = prop;
-  const setParagraphId = useSetRecoilState(templateParagraphId)
+  const {id, data, num} = prop;
+  const [paragraphId, setParagraphId] = useRecoilState(templateParagraphId)
   const [paragraphs, setParagraphs] = useRecoilState(templateParagraph(data));
   const [docId, setDocId] = useRecoilState(currentDocId);
   const [aparagraphListForceRerender, setParagraphListForceRerender] = useRecoilState(paragraphListForceRerender);
+  const [aparagraphForceRerender, setParagraphForceRerender] = useRecoilState(paragraphForceRerender);
+  const resetState = useResetRecoilState(templateParagraph(data));
+  const [forceRerender, setForceRerender] = useState(0);
+
   const delParagraph = ()=>{
     axios({
       url: `http://${webPort.express}/delParagraph`,
@@ -83,8 +87,18 @@ function ParagraphText(prop) {
     })
   }
 
+  useEffect(()=>{
+    axios({
+      url: `http://${webPort.express}/readParagraphInfo/${num}`,
+      method: 'get',
+      withCredentials : true,
+    }).then((res)=>{
+      setParagraphs({...res.data.data, modify : 0, sequent : data.sequent});
+    })
+    return resetState()
+  }, [paragraphId, forceRerender, aparagraphForceRerender, data])
+
   const textRef = useRef();
-  
   const [inputValue, setInputValue] = useState('');
 
   const handleResizeHeight = useCallback(() => {
@@ -94,12 +108,12 @@ function ParagraphText(prop) {
    const [{ isDragging }, dragRef, previewRef] = useDrag(
     () => ({
       type: 'paragraphList',
-      item: { index, id },
+      item: { ...paragraphs, id, sequent : paragraphs.sequent },
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),
       }),
       end: (item) => {
-        console.log(index, item.index)
+        console.log(paragraphs.sequent, item.sequent)
         //index = 집은 놈의 인덱스  item.index = 떨어진 놈의 인덱스  id = 집은 놈의 아이디
         axios({
           url: `http://${webPort.express}/changeParagraphOrder`,
@@ -107,11 +121,12 @@ function ParagraphText(prop) {
           withCredentials : true,
           data:{
             docNum: docId,
-            order : item.index,
-            targetOrder : index,
+            order : item.sequent,
+            targetOrder : paragraphs.sequent,
           }
         }).then(()=>{
           setParagraphListForceRerender((prev)=>prev+1);
+          setForceRerender(prev=>prev+1);
         })
       },
     })
@@ -120,12 +135,11 @@ function ParagraphText(prop) {
   const [{isOver}, drop] = useDrop({
     accept: 'paragraphList',
     hover: (item, monitor) => {
-      if (item.index === index) {
+      if (item.sequent === paragraphs.sequent) {
         return null
       }
       //item.index = 집은놈의 인덱스 index = 올라간 놈의 인덱스
-      item.index = index;
-      
+      item.sequent = paragraphs.sequent;
     },
     collect : monitor => ({
       isOver : monitor.isOver(),
@@ -141,7 +155,7 @@ function ParagraphText(prop) {
 
           <SimoDiv1
             onClick={()=>{
-              setInputValue(paragraphs.data);
+              setInputValue(paragraphs.innerData);
               setParagraphs((prev)=>{
                 let newData = {
                   ...prev
@@ -149,7 +163,7 @@ function ParagraphText(prop) {
                 // 클릭된 놈이랑 아이디가 같은 객체의 수정을 1로 만들어야 됨.
                 newData = {...newData, modify : 1}
                 return newData;
-              })
+              }).then(()=>{setForceRerender(prev=>prev===0? 1 : 0);setInputValue('');})
             }}
           >
             <MdOutlineEditNote />
@@ -163,7 +177,7 @@ function ParagraphText(prop) {
         {
         paragraphs.modify === 0?
         <SInnerDataV>
-          {paragraphs.data}
+          {paragraphs.innerData}
         </SInnerDataV>
         :
         <SInnerDataI modify = {paragraphs.modify} value={inputValue} 
@@ -177,10 +191,19 @@ function ParagraphText(prop) {
                 ...prev
               }
               // 클릭된 놈이랑 아이디가 같은 객체의 수정을 1로 만들어야 됨.
-              newData = {...newData, data : inputValue, modify : 0}
+              newData = {...newData, innerData : inputValue, modify : 0}
+              console.log(newData)
               return newData;
             })
-            setInputValue('');
+            axios({
+              url: `http://${webPort.express}/changeParagraph`,
+              method: 'put',
+              withCredentials : true,
+              data:{
+                paragraphNum : num,
+                innerData : inputValue,
+              }
+            }).then(()=>{setForceRerender(prev=>prev===0? 1 : 0);setInputValue('');})
           }
         }}
         onBlur = {(e)=>{
@@ -189,10 +212,18 @@ function ParagraphText(prop) {
               ...prev
             }
             // 클릭된 놈이랑 아이디가 같은 객체의 수정을 1로 만들어야 됨.
-            newData = {...newData, data : inputValue, modify : 0}
+            newData = {...newData, innerData : inputValue, modify : 0}
             return newData;
           })
-          setInputValue('');
+          axios({
+            url: `http://${webPort.express}/changeParagraph`,
+            method: 'put',
+            withCredentials : true,
+            data:{
+              paragraphNum : num,
+              innerData : inputValue,
+            }
+          }).then(()=>{setForceRerender(prev=>prev===0? 1 : 0);setInputValue('');})
         }}
         />
         }

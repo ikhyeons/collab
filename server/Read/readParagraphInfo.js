@@ -2,12 +2,12 @@ const {mysqlKey}  = require('../mysqlKey');
 const mysql = require('mysql');
 const con = mysql.createConnection(mysqlKey);
 
-exports.readParagraphList = (req, res) => {
-    const docNum = req.params.docNum;
+exports.readParagraphInfo = (req, res) => {
+    const paragraphNum = req.params.paragraphNum;
     if(req.session.logined === true){
-        con.query('SELECT paragraphNum, paragraphType, sequent, innerData FROM paragraph where docNum = ? order by sequent desc', [docNum], (error, rows, fields)=> {
+        con.query('select * from paragraph where paragraphNum = ?', [paragraphNum], (error, rows, fields)=> {
             if(error) throw error;
-            res.send({success : 0, data : rows});
+            res.send({success : 0, data : rows[0]});
         })
     }
     else {

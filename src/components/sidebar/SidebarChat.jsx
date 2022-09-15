@@ -79,7 +79,6 @@ const SidebarChat = () => {
         <Stitle onClick={()=>{accordion()}}>채팅</Stitle>
         <Sul hidden = {hidden}>
         {chatList.map((data, i)=>{
-          console.log(data)
             return <SidebarChatLi index= {data.sequent} id={data.chatSpaceNum} key={i} num={data.chatSpaceNum} />
           })}
           <SaddBtn onClick={()=>{addChat()}}>+</SaddBtn>

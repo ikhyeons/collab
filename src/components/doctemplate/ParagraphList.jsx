@@ -4,7 +4,7 @@ import ParagraphText from './paragraphType/ParagraphText';
 import ParagraphImg from './paragraphType/ParagraphImg';
 import ParagraphVideo from './paragraphType/ParagraphVideo';
 import ParagraphLink from './paragraphType/ParagraphLink';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 import { templateParagraphId, templateParagraph, paragraphForceRerender, currentDocId, paragraphListForceRerender } from '../../Atoms/atom';
 import { webPort } from "../../port";
 import axios from 'axios';
@@ -61,6 +61,7 @@ function ParagraphList(prop) {
   const [docId, setDocId] = useRecoilState(currentDocId);
   const [aparagraphListForceRerender, setParagraphListForceRerender] = useRecoilState(paragraphListForceRerender);
   const [aparagraphForceRerender, setParagraphForceRerender] = useRecoilState(paragraphForceRerender);
+  const resetState = useResetRecoilState(templateParagraphId)
   
   const addParagraphs = ()=>{ //아이디를 추가하는걸로 바꿈 (타입은 text기본)
     axios({
@@ -69,11 +70,19 @@ function ParagraphList(prop) {
       data : {docNum : docId,},
       withCredentials : true,
     }).then(()=>{
-      setParagraphListForceRerender((prev)=>prev+1);
-    }).then(()=>{setParagraphForceRerender(prev=>prev+1)})
+      axios({
+        url: `http://${webPort.express}/readParagraphList/${docId}`,
+        method: 'get',
+        withCredentials : true,
+      }).then((res)=>{
+        console.log(res.data.data)
+        setParagraphId(res.data.data)
+      }).then(()=>{setParagraphListForceRerender((prev)=>prev+1);})
+    })
   }
 
   useEffect(()=>{
+    
     axios({
       url: `http://${webPort.express}/readParagraphList/${docId}`,
       method: 'get',
@@ -81,7 +90,7 @@ function ParagraphList(prop) {
     }).then((res)=>{
       setParagraphId(res.data.data)
       return res
-    }).then((res)=>{setParagraphForceRerender(prev=>prev+1)})
+    }).then((res)=>{console.log(paragraphId);setParagraphForceRerender(prev=>prev+1)})
   }, [aparagraphListForceRerender, docId])
 
   return (
@@ -89,7 +98,7 @@ function ParagraphList(prop) {
         <SAddParagraph 
         >+ 문단추가 <SpbuttonWrap><Spbutton onClick={()=>{addParagraphs()}} >텍스트</Spbutton><Spbutton>이미지</Spbutton><Spbutton>비디오</Spbutton><Spbutton>파일</Spbutton></SpbuttonWrap></SAddParagraph>
         {paragraphId.map((data, i)=>{
-          if (data.paragraphType === 'text') return <ParagraphText key={i} data={data} num={data.paragraphNum}/>
+          if (data.paragraphType === 'text') return <ParagraphText key={i} data={data} sequent={data.sequent} num={data.paragraphNum}/>
           else if (data.paragraphType === 'image') return <ParagraphImg mouseOnImg={prop.mouseOnImg} setMouseOnImg={prop.setMouseOnImg} key={i} data={data} />
           else if (data.paragraphType === 'video') return <ParagraphVideo key={i} data={data} />
           else if (data.paragraphType === 'link') return <ParagraphLink key={i} data={data} />

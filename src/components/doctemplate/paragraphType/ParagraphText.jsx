@@ -65,7 +65,7 @@ const SSettingLine = styled.div`
 
 function ParagraphText(prop) {
 
-  const {id, data, num} = prop;
+  const {id, data, num, sequent} = prop;
   const [paragraphId, setParagraphId] = useRecoilState(templateParagraphId)
   const [paragraphs, setParagraphs] = useRecoilState(templateParagraph(data));
   const [docId, setDocId] = useRecoilState(currentDocId);
@@ -78,7 +78,7 @@ function ParagraphText(prop) {
     axios({
       url: `http://${webPort.express}/delParagraph`,
       method: 'delete',
-      data : {paragraphNum : paragraphs.paragraphNum,},
+      data : {paragraphNum : paragraphs.paragraphNum, docNum : docId},
       withCredentials : true,
     }).then((res)=>{
       console.log(res)
@@ -93,7 +93,7 @@ function ParagraphText(prop) {
       method: 'get',
       withCredentials : true,
     }).then((res)=>{
-      setParagraphs({...res.data.data, modify : 0, sequent : data.sequent});
+      setParagraphs({...res.data.data, modify : 0, sequent : sequent});
     })
     return resetState()
   }, [paragraphId, forceRerender, aparagraphForceRerender, data])
@@ -108,12 +108,11 @@ function ParagraphText(prop) {
    const [{ isDragging }, dragRef, previewRef] = useDrag(
     () => ({
       type: 'paragraphList',
-      item: { ...paragraphs, id, sequent : paragraphs.sequent },
+      item: { id, sequent : sequent },
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),
       }),
       end: (item) => {
-        console.log(paragraphs.sequent, item.sequent)
         //index = 집은 놈의 인덱스  item.index = 떨어진 놈의 인덱스  id = 집은 놈의 아이디
         axios({
           url: `http://${webPort.express}/changeParagraphOrder`,
@@ -122,7 +121,7 @@ function ParagraphText(prop) {
           data:{
             docNum: docId,
             order : item.sequent,
-            targetOrder : paragraphs.sequent,
+            targetOrder : sequent,
           }
         }).then(()=>{
           setParagraphListForceRerender((prev)=>prev+1);
@@ -135,11 +134,12 @@ function ParagraphText(prop) {
   const [{isOver}, drop] = useDrop({
     accept: 'paragraphList',
     hover: (item, monitor) => {
-      if (item.sequent === paragraphs.sequent) {
+      console.log(item.sequent, sequent)
+      if (item.sequent === sequent) {
         return null
       }
       //item.index = 집은놈의 인덱스 index = 올라간 놈의 인덱스
-      item.sequent = paragraphs.sequent;
+      item.sequent = sequent;
     },
     collect : monitor => ({
       isOver : monitor.isOver(),

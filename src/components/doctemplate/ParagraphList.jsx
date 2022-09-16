@@ -75,14 +75,13 @@ function ParagraphList(prop) {
         method: 'get',
         withCredentials : true,
       }).then((res)=>{
-        console.log(res.data.data)
-        setParagraphId(res.data.data)
-      }).then(()=>{setParagraphListForceRerender((prev)=>prev+1);})
+        resetState();
+        return res
+      }).then((res)=>{setParagraphId(()=>{return res.data.data});setParagraphListForceRerender((prev)=>prev+1);})
     })
   }
 
   useEffect(()=>{
-    
     axios({
       url: `http://${webPort.express}/readParagraphList/${docId}`,
       method: 'get',
@@ -90,7 +89,7 @@ function ParagraphList(prop) {
     }).then((res)=>{
       setParagraphId(res.data.data)
       return res
-    }).then((res)=>{console.log(paragraphId);setParagraphForceRerender(prev=>prev+1)})
+    }).then(()=>{console.log(paragraphId);setParagraphForceRerender(prev=>prev+1)})
   }, [aparagraphListForceRerender, docId])
 
   return (

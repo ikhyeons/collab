@@ -63,7 +63,7 @@ function ParagraphList(prop) {
   const [aparagraphForceRerender, setParagraphForceRerender] = useRecoilState(paragraphForceRerender);
   const resetState = useResetRecoilState(templateParagraphId)
   
-  const addParagraphs = ()=>{ //아이디를 추가하는걸로 바꿈 (타입은 text기본)
+  const addTextParagraphs = ()=>{ //아이디를 추가하는걸로 바꿈 (타입은 text기본)
     axios({
       url: `http://${webPort.express}/createTextParagraph`,
       method: 'post',
@@ -81,6 +81,61 @@ function ParagraphList(prop) {
     })
   }
 
+  const addImageParagraphs = ()=>{ //아이디를 추가하는걸로 바꿈 (타입은 text기본)
+    axios({
+      url: `http://${webPort.express}/createImageParagraph`,
+      method: 'post',
+      data : {docNum : docId,},
+      withCredentials : true,
+    }).then(()=>{
+      axios({
+        url: `http://${webPort.express}/readParagraphList/${docId}`,
+        method: 'get',
+        withCredentials : true,
+      }).then((res)=>{
+        resetState();
+        return res
+      }).then((res)=>{setParagraphId(()=>{return res.data.data});setParagraphListForceRerender((prev)=>prev+1);})
+    })
+  }
+
+  const addVideoParagraphs = ()=>{ //아이디를 추가하는걸로 바꿈 (타입은 text기본)
+    axios({
+      url: `http://${webPort.express}/createVideoParagraph`,
+      method: 'post',
+      data : {docNum : docId,},
+      withCredentials : true,
+    }).then(()=>{
+      axios({
+        url: `http://${webPort.express}/readParagraphList/${docId}`,
+        method: 'get',
+        withCredentials : true,
+      }).then((res)=>{
+        resetState();
+        return res
+      }).then((res)=>{setParagraphId(()=>{return res.data.data});setParagraphListForceRerender((prev)=>prev+1);})
+    })
+  }
+
+  const addFileParagraphs = ()=>{ //아이디를 추가하는걸로 바꿈 (타입은 text기본)
+    axios({
+      url: `http://${webPort.express}/createFileParagraph`,
+      method: 'post',
+      data : {docNum : docId,},
+      withCredentials : true,
+    }).then(()=>{
+      axios({
+        url: `http://${webPort.express}/readParagraphList/${docId}`,
+        method: 'get',
+        withCredentials : true,
+      }).then((res)=>{
+        resetState();
+        return res
+      }).then((res)=>{setParagraphId(()=>{return res.data.data});setParagraphListForceRerender((prev)=>prev+1);})
+    })
+  }
+  
+
   useEffect(()=>{
     axios({
       url: `http://${webPort.express}/readParagraphList/${docId}`,
@@ -89,18 +144,26 @@ function ParagraphList(prop) {
     }).then((res)=>{
       setParagraphId(res.data.data)
       return res
-    }).then(()=>{console.log(paragraphId);setParagraphForceRerender(prev=>prev+1)})
+    }).then(()=>{setParagraphForceRerender(prev=>prev+1)})
+    .then(()=>{console.log(paragraphId);})
   }, [aparagraphListForceRerender, docId])
 
   return (
     <SParagraphList>
-        <SAddParagraph 
-        >+ 문단추가 <SpbuttonWrap><Spbutton onClick={()=>{addParagraphs()}} >텍스트</Spbutton><Spbutton>이미지</Spbutton><Spbutton>비디오</Spbutton><Spbutton>파일</Spbutton></SpbuttonWrap></SAddParagraph>
+      <SAddParagraph 
+        >+ 문단추가 
+        <SpbuttonWrap>
+          <Spbutton onClick={()=>{addTextParagraphs()}} >텍스트</Spbutton>
+          <Spbutton onClick={()=>{addImageParagraphs()}}>이미지</Spbutton>
+          <Spbutton onClick={()=>{addVideoParagraphs()}}>비디오</Spbutton>
+          <Spbutton onClick={()=>{addFileParagraphs()}}>파일</Spbutton>
+        </SpbuttonWrap>
+      </SAddParagraph>
         {paragraphId.map((data, i)=>{
           if (data.paragraphType === 'text') return <ParagraphText key={i} data={data} sequent={data.sequent} num={data.paragraphNum}/>
-          else if (data.paragraphType === 'image') return <ParagraphImg mouseOnImg={prop.mouseOnImg} setMouseOnImg={prop.setMouseOnImg} key={i} data={data} />
-          else if (data.paragraphType === 'video') return <ParagraphVideo key={i} data={data} />
-          else if (data.paragraphType === 'link') return <ParagraphLink key={i} data={data} />
+          else if (data.paragraphType === 'image') return <ParagraphImg mouseOnImg={prop.mouseOnImg} setMouseOnImg={prop.setMouseOnImg} key={i} data={data} sequent={data.sequent} />
+          else if (data.paragraphType === 'video') return <ParagraphVideo key={i} data={data} sequent={data.sequent} />
+          else if (data.paragraphType === 'link') return <ParagraphLink key={i} data={data} sequent={data.sequent} />
         })}
     </SParagraphList>
   )

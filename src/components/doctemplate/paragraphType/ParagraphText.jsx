@@ -72,6 +72,7 @@ function ParagraphText(prop) {
   const [aparagraphListForceRerender, setParagraphListForceRerender] = useRecoilState(paragraphListForceRerender);
   const [aparagraphForceRerender, setParagraphForceRerender] = useRecoilState(paragraphForceRerender);
   const resetState = useResetRecoilState(templateParagraph(data));
+  const resetState2 = useResetRecoilState(templateParagraphId);
   const [forceRerender, setForceRerender] = useState(0);
 
   const delParagraph = ()=>{
@@ -80,10 +81,15 @@ function ParagraphText(prop) {
       method: 'delete',
       data : {paragraphNum : paragraphs.paragraphNum, docNum : docId},
       withCredentials : true,
-    }).then((res)=>{
-      console.log(res)
     }).then(()=>{
-      setParagraphListForceRerender((prev)=>prev+1);
+      axios({
+        url: `http://${webPort.express}/readParagraphList/${docId}`,
+        method: 'get',
+        withCredentials : true,
+      }).then((res)=>{
+        resetState2();
+        return res
+      }).then((res)=>{setParagraphId(()=>{return res.data.data});setParagraphListForceRerender((prev)=>prev+1);})
     })
   }
 
@@ -96,7 +102,7 @@ function ParagraphText(prop) {
       setParagraphs({...res.data.data, modify : 0, sequent : sequent});
     })
     return resetState()
-  }, [paragraphId, forceRerender, aparagraphForceRerender, data])
+  }, [paragraphId, forceRerender, aparagraphForceRerender, data, sequent])
 
   const textRef = useRef();
   const [inputValue, setInputValue] = useState('');
@@ -134,7 +140,6 @@ function ParagraphText(prop) {
   const [{isOver}, drop] = useDrop({
     accept: 'paragraphList',
     hover: (item, monitor) => {
-      console.log(item.sequent, sequent)
       if (item.sequent === sequent) {
         return null
       }

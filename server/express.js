@@ -32,19 +32,15 @@ app.use(session({
 app.listen(port, ()=>{console.log(`server run in ${port}`)});
 //------------------------------------------파일 임포트
 const {login, logout} = require('./session/session')
-const {createProject} = require('./Create/createProject')
-const {createCollaborator} = require('./Create/createCollaborator')
-const {createCalendarEvent} = require('./Create/createCalendarEvent')
+
 const {join} = require('./Create/join');
 const {timeResponse}= require('./Create/createTimeResponse');
 const { createDocument } = require('./Create/createDocument.js');
 const { createWriteChat } = require('./Create/createWriteChat.js');
 const { createWriteReply } = require('./Create/createWriteReply.js');
-const { readMyAnswer } = require('./Read/readMyAnswer.js');
-const { readChatData } = require('./Read/readChatData.js');
-const { changeResponse } = require('./Update/changeResponse.js');
-const { changeCalendarEvent } = require('./Update/changeCalendarEvent.js');
-
+const {createProject} = require('./Create/createProject')
+const {createCollaborator} = require('./Create/createCollaborator')
+const {createCalendarEvent} = require('./Create/createCalendarEvent')
 const {createTimeRequest} = require('./Create/createTimeRequest')
 const {createWorkSpace} = require('./Create/createWorkSpace')
 const {createChatSpace} = require('./Create/createChatSpace')
@@ -52,6 +48,9 @@ const {createTextParagraph} = require('./Create/createTextParagraph');
 const {createDocLicenser} = require('./Create/createDocLicenser');
 const {createDocParticipant} = require('./Create/createDocParticipant');
 const {createChatParticipant} = require('./Create/createChatParticipant')
+const {createImageParagraph} = require('./Create/createImageParagraph')
+const {createVideoParagraph} = require('./Create/createVideoParagraph')
+const {createFileParagraph} = require('./Create/createFileParagraph')
 
 const {readMyProjectList} = require('./Read/readProjectList.js');
 const {readRequestList} = require('./Read/readRequestList')
@@ -72,6 +71,8 @@ const {readDocMaker} = require('./Read/readDocMaker')
 const {readChatParticipant} = require('./Read/readChatParticipant')
 const {readParagraphList} = require('./Read/readParagraphList')
 const {readParagraphInfo} = require('./Read/readParagraphInfo')
+const { readMyAnswer } = require('./Read/readMyAnswer.js');
+const { readChatData } = require('./Read/readChatData.js');
 
 const {changeMyProjectOrder} = require('./Update/changeMyProjectOrder')
 const {changeWorkSpaceOrder} = require('./Update/changeWorkSpaceOrder')
@@ -83,6 +84,8 @@ const {changeParagraph} = require('./Update/changeParagraph')
 const {changeCalendarEventDate} = require('./Update/chageCalendarEventDate')
 const { changeWorkSpaceType } = require('./Update/changeWorkSpaceType.js');
 const {changeParagraphOrder} = require('./Update/changeParagraphOrder')
+const { changeResponse } = require('./Update/changeResponse.js');
+const { changeCalendarEvent } = require('./Update/changeCalendarEvent.js');
 
 const {delProject} = require('./Delete/delProject')
 const {delDoc} = require('./Delete/delDoc')
@@ -161,6 +164,17 @@ app.post('/createList', (req, res)=>{
 app.post('/createChatParticipant', (req, res)=>{
   createChatParticipant(req, res);
 })
+app.post('/createImageParagraph', (req, res)=>{
+  createImageParagraph(req, res);
+})
+app.post('/createVideoParagraph', (req, res)=>{
+  createVideoParagraph(req, res);
+})
+app.post('/createFileParagraph', (req, res)=>{
+  createFileParagraph(req, res);
+})
+
+
 //------------------------------------------Read라우팅
 app.get('/readMyProjectList', (req, res)=>{
   readMyProjectList(req, res);

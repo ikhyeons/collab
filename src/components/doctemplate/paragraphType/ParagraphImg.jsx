@@ -4,7 +4,9 @@ import { BsThreeDotsVertical,  } from 'react-icons/bs'
 import {MdOutlineCancel, MdOutlineEditNote} from 'react-icons/md'
 import { useDrag, useDrop } from 'react-dnd'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { templateParagraph, templateParagraphId } from '../../../Atoms/atom'
+import { templateParagraph, templateParagraphId, currentDocId, paragraphListForceRerender } from '../../../Atoms/atom'
+import axios from 'axios'
+import { webPort } from '../../../port'
 
 const SInnerDataV = styled.div`
   padding-left : 25px;
@@ -92,33 +94,47 @@ const xStyle = {
 }
 
 function ParagraphImg(prop) {
-  const {index, id, moveFunction} = prop;
+  const {index, id, moveFunction, sequent} = prop;
   const setParagraphId = useSetRecoilState(templateParagraphId);
   const [paragraphs, setParagraphs] = useRecoilState(templateParagraph(prop.data))
-
+  const [docId, setDocId] = useRecoilState(currentDocId);
+  const [aparagraphListForceRerender, setParagraphListForceRerender] = useRecoilState(paragraphListForceRerender);
+  const [forceRerender, setForceRerender] = useState(0);
   const delParagraph = ()=>{
-    setParagraphId((prev)=>{
-      let arrayData = [
-        ...prev,
-      ]
-      arrayData = arrayData.filter((list)=>{
-        return list.id !== prop.data.id;
-      });
-      
-      console.log(arrayData);
-      return arrayData;
-    })}
+    axios({
+      url: `http://${webPort.express}/delParagraph`,
+      method: 'delete',
+      data : {paragraphNum : paragraphs.paragraphNum, docNum : docId},
+      withCredentials : true,
+    }).then((res)=>{
+      console.log(res)
+    }).then(()=>{
+      setParagraphListForceRerender((prev)=>prev+1);
+    })
+  }
 
     const [{ isDragging }, dragRef, previewRef] = useDrag(
       () => ({
         type: 'paragraphList',
-        item: { index, id },
+        item: { id, sequent : sequent },
         collect: (monitor) => ({
           isDragging: monitor.isDragging(),
         }),
         end: (item) => {
-          //item.index = 떨어진 놈의 인덱스 index = 집은 놈의 인덱스 id = 집은 놈의 아이디
-          moveFunction(item.index, index);
+          //index = 집은 놈의 인덱스  item.index = 떨어진 놈의 인덱스  id = 집은 놈의 아이디
+          axios({
+            url: `http://${webPort.express}/changeParagraphOrder`,
+            method: 'put',
+            withCredentials : true,
+            data:{
+              docNum: docId,
+              order : item.sequent,
+              targetOrder : sequent,
+            }
+          }).then(()=>{
+            setParagraphListForceRerender((prev)=>prev+1);
+            setForceRerender(prev=>prev+1);
+          })
         },
       })
     )
@@ -126,12 +142,12 @@ function ParagraphImg(prop) {
     const [{isOver}, drop] = useDrop({
       accept: 'paragraphList',
       hover: (item, monitor) => {
-        if (item.index === index) {
+        console.log(item.sequent, sequent)
+        if (item.sequent === sequent) {
           return null
         }
         //item.index = 집은놈의 인덱스 index = 올라간 놈의 인덱스
-        item.index = index;
-        console.log(index);
+        item.sequent = sequent;
       },
       collect : monitor => ({
         isOver : monitor.isOver(),

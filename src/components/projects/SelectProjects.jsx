@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import styled from 'styled-components';
-import { projectState } from "../../Atoms/atom";
+import { projectForceRerender, projectState } from "../../Atoms/atom";
 import DetailProject from './DetailProject'
 import ModalName from "./NameModal";
 import { useRecoilState } from 'recoil';
@@ -98,13 +98,16 @@ const SelectProjects = () =>{
     // 사용자 이름 변수
     const [name, setName] = useState('로드 중..');
     //프로젝트 추가 함수
+    const [aprojectForceRerender,setProjectForceRerender] = useRecoilState(projectForceRerender);
 
     const addProject = () => {
         axios({
             url: `http://${webPort.express}/createProject`,
             withCredentials : true,
             method: 'post',
-          }).then(setProject((prev)=>[...prev]))
+          }).then(
+            setProjectForceRerender(prev=>{if(prev === 1) return 0; else return 1;})
+            )
     };
 
     useEffect(()=>{
@@ -122,7 +125,7 @@ const SelectProjects = () =>{
             setProject(res.data.data)
             console.log(res.data.data);
         });
-    }, [])
+    }, [aprojectForceRerender])
 
     return (
         <SMain>

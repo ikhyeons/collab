@@ -24,7 +24,6 @@ function InputImg(prop) {
         Array.from(e.target.files).map((data)=>{
             formData.append('imgs', data);
         })
-        console.log(e.target.files)
         axios.post(`http://${webPort.express}/uplodaDocPic`, formData, {withCredentials : true,})
         .then((res)=>{
             axios({

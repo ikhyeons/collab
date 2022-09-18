@@ -183,7 +183,6 @@ app.post('/createDocPic', (req, res)=>{
   createDocPic(req, res)
 })
 
-//파일 주소 내보내기
 app.post('/uplodaDocPic', uploadS3.array('imgs', 10), async (req, res) => {
   let newArray = req.files.map((data)=>{return data.location})
   res.status(200).json({ locations: newArray})

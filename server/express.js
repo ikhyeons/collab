@@ -109,7 +109,8 @@ const {delCollaborator} = require('./Delete/delCollaborator')
 const {delChatParticipant} = require('./Delete/delChatParticipant')
 const {delParagraph} = require('./Delete/delParagraph')
 //------------------------------------------S3 함수들
-const {uploadS3} = require('./S3/S3')
+const {uploadS3} = require('./S3/S3');
+const { readUser } = require('./Read/readUser.js');
 
 //------------------------------------------session라우팅
 app.post('/login', (req, res)=>{
@@ -263,7 +264,9 @@ app.get('/readParagraphInfo/:paragraphNum', (req, res)=>{
 app.get('/readDocPic/:paragraphNum', (req, res)=>{
   readDocPic(req, res)
 })
-
+app.get('/readUser', (req, res)=>{
+  readUser(req, res)
+})
 //------------------------------------------Update라우팅
 app.put('/changeMyProjectOrder', (req, res)=>{
   changeMyProjectOrder(req, res);

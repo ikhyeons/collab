@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { currentReqId, userNamePool } from "../../Atoms/atom";
+import { webPort } from "../../port";
 
 const SReqContainor = styled.div`
     display:felx;
@@ -30,7 +31,7 @@ const SendList = (props)=>{
 
     const deleteRequest = ()=>{
         axios({
-            url: `http://localhost:1004/delRequest`,
+            url: `http://${webPort.express}/delRequest`,
             method: 'delete',
             withCredentials: true,
             data:{
@@ -48,7 +49,7 @@ const SendList = (props)=>{
                 setSelectedReqId(reqId);
             }}>{data.month}월 {data.week}째주 {data.reqContent}
                 <br/>
-                {userName[data.makeUserNum-1].display} 
+                From.{userName.filter(a => a.userNum === reqId)[0].nickName}
             </Receive>
             <SDelBtn onClick={()=>{
                 deleteRequest();

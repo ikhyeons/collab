@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Table from "./Table";
 import {useRecoilState} from 'recoil';
-import { currentReqId, selectedTd } from "../../Atoms/atom";
+import { currentReqId, selectedTd, userNamePool } from "../../Atoms/atom";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import ResponseList from "./ResponseList"
@@ -110,6 +110,7 @@ const Request = () =>{
     const [selectedWeek, setSelectedWeek] = useState(0);
     const [receiveRequest, setReceiveRequest] = useState([]);
     const [sid, setSid] = useState(0);
+    const [userName, setUserName] = useRecoilState(userNamePool);
 
     const {projectNum} = useParams();
 
@@ -152,6 +153,16 @@ const Request = () =>{
             setReceiveRequest(res.data.data);
             setSid(res.data.user);
         })
+
+        
+        axios({
+            url: `http://${webPort.express}/readUser`,
+            method: 'get',
+            withCredentials: true,
+        }).then((res)=>{
+            console.log(res.data);
+            setUserName(res.data.data);
+        })
     },[])
 
     const changeMonth = (e)=>{
@@ -187,13 +198,13 @@ const Request = () =>{
                     <Sb>받은 요청</Sb>
                     <ul>
                         {receiveRequest.filter(a => a.makeUserNum !== sid).map((data, i)=>{
-                            return (<ResponseList key={i} data={data} setResponse={setResponse} reqId={data.reqNum} />)
+                            return (<ResponseList key={i} data={data} setResponse={setResponse} reqId={sid} />)
                         })}
                     </ul>
                     <Sb>보낸 요청</Sb>
                     <ul>
                         {receiveRequest.filter(a => a.makeUserNum === sid).map((data, i)=>{
-                            return (<SendList key={i} data={data} reqId={data.reqNum} />)
+                            return (<SendList key={i} data={data} reqId={sid} />)
                         })}
                     </ul>
                     <RBtn type="submit" onClick={(e)=>{

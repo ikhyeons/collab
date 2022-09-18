@@ -113,7 +113,7 @@ export const templateParagraph = atomFamily({
       paragraphNum : paragraphNum,
       paragraphType : paragraphType,
       innerData : '내용',
-      imgs : ["http://www.fintechpost.co.kr/news/photo/201907/46375_27128_0925.jpg", "https://cdn.topstarnews.net/news/photo/201908/653630_355016_3125.jpg", "http://www.biztribune.co.kr/news/photo/201903/202520_52645_3519.png",],
+      imgs : [],
       modify : 0,
     })
     else if (paragraphType === 'video') return ({

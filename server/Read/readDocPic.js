@@ -2,12 +2,12 @@ const {mysqlKey}  = require('../mysqlKey');
 const mysql = require('mysql');
 const con = mysql.createConnection(mysqlKey);
 
-exports.readChatSpaceInfo = (req, res) => {
+exports.readDocPic = (req, res) => {
+    let paragraphNum = req.params.paragraphNum;
     if(req.session.logined === true){
-        let chatSpaceNum = req.params.chatSpaceNum;
-        con.query('select * from chatSpace where chatSpaceNum = ?', [chatSpaceNum], (error, rows, fields)=> {
+        con.query('SELECT * FROM docPic where paragraphNum = ?', [paragraphNum], (error, rows1, fields)=> {
             if(error) throw error;
-            res.send({success : 0, data : rows[0]});
+            res.send({success : 0, data : rows1})
         })
     }
     else {
@@ -15,4 +15,3 @@ exports.readChatSpaceInfo = (req, res) => {
         res.send({success : 3});
     }
     }
-    

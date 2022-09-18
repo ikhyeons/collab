@@ -28,6 +28,7 @@ app.use(session({
     resave: false,
     saveUninitialized : false,
   }));
+
 //------------------------------------------서버 구동
 app.listen(port, ()=>{console.log(`server run in ${port}`)});
 //------------------------------------------파일 임포트
@@ -51,6 +52,7 @@ const {createChatParticipant} = require('./Create/createChatParticipant')
 const {createImageParagraph} = require('./Create/createImageParagraph')
 const {createVideoParagraph} = require('./Create/createVideoParagraph')
 const {createFileParagraph} = require('./Create/createFileParagraph')
+const {createDocPic} = require('./Create/createDocPic')
 
 const {readMyProjectList} = require('./Read/readProjectList.js');
 const {readRequestList} = require('./Read/readRequestList')
@@ -73,6 +75,7 @@ const {readParagraphList} = require('./Read/readParagraphList')
 const {readParagraphInfo} = require('./Read/readParagraphInfo')
 const { readMyAnswer } = require('./Read/readMyAnswer.js');
 const { readChatData } = require('./Read/readChatData.js');
+const {readDocPic}= require('./Read/readDocPic')
 
 const {changeMyProjectOrder} = require('./Update/changeMyProjectOrder')
 const {changeWorkSpaceOrder} = require('./Update/changeWorkSpaceOrder')
@@ -105,6 +108,9 @@ const { delList } = require('./Delete/delList.js');
 const {delCollaborator} = require('./Delete/delCollaborator')
 const {delChatParticipant} = require('./Delete/delChatParticipant')
 const {delParagraph} = require('./Delete/delParagraph')
+//------------------------------------------S3 함수들
+const {uploadS3} = require('./S3/S3')
+
 //------------------------------------------session라우팅
 app.post('/login', (req, res)=>{
     login(req, res);
@@ -173,7 +179,15 @@ app.post('/createVideoParagraph', (req, res)=>{
 app.post('/createFileParagraph', (req, res)=>{
   createFileParagraph(req, res);
 })
+app.post('/createDocPic', (req, res)=>{
+  createDocPic(req, res)
+})
 
+//파일 주소 내보내기
+app.post('/uplodaDocPic', uploadS3.array('imgs', 10), async (req, res) => {
+  let newArray = req.files.map((data)=>{return data.location})
+  res.status(200).json({ locations: newArray})
+});
 
 //------------------------------------------Read라우팅
 app.get('/readMyProjectList', (req, res)=>{
@@ -245,6 +259,9 @@ app.get('/readParagraphList/:docNum', (req, res)=>{
 })
 app.get('/readParagraphInfo/:paragraphNum', (req, res)=>{
   readParagraphInfo(req, res)
+})
+app.get('/readDocPic/:paragraphNum', (req, res)=>{
+  readDocPic(req, res)
 })
 
 //------------------------------------------Update라우팅

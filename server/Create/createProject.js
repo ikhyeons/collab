@@ -14,8 +14,8 @@ exports.createProject = (req, res) => {
                         if(error) throw error;
                         con.query('SELECT COUNT(*) FROM project', (error, rows3, fields)=> {
                             con.query('insert into workSpace values(default, ?, "문서", "li", 1, default)', [rows3[0]['COUNT(*)']], (error, rows, fields)=> {
-                                con.query('insert into workSpace values(default, ?, "작업목록", "board", 1, default)', [rows3[0]['COUNT(*)']], (error, rows, fields)=> {
-                                    con.query('insert into chatSpace values(default, ?, "전체 채팅", "default", 1, default)', [rows1[0]['COUNT(*)']], (error, rows, fields)=> {
+                                con.query('insert into workSpace values(default, ?, "작업목록", "board", 2, default)', [rows3[0]['COUNT(*)']], (error, rows, fields)=> {
+                                    con.query('insert into chatSpace values(default, ?, "전체 채팅", "default", 1, default)', [rows3[0]['COUNT(*)']], (error, rows, fields)=> {
                                         con.query('SELECT COUNT(*) FROM chatSpace', (error, rows2, fields)=> {
                                             con.query('insert into chatParticipant values(default, ?, 1, default)', [rows2[0]['COUNT(*)'], req.session.sid], (error, rows, fields)=> {
                                                 res.send({success : 0});

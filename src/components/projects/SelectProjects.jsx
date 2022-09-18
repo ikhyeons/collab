@@ -105,9 +105,9 @@ const SelectProjects = () =>{
             url: `http://${webPort.express}/createProject`,
             withCredentials : true,
             method: 'post',
-          }).then(
-            setProjectForceRerender(prev=>{if(prev === 1) return 0; else return 1;})
-            )
+          }).then(()=>{
+            setProjectForceRerender(prev=>prev+1)
+        })
     };
 
     useEffect(()=>{
@@ -123,7 +123,6 @@ const SelectProjects = () =>{
             method: 'get',
           }).then((res)=>{
             setProject(res.data.data)
-            console.log(res.data.data);
         });
     }, [aprojectForceRerender])
 
@@ -158,4 +157,4 @@ const SelectProjects = () =>{
     );
 };
 
-export default SelectProjects ;
+export default SelectProjects;

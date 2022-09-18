@@ -55,7 +55,7 @@ const DetailProject = ({index, data}) => {
                 targetOrder: index+1,
             }
         }).then(()=>{
-            setProjectForceRerender(prev=>{if(prev === 1) return 0; else return 1;})
+            setProjectForceRerender(prev=>prev+1)
         })
       },
     })

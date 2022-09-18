@@ -2,8 +2,8 @@ import React, {useEffect} from 'react'
 import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { useDrag, useDrop } from 'react-dnd'
-import { useRecoilState, useResetRecoilState } from 'recoil'
-import { forceRerender, sidebarChatLi, currentChatSpaceId } from '../../Atoms/atom'
+import { useRecoilState } from 'recoil'
+import { forceRerender, sidebarChatLi, currentChatSpaceId, sidebarForceRerender } from '../../Atoms/atom'
 import axios from 'axios'
 import { MdOutlineCancel } from 'react-icons/md'
 import { webPort } from "../../port";
@@ -25,13 +25,13 @@ const Sdiv = styled.div`
   justify-content : flex-start;
 `
 
-function SidebarChatLi({index, id, moveFunction}) {
+function SidebarChatLi({index, id}) {
 
     const [chatLi, setChatLi] = useRecoilState(sidebarChatLi({num : id}));
     const {projectNum} = useParams();
     const [reRender, setReRender] = useRecoilState(forceRerender);
     const [acurrentChatSpaceId, setCurrentChatSpaceId] = useRecoilState(currentChatSpaceId)
-        
+    const [asidebarForceRerender, setSidebarForceRerender] = useRecoilState(sidebarForceRerender)    
     const [{ isDragging }, dragRef, previewRef] = useDrag(
       () => ({
         type: 'sidebarChatSpaceList',
@@ -41,7 +41,16 @@ function SidebarChatLi({index, id, moveFunction}) {
         }),
         end: (item) => {
           //item.index = 떨어진 놈의 인덱스 index = 집은 놈의 인덱스 id = 집은 놈의 아이디
-          moveFunction(item.index, index);
+          axios({
+            url: `http://${webPort.express}/changeChatSpaceOrder`,
+            method: 'put',
+            withCredentials : true,
+            data:{
+              projectNum: projectNum,
+              order : item.index,
+              targetOrder : index,
+            }
+          }).then(()=>{setSidebarForceRerender((prev)=>{if(prev==1){return 0} else return 1})})
         },
       })
     )
@@ -66,7 +75,6 @@ function SidebarChatLi({index, id, moveFunction}) {
         withCredentials : true,
       }).then((res)=>{
         setChatLi({...res.data.data, name : res.data.data.spaceTitle});
-        console.log(chatLi);
       })
     }, [reRender])
     

@@ -4,7 +4,9 @@ import { BsThreeDotsVertical,  } from 'react-icons/bs'
 import {MdOutlineCancel, MdOutlineEditNote} from 'react-icons/md'
 import { useDrag, useDrop } from 'react-dnd'
 import { useRecoilState, useSetRecoilState, useResetRecoilState } from 'recoil'
-import { templateParagraph, templateParagraphId } from '../../../Atoms/atom'
+import { templateParagraph, templateParagraphId, paragraphListForceRerender, currentDocId, paragraphForceRerender } from '../../../Atoms/atom'
+import axios from 'axios'
+import { webPort } from '../../../port'
 
 const SInnerDataV = styled.div`
   padding-left : 25px;
@@ -63,46 +65,74 @@ const SSettingLine = styled.div`
 
 function ParagraphText(prop) {
 
-  const {index, id, moveFunction} = prop;
+  const {id, data, num, sequent} = prop;
+  const [paragraphId, setParagraphId] = useRecoilState(templateParagraphId)
+  const [paragraphs, setParagraphs] = useRecoilState(templateParagraph(data));
+  const [docId, setDocId] = useRecoilState(currentDocId);
+  const [aparagraphListForceRerender, setParagraphListForceRerender] = useRecoilState(paragraphListForceRerender);
+  const [aparagraphForceRerender, setParagraphForceRerender] = useRecoilState(paragraphForceRerender);
+  const resetState = useResetRecoilState(templateParagraph(data));
+  const resetState2 = useResetRecoilState(templateParagraphId);
+  const [forceRerender, setForceRerender] = useState(0);
 
-  const setParagraphId = useSetRecoilState(templateParagraphId)
-  const [paragraphs, setParagraphs] = useRecoilState(templateParagraph(prop.data))
-  const resetParagraph = useResetRecoilState(templateParagraph(prop.data));
   const delParagraph = ()=>{
-    setParagraphId((prev)=>{
-      let arrayData = [
-        ...prev,
-      ]
-      arrayData = arrayData.filter((list)=>{
-        return list.id !== prop.data.id;
-      });
-      
-      console.log(arrayData);
-      return arrayData;
-    })}
+    axios({
+      url: `http://${webPort.express}/delParagraph`,
+      method: 'delete',
+      data : {paragraphNum : paragraphs.paragraphNum, docNum : docId},
+      withCredentials : true,
+    }).then(()=>{
+      axios({
+        url: `http://${webPort.express}/readParagraphList/${docId}`,
+        method: 'get',
+        withCredentials : true,
+      }).then((res)=>{
+        resetState2();
+        return res
+      }).then((res)=>{setParagraphId(()=>{return res.data.data});setParagraphListForceRerender((prev)=>prev+1);})
+    })
+  }
+
+  useEffect(()=>{
+    axios({
+      url: `http://${webPort.express}/readParagraphInfo/${num}`,
+      method: 'get',
+      withCredentials : true,
+    }).then((res)=>{
+      setParagraphs({...res.data.data, modify : 0, sequent : sequent});
+    })
+    return resetState()
+  }, [paragraphId, forceRerender, aparagraphForceRerender, data, sequent])
 
   const textRef = useRef();
-  
   const [inputValue, setInputValue] = useState('');
 
   const handleResizeHeight = useCallback(() => {
     textRef.current.style.height = textRef.current.scrollHeight + "px";
   }, []);
 
-   useEffect(()=>{
-     return ()=>{resetParagraph()}
-   }, [])
-
    const [{ isDragging }, dragRef, previewRef] = useDrag(
     () => ({
       type: 'paragraphList',
-      item: { index, id },
+      item: { id, sequent : sequent },
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),
       }),
       end: (item) => {
-        //item.index = 떨어진 놈의 인덱스 index = 집은 놈의 인덱스 id = 집은 놈의 아이디
-        moveFunction(item.index, index);
+        //index = 집은 놈의 인덱스  item.index = 떨어진 놈의 인덱스  id = 집은 놈의 아이디
+        axios({
+          url: `http://${webPort.express}/changeParagraphOrder`,
+          method: 'put',
+          withCredentials : true,
+          data:{
+            docNum: docId,
+            order : item.sequent,
+            targetOrder : sequent,
+          }
+        }).then(()=>{
+          setParagraphListForceRerender((prev)=>prev+1);
+          setForceRerender(prev=>prev+1);
+        })
       },
     })
   )
@@ -110,13 +140,11 @@ function ParagraphText(prop) {
   const [{isOver}, drop] = useDrop({
     accept: 'paragraphList',
     hover: (item, monitor) => {
-      if (item.index === index) {
+      if (item.sequent === sequent) {
         return null
       }
       //item.index = 집은놈의 인덱스 index = 올라간 놈의 인덱스
-      item.index = index;
-      console.log(index);
-      
+      item.sequent = sequent;
     },
     collect : monitor => ({
       isOver : monitor.isOver(),
@@ -132,15 +160,15 @@ function ParagraphText(prop) {
 
           <SimoDiv1
             onClick={()=>{
-              setInputValue(paragraphs.data);
+              setInputValue(paragraphs.innerData);
               setParagraphs((prev)=>{
                 let newData = {
                   ...prev
                 }
-                // 클릭된 놈이랑 아이디가 같은 객체의 수정을 1로 만들어야 됨.
-                newData = {...newData, modify : 1}
+                // 클릭된 놈이랑 아이디가 같은 객체의 수정을 1로 만들어야 됨
+                newData.modify === 1? newData.modify = 0 : newData.modify = 1
                 return newData;
-              })
+              }).then(()=>{setForceRerender(prev=>prev===0? 1 : 0);setInputValue('');})
             }}
           >
             <MdOutlineEditNote />
@@ -154,7 +182,7 @@ function ParagraphText(prop) {
         {
         paragraphs.modify === 0?
         <SInnerDataV>
-          {paragraphs.data}
+          {paragraphs.innerData}
         </SInnerDataV>
         :
         <SInnerDataI modify = {paragraphs.modify} value={inputValue} 
@@ -168,10 +196,19 @@ function ParagraphText(prop) {
                 ...prev
               }
               // 클릭된 놈이랑 아이디가 같은 객체의 수정을 1로 만들어야 됨.
-              newData = {...newData, data : inputValue, modify : 0}
+              newData = {...newData, innerData : inputValue, modify : 0}
+              console.log(newData)
               return newData;
             })
-            setInputValue('');
+            axios({
+              url: `http://${webPort.express}/changeParagraph`,
+              method: 'put',
+              withCredentials : true,
+              data:{
+                paragraphNum : num,
+                innerData : inputValue,
+              }
+            }).then(()=>{setForceRerender(prev=>prev===0? 1 : 0);setInputValue('');})
           }
         }}
         onBlur = {(e)=>{
@@ -180,10 +217,18 @@ function ParagraphText(prop) {
               ...prev
             }
             // 클릭된 놈이랑 아이디가 같은 객체의 수정을 1로 만들어야 됨.
-            newData = {...newData, data : inputValue, modify : 0}
+            newData = {...newData, innerData : inputValue, modify : 0}
             return newData;
           })
-          setInputValue('');
+          axios({
+            url: `http://${webPort.express}/changeParagraph`,
+            method: 'put',
+            withCredentials : true,
+            data:{
+              paragraphNum : num,
+              innerData : inputValue,
+            }
+          }).then(()=>{setForceRerender(prev=>prev===0? 1 : 0);setInputValue('');})
         }}
         />
         }

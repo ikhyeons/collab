@@ -2,11 +2,10 @@ import React, {useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { useDrag, useDrop } from 'react-dnd'
-import { useRecoilState, useResetRecoilState } from 'recoil'
-import { sidebarWorkSpaceLi, currentWorkSpaceId } from '../../Atoms/atom'
+import { useRecoilState } from 'recoil'
+import { sidebarWorkSpaceLi, currentWorkSpaceId, sidebarForceRerender } from '../../Atoms/atom'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
-import { MdOutlineCancel } from 'react-icons/md'
 import { webPort } from "../../port";
 
 const Sli = styled.li`
@@ -18,11 +17,22 @@ const Sli = styled.li`
   }
 `
 
-function SidebarWorkSpaceLi({index, id, moveFunction}) {
+function SidebarWorkSpaceLi({index, id}) {
 
     const [workSpaceLi, setWorkSpaceLi] = useRecoilState(sidebarWorkSpaceLi({id : id}))
     const {projectNum} = useParams()
     const [acurrentWorkSpaceId, setCurrentWorkSpaceId] = useRecoilState(currentWorkSpaceId)
+    const [asidebarForceRerender, setSidebarForceRerender] = useRecoilState(sidebarForceRerender)
+
+    useEffect(()=>{
+      axios({
+        url: `http://${webPort.express}/readWorkSpaceInfo/${id}`, // 통신할 웹문서
+        method: 'get', // 통신할 방식
+        withCredentials : true,
+      }).then((res)=>{
+        setWorkSpaceLi({...res.data.data, id : res.data.data.workSpaceNum});
+      })
+    }, [])
 
     const [{ isDragging }, dragRef, previewRef] = useDrag(
       () => ({
@@ -33,7 +43,16 @@ function SidebarWorkSpaceLi({index, id, moveFunction}) {
         }),
         end: (item) => {
           //item.index = 떨어진 놈의 인덱스 index = 집은 놈의 인덱스 id = 집은 놈의 아이디
-          moveFunction(item.index, index);
+          axios({
+            url: `http://${webPort.express}/changeWorkSpaceOrder`,
+            method: 'put',
+            withCredentials : true,
+            data:{
+              projectNum: projectNum,
+              order : item.index,
+              targetOrder : index,
+            }
+          }).then(()=>{setSidebarForceRerender((prev)=>{if(prev==1){return 0} else return 1})})
         },
       })
     )
@@ -52,15 +71,7 @@ function SidebarWorkSpaceLi({index, id, moveFunction}) {
       })
     })
     
-    useEffect(()=>{
-      axios({
-        url: `http://${webPort.express}/readWorkSpaceInfo/${id}`, // 통신할 웹문서
-        method: 'get', // 통신할 방식
-        withCredentials : true,
-      }).then((res)=>{
-        setWorkSpaceLi({...res.data.data, id : res.data.data.workSpaceNum});
-      })
-    }, [])
+    
 
   return (
     <Link onClick={()=>{

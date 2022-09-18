@@ -1,7 +1,7 @@
 import React,{useEffect, useState} from 'react'
 import styled from 'styled-components'
 import { useRecoilState } from 'recoil'
-import {sidebarWorkSpace, projectUrl} from '../../Atoms/atom'
+import {sidebarWorkSpace, sidebarForceRerender} from '../../Atoms/atom'
 import SidebarWorkSpaceLi from './SidebarWorkSpaceLi'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
@@ -36,30 +36,19 @@ const SidebarWorkSpace = () => {
   const [hidden, setHidden] = useState(0);
   //워크스페이스 리스트
   const [workSpaceList, setWorkSpaceList] = useRecoilState(sidebarWorkSpace);
-  const [forceRerender, setForceRerender] = useState(0);
+  const [asidebarForceRerender, setSidebarForceRerender] = useRecoilState(sidebarForceRerender);
   const {projectNum} = useParams();
   useEffect(()=>{
     axios({
       url: `http://${webPort.express}/readWorkSpaceList/${projectNum}`, // 통신할 웹문서
       method: 'get', // 통신할 방식
       withCredentials : true,
-    }).then((res)=>{setWorkSpaceList([]);return res}).then((res)=>{
-      res.data.data.map((data, i)=>{setWorkSpaceList((prev)=>[...prev, data.workSpaceNum]);})
-      console.log(res);
+    }).then((res)=>{
+      let newList = []
+      res.data.data.map((data, i)=>{newList.push({ workSpaceNum : data.workSpaceNum, sequent : data.sequent})})
+      setWorkSpaceList(newList);
     })
-  }, [forceRerender]);
-
-  const moveFunction = (targetIndex, sourceIndex)=> {
-    setWorkSpaceList((prev)=>{
-      let newArray = [...prev];
-      let innerData = newArray[sourceIndex];
-      console.log(`input data is ${innerData}`)
-      newArray.splice(sourceIndex, 1);
-      newArray.splice(targetIndex, 0, innerData);
-      console.log(newArray);
-      return newArray
-    })
-  }
+  }, [asidebarForceRerender]);
 
   //워크스페이스 리스트 추가하는 함수
   const addWorkSpaceList = () => {
@@ -71,7 +60,7 @@ const SidebarWorkSpace = () => {
         projectNum: projectNum,
       }
     }).then((res)=>{
-      setForceRerender((prev)=>{if(prev==1){return 0} else return 1});
+      setSidebarForceRerender((prev)=>{if(prev==1){return 0} else return 1});
     })
   }
 
@@ -86,7 +75,7 @@ const SidebarWorkSpace = () => {
         <Stitle onClick={()=>{accordion()}}>워크스페이스</Stitle>
         <Sul hidden = {hidden}>
           {workSpaceList.map((data , i )=>{
-            return <SidebarWorkSpaceLi key={i} index={i} id={data} moveFunction={moveFunction}></SidebarWorkSpaceLi>
+            return <SidebarWorkSpaceLi key={i} index = {data.sequent} id={data.workSpaceNum}></SidebarWorkSpaceLi>
           })}
           <SaddBtn onClick={()=>{addWorkSpaceList()}}>+</SaddBtn>
         </Sul>

@@ -2,13 +2,12 @@ const {mysqlKey}  = require('../mysqlKey');
 const mysql = require('mysql');
 const con = mysql.createConnection(mysqlKey);
 
-exports.readWorkSpaceList = (req, res) => {
-
+exports.readDocPic = (req, res) => {
+    let paragraphNum = req.params.paragraphNum;
     if(req.session.logined === true){
-        let projectNum = req.params.projectNum;
-        con.query('select * from workSpace where projectNum = ? and del = 0 order by sequent', [projectNum], (error, rows, fields)=> {
+        con.query('SELECT * FROM docPic where paragraphNum = ?', [paragraphNum], (error, rows1, fields)=> {
             if(error) throw error;
-            res.send({success : 0, data : rows});
+            res.send({success : 0, data : rows1})
         })
     }
     else {

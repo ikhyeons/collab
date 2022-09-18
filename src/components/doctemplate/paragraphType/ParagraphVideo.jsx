@@ -4,8 +4,10 @@ import { BsThreeDotsVertical,  } from 'react-icons/bs'
 import {MdOutlineCancel, MdOutlineEditNote} from 'react-icons/md'
 import ReactPlayer from 'react-player'
 import { useDrag, useDrop } from 'react-dnd'
-import { useRecoilState, useSetRecoilState } from 'recoil'
-import {templateParagraphId, templateParagraph} from '../../../Atoms/atom'
+import { useRecoilState, useSetRecoilState, useResetRecoilState } from 'recoil'
+import {templateParagraphId, templateParagraph, currentDocId, paragraphListForceRerender} from '../../../Atoms/atom'
+import axios from 'axios'
+import {webPort} from '../../../port'
 
 const SInnerDataV = styled.div`
   padding-left : 25px;
@@ -56,22 +58,29 @@ const SVideoTitle = styled.div`
 function ParagraphVideo(prop) {
 
   const {index, id, moveFunction} = prop;
-
+  const [docId, setDocId] = useRecoilState(currentDocId);
   const setParagraphId = useSetRecoilState(templateParagraphId)
   const [paragraphs, setParagraphs] = useRecoilState(templateParagraph(prop.data))
+  const resetState2 = useResetRecoilState(templateParagraphId);
+  const [aparagraphListForceRerender, setParagraphListForceRerender] = useRecoilState(paragraphListForceRerender);
 
   const delParagraph = ()=>{
-    setParagraphId((prev)=>{
-      let arrayData = [
-        ...prev,
-      ]
-      arrayData = arrayData.filter((list)=>{
-        return list.id !== prop.data.id;
-      });
-      
-      console.log(arrayData);
-      return arrayData;
-    })}
+    axios({
+      url: `http://${webPort.express}/delParagraph`,
+      method: 'delete',
+      data : {paragraphNum : paragraphs.paragraphNum, docNum : docId},
+      withCredentials : true,
+    }).then(()=>{
+      axios({
+        url: `http://${webPort.express}/readParagraphList/${docId}`,
+        method: 'get',
+        withCredentials : true,
+      }).then((res)=>{
+        resetState2();
+        return res
+      }).then((res)=>{setParagraphId(()=>{return res.data.data});setParagraphListForceRerender((prev)=>prev+1);})
+    })
+  }
 
     const [{ isDragging }, dragRef, previewRef] = useDrag(
       () => ({

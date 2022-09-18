@@ -139,7 +139,7 @@ function DocTemplateMain() {
         
         <ParagraphList mouseOnImg={mouseOnImg} setMouseOnImg={setMouseOnImg} />   {/* 문단들 */}
 
-        <DocReplyMain />   {/* 댓글 */}
+        {/*<DocReplyMain / >*/}   {/* 댓글 */}
 
     </STemplateMain>
   )

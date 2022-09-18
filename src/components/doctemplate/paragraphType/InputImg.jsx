@@ -6,7 +6,7 @@ import { paragraphListForceRerender, templateParagraphId, paragraphForceRerender
 import { webPort } from '../../../port';
 
 const Sform = styled.form`
-    width : 200px;
+    width : 130px;
     height : 100%;
 `
 

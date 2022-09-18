@@ -92,7 +92,9 @@ const xStyle = {
   position : 'absolute', 
   top : '5px', 
   left : '0',
-  cursor : 'pointer'
+  cursor : 'pointer',
+  color : 'yellow',
+  fontSize : '25px',
 }
 
 function ParagraphImg(prop) {
@@ -206,7 +208,7 @@ function ParagraphImg(prop) {
                 if(prop.mouseOnImg === 1){
                   setImgModal((prev)=>({on:1, src : data.url}));
                 }
-              }} src={data.url} />{edit===1?<MdOutlineCancel onClick={()=>{console.log(data.pPicNum)}} style={xStyle}/> : null}</SImageWrap>})}
+              }} src={data.url} />{edit===1?<MdOutlineCancel onClick={()=>{console.log(data.pPicNum)}} style={xStyle} /> : null}</SImageWrap>})}
           </SImageBox>
           
         </SInnerDataV>

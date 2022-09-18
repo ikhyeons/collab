@@ -4,6 +4,7 @@ const con = mysql.createConnection(mysqlKey);
 
 exports.changeDocTitle = (req, res) => {
     const {docNum, docTitle} = req.body;
+
     if(req.session.logined === true){
         con.query('UPDATE document SET docTitle = ? WHERE docNum = ?', [docTitle, docNum], (error, rows, fields)=> {
             if(error) throw error;

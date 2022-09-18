@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import ParagraphText from './paragraphType/ParagraphText';
 import ParagraphImg from './paragraphType/ParagraphImg';
 import ParagraphVideo from './paragraphType/ParagraphVideo';
-import ParagraphLink from './paragraphType/ParagraphLink';
+import ParagraphFile from './paragraphType/ParagraphFile';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { templateParagraphId, templateParagraph, paragraphForceRerender, currentDocId, paragraphListForceRerender } from '../../Atoms/atom';
 import { webPort } from "../../port";
@@ -163,7 +163,7 @@ function ParagraphList(prop) {
           if (data.paragraphType === 'text') return <ParagraphText key={i} data={data} sequent={data.sequent} num={data.paragraphNum}/>
           else if (data.paragraphType === 'image') return <ParagraphImg mouseOnImg={prop.mouseOnImg} setMouseOnImg={prop.setMouseOnImg} key={i} data={data} sequent={data.sequent} />
           else if (data.paragraphType === 'video') return <ParagraphVideo key={i} data={data} sequent={data.sequent} />
-          else if (data.paragraphType === 'link') return <ParagraphLink key={i} data={data} sequent={data.sequent} />
+          else if (data.paragraphType === 'file') return <ParagraphFile key={i} data={data} sequent={data.sequent} />
         })}
     </SParagraphList>
   )

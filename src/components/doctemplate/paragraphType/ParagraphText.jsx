@@ -165,8 +165,8 @@ function ParagraphText(prop) {
                 let newData = {
                   ...prev
                 }
-                // 클릭된 놈이랑 아이디가 같은 객체의 수정을 1로 만들어야 됨.
-                newData = {...newData, modify : 1}
+                // 클릭된 놈이랑 아이디가 같은 객체의 수정을 1로 만들어야 됨
+                newData.modify === 1? newData.modify = 0 : newData.modify = 1
                 return newData;
               }).then(()=>{setForceRerender(prev=>prev===0? 1 : 0);setInputValue('');})
             }}

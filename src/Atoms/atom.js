@@ -107,28 +107,28 @@ export const templateParagraph = atomFamily({
       paragraphType : paragraphType,
       innerData : innerData,
       sequent : sequent,
-      modify : 0,
+      modify : 1,
     })
     else if (paragraphType === 'image') return ({
       paragraphNum : paragraphNum,
       paragraphType : paragraphType,
       innerData : '내용',
       imgs : [],
-      modify : 0,
+      modify : 1,
     })
     else if (paragraphType === 'video') return ({
       paragraphNum : paragraphNum,
       paragraphType : paragraphType,
       innerData : '적절한 비디오 제목1',
       url : 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-      modify : 0,
+      modify : 1,
     })
-    else if (paragraphType === 'link') return ({
+    else if (paragraphType === 'file') return ({
       paragraphNum : paragraphNum,
       paragraphType : paragraphType,
       linktype : 'youtube', //youtube, web,
       innerData : 'https://www.youtube.com/watch?v=jlm2f29ka_0',
-      modify : 0,
+      modify : 1,
     })
   }
 })

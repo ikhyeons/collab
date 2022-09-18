@@ -14,7 +14,6 @@ const Sdiv = styled.div`
 
 const Simg = styled.img`
     width : 80%;
-    height : 80%;
     margin-top : 20px;
 `
 

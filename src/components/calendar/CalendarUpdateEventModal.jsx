@@ -97,7 +97,6 @@ function CalendarUpdateEventModal() {
     setEventContent(eventData.content)
   }, [])
   const updateEventData = ()=>{
-    console.log("gd")
     axios({
       url: `http://${webPort.express}/changeCalendarEvent`, // 통신할 웹문서
       method: 'put', // 통신할 방식

@@ -55,7 +55,6 @@ const SidebarChat = () => {
   }, [asidebarForceRerender]);
 
   const addChat = () => {
-    console.log(projectNum);
     axios({
       url: `http://${webPort.express}/createChatSpace`,
       method: 'post',
@@ -65,7 +64,6 @@ const SidebarChat = () => {
       }
     }).then((res)=>{
       setSidebarForceRerender((prev)=>{if(prev==1){return 0} else return 1})
-      console.log(res);
     })
   }
 

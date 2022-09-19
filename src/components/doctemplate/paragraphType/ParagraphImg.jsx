@@ -171,7 +171,6 @@ function ParagraphImg(prop) {
     const [{isOver}, drop] = useDrop({
       accept: 'paragraphList',
       hover: (item, monitor) => {
-        console.log(item.sequent, sequent)
         if (item.sequent === sequent) {
           return null
         }
@@ -212,7 +211,7 @@ function ParagraphImg(prop) {
                   prop.setMouseOnImg(0);
                   setImgModal((prev)=>({on:1, src : data.url}));
                 }
-              }} src={data.url} />{edit===1?<MdOutlineCancel onClick={()=>{console.log(data.pPicNum)}} style={xStyle} /> : null}</SImageWrap>})}
+              }} src={data.url} />{edit===1?<MdOutlineCancel style={xStyle} /> : null}</SImageWrap>})}
           </SImageBox>
           
         </SInnerDataV>

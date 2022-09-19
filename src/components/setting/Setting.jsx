@@ -73,6 +73,20 @@ const Sinput = styled.input`
   border-radius : 15px;
 `
 
+const SPinput = styled.input`
+  background : rgba(255, 255, 100, 0.6);
+  padding : 5px;
+  font-size : 30px;
+  border : 1px solid black;
+  border-radius : 15px;
+  :hover{
+    background : rgba(230, 230, 100, 0.6);
+  }
+  :focus{
+    background : rgba(245, 245, 100, 0.6);
+  }
+`
+
 const Sbutton = styled.button`
   font-size : 20px;
   padding : 3px;
@@ -91,6 +105,7 @@ function Setting() {
   const [collabEmail, setCollabEmail] = useState('')
   const [collaborator, setCollaborator] = useState([])
   const [forceRerender, setForceRerender] = useState(0);
+  const [name, setName] = useState('');
 
   const afterLeaveTeam = () => {
     document.location.assign('/project');
@@ -104,7 +119,7 @@ function Setting() {
         projectNum : projectNum,
       },
       withCredentials : true,
-    }).then(res=>{console.log(res)})
+    })
   }
 
   const deleteCollaborator = ()=>{
@@ -135,15 +150,43 @@ function Setting() {
     })
   }
 
+  const changeProjectTitle = (e)=>{
+    setName(e.target.value);
+  }
+
+  useEffect(()=>{
+    axios({
+      url: `http://${webPort.express}/changeProjectName`, // 통신할 웹문서
+      method: 'put', // 통신할 방식
+      data : {
+        projectNum : projectNum,
+        name : name,
+      },
+      withCredentials : true,
+    })
+  }, [name])
+  
+
   useEffect(()=>{
     axios({
       url: `http://${webPort.express}/readProjectCollaborator/${projectNum}`, // 통신할 웹문서
       method: 'get', // 통신할 방식
       withCredentials : true,
-    }).then(res=>{console.log(res.data.data); setCollaborator(res.data.data)})
+    }).then(res=>{setCollaborator(res.data.data)})
+
+    axios({
+      url: `http://${webPort.express}/readProjectInfo/${projectNum}`, // 통신할 웹문서
+      method: 'get', // 통신할 방식
+      withCredentials : true,
+    }).then((res)=>{
+      setName(res.data.data.projectTitle);
+    })
   }, [forceRerender])
   return (
     <SSettingWrap>
+        <h1>프로젝트 명</h1>
+        <SPinput type="text" onChange={(e)=>{changeProjectTitle(e)}} value={name} />
+
         <Sspan>초대 보내기</Sspan> 
         <Sform>
           <Sinput type="text" onChange={(e)=>{setCollabEmail(e.target.value)}} value={collabEmail}/> 

@@ -45,7 +45,6 @@ const DetailProject = ({index, data}) => {
         isDragging: monitor.isDragging(),
       }),
       end: (item) => {
-        console.log(index, item.index);
         axios({
             url: `http://${webPort.express}/changeMyProjectOrder`,
             method: 'put',

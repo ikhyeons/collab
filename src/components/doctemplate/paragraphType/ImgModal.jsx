@@ -19,7 +19,6 @@ const Simg = styled.img`
 
 function ImgModal(prop) {
     const {setImgModal, imgModal, setMouseOnImg} = prop;
-    console.log(imgModal)
   return (
     <Sdiv onClick={()=>{
         setImgModal((prev)=>({on:0, url : ''}))

@@ -39,7 +39,6 @@ const CalendarMain = () => {
     }
 
     useEffect(()=>{
-        console.log("gd");
         axios({
             url: `http://${webPort.express}/readEventList/${projectNum}`, // 통신할 웹문서
             method: 'get', // 통신할 방식

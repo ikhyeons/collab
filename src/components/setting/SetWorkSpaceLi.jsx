@@ -37,7 +37,6 @@ const SetWorkSpaceLi = ({id}) =>{
         projectNum: projectNum,
         }
     }).then((res)=>{
-        console.log(res);
         setReRender((prev)=>{if(prev==1){return 0} else return 1});
     })
     };

@@ -44,10 +44,7 @@ const Sbtn = styled.button`
 const NewSpace = ()=>{
     const {projectNum, workSpaceNum} = useParams();
     const [Rerender, setRerender] = useRecoilState(forceRerender);
-
-    useEffect(()=>{
-        console.log('rerender');
-    },[Rerender])
+    
     const changeTypeWorkList = ()=>{
         axios({
             url: `http://${webPort.express}/changeWorkSpaceType`,

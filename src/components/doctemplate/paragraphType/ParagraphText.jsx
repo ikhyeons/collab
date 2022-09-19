@@ -197,7 +197,6 @@ function ParagraphText(prop) {
               }
               // 클릭된 놈이랑 아이디가 같은 객체의 수정을 1로 만들어야 됨.
               newData = {...newData, innerData : inputValue, modify : 0}
-              console.log(newData)
               return newData;
             })
             axios({

@@ -113,7 +113,6 @@ function SidebarWorkSpaceLi({index, id}) {
           name : name,
         }
       }).then((res)=>{
-        console.log(res)
         setReRender(prev=>prev===0? 1 : 0)
       }).then(()=>{setModify(0);})
 

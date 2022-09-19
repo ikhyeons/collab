@@ -62,7 +62,6 @@ const Login = () => {
     //로그인, 로그아웃 함수
     const loginf = ()=>{
         if(email !== '' && password !== ''){
-            console.log('gd');
             axios({
             method: 'post',
             url: `http://${webPort.express}/login`,
@@ -72,7 +71,6 @@ const Login = () => {
                 password : password,
             },
             }).then((res)=>{
-                console.log(res);
                 if (res.data.return === 0){window.location.replace("/project")}
                 else if(res.data.return === 1){alert("비밀번호를 확인하세요!")}
                 else if(res.data.return === 2){alert("존재하지 않는 계정입니다!")}
@@ -82,7 +80,6 @@ const Login = () => {
 
       const joinf = ()=>{
         if(email !== '' && password !== '' && nickname !== ''){
-            console.log('try join');
             axios({
                 method: 'post',
                 url: `http://${webPort.express}/join`,
@@ -93,7 +90,6 @@ const Login = () => {
                     nickname: nickname,
                 }
             }).then((res)=>{
-                console.log(res);
                 if(res.data.success === 0){
                     alert("가입에 성공했습니다!")
                     setJoin(0);

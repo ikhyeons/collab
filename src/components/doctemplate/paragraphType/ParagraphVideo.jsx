@@ -110,7 +110,6 @@ function ParagraphVideo(prop) {
   const [{isOver}, drop] = useDrop({
     accept: 'paragraphList',
     hover: (item, monitor) => {
-      console.log(item.sequent, sequent)
       if (item.sequent === sequent) {
         return null
       }

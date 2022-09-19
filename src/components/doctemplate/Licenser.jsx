@@ -74,7 +74,6 @@ function Licenser() {
     }, [templateforceRerender, docNum])
 
   const onLicenserModal = (e)=>{
-    console.log(lineRef.current, e.target)
     if(lineRef.current === e.target){
         setIsAdd((prev)=>{
             return prev === 1 ? 0:1
@@ -89,7 +88,6 @@ function Licenser() {
             허가자 : 
             {
             templateData.licenser.map((data, i)=>{
-                console.log(data)
                 return <Sname key={i}>@{data.display} <Sx
                 onClick={()=>{
                     setTemplateData((prev)=>{

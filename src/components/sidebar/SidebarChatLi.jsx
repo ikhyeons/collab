@@ -111,7 +111,6 @@ function SidebarChatLi({index, id}) {
           chatSpaceNum: chatSpaceNum,
         }
       }).then((res)=>{
-        console.log(res)
         setSidebarForceRerender((prev)=>{if(prev==1){return 0} else return 1})
       })
     };
@@ -128,7 +127,7 @@ function SidebarChatLi({index, id}) {
             -{chatLi.name} 
           </Sli>
         </Link>
-        <SdelButton onClick={(e)=>{e.stopPropagation();console.log('gd'); deleteChat(chatLi.chatSpaceNum);}}>
+        <SdelButton onClick={(e)=>{e.stopPropagation(); deleteChat(chatLi.chatSpaceNum);}}>
           <MdOutlineCancel style={{cursor : 'pointer'}} /> 
         </SdelButton>
       </>
@@ -144,7 +143,6 @@ function SidebarChatLi({index, id}) {
                 name : name,
               }
             }).then((res)=>{
-              console.log(res)
               setReRender(prev=>prev===0? 1 : 0)
             }).then(()=>{setModify(0);})
 

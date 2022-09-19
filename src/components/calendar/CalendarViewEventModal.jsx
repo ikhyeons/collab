@@ -89,7 +89,6 @@ function CalendarViewEventModal() {
   const [eventSet, setEventSet] = useRecoilState(calendarModalState); // 현재 달력 상태 0 : 기본 / 1 : 이벤트 추가 / 2 : 이벤트 보기 / 3 : 이벤트 수정
 
   const delEvent = ( ) => {
-    console.log(eventData.id);
     axios({
       url: `http://${webPort.express}/delEvent`, // 통신할 웹문서
       method: 'delete', // 통신할 방식

@@ -34,7 +34,6 @@ const Modalnamefooter = styled.footer`
 const ModalName = (props) =>{
     const { open, close } = props;
     const logoutf = ()=>{
-        console.log('gd');
         axios({
           method: 'post',
           withCredentials : true,

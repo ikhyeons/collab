@@ -76,6 +76,7 @@ const {readParagraphInfo} = require('./Read/readParagraphInfo')
 const { readMyAnswer } = require('./Read/readMyAnswer.js');
 const { readChatData } = require('./Read/readChatData.js');
 const {readDocPic}= require('./Read/readDocPic')
+const {readProjectInfo}= require('./Read/readProjectInfo')
 
 const {changeMyProjectOrder} = require('./Update/changeMyProjectOrder')
 const {changeWorkSpaceOrder} = require('./Update/changeWorkSpaceOrder')
@@ -91,6 +92,7 @@ const { changeResponse } = require('./Update/changeResponse.js');
 const { changeCalendarEvent } = require('./Update/changeCalendarEvent.js');
 const {changeWorkSpaceName} = require('./Update/changeWorkSpaceName')
 const {changeChatSpaceName} = require('./Update/changeChatSpaceName')
+const {changeProjectName} = require('./Update/changeProjectName')
 
 const {delProject} = require('./Delete/delProject')
 const {delDoc} = require('./Delete/delDoc')
@@ -265,6 +267,10 @@ app.get('/readDocPic/:paragraphNum', (req, res)=>{
   readDocPic(req, res)
 })
 
+app.get('/readProjectInfo/:projectNum', (req, res)=>{
+  readProjectInfo(req, res)
+})
+
 //------------------------------------------Update라우팅
 app.put('/changeMyProjectOrder', (req, res)=>{
   changeMyProjectOrder(req, res);
@@ -308,6 +314,10 @@ app.put('/changeWorkSpaceName', (req, res)=>{
 app.put('/changeChatSpaceName', (req, res)=>{
   changeChatSpaceName(req, res)
 })
+app.put('/changeProjectName', (req, res)=>{
+  changeProjectName(req, res)
+})
+
 
 //------------------------------------------Delete라우팅
 app.delete('/delProject', (req, res)=>{

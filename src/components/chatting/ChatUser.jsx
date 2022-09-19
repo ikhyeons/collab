@@ -110,7 +110,6 @@ function ChatUser() {
         <SuserTitle>참여자 목록</SuserTitle>
         <Suser>
             {chatParticipants.map((data, i)=>{
-              console.log(chatParticipants);
               return <SParticipant key={i}>@{data.nickName}</SParticipant>
             })}
         </Suser>

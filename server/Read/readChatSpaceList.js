@@ -5,7 +5,7 @@ const con = mysql.createConnection(mysqlKey);
 exports.readChatSpaceList = (req, res) => {
     const projectNum = req.params.projectNum;
     if(req.session.logined === true){
-        con.query('SELECT *, chatSpace.chatSpaceNum FROM chatParticipant LEFT JOIN chatSpace ON chatParticipant.chatSpaceNum = chatSpace.chatSpaceNum where userNum = ? and del=0 order by sequent', [req.session.sid], (error, rows, fields)=> {
+        con.query('SELECT *, chatSpace.chatSpaceNum FROM chatParticipant LEFT JOIN chatSpace ON chatParticipant.chatSpaceNum = chatSpace.chatSpaceNum where userNum = ? and del=0 and projectNum = ? order by sequent', [req.session.sid, projectNum], (error, rows, fields)=> {
             if(error) throw error;
             res.send({success : 0, data : rows});
         })

@@ -134,11 +134,10 @@ const Chatting = ()=>{
             url: `http://${webPort.express}/readChatData/${chatSpaceNum}`, // 통신할 웹문서
             method: 'get', // 통신할 방식
             withCredentials : true,
-          }).then(res=>{console.log(res); setAllchat(res.data.data)})
+          }).then(res=>{setAllchat(res.data.data)})
     }, [forceRerender, acurrentChatSpaceId])
 
     useEffect(()=>{
-        console.log('ㅎㅇ');
         scrollRef.current.scrollIntoView({behavior:'smooth', block:'end'});
     }, [allChat])
 
@@ -169,7 +168,6 @@ const Chatting = ()=>{
                         onChange={(e)=>{
                             if(e.key !== 'Enter'){
                                 setChat(e.target.value);
-                                console.log('hererererere')
                             } else {
                                 e.preventDefault();
                             }

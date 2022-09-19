@@ -145,7 +145,6 @@ function ParagraphList(prop) {
       setParagraphId(res.data.data)
       return res
     }).then(()=>{setParagraphForceRerender(prev=>prev+1)})
-    .then(()=>{console.log(paragraphId);})
   }, [aparagraphListForceRerender, docId])
 
   return (

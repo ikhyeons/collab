@@ -5,7 +5,7 @@ import { useDrag, useDrop } from 'react-dnd'
 import { useRecoilState } from 'recoil'
 import { forceRerender, sidebarChatLi, currentChatSpaceId, sidebarForceRerender } from '../../Atoms/atom'
 import axios from 'axios'
-import { MdOutlineCancel, MdOutlineEditNote } from 'react-icons/md'
+import { MdOutlineEditNote } from 'react-icons/md'
 import { webPort } from "../../port";
 
 const Sli = styled.li`
@@ -19,7 +19,6 @@ const Sli = styled.li`
 
 const SinputWrap = styled.div`
   width : 100%;
-  max-width : 147px;
   background : ${prop=> prop.isOver?'rgb(185, 250, 170)':'none'};
   :hover{
     background : rgb(245, 255, 200);
@@ -30,15 +29,6 @@ const SinputWrap = styled.div`
 const Sinput = styled.input`
   width : 100%;
   height : 100%;
-`
-
-const SdelButton = styled.button`
-  background : rgba(0, 0, 0, 0);
-  cursor : pointer;
-  border : none;
-  :hover{
-    background : rgba(0, 0, 0, 0.2);
-  }
 `
 
 const Sdiv = styled.div`
@@ -101,19 +91,6 @@ function SidebarChatLi({index, id}) {
         setChatLi({...res.data.data, name : res.data.data.spaceTitle});
       })
     }, [reRender])
-    
-    const deleteChat = (chatSpaceNum) => {
-      axios({
-        url: `http://${webPort.express}/delChatSpace`,
-        method: 'delete',
-        withCredentials: true,
-        data: {
-          chatSpaceNum: chatSpaceNum,
-        }
-      }).then((res)=>{
-        setSidebarForceRerender((prev)=>{if(prev==1){return 0} else return 1})
-      })
-    };
 
   return (
     <>
@@ -123,13 +100,11 @@ function SidebarChatLi({index, id}) {
         <Link onClick={()=>{
           setCurrentChatSpaceId(chatLi.chatSpaceNum)
         }} to={`/main/${projectNum}/chat/${chatLi.chatSpaceNum}`} style={{ textDecoration: 'none', color : 'black'}}>
-          <Sli isOver={isOver} style={{overflow : 'hidden', width : '135px'}} ref={node => dragRef(drop(node))}>
+          <Sli isOver={isOver} style={{overflow : 'hidden', width : '149px'}} ref={node => dragRef(drop(node))}>
             -{chatLi.name} 
           </Sli>
         </Link>
-        <SdelButton onClick={(e)=>{e.stopPropagation(); deleteChat(chatLi.chatSpaceNum);}}>
-          <MdOutlineCancel style={{cursor : 'pointer'}} /> 
-        </SdelButton>
+        
       </>
         :
         <SinputWrap>
@@ -157,5 +132,32 @@ function SidebarChatLi({index, id}) {
     </>
   )
 }
+/*
+const SdelButton = styled.button`
+  background : rgba(0, 0, 0, 0);
+  cursor : pointer;
+  border : none;
+  :hover{
+    background : rgba(0, 0, 0, 0.2);
+  }
+`
+
+const deleteChat = (chatSpaceNum) => {
+      axios({
+        url: `http://${webPort.express}/delChatSpace`,
+        method: 'delete',
+        withCredentials: true,
+        data: {
+          chatSpaceNum: chatSpaceNum,
+        }
+      }).then((res)=>{
+        setSidebarForceRerender((prev)=>{if(prev==1){return 0} else return 1})
+      })
+    };
+
+<SdelButton onClick={(e)=>{e.stopPropagation(); deleteChat(chatLi.chatSpaceNum);}}>
+  <MdOutlineCancel style={{cursor : 'pointer'}} /> 
+</SdelButton>
+*/
 
 export default SidebarChatLi

@@ -59,11 +59,11 @@ const SSettingLine = styled.div`
 `
 
 const SImageBox = styled.div`
-  background : lightyellow;
+  background : ${prop=>prop.ondiv===0?'lightyellow':'rgba(0, 0, 0, 0.1)'};
   display : flex;
   width : 100%;
   overflow-X : scroll;
-
+  
   &::-webkit-scrollbar{
     height : 8px;
     background : rgba(240,240,150,0.3);
@@ -74,6 +74,9 @@ const SImageBox = styled.div`
     background-color: rgba(215,215,150,1);
     border : 1px solid yellow;
     border-radius: 5px;    
+  }
+  :hover{
+    background : ${prop=>prop.ondiv===0?'rgba(0, 0, 0, 0.05)':null};
   }
 `
 
@@ -198,7 +201,7 @@ function ParagraphImg(prop) {
         </SSettingLine>
 
         <SInnerDataV >
-          <SImageBox 
+          <SImageBox ondiv={prop.mouseOnImg}
             onClick={(e)=>{prop.setMouseOnImg(1)}}
             onMouseLeave={(e)=>{prop.setMouseOnImg(0)}}
             onWheel={(e)=>{if(prop.mouseOnImg===1 && e.deltaY>0)e.currentTarget.scrollLeft+=600; else if(prop.mouseOnImg===1 && e.deltaY<0) e.currentTarget.scrollLeft-=600;setTimeout(()=>{ }, 1500)}}
@@ -206,6 +209,7 @@ function ParagraphImg(prop) {
               {edit===1?<InputImg setParagraphListForceRerender={setParagraphListForceRerender} id={data.paragraphNum}/> : null}
               {paragraphs.imgs.map((data, i)=> {return <SImageWrap key={i}><SImage onClick={()=>{
                 if(prop.mouseOnImg === 1){
+                  prop.setMouseOnImg(0);
                   setImgModal((prev)=>({on:1, src : data.url}));
                 }
               }} src={data.url} />{edit===1?<MdOutlineCancel onClick={()=>{console.log(data.pPicNum)}} style={xStyle} /> : null}</SImageWrap>})}

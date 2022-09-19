@@ -127,7 +127,10 @@ function Setting() {
         userEmail : collabEmail,
       },
       withCredentials : true,
-    }).then(()=>{
+    }).then((res)=>{
+      if(res.data.success === 2){
+        alert("이미 존재하는 유저입니다.")
+      }
       setForceRerender(prev => prev+1)
     })
   }

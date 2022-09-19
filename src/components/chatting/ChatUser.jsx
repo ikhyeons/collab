@@ -75,6 +75,7 @@ function ChatUser() {
   const [chatParticipants, setChatParticipants] = useRecoilState(chatParticipant)
   const [userEmail, setUserEmail] = useState('')
   const [acurrentChatSpaceId, setCurrentChatSpaceId] = useRecoilState(currentChatSpaceId)
+  const [rerender, setRerender] = useState(0);
 
   useEffect(()=>{
     axios({
@@ -82,7 +83,7 @@ function ChatUser() {
       method: 'get', // 통신할 방식
       withCredentials : true,
     }).then((res)=>{setChatParticipants(res.data.data)})
-  }, [acurrentChatSpaceId])
+  }, [acurrentChatSpaceId, rerender])
   return (
     <Sparticipant>
       <Sspan>초대 보내기</Sspan> 
@@ -98,6 +99,11 @@ function ChatUser() {
               projectNum : projectNum,
             },
             withCredentials : true,
+          }).then((res)=>{
+            if(res.data.success === 0){
+              setRerender(prev=>prev===0? 1:0)
+              setUserEmail('')
+            } else if (res.data.success === 1){alert("프로젝트에 없는 사람입니다.")} else if(res.data.success === 2){setUserEmail(''); alert("이미 가입된 사람입니다.")}
           })
         }}>전송</Sbutton>
       </Sform>
@@ -116,6 +122,8 @@ function ChatUser() {
               chatSpaceNum : chatSpaceNum,
             },
             withCredentials : true,
+          }).then(()=>{
+            window.location.replace(`/main/${projectNum}/calendar`)
           })
         }}>이탈하기</SObutton>
     </Sparticipant>

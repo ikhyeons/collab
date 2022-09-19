@@ -103,7 +103,6 @@ function SidebarChatLi({index, id}) {
     }, [reRender])
     
     const deleteChat = (chatSpaceNum) => {
-      console.log(chatLi);
       axios({
         url: `http://${webPort.express}/delChatSpace`,
         method: 'delete',
@@ -112,6 +111,7 @@ function SidebarChatLi({index, id}) {
           chatSpaceNum: chatSpaceNum,
         }
       }).then((res)=>{
+        console.log(res)
         setSidebarForceRerender((prev)=>{if(prev==1){return 0} else return 1})
       })
     };

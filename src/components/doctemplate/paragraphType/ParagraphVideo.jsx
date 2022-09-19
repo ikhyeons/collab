@@ -57,7 +57,7 @@ const SVideoTitle = styled.div`
 `
 function ParagraphVideo(prop) {
 
-  const {index, id, moveFunction} = prop;
+  const {index, id, sequent} = prop;
   const [docId, setDocId] = useRecoilState(currentDocId);
   const setParagraphId = useSetRecoilState(templateParagraphId)
   const [paragraphs, setParagraphs] = useRecoilState(templateParagraph(prop.data))
@@ -82,34 +82,45 @@ function ParagraphVideo(prop) {
     })
   }
 
-    const [{ isDragging }, dragRef, previewRef] = useDrag(
-      () => ({
-        type: 'paragraphList',
-        item: { index, id },
-        collect: (monitor) => ({
-          isDragging: monitor.isDragging(),
-        }),
-        end: (item) => {
-          //item.index = 떨어진 놈의 인덱스 index = 집은 놈의 인덱스 id = 집은 놈의 아이디
-          moveFunction(item.index, index);
-        },
-      })
-    )
-  
-    const [{isOver}, drop] = useDrop({
-      accept: 'paragraphList',
-      hover: (item, monitor) => {
-        if (item.index === index) {
-          return null
-        }
-        //item.index = 집은놈의 인덱스 index = 올라간 놈의 인덱스
-        item.index = index;
-        console.log(index);
+  const [{ isDragging }, dragRef, previewRef] = useDrag(
+    () => ({
+      type: 'paragraphList',
+      item: { id, sequent : sequent },
+      collect: (monitor) => ({
+        isDragging: monitor.isDragging(),
+      }),
+      end: (item) => {
+        //index = 집은 놈의 인덱스  item.index = 떨어진 놈의 인덱스  id = 집은 놈의 아이디
+        axios({
+          url: `http://${webPort.express}/changeParagraphOrder`,
+          method: 'put',
+          withCredentials : true,
+          data:{
+            docNum: docId,
+            order : item.sequent,
+            targetOrder : sequent,
+          }
+        }).then(()=>{
+          setParagraphListForceRerender((prev)=>prev+1);
+        })
       },
-      collect : monitor => ({
-        isOver : monitor.isOver(),
-      })
     })
+  )
+
+  const [{isOver}, drop] = useDrop({
+    accept: 'paragraphList',
+    hover: (item, monitor) => {
+      console.log(item.sequent, sequent)
+      if (item.sequent === sequent) {
+        return null
+      }
+      //item.index = 집은놈의 인덱스 index = 올라간 놈의 인덱스
+      item.sequent = sequent;
+    },
+    collect : monitor => ({
+      isOver : monitor.isOver(),
+    })
+  })
 
   return (
     <SParagraphVideo ref = {previewRef}>

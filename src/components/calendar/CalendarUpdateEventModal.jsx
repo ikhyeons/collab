@@ -107,7 +107,7 @@ function CalendarUpdateEventModal() {
         eventContent : eventContent,
       },
       withCredentials : true,
-    })
+    }).then(()=>{setEventSet(0)});
   }
   return (
     <UpdateEventModal>
@@ -117,7 +117,6 @@ function CalendarUpdateEventModal() {
       <Scontent value={eventContent} onChange={(e)=>{setEventContent(e.target.value)}} name="" id="" cols="30" rows="10"></Scontent>
       <Sbutton onClick={()=>{
         updateEventData();
-        setEventSet(0)
         }}>수정 완료</Sbutton>
       <Sbutton onClick={()=>{setEventSet(0)}}>취소</Sbutton>
 

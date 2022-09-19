@@ -97,7 +97,7 @@ function CalendarViewEventModal() {
         eventNum : eventData.id,
       },
       withCredentials : true,
-    }).then(()=>{setEventData((prev)=>({...prev}))});
+    }).then(()=>{setEventData((prev)=>({...prev}))}).then(()=>{setEventSet(0);});
   }
   return (
     <EventViewModal>
@@ -109,7 +109,7 @@ function CalendarViewEventModal() {
         onClick={()=>{setEventSet(3)}}>수정</Sbutton> {/*수정 페이지로 넘어감*/}
 
       <Sbutton
-        onClick={()=>{ delEvent(); setEventSet(0);}}>삭제</Sbutton> {/*아이디 값을 받아서 삭제*/}
+        onClick={()=>{ delEvent();}}>삭제</Sbutton> {/*아이디 값을 받아서 삭제*/}
 
       <Sbutton onClick={()=>{setEventSet(0)}}>취소</Sbutton> {/*모달을 닫음*/}
 

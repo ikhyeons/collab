@@ -90,6 +90,7 @@ function Setting() {
   const {projectNum} = useParams();
   const [collabEmail, setCollabEmail] = useState('')
   const [collaborator, setCollaborator] = useState([])
+  const [forceRerender, setForceRerender] = useState(0);
 
   const afterLeaveTeam = () => {
     document.location.assign('/project');
@@ -126,6 +127,8 @@ function Setting() {
         userEmail : collabEmail,
       },
       withCredentials : true,
+    }).then(()=>{
+      setForceRerender(prev => prev+1)
     })
   }
 
@@ -135,7 +138,7 @@ function Setting() {
       method: 'get', // 통신할 방식
       withCredentials : true,
     }).then(res=>{console.log(res.data.data); setCollaborator(res.data.data)})
-  }, [])
+  }, [forceRerender])
   return (
     <SSettingWrap>
         <Sspan>초대 보내기</Sspan> 

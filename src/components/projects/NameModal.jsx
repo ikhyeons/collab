@@ -40,7 +40,7 @@ const ModalName = (props) =>{
           withCredentials : true,
           url: `http://${webPort.express}/logout`,
         }).then((res)=>{
-            if (res.data.success == 0){window.location.replace("/")}
+            window.location.replace("/")
         });
       }
     return(

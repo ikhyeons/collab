@@ -16,7 +16,7 @@ exports.uploadS3 = multer({
           if(!['png', 'jpg', 'jpeg', 'gif', 'bmp'].includes(ext)) {
               return cb(new Error('Only images are allowed'));
           }
-          cb(null, Date.now() + '.' + file.originalname.split('.').pop());
+          cb(null, 'docPic/' + Date.now() + '.' + file.originalname.split('.').pop());
       }
   }),
   acl : 'public-read-write',

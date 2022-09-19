@@ -89,6 +89,8 @@ const { changeWorkSpaceType } = require('./Update/changeWorkSpaceType.js');
 const {changeParagraphOrder} = require('./Update/changeParagraphOrder')
 const { changeResponse } = require('./Update/changeResponse.js');
 const { changeCalendarEvent } = require('./Update/changeCalendarEvent.js');
+const {changeWorkSpaceName} = require('./Update/changeWorkSpaceName')
+const {changeChatSpaceName} = require('./Update/changeChatSpaceName')
 
 const {delProject} = require('./Delete/delProject')
 const {delDoc} = require('./Delete/delDoc')
@@ -300,6 +302,13 @@ app.put('/changeCalendarEventDate', (req, res)=>{
 app.put('/changeParagraphOrder', (req, res)=>{
   changeParagraphOrder(req, res)
 })
+app.put('/changeWorkSpaceName', (req, res)=>{
+  changeWorkSpaceName(req, res)
+})
+app.put('/changeChatSpaceName', (req, res)=>{
+  changeChatSpaceName(req, res)
+})
+
 //------------------------------------------Delete라우팅
 app.delete('/delProject', (req, res)=>{
   delProject(req, res);

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useRecoilState } from 'recoil';
 import { forceRerender } from "../../Atoms/atom";
@@ -44,6 +44,7 @@ const Sbtn = styled.button`
 const NewSpace = ()=>{
     const {workSpaceNum} = useParams();
     const [Rerender, setRerender] = useRecoilState(forceRerender);
+    const {projectNum} = useParams();
 
     const changeTypeWorkList = ()=>{
         axios({
@@ -77,8 +78,12 @@ const NewSpace = ()=>{
         <Scontainor>
             <Sselectdiv>
                 <Sh3>어떤 타입을 추가하시겠습니까?</Sh3>
-                <Sbtn onClick={()=>{changeTypeWorkList()}}>작업목록</Sbtn>
-                <Sbtn onClick={()=>{changeTypeList()}}>문서</Sbtn>
+                <Link to={`/main/${projectNum}/calendar`} style={{ textDecoration: 'none', color : 'black', width: '100%' }}>
+                    <Sbtn onClick={()=>{changeTypeWorkList()}}>작업목록</Sbtn>
+                </Link> 
+                <Link to={`/main/${projectNum}/calendar`} style={{ textDecoration: 'none', color : 'black', width: '100%' }}>
+                    <Sbtn onClick={()=>{changeTypeList()}}>문서</Sbtn>
+                </Link>
             </Sselectdiv>
         </Scontainor>
     )

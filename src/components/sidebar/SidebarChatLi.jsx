@@ -29,9 +29,10 @@ function SidebarChatLi({index, id}) {
 
     const [chatLi, setChatLi] = useRecoilState(sidebarChatLi({num : id}));
     const {projectNum} = useParams();
-    const [reRender, setReRender] = useRecoilState(forceRerender);
+    const [render, setRender] = useRecoilState(forceRerender);
     const [acurrentChatSpaceId, setCurrentChatSpaceId] = useRecoilState(currentChatSpaceId)
     const [asidebarForceRerender, setSidebarForceRerender] = useRecoilState(sidebarForceRerender)    
+
     const [{ isDragging }, dragRef, previewRef] = useDrag(
       () => ({
         type: 'sidebarChatSpaceList',
@@ -50,7 +51,7 @@ function SidebarChatLi({index, id}) {
               order : item.index,
               targetOrder : index,
             }
-          }).then(()=>{setSidebarForceRerender((prev)=>{if(prev==1){return 0} else return 1})})
+          }).then(()=>{setSidebarForceRerender(prev=> prev+1)})
         },
       })
     )
@@ -76,7 +77,7 @@ function SidebarChatLi({index, id}) {
       }).then((res)=>{
         setChatLi({...res.data.data, name : res.data.data.spaceTitle});
       })
-    }, [reRender])
+    }, [render, asidebarForceRerender])
     
     const deleteChat = (chatSpaceNum) => {
       console.log(chatLi);
@@ -89,7 +90,7 @@ function SidebarChatLi({index, id}) {
         }
       }).then((res)=>{
         console.log(res);
-        setReRender((prev)=>{if(prev==1){return 0} else return 1});
+        setRender(prev => prev+1);
       })
     };
 

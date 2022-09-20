@@ -73,7 +73,7 @@ const BoardList = (props) =>{
             console.log(res);
             setList(res.data.data);
         })
-    },[])
+    },[render])
 
     const addList= ()=>{
         console.log(list, 'list');
@@ -87,6 +87,7 @@ const BoardList = (props) =>{
             }
         }).then((res)=>{
             console.log(res, 'addList');
+            setRender(prev => prev+1);
         })
         setAddButton(0);
     };

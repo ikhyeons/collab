@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { useDrag, useDrop } from 'react-dnd'
 import { useRecoilState } from 'recoil'
-import { sidebarWorkSpaceLi, currentWorkSpaceId, sidebarForceRerender } from '../../Atoms/atom'
+import { sidebarWorkSpaceLi, currentWorkSpaceId, sidebarForceRerender, forceRerender } from '../../Atoms/atom'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import { webPort } from "../../port";
@@ -23,6 +23,7 @@ function SidebarWorkSpaceLi({index, id}) {
     const {projectNum} = useParams()
     const [acurrentWorkSpaceId, setCurrentWorkSpaceId] = useRecoilState(currentWorkSpaceId)
     const [asidebarForceRerender, setSidebarForceRerender] = useRecoilState(sidebarForceRerender)
+    const [render, setRender] = useRecoilState(forceRerender);
 
     useEffect(()=>{
       axios({
@@ -32,7 +33,7 @@ function SidebarWorkSpaceLi({index, id}) {
       }).then((res)=>{
         setWorkSpaceLi({...res.data.data, id : res.data.data.workSpaceNum});
       })
-    }, [])
+    }, [render])
 
     const [{ isDragging }, dragRef, previewRef] = useDrag(
       () => ({

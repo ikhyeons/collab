@@ -42,12 +42,9 @@ const Sbtn = styled.button`
 
 `
 const NewSpace = ()=>{
-    const {projectNum, workSpaceNum} = useParams();
+    const {workSpaceNum} = useParams();
     const [Rerender, setRerender] = useRecoilState(forceRerender);
 
-    useEffect(()=>{
-        console.log('rerender');
-    },[Rerender])
     const changeTypeWorkList = ()=>{
         axios({
             url: `http://${webPort.express}/changeWorkSpaceType`,
@@ -58,7 +55,7 @@ const NewSpace = ()=>{
                 changeType: 'board',
             }
           }).then(()=>{
-            setRerender((prev)=>{if(prev == 1){return 0} else return 1});
+            setRerender(prev=> prev+1);
         })
     };
 
@@ -72,7 +69,7 @@ const NewSpace = ()=>{
                 changeType: 'li',
             }
           }).then(()=>{
-            setRerender((prev)=>{if(prev == 1){return 0} else return 1});
+            setRerender(prev => prev+1);
         })
     };
     

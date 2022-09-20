@@ -47,7 +47,7 @@ const InnerList = (props) =>{
             }
         }).then((res)=>{
             console.log(res);
-            setRender((prev)=>{if(prev==1){return 0} else return 1});
+            setRender(prev => prev+1);
         })
     }
 

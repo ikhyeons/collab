@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { currentReqId, userNamePool } from "../../Atoms/atom";
+import { currentReqId, forceRerender, userNamePool } from "../../Atoms/atom";
 import { webPort } from "../../port";
 
 const SReqContainor = styled.div`
@@ -25,9 +25,10 @@ const SDelBtn = styled.button`
 `
 
 const SendList = (props)=>{
-    const {data, reqId} = props;
+    const {data, sid, reqId} = props;
     const [userName] = useRecoilState(userNamePool);
     const [, setSelectedReqId] = useRecoilState(currentReqId);
+    const [render, setRender] = useRecoilState(forceRerender);
 
     const deleteRequest = ()=>{
         axios({
@@ -35,10 +36,11 @@ const SendList = (props)=>{
             method: 'delete',
             withCredentials: true,
             data:{
-                reqNum: reqId,
+                reqNum: reqId.reqNum,
             }
         }).then((res)=>{
-            console.log(res);
+            console.log(res, 'deleteSendList');
+            setRender(prev => prev + 1);
         })
     }
     
@@ -46,10 +48,10 @@ const SendList = (props)=>{
         <SReqContainor>
             <Receive onClick={(e)=>{
                 e.preventDefault();
-                setSelectedReqId(reqId);
+                setSelectedReqId(reqId.reqNum);
             }}>{data.month}월 {data.week}째주 {data.reqContent}
                 <br/>
-                From.{userName.filter(a => a.userNum === reqId)[0].nickName}
+                From.{userName.filter(a => a.userNum === sid)[0].nickName}
             </Receive>
             <SDelBtn onClick={()=>{
                 deleteRequest();

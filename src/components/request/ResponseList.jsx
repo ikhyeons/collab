@@ -24,7 +24,7 @@ const SDelBtn = styled.button`
 `
 
 const ResponseList = (props)=>{
-    const {data, setResponse, reqId} = props;
+    const {data, setResponse, reqId, sid} = props;
     const [userName] = useRecoilState(userNamePool);
     const [, setSelectedReqId] = useRecoilState(currentReqId);
 
@@ -35,10 +35,10 @@ const ResponseList = (props)=>{
             <Receive onClick={(e)=>{
                 e.preventDefault();
                 setResponse(1);
-                setSelectedReqId(reqId);
+                setSelectedReqId(reqId.reqNum);
             }}>{data.month}월 {data.week}째주 {data.reqContent}
                 <br/>
-                {userName[data.makeUserNum-1].display} 
+                From.{userName.filter(a => a.userNum === sid)[0].nickName}
             </Receive>
         </SReqContainor>
     )

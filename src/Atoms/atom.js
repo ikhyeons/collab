@@ -281,5 +281,9 @@ export const projectForceRerender = atom({
   default: 0,
 })
 
+export const receiveRequest = atom({
+  key: 'receiveRequest',
+  default: [],
+})
 
 //

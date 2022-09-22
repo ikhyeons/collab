@@ -286,4 +286,13 @@ export const receiveRequest = atom({
   default: [],
 })
 
+export const currentUserId = atom({
+  key: 'currentUserId',
+  default: 0,
+})
+
+export const userNameList = atom({
+  key: 'userNameList',
+  default: [],
+})
 //

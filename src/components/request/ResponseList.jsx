@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { currentReqId, userNamePool } from "../../Atoms/atom";
+import { currentReqId, currentUserId, userNameList, userNamePool } from "../../Atoms/atom";
 
 const SReqContainor = styled.div`
     display:felx;
@@ -24,10 +24,12 @@ const SDelBtn = styled.button`
 `
 
 const ResponseList = (props)=>{
-    const {data, setResponse, reqId, sid} = props;
-    const [userName] = useRecoilState(userNamePool);
+    const {data, setResponse, userName} = props;
     const [, setSelectedReqId] = useRecoilState(currentReqId);
-
+    const [sid, setSid] = useRecoilState(currentUserId);
+    useEffect(()=>{
+        console.log(data, userName, sid, 'data, userName, sid, responseList');
+    },[])
     
     
     return(
@@ -35,10 +37,10 @@ const ResponseList = (props)=>{
             <Receive onClick={(e)=>{
                 e.preventDefault();
                 setResponse(1);
-                setSelectedReqId(reqId.reqNum);
+                setSelectedReqId(data.reqNum);
             }}>{data.month}월 {data.week}째주 {data.reqContent}
                 <br/>
-                From.{userName.filter(a => a.userNum === sid)[0].nickName}
+                From.
             </Receive>
         </SReqContainor>
     )

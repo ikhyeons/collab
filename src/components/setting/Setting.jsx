@@ -1,13 +1,14 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import Toggle from './Toggle'
-import { sidebarWorkSpace } from '../../Atoms/atom'
 import { useRecoilState } from 'recoil'
-import SetWorkSpaceLi from './SetWorkSpaceLi'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import { useEffect } from 'react'
 import { webPort } from "../../port";
+import {sidebarWorkSpace, sidebarChat, projectName} from "../../Atoms/atom"
+import WorkSpaceLi from './WorkSpaceLi'
+import ChatSpaceLi from './ChatSpaceLi'
 
 const SSettingWrap = styled.div`
     background : lightyellow;
@@ -87,6 +88,25 @@ const SPinput = styled.input`
   }
 `
 
+const STdiv = styled.div`
+  display : flex;
+  width : 377px;
+  height : 46px;
+  background : rgba(255, 255, 100, 0.6);
+  padding : 5px;
+  font-size : 30px;
+  border : 1px solid black;
+  border-radius : 15px;
+  :hover{
+    background : rgba(230, 230, 100, 0.6);
+  }
+  :focus{
+    background : rgba(245, 245, 100, 0.6);
+  }
+`
+
+
+
 const Sbutton = styled.button`
   font-size : 20px;
   padding : 3px;
@@ -100,12 +120,14 @@ const SworkListUl = styled.ul`
 `
 
 function Setting() {
-  const [workSpaceList] = useRecoilState(sidebarWorkSpace);
   const {projectNum} = useParams();
   const [collabEmail, setCollabEmail] = useState('')
   const [collaborator, setCollaborator] = useState([])
   const [forceRerender, setForceRerender] = useState(0);
-  const [name, setName] = useState('');
+  const [name, setName] = useRecoilState(projectName);
+  const [workSpaceLi, setWorkSpaceLi] = useRecoilState(sidebarWorkSpace)
+  const [chatSpaceLi, setChatSpaceLi] = useRecoilState(sidebarChat)
+  const [modify, setModify] = useState(0);
 
   const afterLeaveTeam = () => {
     document.location.assign('/project');
@@ -119,6 +141,12 @@ function Setting() {
         projectNum : projectNum,
       },
       withCredentials : true,
+    }).then((res)=>{
+      if(res.data.success===2){
+        alert("권한이 없습니다.")
+      } else {
+        afterLeaveTeam()
+      }
     })
   }
 
@@ -130,7 +158,7 @@ function Setting() {
         projectNum : projectNum,
       },
       withCredentials : true,
-    }).then(res=>{console.log(res)})
+    }).then(()=>{afterLeaveTeam()})
   }
 
   const addCollaborator = ()=>{
@@ -185,9 +213,12 @@ function Setting() {
   return (
     <SSettingWrap>
         <h1>프로젝트 명</h1>
-        <SPinput type="text" onChange={(e)=>{changeProjectTitle(e)}} value={name} />
-
-        <Sspan>초대 보내기</Sspan> 
+        {
+        modify===0?
+          <STdiv onClick={()=>{setModify(1)}}>{name}</STdiv>:
+          <SPinput type="text" onKeyDown={(e)=>{if(e.key==='Enter'){if(name!==''){setModify(0)}else{alert("제목은 공백이 될 수 없습니다.")}}}} onChange={(e)=>{changeProjectTitle(e)}} value={name} />
+        }
+        <Sspan>초대 보내기</Sspan>
         <Sform>
           <Sinput type="text" onChange={(e)=>{setCollabEmail(e.target.value)}} value={collabEmail}/> 
           <Sbutton onClick={()=>{addCollaborator(); setCollabEmail('')}}>전송</Sbutton>
@@ -201,19 +232,28 @@ function Setting() {
         <br />
         <SLeaveBtn onClick={()=>{
           deleteCollaborator()
-          afterLeaveTeam()
         }}>팀 이탈하기</SLeaveBtn> 
         <br />
         <SDelBtn onClick={()=>{
           deleteProject();
-          afterLeaveTeam()
         }}>프로젝트 제거</SDelBtn>
         <br />
         <Sspan>워크스페이스 목록</Sspan>
         <SworkListUl>
-          {workSpaceList.map((data, i)=>{
-            return <SetWorkSpaceLi key={i} index={i} id={data}></SetWorkSpaceLi>
-          })}
+        {
+          workSpaceLi.map((data, i)=>{
+            return <WorkSpaceLi key={i} id={data.workSpaceNum}>a</WorkSpaceLi>
+          })
+        }
+        </SworkListUl>
+        <Sspan>채팅 방 목록</Sspan>
+
+        <SworkListUl>
+        {
+          chatSpaceLi.map((data, i)=>{
+            return <ChatSpaceLi key={i} id={data.chatSpaceNum}>a</ChatSpaceLi>
+          })
+        }
         </SworkListUl>
         
 

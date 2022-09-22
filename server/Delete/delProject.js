@@ -13,6 +13,7 @@ exports.delProject = (req, res) => {
                     res.send({success : 0});
                 })
             } else {
+                console.log("권한없음")
                 res.send({success : 2})
             }
         })

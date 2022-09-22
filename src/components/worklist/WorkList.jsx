@@ -84,7 +84,7 @@ const WorkList = ()=>{
             }
         }).then((res)=>{
             console.log(res);
-            setForceRender((prev)=>{if(prev==1){return 0} else return 1});
+            setForceRender(prev=>prev+1)
             setBoardClicked(0);
         })
     };
@@ -97,7 +97,7 @@ const WorkList = ()=>{
                     <SboardName>
                         {board.map((data, i) =>{
                             return (
-                                <BoardList data={data} key={i} i={i} index={data.bnum} />
+                                <BoardList data={data} key={i} i={i} index={data.sequent} />
                             )
                         })}
                         <SboardButton onClick={()=>{setBoardClicked(1)}}>보드 추가+</SboardButton>

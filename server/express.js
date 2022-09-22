@@ -92,7 +92,9 @@ const { changeResponse } = require('./Update/changeResponse.js');
 const { changeCalendarEvent } = require('./Update/changeCalendarEvent.js');
 const {changeWorkSpaceName} = require('./Update/changeWorkSpaceName')
 const {changeChatSpaceName} = require('./Update/changeChatSpaceName')
-const {changeProjectName} = require('./Update/changeProjectName')
+const {changeProjectName} = require('./Update/changeProjectName');
+const {changeBoardOrder} = require('./Update/changeBoardOrder')
+const {changeListOrder} = require('./Update/changeListOrder')
 
 const {delProject} = require('./Delete/delProject')
 const {delDoc} = require('./Delete/delDoc')
@@ -317,7 +319,12 @@ app.put('/changeChatSpaceName', (req, res)=>{
 app.put('/changeProjectName', (req, res)=>{
   changeProjectName(req, res)
 })
-
+app.put('/changeBoardOrder', (req, res)=>{
+  changeBoardOrder(req, res)
+})
+app.put('/changeListOrder', (req, res)=>{
+  changeListOrder(req, res)
+})
 
 //------------------------------------------Delete라우팅
 app.delete('/delProject', (req, res)=>{

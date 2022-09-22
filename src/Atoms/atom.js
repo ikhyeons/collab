@@ -265,6 +265,18 @@ export const boardState = atom({
   ]
 });
 
+export const boardList = atomFamily({
+  key : 'board/boardList',
+  default : (boardNum)=>{
+    return []
+  }
+})
+
+export const projectName = atom({
+  key: 'setting/projectName',
+  default: '',
+})
+
 
 export const forceRerender = atom({
   key: 'forceRerender',

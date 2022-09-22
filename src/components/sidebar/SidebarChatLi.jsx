@@ -132,32 +132,5 @@ function SidebarChatLi({index, id}) {
     </>
   )
 }
-/*
-const SdelButton = styled.button`
-  background : rgba(0, 0, 0, 0);
-  cursor : pointer;
-  border : none;
-  :hover{
-    background : rgba(0, 0, 0, 0.2);
-  }
-`
-
-const deleteChat = (chatSpaceNum) => {
-      axios({
-        url: `http://${webPort.express}/delChatSpace`,
-        method: 'delete',
-        withCredentials: true,
-        data: {
-          chatSpaceNum: chatSpaceNum,
-        }
-      }).then((res)=>{
-        setSidebarForceRerender((prev)=>{if(prev==1){return 0} else return 1})
-      })
-    };
-
-<SdelButton onClick={(e)=>{e.stopPropagation(); deleteChat(chatLi.chatSpaceNum);}}>
-  <MdOutlineCancel style={{cursor : 'pointer'}} /> 
-</SdelButton>
-*/
 
 export default SidebarChatLi

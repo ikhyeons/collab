@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useDrag, useDrop } from 'react-dnd';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
-import { projectForceRerender } from '../../Atoms/atom';
+import { projectForceRerender, projectName } from '../../Atoms/atom';
 import { webPort } from '../../port';
 import { useEffect } from 'react';
 
@@ -35,7 +35,7 @@ const Projectname = styled.span`
 
 const DetailProject = ({index, data}) => {
     const [aprojectForceRerender,setProjectForceRerender] = useRecoilState(projectForceRerender);
-
+    const [name, setName] = useRecoilState(projectName);
 
     const [{ isDragging }, dragRef, previewRef] = useDrag(
     () => ({
@@ -76,7 +76,7 @@ const DetailProject = ({index, data}) => {
 
     return(
         <InnerProject ref={node => dragRef(drop(node))}>
-            <Link style={{ textDecoration: 'none', color : 'black' }} to={`/main/${data.projectNum}/calendar`}>
+            <Link onClick={()=>{setName(data.projectTitle)}} style={{ textDecoration: 'none', color : 'black' }} to={`/main/${data.projectNum}/calendar`}>
             <DisplayProject>
                     <Projectname>
                         &nbsp;{data.projectTitle}

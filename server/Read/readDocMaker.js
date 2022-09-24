@@ -6,6 +6,7 @@ exports.readDocMaker = (req, res) => {
     const docNum = req.params.docNum;
     if(req.session.logined === true){
         con.query('SELECT *, user.nickName FROM document LEFT JOIN user ON document.makeUserNum = user.userNum where docNum = ?', [docNum], (error, rows, fields)=> {
+            //글 작성자를 읽음
             if(error) throw error;
             res.send({success : 0, data : rows[0]});
         })

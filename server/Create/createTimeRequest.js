@@ -6,6 +6,7 @@ exports.createTimeRequest = (req, res) => {
 const {projectNum, reqTitle, reqContent, month, week} = req.body;
     if(req.session.logined === true){
         con.query('insert into timeRequest values(default, ?, ?, ?, ?, default, ?, ?)', [projectNum, req.session.sid, reqTitle, reqContent, month, week], (error, rows, fields)=> {
+            //ㄴ 타임 리퀘스트를 생성함
             if(error) throw error;
             res.send({success : 0});
         })

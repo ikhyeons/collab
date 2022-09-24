@@ -6,6 +6,7 @@ exports.readParagraphList = (req, res) => {
     const docNum = req.params.docNum;
     if(req.session.logined === true){
         con.query('SELECT paragraphNum, paragraphType, sequent, innerData FROM paragraph where docNum = ? order by sequent desc', [docNum], (error, rows, fields)=> {
+            //문단 리스트를 읽음
             if(error) throw error;
             res.send({success : 0, data : rows});
         })

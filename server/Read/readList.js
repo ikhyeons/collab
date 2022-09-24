@@ -6,6 +6,7 @@ exports.readList = (req, res) => {
     let boardNum = req.params.boardNum
     if(req.session.logined === true){
         con.query('SELECT * FROM list where boardNum = ? and del = 0 order by sequent', [boardNum], (error, rows1, fields)=> {
+            //리스트들을 읽음
             if(error) throw error;
             res.send({success : 0, data : rows1})
         })

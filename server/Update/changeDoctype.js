@@ -6,6 +6,7 @@ exports.changeDoctype = (req, res) => {
     const {docNum, doctype} = req.body;
     if(req.session.logined === true){
         con.query('UPDATE document SET type = ? WHERE docNum = ?', [doctype, docNum], (error, rows, fields)=> {
+            //글 타입 업데이트
             if(error) throw error;
             res.send({success : 0});
         })

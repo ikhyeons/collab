@@ -70,26 +70,26 @@ const BoardList = (props) =>{
     const [{ isDragging }, dragRef, previewRef] = useDrag(
         () => ({
           type: 'board',
-          item: { index },
+          item: { index, },
           collect: (monitor) => ({
             isDragging: monitor.isDragging(),
           }),
-          end: (item) => {
-            console.log(index, item.index)
-            axios({
-                url: `http://${webPort.express}/changeBoardOrder`,
-                method: 'put',
-                withCredentials: true,
-                data: {
-                    workSpaceNum : workSpaceNum,
-                    order: item.index,
-                    targetOrder: index,
-                }
-            }).then(()=>{
-                setRender(prev=>prev+1)
-            })
-          },
-        })
+                    end: (item,) => {
+                        console.log(index, item.index)
+                        axios({
+                            url: `http://${webPort.express}/changeBoardOrder`,
+                            method: 'put',
+                            withCredentials: true,
+                            data: {
+                                workSpaceNum : workSpaceNum,
+                                order: item.index,
+                                targetOrder: index,
+                            }
+                        }).then(()=>{
+                            setRender(prev=>prev+1)
+                        })
+                    },
+        }),
       )
     
       const [{isOver}, drop] = useDrop({
@@ -98,13 +98,14 @@ const BoardList = (props) =>{
           if (item.index === index) {
             return null
           }
-          //item.index = 집은놈의 인덱스 index = 올라간 놈의 인덱스
-          item.index = index;
+        //item.index = 집은놈의 인덱스 index = 올라간 놈의 인덱스
+        item.index = index;
         },
         collect : (monitor)=>({
           isOver : monitor.isOver()
-        })
+        }),
       })
+    
 
 
 
@@ -195,9 +196,9 @@ const BoardList = (props) =>{
                 autoFocus
                 />}
                 {addButton === 0 &&
-                <Sbutton type="submit" onClick={()=>{
-                    setAddButton(1)
-                }}>+</Sbutton>}
+                                                <Sbutton type="submit" onClick={()=>{
+                                                    setAddButton(1)
+                                                }}>+</Sbutton>}
             </SlistContainor>
         </Scontainor>
     )

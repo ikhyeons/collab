@@ -6,6 +6,7 @@ exports.readProjectCollaborator = (req, res) => {
     const projectNum = req.params.projectNum;
     if(req.session.logined === true){
         con.query('SELECT *, user.nickName FROM collaborator LEFT JOIN user ON collaborator.userNum = user.userNum where projectNum = ?', [projectNum], (error, rows, fields)=> {
+            //ㄴ 프로젝트 참여자 리스트를 읽음
             if(error) throw error;
             res.send({success : 0, data : rows});
         })

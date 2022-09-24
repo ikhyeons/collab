@@ -6,6 +6,7 @@ exports.readDocPic = (req, res) => {
     let paragraphNum = req.params.paragraphNum;
     if(req.session.logined === true){
         con.query('SELECT * FROM docPic where paragraphNum = ?', [paragraphNum], (error, rows1, fields)=> {
+            //글의 그림 url을 읽음            
             if(error) throw error;
             res.send({success : 0, data : rows1})
         })

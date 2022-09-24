@@ -6,6 +6,7 @@ exports.readDocMakeDate = (req, res) => {
     const docNum = req.params.docNum;
     if(req.session.logined === true){
         con.query('select makeDate from document where docNum = ?', [docNum], (error, rows, fields)=> {
+            //글 작성일을 읽음
             if(error) throw error;
             res.send({success : 0, data : rows[0]});
         })

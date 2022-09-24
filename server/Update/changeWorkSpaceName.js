@@ -6,6 +6,7 @@ exports.changeWorkSpaceName = (req, res) => {
     const {workSpaceNum, name} = req.body;
     if(req.session.logined === true){
         con.query('UPDATE workSpace SET spaceTitle = ? WHERE workSpaceNum = ?', [name, workSpaceNum], (error, rows, fields)=> {
+            //워크스페이스 이름 변경
             if(error) throw error;
             res.send({success : 0});
         })

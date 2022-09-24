@@ -6,6 +6,7 @@ exports.changeCalendarEvent = (req, res) => {
     const { eventNum, eventTitle, eventContent } = req.body;
         if(req.session.logined === true ){
             con.query('update calendarEvent SET eventTitle = ?, eventContent = ? where eventNum = ?', [eventTitle, eventContent, eventNum], (error, rows, fields) =>{
+                //달력 데이터 업데이트
                 if (error) throw error;
                 res.send({success : 0})
                 })

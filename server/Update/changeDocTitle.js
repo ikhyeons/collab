@@ -7,6 +7,7 @@ exports.changeDocTitle = (req, res) => {
 
     if(req.session.logined === true){
         con.query('UPDATE document SET docTitle = ? WHERE docNum = ?', [docTitle, docNum], (error, rows, fields)=> {
+            //글제목 업데이트
             if(error) throw error;
             res.send({success : 0});
         })

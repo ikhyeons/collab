@@ -8,7 +8,9 @@ const io = require('socket.io')(server,{
     }
 });
 
+//웹소켓 연결
 io.on('connection', socket=>{
+    //message로 데이터가 오면
     socket.on('message',({chat}) => {
         console.log(chat)
         io.emit('newChat',({newChat : 1}))

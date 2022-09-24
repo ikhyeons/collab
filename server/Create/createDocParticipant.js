@@ -7,6 +7,7 @@ exports.createDocParticipant = (req, res) => {
 const {docNum, selectedUserNum}= req.body;
     if(req.session.logined === true){
   	con.query('insert into docParticipant values(default, ?, ?)', [docNum, selectedUserNum], (error, rows, fields)=> {
+        //ㄴ 글 참여자를 추가함
         	    if(error) throw error;
         	    res.send({success : 0});
        	 })

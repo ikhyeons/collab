@@ -6,6 +6,7 @@ exports.readProjectInfo = (req, res) => {
     const projectNum = req.params.projectNum;
     if(req.session.logined === true){
         con.query('SELECT * FROM project where projectNum = ?', [projectNum], (error, rows, fields)=> {
+            //프로젝트 정보를 읽음
             if(error) throw error;
             res.send({success : 0, data : rows[0]});
         })

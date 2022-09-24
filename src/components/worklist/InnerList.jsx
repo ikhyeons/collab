@@ -43,7 +43,8 @@ const InnerList = (props) =>{
           collect: (monitor) => ({
             isDragging: monitor.isDragging(),
           }),
-          end: (item) => {
+          end: (item, monitor) => {
+            console.log(bNum, item.bNum, index, item.index)
             axios({
                 url: `http://${webPort.express}/changeListOrder`,
                 method: 'put',

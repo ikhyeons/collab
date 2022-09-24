@@ -6,9 +6,11 @@ exports.delProject = (req, res) => {
     const {projectNum} = req.body;
     if(req.session.logined === true){
         con.query('select projectManager from project WHERE projectNum = ?', [projectNum], (error, rows, fields)=> {
+            //해당 프로젝트의 프로젝트 매니저 넘버를 받음
             if(error) throw error;
-            if(rows[0].projectManager === req.session.sid){
+            if(rows[0].projectManager === req.session.sid){ // 내가 그 프로젝트의 프로젝트 매니저일 경우
                 con.query('UPDATE project SET del = 1 WHERE projectNum = ?', [projectNum], (error, rows, fields)=> {
+                    //프로젝트의 삭제를 1로 변경
                     if(error) throw error;
                     res.send({success : 0});
                 })

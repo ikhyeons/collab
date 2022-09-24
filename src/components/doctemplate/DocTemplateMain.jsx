@@ -82,12 +82,12 @@ function DocTemplateMain() {
     
     
     useEffect(()=>{
-        axios({
+        axios({ // 글 제목을 불러옴
             url: `http://${webPort.express}/readDocTitle/${docId}`,
             method: 'get',
             withCredentials : true,
         }).then(res=>{res.data.data && setTitle(res.data.data.docTitle)});
-        axios({
+        axios({//글 작성일을 불러옴
         url: `http://${webPort.express}/readDocMakeDate/${docId}`,
         method: 'get',
         withCredentials : true,
@@ -95,7 +95,7 @@ function DocTemplateMain() {
             let newData = {...prev, makeDate : res.data.data.makeDate.slice(0, 10)}
             return newData
         })});
-        axios({
+        axios({//글 작성자를 불러옴
             url: `http://${webPort.express}/readDocMaker/${docId}`,
             method: 'get',
             withCredentials : true,

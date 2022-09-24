@@ -134,7 +134,7 @@ function Setting() {
   }
 
   const deleteProject = ()=>{
-    axios({
+    axios({ // 프로젝트 삭제
       url: `http://${webPort.express}/delProject`, // 통신할 웹문서
       method: 'delete', // 통신할 방식
       data : {
@@ -151,7 +151,7 @@ function Setting() {
   }
 
   const deleteCollaborator = ()=>{
-    axios({
+    axios({ // 프로젝트 이탈
       url: `http://${webPort.express}/delCollaborator`, // 통신할 웹문서
       method: 'delete', // 통신할 방식
       data : {
@@ -162,7 +162,7 @@ function Setting() {
   }
 
   const addCollaborator = ()=>{
-    axios({
+    axios({ // 프로젝트 추가
       url: `http://${webPort.express}/createCollaborator`, // 통신할 웹문서
       method: 'post', // 통신할 방식
       data : {
@@ -183,7 +183,7 @@ function Setting() {
   }
 
   useEffect(()=>{
-    axios({
+    axios({ // 프로젝트 이름 변경
       url: `http://${webPort.express}/changeProjectName`, // 통신할 웹문서
       method: 'put', // 통신할 방식
       data : {
@@ -196,13 +196,13 @@ function Setting() {
   
 
   useEffect(()=>{
-    axios({
+    axios({//프로젝트 협업자 읽기
       url: `http://${webPort.express}/readProjectCollaborator/${projectNum}`, // 통신할 웹문서
       method: 'get', // 통신할 방식
       withCredentials : true,
     }).then(res=>{setCollaborator(res.data.data)})
 
-    axios({
+    axios({ // 프로젝트 정보 읽기
       url: `http://${webPort.express}/readProjectInfo/${projectNum}`, // 통신할 웹문서
       method: 'get', // 통신할 방식
       withCredentials : true,

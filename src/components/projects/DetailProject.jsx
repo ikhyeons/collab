@@ -41,7 +41,7 @@ const DetailProject = ({index, data}) => {
     () => ({
       type: 'project',
       item: { index },
-      collect: (monitor) => ({
+      collect: (monitor) => ({ // 드래그 되었을 때
         isDragging: monitor.isDragging(),
       }),
       end: (item) => {

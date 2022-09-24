@@ -39,7 +39,7 @@ const SidebarWorkSpace = () => {
   const [asidebarForceRerender, setSidebarForceRerender] = useRecoilState(sidebarForceRerender);
   const {projectNum} = useParams();
   useEffect(()=>{
-    axios({
+    axios({//워크스페이스 리스트 읽기
       url: `http://${webPort.express}/readWorkSpaceList/${projectNum}`, // 통신할 웹문서
       method: 'get', // 통신할 방식
       withCredentials : true,
@@ -52,7 +52,7 @@ const SidebarWorkSpace = () => {
 
   //워크스페이스 리스트 추가하는 함수
   const addWorkSpaceList = () => {
-    axios({
+    axios({// 워크스페이스 추가
       url: `http://${webPort.express}/createWorkSpace`,
       method: 'post',
       withCredentials : true,

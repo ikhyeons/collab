@@ -43,7 +43,7 @@ const SidebarChat = () => {
   const [asidebarForceRerender, setSidebarForceRerender] = useRecoilState(sidebarForceRerender)  
 
   useEffect(()=>{
-    axios({
+    axios({ // 채팅 스페이스 리스트 읽기
       url: `http://${webPort.express}/readChatSpaceList/${projectNum}`, // 통신할 웹문서
       method: 'get', // 통신할 방식
       withCredentials : true,
@@ -55,7 +55,7 @@ const SidebarChat = () => {
   }, [asidebarForceRerender]);
 
   const addChat = () => {
-    axios({
+    axios({ //채팅 스페이스 만들기
       url: `http://${webPort.express}/createChatSpace`,
       method: 'post',
       withCredentials: true,

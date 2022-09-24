@@ -63,7 +63,7 @@ function ParagraphList(prop) {
   const [aparagraphForceRerender, setParagraphForceRerender] = useRecoilState(paragraphForceRerender);
   const resetState = useResetRecoilState(templateParagraphId)
   
-  const addTextParagraphs = ()=>{ //아이디를 추가하는걸로 바꿈 (타입은 text기본)
+  const addTextParagraphs = ()=>{
     axios({
       url: `http://${webPort.express}/createTextParagraph`,
       method: 'post',
@@ -81,7 +81,7 @@ function ParagraphList(prop) {
     })
   }
 
-  const addImageParagraphs = ()=>{ //아이디를 추가하는걸로 바꿈 (타입은 text기본)
+  const addImageParagraphs = ()=>{
     axios({
       url: `http://${webPort.express}/createImageParagraph`,
       method: 'post',
@@ -99,7 +99,7 @@ function ParagraphList(prop) {
     })
   }
 
-  const addVideoParagraphs = ()=>{ //아이디를 추가하는걸로 바꿈 (타입은 text기본)
+  const addVideoParagraphs = ()=>{
     axios({
       url: `http://${webPort.express}/createVideoParagraph`,
       method: 'post',
@@ -117,7 +117,7 @@ function ParagraphList(prop) {
     })
   }
 
-  const addFileParagraphs = ()=>{ //아이디를 추가하는걸로 바꿈 (타입은 text기본)
+  const addFileParagraphs = ()=>{
     axios({
       url: `http://${webPort.express}/createFileParagraph`,
       method: 'post',
@@ -137,7 +137,7 @@ function ParagraphList(prop) {
   
 
   useEffect(()=>{
-    axios({
+    axios({//문단 목록을 읽음
       url: `http://${webPort.express}/readParagraphList/${docId}`,
       method: 'get',
       withCredentials : true,
@@ -158,7 +158,7 @@ function ParagraphList(prop) {
           <Spbutton onClick={()=>{addFileParagraphs()}}>파일</Spbutton>
         </SpbuttonWrap>
       </SAddParagraph>
-        {paragraphId.map((data, i)=>{
+        {paragraphId.map((data, i)=>{ // paragraphType 따라 다른 컴포넌트를 렌더링함
           if (data.paragraphType === 'text') return <ParagraphText key={i} data={data} sequent={data.sequent} num={data.paragraphNum}/>
           else if (data.paragraphType === 'image') return <ParagraphImg mouseOnImg={prop.mouseOnImg} setMouseOnImg={prop.setMouseOnImg} key={i} data={data} sequent={data.sequent} />
           else if (data.paragraphType === 'video') return <ParagraphVideo key={i} data={data} sequent={data.sequent} />

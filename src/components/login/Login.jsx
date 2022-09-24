@@ -62,7 +62,7 @@ const Login = () => {
     //로그인, 로그아웃 함수
     const loginf = ()=>{
         if(email !== '' && password !== ''){
-            axios({
+            axios({ // 로그인 요청
             method: 'post',
             url: `http://${webPort.express}/login`,
             withCredentials : true,
@@ -80,7 +80,7 @@ const Login = () => {
 
       const joinf = ()=>{
         if(email !== '' && password !== '' && nickname !== ''){
-            axios({
+            axios({ //회원가입 요청
                 method: 'post',
                 url: `http://${webPort.express}/join`,
                 withCredentials : true,

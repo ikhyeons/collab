@@ -46,7 +46,7 @@ const NewSpace = ()=>{
     const [Rerender, setRerender] = useRecoilState(forceRerender);
     
     const changeTypeWorkList = ()=>{
-        axios({
+        axios({//보드로 타입을 바꿈
             url: `http://${webPort.express}/changeWorkSpaceType`,
             method: 'put',
             withCredentials : true,
@@ -60,7 +60,7 @@ const NewSpace = ()=>{
     };
 
     const changeTypeList = ()=>{
-        axios({
+        axios({//리스트로 타입을 바꿈
             url: `http://${webPort.express}/changeWorkSpaceType`,
             method: 'put',
             withCredentials : true,

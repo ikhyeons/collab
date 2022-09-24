@@ -30,7 +30,7 @@ function ChatSpaceLi(prop) {
   
     console.log(myData)
     const deleteChat = (chatSpaceNum) => {
-        axios({
+        axios({ // 채팅 스페이스 삭제
           url: `http://${webPort.express}/delChatSpace`,
           method: 'delete',
           withCredentials: true,

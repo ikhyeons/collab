@@ -78,12 +78,14 @@ function ChatUser() {
   const [rerender, setRerender] = useState(0);
 
   useEffect(()=>{
-    axios({
+    axios({ // 채팅 참여자 불러오기
       url: `http://${webPort.express}/readChatParticipant/${chatSpaceNum}`, // 통신할 웹문서
       method: 'get', // 통신할 방식
       withCredentials : true,
     }).then((res)=>{setChatParticipants(res.data.data)})
   }, [acurrentChatSpaceId, rerender])
+
+
   return (
     <Sparticipant>
       <Sspan>초대 보내기</Sspan> 
@@ -113,7 +115,7 @@ function ChatUser() {
               return <SParticipant key={i}>@{data.nickName}</SParticipant>
             })}
         </Suser>
-        <SObutton onClick={()=>{
+        <SObutton onClick={()=>{ // 채팅 이탈하기
           axios({
             url: `http://${webPort.express}/delChatParticipant`, // 통신할 웹문서
             method: 'delete', // 통신할 방식

@@ -23,7 +23,7 @@ function WorkSpaceLi(prop) {
     const [, setSidebarForceRerender] = useRecoilState(sidebarForceRerender);
     
     const deleteWorkSpace = (workSpaceNum) => {
-        axios({
+        axios({//워크스페이스 삭제
           url: `http://${webPort.express}/delWorkSpace`,
           method: 'delete',
           withCredentials: true,

@@ -111,7 +111,7 @@ function ParagraphImg(prop) {
   const [imgModal, setImgModal] = useState({on : 0, src : ''})
 
   useEffect(()=>{
-    axios({
+    axios({ // 글의 사진을 읽어옴
       url: `http://${webPort.express}/readDocPic/${paragraphs.paragraphNum}`,
       method: 'get',
       withCredentials : true,
@@ -126,7 +126,7 @@ function ParagraphImg(prop) {
   }, [aparagraphListForceRerender])
 
   const delParagraph = ()=>{
-    axios({
+    axios({ // 문단 삭제하고 다시 데이터를 불러옴
       url: `http://${webPort.express}/delParagraph`,
       method: 'delete',
       data : {paragraphNum : paragraphs.paragraphNum, docNum : docId},

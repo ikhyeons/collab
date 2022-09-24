@@ -101,7 +101,7 @@ const SelectProjects = () =>{
     const [aprojectForceRerender,setProjectForceRerender] = useRecoilState(projectForceRerender);
 
     const addProject = () => {
-        axios({
+        axios({//프로젝트를 추가함
             url: `http://${webPort.express}/createProject`,
             withCredentials : true,
             method: 'post',
@@ -111,13 +111,13 @@ const SelectProjects = () =>{
     };
 
     useEffect(()=>{
-        axios({
+        axios({//내 정보를 읽음
             url: `http://${webPort.express}/readMyInfo`,
             withCredentials : true,
             method: 'get',
           }).then((res)=>{setName(res.data.data.nickName)});
 
-        axios({
+        axios({// 내가 가입한 프로젝트의 리스트를 읽음
             url: `http://${webPort.express}/readMyProjectList`,
             withCredentials : true,
             method: 'get',

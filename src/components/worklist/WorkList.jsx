@@ -62,7 +62,7 @@ const WorkList = ()=>{
     };
 
     useEffect(()=>{
-        axios({
+        axios({ // 보드 리스트 읽어옴
             url: `http://${webPort.express}/readBoard/${workSpaceNum}`,
             method:'get',
             withCredentials: true,
@@ -74,7 +74,7 @@ const WorkList = ()=>{
 
     const addBoard = () =>{
         console.log(board);
-        axios({
+        axios({ // 보드 만들기
             url: `http://${webPort.express}/createBoard`,
             method:'post',
             withCredentials: true,

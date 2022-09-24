@@ -91,6 +91,7 @@ const Scell = styled.div`
     justify-content : ${ props => props.my === 1 ? 'flex-end' : null};
 `;
 
+//소켓 클라이언트 연결
  const socket = io.connect(`http://${webPort.webSocket}`, {transports : ['websocket']})
 
 const Chatting = ()=>{
@@ -101,7 +102,7 @@ const Chatting = ()=>{
     const [forceRerender, setForceRerender] = useState(0)
     const [acurrentChatSpaceId, setCurrentChatSpaceId] = useRecoilState(currentChatSpaceId);
 
-    const addChat = () =>{
+    const addChat = () =>{ //채팅 추가
          axios({
              url: `http://${webPort.express}/writeChat`, // 통신할 웹문서
              method: 'post', // 통신할 방식
@@ -111,8 +112,8 @@ const Chatting = ()=>{
              },
              withCredentials : true,
            }).then(()=>{
-             setChat('');
-              socket.emit('message', {chat})})
+             setChat(''); //채팅칸 비우기
+              socket.emit('message', {chat})}) //채팅 데이터 백으로 전송
            .then(()=>{setForceRerender(prev=>{
              if(prev === 0) return 1;
              else if (prev === 1) return 2;

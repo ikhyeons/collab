@@ -7,6 +7,7 @@ exports.delRequest = (req, res) => {
     if(req.session.logined === true){
         con.query('UPDATE timeRequest SET del = 1 WHERE reqNum = ?', [reqNum], (error, rows, fields)=> {
             if(error) throw error;
+            res.send({success: 0})
         })
     }
     else {

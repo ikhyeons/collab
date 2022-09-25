@@ -161,7 +161,6 @@ const Request = () =>{
             withCredentials: true,
         }).then((res)=>{
             setUserName(res.data.data)
-            console.log(res.data);
         })
     },[render])
 
@@ -198,13 +197,13 @@ const Request = () =>{
                     <Sb>받은 요청</Sb>
                     <ul>
                         {recRequest.filter(a => a.makeUserNum !== sid).map((data, i)=>{
-                            return (<ResponseList key={i} data={data} setResponse={setResponse} userName={userName} />)
+                            return (<ResponseList key={i} data={data} setResponse={setResponse} userList={userName} />)
                         })}
                     </ul>
                     <Sb>보낸 요청</Sb>
                     <ul>
                         {recRequest.filter(a => a.makeUserNum === sid).map((data, i)=>{
-                            return (<SendList key={i} data={data} userName={userName}/>)
+                            return (<SendList key={i} data={data} userList={userName}/>)
                         })}
                     </ul>
                     <RBtn type="submit" onClick={(e)=>{

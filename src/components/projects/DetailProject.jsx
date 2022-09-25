@@ -51,8 +51,8 @@ const DetailProject = ({index, data}) => {
             method: 'put',
             withCredentials: true,
             data: {
-                order: item.index+1,
-                targetOrder: index+1,
+                order: item.index,
+                targetOrder: index,
             }
         }).then(()=>{
             setProjectForceRerender(prev=>{if(prev === 1) return 0; else return 1;})

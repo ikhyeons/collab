@@ -25,14 +25,10 @@ const SDelBtn = styled.button`
 `
 
 const SendList = (props)=>{
-    const {data, userName} = props;
+    const {data, userList} = props;
     const [, setSelectedReqId] = useRecoilState(currentReqId);
     const [render, setRender] = useRecoilState(forceRerender);
     const [sid, setSid] = useRecoilState(currentUserId);
-
-    useEffect(()=>{
-        console.log(data, userName, sid, 'data, userName, sid, sendList');
-    },[])
 
     const deleteRequest = ()=>{
         axios({
@@ -55,7 +51,7 @@ const SendList = (props)=>{
                 setSelectedReqId(data.reqNum);
             }}>{data.month}월 {data.week}째주 {data.reqContent}
                 <br/>
-                From.{/* {userName.filter(a => a.userNum === sid)[0].nickName} */}
+                From.{/*{userList.filter(a => a.userNum === sid)[0].nickName} */}
             </Receive>
             <SDelBtn onClick={()=>{
                 deleteRequest();

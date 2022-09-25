@@ -24,14 +24,9 @@ const SDelBtn = styled.button`
 `
 
 const ResponseList = (props)=>{
-    const {data, setResponse, userName} = props;
+    const {data, setResponse, userList} = props;
     const [, setSelectedReqId] = useRecoilState(currentReqId);
     const [sid, setSid] = useRecoilState(currentUserId);
-    useEffect(()=>{
-        console.log(data, userName, sid, 'data, userName, sid, responseList');
-    },[])
-    
-    
     return(
         <SReqContainor>
             <Receive onClick={(e)=>{
@@ -40,7 +35,7 @@ const ResponseList = (props)=>{
                 setSelectedReqId(data.reqNum);
             }}>{data.month}월 {data.week}째주 {data.reqContent}
                 <br/>
-                From.
+                From.{/* {userList.filter(a => a.userNum === sid)[0].nickName} */}
             </Receive>
         </SReqContainor>
     )

@@ -110,7 +110,6 @@ const Request = () =>{
     const [selectedWeek, setSelectedWeek] = useState(0);
     const [recRequest, setReceiveRequest] = useRecoilState(receiveRequest);
     const [sid, setSid] = useRecoilState(currentUserId);
-    const [userName, setUserName] = useState([]);
     const [render,] = useRecoilState(forceRerender);
 
     const {projectNum} = useParams();
@@ -155,13 +154,7 @@ const Request = () =>{
         })
 
         
-        axios({
-            url: `http://${webPort.express}/readUser`,
-            method: 'get',
-            withCredentials: true,
-        }).then((res)=>{
-            setUserName(res.data.data)
-        })
+        
     },[render])
 
     const changeMonth = (e)=>{
@@ -197,13 +190,13 @@ const Request = () =>{
                     <Sb>받은 요청</Sb>
                     <ul>
                         {recRequest.filter(a => a.makeUserNum !== sid).map((data, i)=>{
-                            return (<ResponseList key={i} data={data} setResponse={setResponse} userList={userName} />)
+                            return (<ResponseList key={i} data={data} setResponse={setResponse} />)
                         })}
                     </ul>
                     <Sb>보낸 요청</Sb>
                     <ul>
                         {recRequest.filter(a => a.makeUserNum === sid).map((data, i)=>{
-                            return (<SendList key={i} data={data} userList={userName}/>)
+                            return (<SendList key={i} data={data}/>)
                         })}
                     </ul>
                     <RBtn type="submit" onClick={(e)=>{

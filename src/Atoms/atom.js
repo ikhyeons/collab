@@ -293,5 +293,18 @@ export const projectForceRerender = atom({
   default: 0,
 })
 
+export const receiveRequest = atom({
+  key: 'receiveRequest',
+  default: [],
+})
 
+export const currentUserId = atom({
+  key: 'currentUserId',
+  default: 0,
+})
+
+export const userNameList = atom({
+  key: 'userNameList',
+  default: [],
+})
 //

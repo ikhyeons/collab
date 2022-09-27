@@ -149,7 +149,7 @@ const SelectProjects = () =>{
                     <br/>
                     <Detaildiv>
                         {project && project.map((data, i)=>(
-                            <DetailProject key={i} data={data} index={i}/>
+                            <DetailProject key={i} data={data} index={data.sequent}/>
                         ))}
                     </Detaildiv>
                 </Projectdiv>

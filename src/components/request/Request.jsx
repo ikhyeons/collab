@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Table from "./Table";
 import {useRecoilState} from 'recoil';
-import { currentReqId, selectedTd } from "../../Atoms/atom";
+import { currentReqId, currentUserId, forceRerender, receiveRequest, selectedTd, userNameList, userNamePool } from "../../Atoms/atom";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import ResponseList from "./ResponseList"
@@ -108,8 +108,9 @@ const Request = () =>{
     
     const [selectedMonth, setSelectedMonth] = useState(0);
     const [selectedWeek, setSelectedWeek] = useState(0);
-    const [receiveRequest, setReceiveRequest] = useState([]);
-    const [sid, setSid] = useState(0);
+    const [recRequest, setReceiveRequest] = useRecoilState(receiveRequest);
+    const [sid, setSid] = useRecoilState(currentUserId);
+    const [render,] = useRecoilState(forceRerender);
 
     const {projectNum} = useParams();
 
@@ -148,11 +149,13 @@ const Request = () =>{
             method: 'get',
             withCredentials: true,
         }).then((res)=>{
-            console.log(res);
             setReceiveRequest(res.data.data);
             setSid(res.data.user);
         })
-    },[])
+
+        
+        
+    },[render])
 
     const changeMonth = (e)=>{
         setSelectedMonth(e.target.value);
@@ -186,14 +189,14 @@ const Request = () =>{
                 <Rdiv>
                     <Sb>받은 요청</Sb>
                     <ul>
-                        {receiveRequest.filter(a => a.makeUserNum !== sid).map((data, i)=>{
-                            return (<ResponseList key={i} data={data} setResponse={setResponse} reqId={data.reqNum} />)
+                        {recRequest.filter(a => a.makeUserNum !== sid).map((data, i)=>{
+                            return (<ResponseList key={i} data={data} setResponse={setResponse} />)
                         })}
                     </ul>
                     <Sb>보낸 요청</Sb>
                     <ul>
-                        {receiveRequest.filter(a => a.makeUserNum === sid).map((data, i)=>{
-                            return (<SendList key={i} data={data} reqId={data.reqNum} />)
+                        {recRequest.filter(a => a.makeUserNum === sid).map((data, i)=>{
+                            return (<SendList key={i} data={data}/>)
                         })}
                     </ul>
                     <RBtn type="submit" onClick={(e)=>{

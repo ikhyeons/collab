@@ -40,7 +40,7 @@ function SidebarChatLi({index, id}) {
 
     const [chatLi, setChatLi] = useRecoilState(sidebarChatLi({num : id}));
     const {projectNum} = useParams();
-    const [reRender, setReRender] = useRecoilState(forceRerender);
+    const [render, setRender] = useRecoilState(forceRerender);
     const [acurrentChatSpaceId, setCurrentChatSpaceId] = useRecoilState(currentChatSpaceId)
     const [asidebarForceRerender, setSidebarForceRerender] = useRecoilState(sidebarForceRerender) 
     const [modify, setModify] = useState(0);   
@@ -64,7 +64,7 @@ function SidebarChatLi({index, id}) {
               order : item.index,
               targetOrder : index,
             }
-          }).then(()=>{setSidebarForceRerender((prev)=>{if(prev==1){return 0} else return 1})})
+          }).then(()=>{setSidebarForceRerender(prev=> prev+1)})
         },
       })
     )
@@ -90,7 +90,7 @@ function SidebarChatLi({index, id}) {
       }).then((res)=>{
         setChatLi({...res.data.data, name : res.data.data.spaceTitle});
       })
-    }, [reRender])
+    }, [render])
 
   return (
     <>
@@ -118,7 +118,7 @@ function SidebarChatLi({index, id}) {
                 name : name,
               }
             }).then((res)=>{
-              setReRender(prev=>prev===0? 1 : 0)
+              setRender(prev=>prev===0? 1 : 0)
             }).then(()=>{setModify(0);})
 
           }}} onChange={(e)=>{setName(e.target.value)}} />

@@ -51,7 +51,7 @@ function Licenser() {
   const {projectNum} = useParams()
 
     useEffect(()=>{
-        axios({
+        axios({ // 프로젝트 참여자를 모두 불러와서 태그할 수 있는 사람 목록에 넣음
             url: `http://${webPort.express}/readProjectCollaborator/${projectNum}`,
             method: 'get',
             withCredentials : true,
@@ -59,7 +59,7 @@ function Licenser() {
             let newArray = res.data.data.map((data, i)=>({id : data.userNum, display : data.nickName}))
             setNamePool(newArray);
           })
-        axios({
+        axios({ // 글 허가자를 읽음
         url: `http://${webPort.express}/readDocLicenser/${docNum}`,
         method: 'get',
         withCredentials : true,
@@ -74,7 +74,6 @@ function Licenser() {
     }, [templateforceRerender, docNum])
 
   const onLicenserModal = (e)=>{
-    console.log(lineRef.current, e.target)
     if(lineRef.current === e.target){
         setIsAdd((prev)=>{
             return prev === 1 ? 0:1
@@ -89,7 +88,6 @@ function Licenser() {
             허가자 : 
             {
             templateData.licenser.map((data, i)=>{
-                console.log(data)
                 return <Sname key={i}>@{data.display} <Sx
                 onClick={()=>{
                     setTemplateData((prev)=>{

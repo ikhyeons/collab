@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import styled from 'styled-components';
-import { projectState } from "../../Atoms/atom";
+import { projectForceRerender, projectState } from "../../Atoms/atom";
 import DetailProject from './DetailProject'
 import ModalName from "./NameModal";
 import { useRecoilState } from 'recoil';
@@ -98,29 +98,35 @@ const SelectProjects = () =>{
     // 사용자 이름 변수
     const [name, setName] = useState('로드 중..');
     //프로젝트 추가 함수
+    const [aprojectForceRerender,setProjectForceRerender] = useRecoilState(projectForceRerender);
 
     const addProject = () => {
-        axios({
+        axios({//프로젝트를 추가함
             url: `http://${webPort.express}/createProject`,
             withCredentials : true,
             method: 'post',
-          }).then(setProject((prev)=>[...prev]))
+          }).then(()=>{
+            setProjectForceRerender(prev=>prev+1)
+        })
     };
 
     useEffect(()=>{
-        axios({
+        axios({//내 정보를 읽음
             url: `http://${webPort.express}/readMyInfo`,
             withCredentials : true,
             method: 'get',
           }).then((res)=>{setName(res.data.data.nickName)});
 
-        axios({
+        axios({// 내가 가입한 프로젝트의 리스트를 읽음
             url: `http://${webPort.express}/readMyProjectList`,
             withCredentials : true,
             method: 'get',
-          }).then((res)=>{setProject(res.data.data)});
-    }, [setProject])
+          }).then((res)=>{
+            setProject(res.data.data)
+        });
+    }, [aprojectForceRerender])
 
+    
     return (
         <SMain>
         <ModalName open={modalnameOpen} close={setModalNameOpen}></ModalName>
@@ -143,7 +149,7 @@ const SelectProjects = () =>{
                     <br/>
                     <Detaildiv>
                         {project && project.map((data, i)=>(
-                            <DetailProject key={i} data={data} />
+                            <DetailProject key={i} data={data} index={data.sequent}/>
                         ))}
                     </Detaildiv>
                 </Projectdiv>
@@ -152,4 +158,4 @@ const SelectProjects = () =>{
     );
 };
 
-export default SelectProjects ;
+export default SelectProjects;

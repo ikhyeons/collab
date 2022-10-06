@@ -6,6 +6,7 @@ exports.readMyAnswer = (req, res) => {
     const { projectNum } = req.body;
         if(req.session.logined === true){
             con.query('select * from timeRequest where projectNum = ?', [projectNum], (error, rows, fields) =>{
+                //타임 리퀘스트 답변을 읽음 미구현
                 if (error) throw error;
                 res.send({success : 0, data: rows});
             })

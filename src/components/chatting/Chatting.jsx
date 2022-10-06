@@ -91,7 +91,8 @@ const Scell = styled.div`
     justify-content : ${ props => props.my === 1 ? 'flex-end' : null};
 `;
 
-const socket = io.connect(`http://${webPort.webSocket}`, {transports : ['websocket']})
+//소켓 클라이언트 연결
+ const socket = io.connect(`http://${webPort.webSocket}`, {transports : ['websocket']})
 
 const Chatting = ()=>{
     const {chatSpaceNum} = useParams()
@@ -99,46 +100,45 @@ const Chatting = ()=>{
     const [chat, setChat] = useState('');
     const scrollRef = useRef();
     const [forceRerender, setForceRerender] = useState(0)
-    const [acurrentChatSpaceId, setCurrentChatSpaceId] = useRecoilState(currentChatSpaceId)
+    const [acurrentChatSpaceId, setCurrentChatSpaceId] = useRecoilState(currentChatSpaceId);
 
-    const addChat = () =>{
-        axios({
-            url: `http://${webPort.express}/writeChat`, // 통신할 웹문서
-            method: 'post', // 통신할 방식
-            data : {
-                chatSpaceNum : chatSpaceNum,
-                innerData : chat,
-            },
-            withCredentials : true,
-          }).then(()=>{
-            setChat('');
-            socket.emit('message', {chat})})
-          .then(()=>{setForceRerender(prev=>{
-            if(prev === 0) return 1;
-            else if (prev === 1) return 2;
-            else return 0;
-            })
+    const addChat = () =>{ //채팅 추가
+         axios({
+             url: `http://${webPort.express}/writeChat`, // 통신할 웹문서
+             method: 'post', // 통신할 방식
+             data : {
+                 chatSpaceNum : chatSpaceNum,
+                 innerData : chat,
+             },
+             withCredentials : true,
+           }).then(()=>{
+             setChat(''); //채팅칸 비우기
+              socket.emit('message', {chat})}) //채팅 데이터 백으로 전송
+           .then(()=>{setForceRerender(prev=>{
+             if(prev === 0) return 1;
+             else if (prev === 1) return 2;
+             else return 0;
+             })
         })
     }
 
-    useEffect(()=>{
-        socket.on("newChat", ()=>{
-            setForceRerender(prev=>{
-                return prev+1;
-            })
-        })
-    }, [])
+     useEffect(()=>{
+          socket.on("newChat", ()=>{
+             setForceRerender(prev=>{
+                 return prev+1;
+             })
+         })
+     }, [])
 
     useEffect(()=>{
         axios({
             url: `http://${webPort.express}/readChatData/${chatSpaceNum}`, // 통신할 웹문서
             method: 'get', // 통신할 방식
             withCredentials : true,
-          }).then(res=>{console.log(res); setAllchat(res.data.data)})
+          }).then(res=>{setAllchat(res.data.data)})
     }, [forceRerender, acurrentChatSpaceId])
 
     useEffect(()=>{
-        console.log('ㅎㅇ');
         scrollRef.current.scrollIntoView({behavior:'smooth', block:'end'});
     }, [allChat])
 
@@ -167,7 +167,6 @@ const Chatting = ()=>{
                     <Sinput
                         placeholder="내용을 입력해주세요"
                         onChange={(e)=>{
-                            console.log(chat);
                             if(e.key !== 'Enter'){
                                 setChat(e.target.value);
                             } else {

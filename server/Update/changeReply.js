@@ -6,6 +6,7 @@ exports.changeReply = (req, res) => {
     const {repNum, innerData} = req.body;
     if(req.session.logined === true){
         con.query('UPDATE reply SET innerData = ? WHERE repNum = ?', [innerData, repNum], (error, rows, fields)=> {
+            //응답 변경
             if(error) throw error;
             res.send({success : 0});
         })

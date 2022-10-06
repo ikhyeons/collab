@@ -6,6 +6,7 @@ exports.createDocument = (req, res) => {
     const { workSpaceNum } = req.body;
         if(req.session.logined === true){
             con.query('insert into document values(default, ?,"적당한 제목",default, default,"new", 0, 1, ?, 0)', [workSpaceNum, req.session.sid], (error, rows, fields) =>{
+                //글 작성
                 if (error) throw error;
                 res.send({success : 0});
             })

@@ -88,8 +88,7 @@ function CalendarViewEventModal() {
   const [eventData, setEventData] = useRecoilState(calendarEventData);
   const [eventSet, setEventSet] = useRecoilState(calendarModalState); // 현재 달력 상태 0 : 기본 / 1 : 이벤트 추가 / 2 : 이벤트 보기 / 3 : 이벤트 수정
 
-  const delEvent = ( ) => {
-    console.log(eventData.id);
+  const delEvent = ( ) => { //이벤트 삭제 함수
     axios({
       url: `http://${webPort.express}/delEvent`, // 통신할 웹문서
       method: 'delete', // 통신할 방식
@@ -97,7 +96,7 @@ function CalendarViewEventModal() {
         eventNum : eventData.id,
       },
       withCredentials : true,
-    }).then(()=>{setEventData((prev)=>({...prev}))});
+    }).then(()=>{setEventData((prev)=>({...prev}))}).then(()=>{setEventSet(0);});
   }
   return (
     <EventViewModal>
@@ -109,7 +108,7 @@ function CalendarViewEventModal() {
         onClick={()=>{setEventSet(3)}}>수정</Sbutton> {/*수정 페이지로 넘어감*/}
 
       <Sbutton
-        onClick={()=>{ delEvent(); setEventSet(0);}}>삭제</Sbutton> {/*아이디 값을 받아서 삭제*/}
+        onClick={()=>{ delEvent();}}>삭제</Sbutton> {/*아이디 값을 받아서 삭제*/}
 
       <Sbutton onClick={()=>{setEventSet(0)}}>취소</Sbutton> {/*모달을 닫음*/}
 

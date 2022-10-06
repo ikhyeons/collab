@@ -6,9 +6,11 @@ exports.delDocLicenser = (req, res) => {
     const {docNum, licenserNum} = req.body;
     if(req.session.logined === true){
         con.query('select makeUserNum from document WHERE docNum = ?', [docNum], (error, rows, fields)=> {
+            //해당 글의 작성자를 받아옴
             if(error) throw error;
-            if(rows[0].makeUserNum === req.session.sid){
+            if(rows[0].makeUserNum === req.session.sid){//내가 그 글의 작성자 일 경우
                 con.query('delete from licenser WHERE licenserNum = ?', [licenserNum], (error, rows, fields)=> {
+                    //해당 허가자를 삭제 함
                     if(error) throw error;
                     res.send({success : 0});
                 })

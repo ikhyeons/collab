@@ -48,7 +48,7 @@ function Participant() {
     const {projectNum} = useParams()
     
     useEffect(()=>{
-        axios({
+        axios({ // 프로젝트 참여자의 리스트를 불러옴
             url: `http://${webPort.express}/readProjectCollaborator/${projectNum}`,
             method: 'get',
             withCredentials : true,

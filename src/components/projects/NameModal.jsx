@@ -34,13 +34,12 @@ const Modalnamefooter = styled.footer`
 const ModalName = (props) =>{
     const { open, close } = props;
     const logoutf = ()=>{
-        console.log('gd');
         axios({
           method: 'post',
           withCredentials : true,
           url: `http://${webPort.express}/logout`,
         }).then((res)=>{
-            if (res.data.success == 0){window.location.replace("/")}
+            window.location.replace("/")
         });
       }
     return(

@@ -6,6 +6,7 @@ exports.readDocTitle = (req, res) => {
     const docNum = req.params.docNum;
     if(req.session.logined === true){
         con.query('select docTitle from document where docNum = ?', [docNum], (error, rows, fields)=> {
+            //글 제목을 읽음
             if(error) throw error;
             res.send({success : 0, data : rows[0]});
         })

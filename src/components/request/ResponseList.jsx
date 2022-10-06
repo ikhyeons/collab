@@ -1,9 +1,7 @@
-import axios from "axios";
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { currentReqId, userNamePool } from "../../Atoms/atom";
+import { currentReqId, currentUserId, userNameList, userNamePool } from "../../Atoms/atom";
 
 const SReqContainor = styled.div`
     display:felx;
@@ -24,21 +22,17 @@ const SDelBtn = styled.button`
 `
 
 const ResponseList = (props)=>{
-    const {data, setResponse, reqId} = props;
-    const [userName] = useRecoilState(userNamePool);
+    const {data, setResponse} = props;
     const [, setSelectedReqId] = useRecoilState(currentReqId);
-
-    
-    
     return(
         <SReqContainor>
             <Receive onClick={(e)=>{
                 e.preventDefault();
                 setResponse(1);
-                setSelectedReqId(reqId);
+                setSelectedReqId(data.reqNum);
             }}>{data.month}월 {data.week}째주 {data.reqContent}
                 <br/>
-                {userName[data.makeUserNum-1].display} 
+                From.{data.nickName}
             </Receive>
         </SReqContainor>
     )

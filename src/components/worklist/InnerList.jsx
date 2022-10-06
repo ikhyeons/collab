@@ -1,11 +1,11 @@
 import axios from "axios";
-import { useEffect } from "preact/hooks";
 import React from "react";
 import { MdOutlineCancel } from "react-icons/md";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { forceRerender } from "../../Atoms/atom";
 import { webPort } from "../../port";
+import { useDrag, useDrop } from "react-dnd";
 
 const Scontainor = styled.div`
     display: flex;
@@ -34,26 +34,66 @@ const SdelButton = styled.button`
 `
 
 const InnerList = (props) =>{
-    const { data } = props;
-    const [render, setRender] = useRecoilState(forceRerender);
+    const { bNum, index, data } = props;
+    const [, setRender] = useRecoilState(forceRerender);
+    const [{ isDragging }, dragRef, previewRef] = useDrag(
+        () => ({
+          type: 'list',
+          item: { index, bNum },
+          collect: (monitor) => ({
+            isDragging: monitor.isDragging(),
+          }),
+          end: (item, monitor) => {
+            console.log(bNum, item.bNum, index, item.index)
+            axios({
+                url: `http://${webPort.express}/changeListOrder`,
+                method: 'put',
+                withCredentials: true,
+                data: {
+                    sourceBNum : bNum,
+                    targetBNum : item.bNum,
+                    order: index,
+                    targetOrder: item.index,
+                }
+            }).then(()=>{
+                setRender(prev=>prev+1)
+            })
+          },
+        })
+      )
+    
+      const [{isOver}, drop] = useDrop({
+        accept: 'list',
+        hover: (item) => {
+          if (item.index === index && item.bNum === bNum) {
+            return null
+          }
+          //item.index = 집은놈의 인덱스 index = 올라간 놈의 인덱스
+          item.index = index;
+          item.bNum = bNum;
+        },
+        collect : (monitor)=>({
+          isOver : monitor.isOver()
+        })
+      })
 
     const delList = (listNum)=>{
         axios({
-            url: `http://${webPort.axios}/delList`,
+            url: `http://${webPort.express}/delList`,
             method: 'delete',
             withCredentials: true,
             data: {
+                boardNum : bNum,
                 listNum: listNum
             }
         }).then((res)=>{
-            console.log(res);
-            setRender((prev)=>{if(prev==1){return 0} else return 1});
+            setRender((prev)=>{if(prev===1){return 0} else return 1});
         })
     }
 
     return(
         <Scontainor>
-            <Slist>{data.listTitle}</Slist>
+            <Slist ref={node=>{dragRef(drop(node))}}>{data.listTitle}</Slist>
             <SdelButton onClick={()=>{delList(data.listNum)}}>
                 <MdOutlineCancel /> 
             </SdelButton>

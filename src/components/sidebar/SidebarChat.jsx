@@ -6,7 +6,7 @@ import {sidebarChat} from '../../Atoms/atom'
 import SidebarChatLi from './SidebarChatLi'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
-import { forceRerender } from '../../Atoms/atom'
+import { sidebarForceRerender } from '../../Atoms/atom'
 import { webPort } from "../../port";
 
 const Stitle = styled.div`
@@ -40,23 +40,22 @@ const SidebarChat = () => {
   //채팅 리스트
   const [chatList, setChatList] = useRecoilState(sidebarChat)
   const {projectNum} = useParams();
-  const [Rerender, setRerender] = useRecoilState(forceRerender);
+  const [asidebarForceRerender, setSidebarForceRerender] = useRecoilState(sidebarForceRerender)  
 
   useEffect(()=>{
-    axios({
+    axios({ // 채팅 스페이스 리스트 읽기
       url: `http://${webPort.express}/readChatSpaceList/${projectNum}`, // 통신할 웹문서
       method: 'get', // 통신할 방식
       withCredentials : true,
     }).then((res)=>{
-      let NewArray = res.data.data.map((data, i)=>data.chatSpaceNum)
-      setChatList(NewArray);
-      console.log(chatList);
+      let newList = []
+      res.data.data.map((data, i)=>{newList.push({ chatSpaceNum : data.chatSpaceNum, sequent : data.sequent})})
+      setChatList(newList);
     })
-  }, [Rerender]);
+  }, [asidebarForceRerender]);
 
   const addChat = () => {
-    console.log(projectNum);
-    axios({
+    axios({ //채팅 스페이스 만들기
       url: `http://${webPort.express}/createChatSpace`,
       method: 'post',
       withCredentials: true,
@@ -64,8 +63,7 @@ const SidebarChat = () => {
         projectNum: projectNum,
       }
     }).then((res)=>{
-      setRerender((prev)=>{if(prev==1){return 0} else return 1});
-      console.log(res);
+      setSidebarForceRerender((prev)=>{if(prev==1){return 0} else return 1})
     })
   }
 
@@ -74,24 +72,12 @@ const SidebarChat = () => {
     else setHidden(0)
   }
 
-  const moveFunction = (targetIndex, sourceIndex)=> {
-    setChatList((prev)=>{
-      let newArray = [...prev];
-      let innerData = newArray[sourceIndex];
-      console.log(`input data is ${innerData}`)
-      newArray.splice(sourceIndex, 1);
-      newArray.splice(targetIndex, 0, innerData);
-      console.log(newArray);
-      return newArray
-    })
-  }
-
   return (
     <div>
         <Stitle onClick={()=>{accordion()}}>채팅</Stitle>
         <Sul hidden = {hidden}>
         {chatList.map((data, i)=>{
-            return <SidebarChatLi moveFunction={moveFunction} index= {i} id={data} key={i} num={data} />
+            return <SidebarChatLi index= {data.sequent} id={data.chatSpaceNum} key={i} num={data.chatSpaceNum} />
           })}
           <SaddBtn onClick={()=>{addChat()}}>+</SaddBtn>
         </Sul>

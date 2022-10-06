@@ -47,7 +47,7 @@ function DocSearchBar() {
   const [docforceRerender, setDocForceRerender] = useRecoilState(docForceRerender);
   const {workSpaceNum} = useParams()
   const createDoc = ()=>{
-    axios({
+    axios({ // 글 생성
       url: `http://${webPort.express}/createDocument`,
             method: 'post',
             data : {

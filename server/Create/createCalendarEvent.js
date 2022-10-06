@@ -6,6 +6,7 @@ exports.createCalendarEvent = (req, res) => {
     const {projectNum, startDate, endDate, eventTitle, eventContent} = req.body;
     if(req.session.logined === true){
         con.query('insert into calendarEvent values(default, ?, ?, ?, ?, ?, ?, default, 0, default)', [projectNum, req.session.sid, startDate, endDate, eventTitle, eventContent], (error, rows, fields)=> {
+            //ㄴeventNum, ProjectNum, makeUserNum, startDate, endDate, enentTitle, eventContent, makeDate, secret, del
             if(error) throw error;
             res.send({success : 0});
         })

@@ -62,8 +62,8 @@ const WorkList = ()=>{
     };
 
     useEffect(()=>{
-        axios({
-            url: `http://${webPort.axios}/readBoard/${workSpaceNum}`,
+        axios({ // 보드 리스트 읽어옴
+            url: `http://${webPort.express}/readBoard/${workSpaceNum}`,
             method:'get',
             withCredentials: true,
         }).then((res)=>{
@@ -74,8 +74,8 @@ const WorkList = ()=>{
 
     const addBoard = () =>{
         console.log(board);
-        axios({
-            url: `http://${webPort.axios}/createBoard`,
+        axios({ // 보드 만들기
+            url: `http://${webPort.express}/createBoard`,
             method:'post',
             withCredentials: true,
             data:{
@@ -84,7 +84,7 @@ const WorkList = ()=>{
             }
         }).then((res)=>{
             console.log(res);
-            setForceRender((prev)=>{if(prev==1){return 0} else return 1});
+            setForceRender(prev=>prev+1)
             setBoardClicked(0);
         })
     };
@@ -97,7 +97,7 @@ const WorkList = ()=>{
                     <SboardName>
                         {board.map((data, i) =>{
                             return (
-                                <BoardList data={data} key={i} i={i} index={data.bnum} />
+                                <BoardList data={data} key={i} i={i} index={data.sequent} />
                             )
                         })}
                         <SboardButton onClick={()=>{setBoardClicked(1)}}>보드 추가+</SboardButton>

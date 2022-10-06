@@ -28,30 +28,31 @@ app.use(session({
     resave: false,
     saveUninitialized : false,
   }));
+
 //------------------------------------------서버 구동
 app.listen(port, ()=>{console.log(`server run in ${port}`)});
 //------------------------------------------파일 임포트
 const {login, logout} = require('./session/session')
-const {createProject} = require('./Create/createProject')
-const {createCollaborator} = require('./Create/createCollaborator')
-const {createCalendarEvent} = require('./Create/createCalendarEvent')
+
 const {join} = require('./Create/join');
 const {timeResponse}= require('./Create/createTimeResponse');
 const { createDocument } = require('./Create/createDocument.js');
 const { createWriteChat } = require('./Create/createWriteChat.js');
 const { createWriteReply } = require('./Create/createWriteReply.js');
-const { readMyAnswer } = require('./Read/readMyAnswer.js');
-const { readChatData } = require('./Read/readChatData.js');
-const { changeResponse } = require('./Update/changeResponse.js');
-const { changeCalendarEvent } = require('./Update/changeCalendarEvent.js');
-
+const {createProject} = require('./Create/createProject')
+const {createCollaborator} = require('./Create/createCollaborator')
+const {createCalendarEvent} = require('./Create/createCalendarEvent')
 const {createTimeRequest} = require('./Create/createTimeRequest')
 const {createWorkSpace} = require('./Create/createWorkSpace')
 const {createChatSpace} = require('./Create/createChatSpace')
-const {createParagraph} = require('./Create/createParagraph');
+const {createTextParagraph} = require('./Create/createTextParagraph');
 const {createDocLicenser} = require('./Create/createDocLicenser');
 const {createDocParticipant} = require('./Create/createDocParticipant');
 const {createChatParticipant} = require('./Create/createChatParticipant')
+const {createImageParagraph} = require('./Create/createImageParagraph')
+const {createVideoParagraph} = require('./Create/createVideoParagraph')
+const {createFileParagraph} = require('./Create/createFileParagraph')
+const {createDocPic} = require('./Create/createDocPic')
 
 const {readMyProjectList} = require('./Read/readProjectList.js');
 const {readRequestList} = require('./Read/readRequestList')
@@ -70,6 +71,12 @@ const {readDocParticipant} = require('./Read/readDocParticipant')
 const {readDocLicenser} = require('./Read/readDocLicenser')
 const {readDocMaker} = require('./Read/readDocMaker')
 const {readChatParticipant} = require('./Read/readChatParticipant')
+const {readParagraphList} = require('./Read/readParagraphList')
+const {readParagraphInfo} = require('./Read/readParagraphInfo')
+const { readMyAnswer } = require('./Read/readMyAnswer.js');
+const { readChatData } = require('./Read/readChatData.js');
+const {readDocPic}= require('./Read/readDocPic')
+const {readProjectInfo}= require('./Read/readProjectInfo')
 
 const {changeMyProjectOrder} = require('./Update/changeMyProjectOrder')
 const {changeWorkSpaceOrder} = require('./Update/changeWorkSpaceOrder')
@@ -80,6 +87,14 @@ const {changeDocTitle} = require('./Update/changeDocTitle')
 const {changeParagraph} = require('./Update/changeParagraph')
 const {changeCalendarEventDate} = require('./Update/chageCalendarEventDate')
 const { changeWorkSpaceType } = require('./Update/changeWorkSpaceType.js');
+const {changeParagraphOrder} = require('./Update/changeParagraphOrder')
+const { changeResponse } = require('./Update/changeResponse.js');
+const { changeCalendarEvent } = require('./Update/changeCalendarEvent.js');
+const {changeWorkSpaceName} = require('./Update/changeWorkSpaceName')
+const {changeChatSpaceName} = require('./Update/changeChatSpaceName')
+const {changeProjectName} = require('./Update/changeProjectName');
+const {changeBoardOrder} = require('./Update/changeBoardOrder')
+const {changeListOrder} = require('./Update/changeListOrder')
 
 const {delProject} = require('./Delete/delProject')
 const {delDoc} = require('./Delete/delDoc')
@@ -98,6 +113,9 @@ const { delBoard } = require('./Delete/delBoard.js');
 const { delList } = require('./Delete/delList.js');
 const {delCollaborator} = require('./Delete/delCollaborator')
 const {delChatParticipant} = require('./Delete/delChatParticipant')
+const {delParagraph} = require('./Delete/delParagraph')
+//------------------------------------------S3 함수들
+const {uploadS3} = require('./S3/S3')
 //------------------------------------------session라우팅
 app.post('/login', (req, res)=>{
     login(req, res);
@@ -139,8 +157,8 @@ app.post('/createWorkSpace', (req, res)=>{
 app.post('/createChatSpace', (req, res)=>{
   createChatSpace(req, res);
 })
-app.post('/createParagraph', (req, res)=>{
-  createParagraph(req, res);
+app.post('/createTextParagraph', (req, res)=>{
+  createTextParagraph(req, res);
 })
 app.post('/createDocLicenser', (req, res)=>{
   createDocLicenser(req, res);
@@ -157,6 +175,24 @@ app.post('/createList', (req, res)=>{
 app.post('/createChatParticipant', (req, res)=>{
   createChatParticipant(req, res);
 })
+app.post('/createImageParagraph', (req, res)=>{
+  createImageParagraph(req, res);
+})
+app.post('/createVideoParagraph', (req, res)=>{
+  createVideoParagraph(req, res);
+})
+app.post('/createFileParagraph', (req, res)=>{
+  createFileParagraph(req, res);
+})
+app.post('/createDocPic', (req, res)=>{
+  createDocPic(req, res)
+})
+
+app.post('/uplodaDocPic', uploadS3.array('imgs', 10), async (req, res) => {
+  let newArray = req.files.map((data)=>{return data.location})
+  res.status(200).json({ locations: newArray})
+});
+
 //------------------------------------------Read라우팅
 app.get('/readMyProjectList', (req, res)=>{
   readMyProjectList(req, res);
@@ -222,6 +258,19 @@ app.get('/readDocMaker/:docNum', (req, res)=>{
 app.get('/readChatParticipant/:chatSpaceNum', (req, res)=>{
   readChatParticipant(req, res)
 })
+app.get('/readParagraphList/:docNum', (req, res)=>{
+  readParagraphList(req, res)
+})
+app.get('/readParagraphInfo/:paragraphNum', (req, res)=>{
+  readParagraphInfo(req, res)
+})
+app.get('/readDocPic/:paragraphNum', (req, res)=>{
+  readDocPic(req, res)
+})
+
+app.get('/readProjectInfo/:projectNum', (req, res)=>{
+  readProjectInfo(req, res)
+})
 
 //------------------------------------------Update라우팅
 app.put('/changeMyProjectOrder', (req, res)=>{
@@ -257,6 +306,25 @@ app.put('/changeWorkSpaceType', (req, res)=>{
 app.put('/changeCalendarEventDate', (req, res)=>{
   changeCalendarEventDate(req, res)
 })
+app.put('/changeParagraphOrder', (req, res)=>{
+  changeParagraphOrder(req, res)
+})
+app.put('/changeWorkSpaceName', (req, res)=>{
+  changeWorkSpaceName(req, res)
+})
+app.put('/changeChatSpaceName', (req, res)=>{
+  changeChatSpaceName(req, res)
+})
+app.put('/changeProjectName', (req, res)=>{
+  changeProjectName(req, res)
+})
+app.put('/changeBoardOrder', (req, res)=>{
+  changeBoardOrder(req, res)
+})
+app.put('/changeListOrder', (req, res)=>{
+  changeListOrder(req, res)
+})
+
 //------------------------------------------Delete라우팅
 app.delete('/delProject', (req, res)=>{
   delProject(req, res);
@@ -296,4 +364,7 @@ app.delete('/delCollaborator', (req, res)=>{
 })
 app.delete('/delChatParticipant', (req, res)=>{
   delChatParticipant(req, res)
+})
+app.delete('/delParagraph', (req, res)=>{
+  delParagraph(req, res)
 })

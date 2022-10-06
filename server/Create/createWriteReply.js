@@ -6,6 +6,7 @@ exports.createWriteReply = (req, res) => {
     const { docNum, innerData, type } = req.body;
         if(req.session.logined === true){
             con.query('insert into reply values(default, ?, ?, ?, ?, default, 0)', [docNum, req.session.sid, type, innerData], (error, rows, fields) =>{
+                //ㄴ 댓글을 작성함
                 if (error) throw error;
                 res.send({success : 0});
             })

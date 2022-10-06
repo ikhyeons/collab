@@ -80,26 +80,27 @@ function DocTemplateMain() {
     const [title, setTitle] = useState('')
     const [docforceRerender, setDocForceRerender] = useRecoilState(docForceRerender);
     
+    
     useEffect(()=>{
-        axios({
+        axios({ // 글 제목을 불러옴
             url: `http://${webPort.express}/readDocTitle/${docId}`,
             method: 'get',
             withCredentials : true,
-          }).then(res=>{setTitle(res.data.data.docTitle)});
-        axios({
+        }).then(res=>{res.data.data && setTitle(res.data.data.docTitle)});
+        axios({//글 작성일을 불러옴
         url: `http://${webPort.express}/readDocMakeDate/${docId}`,
         method: 'get',
         withCredentials : true,
-        }).then(res=>{setTemplateData((prev)=>{
+        }).then(res=>{res.data.data && setTemplateData((prev)=>{
             let newData = {...prev, makeDate : res.data.data.makeDate.slice(0, 10)}
             return newData
         })});
-        axios({
+        axios({//글 작성자를 불러옴
             url: `http://${webPort.express}/readDocMaker/${docId}`,
             method: 'get',
             withCredentials : true,
             }).then(res=>{
-                setTemplateData((prev)=>{
+                res.data.data && setTemplateData((prev)=>{
                     let newData = {...prev, maker : res.data.data.nickName.slice(0, 10)}
                     return newData
                 })
@@ -107,15 +108,17 @@ function DocTemplateMain() {
     }, [docId])
 
     useEffect(()=>{
-        axios({
-            url: `http://${webPort.express}/changeDocTitle`,
-            method: 'put',
-            data : {
-                docNum : docId,
-                docTitle : title,
-            },
-            withCredentials : true,
-          }).then(()=>{setDocForceRerender((prev)=>prev===0? 1 : 0);})
+        if(title!==''){
+            axios({
+                url: `http://${webPort.express}/changeDocTitle`,
+                method: 'put',
+                data : {
+                    docNum : docId,
+                    docTitle : title,
+                },
+                withCredentials : true,
+            }).then(()=>{setDocForceRerender((prev)=>prev===0? 1 : 0);})
+        }
     }, [title])
 
     
@@ -126,9 +129,9 @@ function DocTemplateMain() {
         }} value={title}></Stitle> 
 
         <SsetMain>
-            <Ssets>작성일 : {templateData.makeDate}</Ssets> {/* 작성일 */}
-            <Ssets>수정일 : {templateData.modifyDate}</Ssets> {/* 수정일 */}
-            <Ssets>작성자 : <Sname>{templateData.maker}</Sname></Ssets> {/* 작성자 */}
+            <Ssets>작성일 : {templateData && templateData.makeDate}</Ssets> {/* 작성일 */}
+            <Ssets>수정일 : {templateData && templateData.modifyDate}</Ssets> {/* 수정일 */}
+            <Ssets>작성자 : <Sname>{templateData && templateData.maker}</Sname></Ssets> {/* 작성자 */}
             
             <Participant /> {/* 참여자 */}
             <Licenser />    {/* 허가자 */}
@@ -136,7 +139,7 @@ function DocTemplateMain() {
         
         <ParagraphList mouseOnImg={mouseOnImg} setMouseOnImg={setMouseOnImg} />   {/* 문단들 */}
 
-        <DocReplyMain />   {/* 댓글 */}
+        {/*<DocReplyMain / >*/}   {/* 댓글 */}
 
     </STemplateMain>
   )

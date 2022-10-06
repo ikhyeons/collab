@@ -6,6 +6,7 @@ exports.createWriteChat = (req, res) => {
     const { chatSpaceNum, innerData } = req.body;
         if(req.session.logined === true){
             con.query('insert into chat values(default, ?, ?, "new", ?, default)', [chatSpaceNum, req.session.sid, innerData], (error, rows, fields) =>{
+                //ㄴ 채팅을 작성함
                 if (error) throw error;
                 res.send({success : 0});
             })

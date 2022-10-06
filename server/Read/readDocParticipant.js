@@ -6,6 +6,7 @@ exports.readDocParticipant = (req, res) => {
     const docNum = req.params.docNum;
     if(req.session.logined === true){
         con.query('SELECT *, user.nickName FROM docParticipant LEFT JOIN user ON docParticipant.selectedUserNum = user.userNum where docNum = ?', [docNum], (error, rows, fields)=> {
+            // 글 참여자를 읽음
             if(error) throw error;
             res.send({success : 0, data : rows});
         })

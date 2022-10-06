@@ -5,6 +5,10 @@ import {
     selectorFamily,
   } from 'recoil';
 //------------------------사이드바
+export const sidebarForceRerender = atom({
+  key : 'sidebar/sidebarForceRerender',
+  default : 0,
+});
 export const currentWorkSpaceId = atom({
   key : 'workSpace/workSpaceId',
   default : '0',
@@ -22,12 +26,7 @@ export const sidebarWorkSpace = atom({
 
 export const sidebarWorkSpaceLi = atomFamily({
   key : 'sidebar/sidebarWorkSpaceInner',
-    default : (data)=>({
-      id : data.id,
-      type : data.type,
-      name : data.id,
-    }
-  )
+    default : (data)=>({})
 })
 
 export const sidebarChat = atom({
@@ -92,49 +91,51 @@ export const templateForceRerender = atom({
 })
 export const templateParagraphId = atom({
   key : 'template/templateParagraphId',
-  default : [
-    { id : 0, type : 'text'},
-    { id : 1, type : 'image'},
-    { id : 2, type : 'link'},
-    { id : 3, type : 'video'},
-    { id : 4, type : 'text'},
-    { id : 5, type : 'image'},
-    { id : 6, type : 'video'},
-    { id : 7, type : 'link'},
-  ]
+  default : []
+})
+
+export const paragraphForceRerender = atom({
+  key : 'template/templateParagraphForceRerender',
+  default : 0
 })
 
 export const templateParagraph = atomFamily({
   key : 'template/templateParagraphF',
-  default : ({id, type})=>{
-    if(type === 'text') return({
-      id : id,
-      type : type,
-      data : id,
-      modify : 0,
+  default : ({paragraphNum, paragraphType, sequent, innerData})=>{
+    if(paragraphType === 'text') return({
+      paragraphNum : paragraphNum,
+      paragraphType : paragraphType,
+      innerData : innerData,
+      sequent : sequent,
+      modify : 1,
     })
-    else if (type === 'image') return ({
-      id : id,
-      type : type,
-      data : '내용',
-      imgs : ["http://www.fintechpost.co.kr/news/photo/201907/46375_27128_0925.jpg", "https://cdn.topstarnews.net/news/photo/201908/653630_355016_3125.jpg", "http://www.biztribune.co.kr/news/photo/201903/202520_52645_3519.png",],
-      modify : 0,
+    else if (paragraphType === 'image') return ({
+      paragraphNum : paragraphNum,
+      paragraphType : paragraphType,
+      innerData : '내용',
+      imgs : [],
+      modify : 1,
     })
-    else if (type === 'video') return ({
-      id : id,
-      type : type,
-      data : '적절한 비디오 제목1',
+    else if (paragraphType === 'video') return ({
+      paragraphNum : paragraphNum,
+      paragraphType : paragraphType,
+      innerData : '적절한 비디오 제목1',
       url : 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-      modify : 0,
+      modify : 1,
     })
-    else if (type === 'link') return ({
-      id : id,
-      type : type,
+    else if (paragraphType === 'file') return ({
+      paragraphNum : paragraphNum,
+      paragraphType : paragraphType,
       linktype : 'youtube', //youtube, web,
-      data : 'https://www.youtube.com/watch?v=jlm2f29ka_0',
-      modify : 0,
+      innerData : 'https://www.youtube.com/watch?v=jlm2f29ka_0',
+      modify : 1,
     })
   }
+})
+
+export const paragraphListForceRerender = atom({
+  key : 'paragraph/paragraphListForceRerender',
+  default : 0,
 })
 
 //-------------------------------탬플릿 댓글
@@ -188,9 +189,7 @@ export const chatList = atom({
 
 export const chatParticipant = atom({
   key : 'chatting/chatParticipant',
-  default : [
-    
-  ]
+  default : []
 })
 
 //-------------------------------리퀘스트
@@ -266,6 +265,18 @@ export const boardState = atom({
   ]
 });
 
+export const boardList = atomFamily({
+  key : 'board/boardList',
+  default : (boardNum)=>{
+    return []
+  }
+})
+
+export const projectName = atom({
+  key: 'setting/projectName',
+  default: '',
+})
+
 
 export const forceRerender = atom({
   key: 'forceRerender',
@@ -277,4 +288,23 @@ export const currentReqId = atom({
   default: 0,
 })
 
+export const projectForceRerender = atom({
+  key: 'projectForceRerender',
+  default: 0,
+})
+
+export const receiveRequest = atom({
+  key: 'receiveRequest',
+  default: [],
+})
+
+export const currentUserId = atom({
+  key: 'currentUserId',
+  default: 0,
+})
+
+export const userNameList = atom({
+  key: 'userNameList',
+  default: [],
+})
 //

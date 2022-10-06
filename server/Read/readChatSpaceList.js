@@ -5,7 +5,8 @@ const con = mysql.createConnection(mysqlKey);
 exports.readChatSpaceList = (req, res) => {
     const projectNum = req.params.projectNum;
     if(req.session.logined === true){
-        con.query('select * from chatSpace where projectNum = ? and del = 0', [projectNum], (error, rows, fields)=> {
+        con.query('SELECT *, chatSpace.chatSpaceNum FROM chatParticipant LEFT JOIN chatSpace ON chatParticipant.chatSpaceNum = chatSpace.chatSpaceNum where userNum = ? and del=0 and projectNum = ? order by sequent', [req.session.sid, projectNum], (error, rows, fields)=> {
+            //채팅 스페이스 리스트를 읽음
             if(error) throw error;
             res.send({success : 0, data : rows});
         })
@@ -15,3 +16,4 @@ exports.readChatSpaceList = (req, res) => {
         res.send({success : 3});
     }
     }
+    

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useRecoilState } from 'recoil';
 import { forceRerender } from "../../Atoms/atom";
@@ -42,14 +42,12 @@ const Sbtn = styled.button`
 
 `
 const NewSpace = ()=>{
-    const {projectNum, workSpaceNum} = useParams();
+    const {workSpaceNum} = useParams();
     const [Rerender, setRerender] = useRecoilState(forceRerender);
+    const {projectNum} = useParams();
 
-    useEffect(()=>{
-        console.log('rerender');
-    },[Rerender])
     const changeTypeWorkList = ()=>{
-        axios({
+        axios({//보드로 타입을 바꿈
             url: `http://${webPort.express}/changeWorkSpaceType`,
             method: 'put',
             withCredentials : true,
@@ -58,12 +56,12 @@ const NewSpace = ()=>{
                 changeType: 'board',
             }
           }).then(()=>{
-            setRerender((prev)=>{if(prev == 1){return 0} else return 1});
+            setRerender(prev=> prev+1);
         })
     };
 
     const changeTypeList = ()=>{
-        axios({
+        axios({//리스트로 타입을 바꿈
             url: `http://${webPort.express}/changeWorkSpaceType`,
             method: 'put',
             withCredentials : true,
@@ -72,7 +70,7 @@ const NewSpace = ()=>{
                 changeType: 'li',
             }
           }).then(()=>{
-            setRerender((prev)=>{if(prev == 1){return 0} else return 1});
+            setRerender(prev => prev+1);
         })
     };
     
@@ -80,8 +78,12 @@ const NewSpace = ()=>{
         <Scontainor>
             <Sselectdiv>
                 <Sh3>어떤 타입을 추가하시겠습니까?</Sh3>
-                <Sbtn onClick={()=>{changeTypeWorkList()}}>작업목록</Sbtn>
-                <Sbtn onClick={()=>{changeTypeList()}}>문서</Sbtn>
+                <Link to={`/main/${projectNum}/calendar`} style={{ textDecoration: 'none', color : 'black', width: '100%' }}>
+                    <Sbtn onClick={()=>{changeTypeWorkList()}}>작업목록</Sbtn>
+                </Link> 
+                <Link to={`/main/${projectNum}/calendar`} style={{ textDecoration: 'none', color : 'black', width: '100%' }}>
+                    <Sbtn onClick={()=>{changeTypeList()}}>문서</Sbtn>
+                </Link>
             </Sselectdiv>
         </Scontainor>
     )

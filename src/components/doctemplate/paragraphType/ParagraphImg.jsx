@@ -3,8 +3,12 @@ import styled from 'styled-components'
 import { BsThreeDotsVertical,  } from 'react-icons/bs'
 import {MdOutlineCancel, MdOutlineEditNote} from 'react-icons/md'
 import { useDrag, useDrop } from 'react-dnd'
-import { useRecoilState, useSetRecoilState } from 'recoil'
-import { templateParagraph, templateParagraphId } from '../../../Atoms/atom'
+import { useRecoilState, useSetRecoilState, useResetRecoilState } from 'recoil'
+import { templateParagraph, templateParagraphId, currentDocId, paragraphListForceRerender } from '../../../Atoms/atom'
+import axios from 'axios'
+import { webPort } from '../../../port'
+import InputImg from './InputImg'
+import ImgModal from './ImgModal'
 
 const SInnerDataV = styled.div`
   padding-left : 25px;
@@ -55,11 +59,11 @@ const SSettingLine = styled.div`
 `
 
 const SImageBox = styled.div`
-  background : lightyellow;
+  background : ${prop=>prop.ondiv===0?'lightyellow':'rgba(0, 0, 0, 0.1)'};
   display : flex;
   width : 100%;
   overflow-X : scroll;
-
+  
   &::-webkit-scrollbar{
     height : 8px;
     background : rgba(240,240,150,0.3);
@@ -71,6 +75,9 @@ const SImageBox = styled.div`
     border : 1px solid yellow;
     border-radius: 5px;    
   }
+  :hover{
+    background : ${prop=>prop.ondiv===0?'rgba(0, 0, 0, 0.05)':null};
+  }
 `
 
 const SImage = styled.img`
@@ -81,44 +88,82 @@ const SImage = styled.img`
 
 const SImageWrap = styled.div`
   position : relative;
-  z-index : 2;
+  z-index : 1;
 `
 
 const xStyle = {
   position : 'absolute', 
   top : '5px', 
   left : '0',
-  cursor : 'pointer'
+  cursor : 'pointer',
+  color : 'yellow',
+  fontSize : '25px',
 }
 
 function ParagraphImg(prop) {
-  const {index, id, moveFunction} = prop;
+  const {id, sequent, data} = prop;
   const setParagraphId = useSetRecoilState(templateParagraphId);
-  const [paragraphs, setParagraphs] = useRecoilState(templateParagraph(prop.data))
+  const [paragraphs, setParagraphs] = useRecoilState(templateParagraph(data))
+  const [docId, setDocId] = useRecoilState(currentDocId);
+  const [aparagraphListForceRerender, setParagraphListForceRerender] = useRecoilState(paragraphListForceRerender);
+  const resetState2 = useResetRecoilState(templateParagraphId);
+  const [edit, setEdit] = useState(0);
+  const [imgModal, setImgModal] = useState({on : 0, src : ''})
+
+  useEffect(()=>{
+    axios({ // 글의 사진을 읽어옴
+      url: `http://${webPort.express}/readDocPic/${paragraphs.paragraphNum}`,
+      method: 'get',
+      withCredentials : true,
+    }).then((res)=>{
+      setParagraphs((prev)=>{
+        let newData = {...prev}
+        newData.imgs = {...prev.url}
+        newData.imgs = res.data.data
+        return newData
+      })
+    })
+  }, [aparagraphListForceRerender])
 
   const delParagraph = ()=>{
-    setParagraphId((prev)=>{
-      let arrayData = [
-        ...prev,
-      ]
-      arrayData = arrayData.filter((list)=>{
-        return list.id !== prop.data.id;
-      });
-      
-      console.log(arrayData);
-      return arrayData;
-    })}
+    axios({ // 문단 삭제하고 다시 데이터를 불러옴
+      url: `http://${webPort.express}/delParagraph`,
+      method: 'delete',
+      data : {paragraphNum : paragraphs.paragraphNum, docNum : docId},
+      withCredentials : true,
+    }).then(()=>{
+      axios({
+        url: `http://${webPort.express}/readParagraphList/${docId}`,
+        method: 'get',
+        withCredentials : true,
+      }).then((res)=>{
+        resetState2();
+        return res
+      }).then((res)=>{setParagraphId(()=>{return res.data.data});setParagraphListForceRerender((prev)=>prev+1);})
+    })
+  }
 
     const [{ isDragging }, dragRef, previewRef] = useDrag(
       () => ({
         type: 'paragraphList',
-        item: { index, id },
+        item: { id, sequent : sequent },
         collect: (monitor) => ({
           isDragging: monitor.isDragging(),
         }),
         end: (item) => {
-          //item.index = 떨어진 놈의 인덱스 index = 집은 놈의 인덱스 id = 집은 놈의 아이디
-          moveFunction(item.index, index);
+          //index = 집은 놈의 인덱스  item.index = 떨어진 놈의 인덱스  id = 집은 놈의 아이디
+          axios({
+            url: `http://${webPort.express}/changeParagraphOrder`,
+            method: 'put',
+            withCredentials : true,
+            data:{
+              docNum: docId,
+              order : item.sequent,
+              targetOrder : sequent,
+            }
+          }).then(()=>{
+            setParagraphListForceRerender((prev)=>prev+1);
+          })
         },
       })
     )
@@ -126,12 +171,11 @@ function ParagraphImg(prop) {
     const [{isOver}, drop] = useDrop({
       accept: 'paragraphList',
       hover: (item, monitor) => {
-        if (item.index === index) {
+        if (item.sequent === sequent) {
           return null
         }
         //item.index = 집은놈의 인덱스 index = 올라간 놈의 인덱스
-        item.index = index;
-        console.log(index);
+        item.sequent = sequent;
       },
       collect : monitor => ({
         isOver : monitor.isOver(),
@@ -140,13 +184,14 @@ function ParagraphImg(prop) {
 
   return (
     <SParagraphImg ref = {previewRef}>
+        {imgModal.on===1?<ImgModal imgModal={imgModal} setImgModal={setImgModal} setMouseOnImg={prop.setMouseOnImg} src={data.url} /> : null}
         <SSettingLine isOver = {isOver} ref = {node => drop(node)}>
           <SimoDiv1 ref={node => dragRef(drop(node))}>
             <BsThreeDotsVertical />
           </SimoDiv1>
 
           <SimoDiv1>
-            <MdOutlineEditNote />
+            <MdOutlineEditNote onClick={()=>{edit===0? setEdit(1) : setEdit(0)}} />
           </SimoDiv1>
 
           <SimoDiv2 onClick={()=>{delParagraph()}}>
@@ -155,13 +200,18 @@ function ParagraphImg(prop) {
         </SSettingLine>
 
         <SInnerDataV >
-          <SImageBox 
+          <SImageBox ondiv={prop.mouseOnImg}
             onClick={(e)=>{prop.setMouseOnImg(1)}}
             onMouseLeave={(e)=>{prop.setMouseOnImg(0)}}
             onWheel={(e)=>{if(prop.mouseOnImg===1 && e.deltaY>0)e.currentTarget.scrollLeft+=600; else if(prop.mouseOnImg===1 && e.deltaY<0) e.currentTarget.scrollLeft-=600;setTimeout(()=>{ }, 1500)}}
           >
-              {paragraphs.imgs.map((data, i)=>(<SImageWrap key={i}><SImage  src={data} /><MdOutlineCancel style={xStyle}/></SImageWrap>))}
-
+              {edit===1?<InputImg setParagraphListForceRerender={setParagraphListForceRerender} id={data.paragraphNum}/> : null}
+              {paragraphs.imgs.map((data, i)=> {return <SImageWrap key={i}><SImage onClick={()=>{
+                if(prop.mouseOnImg === 1){
+                  prop.setMouseOnImg(0);
+                  setImgModal((prev)=>({on:1, src : data.url}));
+                }
+              }} src={data.url} />{edit===1?<MdOutlineCancel style={xStyle} /> : null}</SImageWrap>})}
           </SImageBox>
           
         </SInnerDataV>

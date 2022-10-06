@@ -6,7 +6,8 @@ exports.readWorkSpaceList = (req, res) => {
 
     if(req.session.logined === true){
         let projectNum = req.params.projectNum;
-        con.query('select * from workSpace where projectNum = ? and del = 0', [projectNum], (error, rows, fields)=> {
+        con.query('select * from workSpace where projectNum = ? and del = 0 order by sequent', [projectNum], (error, rows, fields)=> {
+            //워크스페이스 리스트를 읽음
             if(error) throw error;
             res.send({success : 0, data : rows});
         })

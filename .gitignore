@@ -24,3 +24,4 @@ yarn-error.log*
 
 mysqlKey.js
 src/port.js
+server/awsAccessKey.js
